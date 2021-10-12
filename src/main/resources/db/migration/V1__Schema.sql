@@ -33,5 +33,6 @@ create table cv_fields
     cv_section_id int  not null,
     is_editable   boolean,
     is_deletable  boolean,
+    is_required   boolean,
     foreign key (cv_section_id) references cv_sections (id)
 );
