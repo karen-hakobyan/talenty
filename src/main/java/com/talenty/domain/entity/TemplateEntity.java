@@ -21,5 +21,5 @@ public class TemplateEntity {
 
     @OneToMany
     @JoinColumn(name = "cv_template_id")
-    private List<SectionEntity> sections;
+    private List<FieldEntity> sections;
 }

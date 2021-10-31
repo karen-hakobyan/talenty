@@ -1,14 +1,19 @@
 package com.talenty.domain.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import java.util.Map;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "cv_fields")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class FieldEntity {
 
     @Id
@@ -21,15 +26,7 @@ public class FieldEntity {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "details")
-    private String details;
-
-    @Column(name = "is_editable")
-    private boolean isEditable;
-
-    @Column(name = "is_deletable")
-    private boolean isDeletable;
-
-    @Column(name = "is_required")
-    private boolean isRequired;
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Object> metadata;
 }

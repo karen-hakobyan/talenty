@@ -9,3 +9,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    properties:
+      hibernate.types.print.banner: false

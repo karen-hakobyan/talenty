@@ -3,12 +3,7 @@ package com.talenty.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.talenty.domain.dto.Field;
-import com.talenty.domain.dto.Template;
-import com.talenty.domain.entity.FieldEntity;
-import com.talenty.domain.entity.TemplateEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
@@ -28,8 +23,8 @@ public interface TemplateMapper {
         return objectMapper.readValue(field, typeRef);
     }
 
-    Template templateEntityToDto(TemplateEntity entity);
+//    Template templateEntityToDto(TemplateEntity entity);
 
-    @Mapping(source = "details", target = "details", qualifiedByName = "fieldDetailsToMap")
-    Field fieldEntityToDto(FieldEntity entity);
+//    @Mapping(source = "details", target = "details", qualifiedByName = "fieldDetailsToMap")
+//    Field fieldEntityToDto(FieldEntity entity);
 }

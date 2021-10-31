@@ -1,7 +1,5 @@
 package com.talenty.controller;
 
-import com.talenty.domain.dto.Template;
-import com.talenty.domain.entity.TemplateEntity;
 import com.talenty.service.TemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +20,7 @@ public class TemplateController {
 
     @GetMapping("/default")
     public ResponseEntity<?> getDefaultTemplate() {
-        Template template = templateService.getTemplateById(1);
-        return ResponseEntity.ok(template);
+        return ResponseEntity.ok().build();
     }
 
 }
