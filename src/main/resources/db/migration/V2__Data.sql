@@ -7,119 +7,186 @@ values ('user@talenty.com', 'user', 'ROLE_USER');
 insert into cv_templates (name, manager_id)
 values ('System template', null);
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
-values ('Personal Info', 'section', 1, null,
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
+values ('Personal Info',
+        (select id from cv_templates where name = 'System template'),
+        null,
         '{
-          "locked": true,
+          "type": "section",
+          "editable": false,
+          "deletable": false,
           "required": true,
           "display": "fold"
         }');
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
 values ('First name',
-        'text',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
+        (select id from cv_templates where name = 'System template'),
+        (
+            select id
+            from cv_fields
+            where name = 'Personal Info'
+              and cv_template_id =
+                  (select id from cv_templates where name = 'System template')
+        ),
         '{
+          "type": "text",
           "maxLength": 100,
-          "locked": true,
+          "editable": false,
+          "deletable": false,
           "required": true
         }');
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
 values ('Last name',
-        'text',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
+        (select id from cv_templates where name = 'System template'),
+        (
+            select id
+            from cv_fields
+            where name = 'Personal Info'
+              and cv_template_id =
+                  (select id from cv_templates where name = 'System template')
+        ),
         '{
+          "type": "text",
           "maxLength": 100,
-          "locked": true,
+          "editable": false,
+          "deletable": false,
           "required": true
         }');
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
 values ('Gender',
-        'dropdown',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
+        (select id from cv_templates where name = 'System template'),
+        (
+            select id
+            from cv_fields
+            where name = 'Personal Info'
+              and cv_template_id =
+                  (select id from cv_templates where name = 'System template')
+        ),
         '{
-          "locked": true,
-          "required": true,
+          "type": "text",
+          "maxLength": 100,
+          "editable": false,
+          "deletable": true,
+          "required": false,
           "values": [
-            "Male",
-            "Female"
+            "MALE",
+            "FEMALE"
           ]
         }');
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
-values ('Date of birth',
-        'date',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
+values ('Social media links',
+        (select id from cv_templates where name = 'System template'),
+        (
+            select id
+            from cv_fields
+            where name = 'Personal Info'
+              and cv_template_id =
+                  (select id from cv_templates where name = 'System template')
+        ),
         '{
-          "locked": true,
-          "required": true
-        }');
-
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
-values ('Phone number',
-        'phone_number',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
-        '{
-          "locked": true,
-          "required": true
-        }');
-
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
-values ('Email',
-        'email',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
-        '{
-          "locked": true,
-          "required": true
-        }');
-
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
-values ('Social Media',
-        'section',
-        1,
-        (select id from cv_fields where name = 'Personal Info' and cv_template_id = 1),
-        '{
-          "display": "block",
-          "locked": false,
+          "type": "section",
+          "editable": false,
+          "deletable": true,
           "required": false
         }');
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
 values ('Facebook',
-        'link',
-        1,
+        (select id from cv_templates where name = 'System template'),
         (
-            select field.id
-            from cv_fields field
-                     inner join cv_fields parent on field.parent_id = parent.id
-            where parent.name = 'Personal Info' and field.name = 'Social Media'
+            select id
+            from cv_fields
+            where (select id
+                   from cv_fields
+                   where name = 'Personal Info'
+                     and cv_template_id =
+                         (
+                             select id
+                             from cv_templates
+                             where name = 'System template'
+                         )
+                  ) = parent_id
+              and name = 'Social media links'
         ),
         '{
-          "display": "checkbox",
-          "locked": false,
+          "type": "social_link",
+          "editable": false,
+          "deletable": false,
           "required": false
         }');
 
-insert into cv_fields (name, type, cv_template_id, parent_id, metadata)
-values ('Linkedin',
-        'link',
-        1,
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
+values ('Salary',
+        (select id from cv_templates where name = 'System template'),
         (
-            select field.id
-            from cv_fields field
-                     inner join cv_fields parent on field.parent_id = parent.id
-            where parent.name = 'Personal Info' and field.name = 'Social Media'
+            select id
+            from cv_fields
+            where name = 'Personal Info'
+              and cv_template_id =
+                  (select id from cv_templates where name = 'System template')
         ),
         '{
-          "display": "checkbox",
-          "locked": false,
+          "type": "section",
+          "editable": false,
+          "deletable": true,
           "required": false
+        }');
+
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
+values ('Expected salary',
+        (select id from cv_templates where name = 'System template'),
+        (
+            select id
+            from cv_fields
+            where (select id
+                   from cv_fields
+                   where name = 'Personal Info'
+                     and cv_template_id =
+                         (
+                             select id
+                             from cv_templates
+                             where name = 'System template'
+                         )
+                  ) = parent_id
+              and name = 'Salary'
+        ),
+        '{
+          "type": "text",
+          "maxlength": 20,
+          "editable": false,
+          "deletable": false,
+          "required": true
+        }');
+
+insert into cv_fields (name, cv_template_id, parent_id, metadata)
+values ('Salary type',
+        (select id from cv_templates where name = 'System template'),
+        (
+            select id
+            from cv_fields
+            where (select id
+                   from cv_fields
+                   where name = 'Personal Info'
+                     and cv_template_id =
+                         (
+                             select id
+                             from cv_templates
+                             where name = 'System template'
+                         )
+                  ) = parent_id
+              and name = 'Salary'
+        ),
+        '{
+          "type": "dropdown",
+          "editable": false,
+          "deletable": false,
+          "required": true,
+          "values": [
+            "AMD",
+            "USD"
+          ]
         }');

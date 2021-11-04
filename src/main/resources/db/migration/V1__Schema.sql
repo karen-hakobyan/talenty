@@ -11,14 +11,14 @@ create table cv_templates
     id         serial primary key,
     name       text not null,
     manager_id int,
-    foreign key (manager_id) references users (id)
+    foreign key (manager_id) references users (id),
+    constraint unique (manager_id, name)
 );
 
 create table cv_fields
 (
     id             serial primary key,
     name           text  not null,
-    type           text check (type in ('section', 'text', 'phone_number', 'email', 'date', 'link', 'dropdown')),
     cv_template_id int   not null,
     parent_id      int,
     metadata       jsonb not null,

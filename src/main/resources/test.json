@@ -1,0 +1,48 @@
+{
+  "id": 1,
+  "name": "System template",
+  "Sections": [
+    {
+      "id": 1,
+      "name": "Personal Info",
+      "metadata": {
+        "type": "section",
+        "editable": false,
+        "deletable": false,
+        "display": "fold",
+        "fields": [
+          {
+            "id": 2,
+            "name": "First name",
+            "metadata": {
+              "type": "text",
+              "editable": false,
+              "deletable": false,
+              "required": true
+            }
+          },
+          {
+            "id": 3,
+            "name": "Last name",
+            "metadata": {
+              "type": "text",
+              "editable": false,
+              "deletable": false,
+              "required": true
+            }
+          },
+          {
+            "id": 4,
+            "name": "Email",
+            "metadata": {
+              "type": "text",
+              "editable": false,
+              "deletable": true,
+              "required": true
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
