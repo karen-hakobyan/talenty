@@ -12,7 +12,7 @@ create table cv_templates
     name       text not null,
     manager_id int,
     foreign key (manager_id) references users (id),
-    constraint unique (manager_id, name)
+    constraint uc_manager_id_name unique (manager_id, name)
 );
 
 create table cv_fields

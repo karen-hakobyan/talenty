@@ -23,9 +23,6 @@ public class FieldEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "type")
-    private String type;
-
     @Type(type = "json")
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> metadata;
