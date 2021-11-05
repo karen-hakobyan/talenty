@@ -1,13 +1,19 @@
 #!/usr/bin/env sh
 set +e
 
-docker stop talenty-postgres
-docker rm talenty-postgres
+docker stop talenty-db
+docker rm talenty-db
 
 docker run -d \
-  -p 5435:5432 \
-  -e POSTGRES_USER=talenty \
-  -e POSTGRES_DB=talenty \
-  -e POSTGRES_PASSWORD=talenty \
-  --name talenty-postgres \
-  postgres
+  -p 27777:27017 \
+  --name talenty-db \
+  mongo
+
+docker cp mongo.js talenty-db:mongo.js
+
+docker exec talenty-db mongo localhost/talenty mongo.js
+
+while [ $? -ne 0 ]; do
+  sleep 1
+  docker exec talenty-db mongo localhost/talenty mongo.js
+done

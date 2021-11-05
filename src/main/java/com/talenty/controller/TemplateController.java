@@ -1,5 +1,6 @@
 package com.talenty.controller;
 
+import com.talenty.domain.dto.Template;
 import com.talenty.service.TemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/templates")
-@PreAuthorize("hasRole('MANAGER')")
+@PreAuthorize("permitAll()")
 public class TemplateController {
 
     private final TemplateService templateService;
@@ -18,9 +19,10 @@ public class TemplateController {
         this.templateService = templateService;
     }
 
-    @GetMapping("/default")
-    public ResponseEntity<?> getDefaultTemplate() {
-        return ResponseEntity.ok().build();
+    @GetMapping("/system")
+    public ResponseEntity<?> getSystemTemplate() {
+        Template systemTemplate = templateService.getSystemTemplate();
+        return ResponseEntity.ok(systemTemplate);
     }
 
 }

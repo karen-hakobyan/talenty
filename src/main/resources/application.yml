@@ -1,13 +1,8 @@
 server:
   port: 7800
 spring:
-  datasource:
-    username: talenty
-    password: talenty
-    url: jdbc:postgresql://localhost:5435/talenty
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    properties:
-      hibernate.types.print.banner: false
+  data:
+    mongodb:
+      database: talenty
+      host: localhost
+      port: 27777
