@@ -333,31 +333,6 @@ let systemTemplate = {
             ]
         },
         {
-            _id: ObjectId(),
-            name: "Additional information",
-            metadata: {
-                type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
-                display: "fold"
-            },
-            fields: [
-                {
-                    _id: ObjectId(),
-                    name: "Description",
-                    metadata: {
-                        type: "description",
-                        maxLength: 1000,
-                        editable: false,
-                        required_editable: true,
-                        deletable: true,
-                        required: false
-                    }
-                }
-            ]
-        },
-        {
             _id: ObjectIc(),
             name: "Education and Training",
             metadata: {
@@ -952,6 +927,31 @@ let systemTemplate = {
                             }
                         }
                     ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Additional information",
+            metadata: {
+                type: "section",
+                editable: false,
+                deletable: false,
+                required: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Description",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
                 }
             ]
         }
