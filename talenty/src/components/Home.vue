@@ -1,29 +1,26 @@
 <template>
   <div>
-    {{ template }}}
-    <!--    <h1>{{ template.name }}</h1>-->
+    <h1>{{ template.name }}</h1>
 
-    <!--    <div v-for="section in template.sections" :key="section.id">-->
-    <!--      <details>-->
-    <!--        <summary>{{ section.name }}</summary>-->
+    <div v-for="section in template.fields" :key="section.id">
+      <details>
+        <summary>{{ section.name }}</summary>
 
-    <!--        <div v-for="field in section.fields" :key="field.id">-->
-    <!--          <div v-if="field.type === 'text'">-->
-    <!--            <label>-->
-    <!--              <input type="text" :placeholder="field.name"/>-->
-    <!--            </label>-->
-    <!--          </div>-->
-    <!--          <div v-if="field.type === 'dropdown'">-->
-    <!--            <label>-->
-    <!--              {{ field.name }}-->
-    <!--              <select>-->
-    <!--                <option v-for="value in field.details.possibleValues" :key="value">{{ value }}</option>-->
-    <!--              </select>-->
-    <!--            </label>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </details>-->
-    <!--    </div>-->
+        <div v-for="field in section.fields" :key="field.id">
+          <div v-if="field.metadata.type === 'section'">
+            <div v-for="sec_field in field.fields" :key="sec_field.id">
+              {{sec_field.name}}
+              <div v-if="sec_field.metadata.required">
+                <input type="checkbox" checked>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            {{ field.name }}<br>
+          </div>
+        </div>
+      </details>
+    </div>
   </div>
 </template>
 
