@@ -10,6 +10,7 @@
   "dependencies": {
     "base-64": "^1.0.0",
     "core-js": "^3.6.5",
+    "v-switch-case": "^1.0.3",
     "vue": "^2.6.11"
   },
   "devDependencies": {

@@ -9,9 +9,7 @@ let systemTemplate = {
             name: "Personal Info",
             metadata: {
                 type: "section",
-                editable: false,
                 deletable: false,
-                required: true,
                 display: "fold"
             },
             fields: [
@@ -44,11 +42,10 @@ let systemTemplate = {
                     name: "Gender",
                     metadata: {
                         type: "gender",
-                        maxLength: 100,
                         editable: false,
                         required_editable: true,
                         deletable: true,
-                        required: false
+                        required: true
                     }
                 },
                 {
@@ -68,9 +65,7 @@ let systemTemplate = {
                             metadata: {
                                 type: "day",
                                 editable: false,
-                                required_editable: false,
-                                deletable: false,
-                                required: true
+                                deletable: false
                             }
                         },
                         {
@@ -79,9 +74,7 @@ let systemTemplate = {
                             metadata: {
                                 type: "month",
                                 editable: false,
-                                required_editable: false,
-                                deletable: false,
-                                required: true
+                                deletable: false
                             }
                         },
                         {
@@ -90,9 +83,7 @@ let systemTemplate = {
                             metadata: {
                                 type: "year",
                                 editable: false,
-                                required_editable: false,
-                                deletable: false,
-                                required: true
+                                deletable: false
                             }
                         }
                     ]
@@ -121,12 +112,11 @@ let systemTemplate = {
                 },
                 {
                     _id: ObjectId(),
-                    name: "Social Media",
+                    name: "Social media links",
                     metadata: {
                         type: "section",
                         editable: false,
-                        deletable: true,
-                        required: false
+                        deletable: true
                     },
                     fields: [
                         {
@@ -192,7 +182,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: false
+                                required: true
                             }
                         },
                         {
@@ -203,7 +193,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: false
+                                required: true
                             }
                         },
                         {
@@ -237,8 +227,8 @@ let systemTemplate = {
                         type: "country",
                         editable: false,
                         required_editable: true,
-                        deletable: false,
-                        required: false
+                        deletable: true,
+                        required: true
                     }
                 },
                 {
@@ -249,8 +239,8 @@ let systemTemplate = {
                         maxLength: 100,
                         editable: false,
                         required_editable: true,
-                        deletable: false,
-                        required: false
+                        deletable: true,
+                        required: true
                     }
                 },
                 {
@@ -261,7 +251,7 @@ let systemTemplate = {
                         maxLength: 100,
                         editable: false,
                         required_editable: true,
-                        deletable: false,
+                        deletable: true,
                         required: false
                     }
                 },
@@ -271,8 +261,9 @@ let systemTemplate = {
                     metadata: {
                         type: "section",
                         editable: false,
+                        required_editable: true,
                         deletable: true,
-                        required: false
+                        required: true
                     },
                     fields: [
                         {
@@ -281,7 +272,6 @@ let systemTemplate = {
                             metadata: {
                                 type: "expected_salary",
                                 editable: false,
-                                required_editable: true,
                                 deletable: false
                             }
                         },
@@ -291,7 +281,6 @@ let systemTemplate = {
                             metadata: {
                                 type: "salary_type",
                                 editable: false,
-                                required_editable: true,
                                 deletable: false
                             }
                         }
@@ -301,7 +290,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Add photo",
                     metadata: {
-                        type: "photo",
+                        type: "add_photo",
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -333,24 +322,22 @@ let systemTemplate = {
             ]
         },
         {
-            _id: ObjectIc(),
+            _id: ObjectId(),
             name: "Education and Training",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
-                    _id: ObjectIc(),
-                    name: "Education",
+                    _id: ObjectId(),
+                    name: "Education and Training section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -391,14 +378,34 @@ let systemTemplate = {
                         },
                         {
                             _id: ObjectId(),
-                            name: "From/To(Date) or Still Studying",
+                            name: "From/to",
                             metadata: {
-                                type: "date",
+                                type: "section",
                                 editable: false,
                                 required_editable: false,
                                 deletable: true,
                                 required: false
-                            }
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "From",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "To",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                }
+                            ]
                         },
                         {
                             _id: ObjectId(),
@@ -421,20 +428,18 @@ let systemTemplate = {
             name: "Work Experience",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Work",
+                    name: "Work Experience section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -475,20 +480,41 @@ let systemTemplate = {
                         },
                         {
                             _id: ObjectId(),
-                            name: "From/To(Date) or Still Studying",
+                            name: "From/to",
                             metadata: {
-                                type: "date",
+                                type: "section",
                                 editable: false,
-                                required_editable: true,
+                                required_editable: false,
                                 deletable: true,
                                 required: false
-                            }
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "From",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "To",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                }
+                            ]
                         },
                         {
                             _id: ObjectId(),
                             name: "Job details",
                             metadata: {
                                 type: "description",
+                                maxLength: 1000,
                                 editable: false,
                                 required_editable: true,
                                 deletable: true,
@@ -504,20 +530,18 @@ let systemTemplate = {
             name: "Professional skills",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Profession skill",
+                    name: "Professional skill section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -586,20 +610,18 @@ let systemTemplate = {
             name: "Personal skills",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Personal skill",
+                    name: "Personal skill section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -668,20 +690,18 @@ let systemTemplate = {
             name: "Languages",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Language",
+                    name: "Language section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -711,7 +731,7 @@ let systemTemplate = {
                                     _id: ObjectId(),
                                     name: "Beginner",
                                     metadata: {
-                                        type: "text",
+                                        type: "language_level",
                                         value: "Beginner"
                                     }
                                 },
@@ -719,7 +739,7 @@ let systemTemplate = {
                                     _id: ObjectId(),
                                     name: "Advanced",
                                     metadata: {
-                                        type: "text",
+                                        type: "language_level",
                                         value: "Advanced"
                                     }
                                 },
@@ -727,7 +747,7 @@ let systemTemplate = {
                                     _id: ObjectId(),
                                     name: "Proficiency",
                                     metadata: {
-                                        type: "text",
+                                        type: "language_level",
                                         value: "Proficiency"
                                     }
                                 }
@@ -742,15 +762,13 @@ let systemTemplate = {
             name: "Summary",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Descritpion",
+                    name: "Description",
                     metadata: {
                         type: "description",
                         maxLength: 1000,
@@ -764,24 +782,22 @@ let systemTemplate = {
 
         },
         {
-            _id: ObjectiD(),
+            _id: ObjectId(),
             name: "Interests and Hobbies",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Interests",
+                    name: "Interest and Hobby section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -805,20 +821,18 @@ let systemTemplate = {
             name: "Projects/Products",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Projects",
+                    name: "Project/Product section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -846,7 +860,7 @@ let systemTemplate = {
                             }
                         },
                         {
-                            _id: ObjctId(),
+                            _id: ObjectId(),
                             name: "URL",
                             metadata: {
                                 type: "url",
@@ -858,15 +872,35 @@ let systemTemplate = {
                         },
                         {
                             _id: ObjectId(),
-                            name: "Start-End date",
+                            name: "Start-End",
                             metadata: {
-                                type: "date",
+                                type: "section",
                                 editable: false,
-                                required_editable: true,
+                                required_editable: false,
                                 deletable: true,
                                 required: false
-                            }
-                        }
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "Start",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "End",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                }
+                            ]
+                        },
                     ]
                 }
             ]
@@ -876,20 +910,18 @@ let systemTemplate = {
             name: "Publications",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
                 {
                     _id: ObjectId(),
-                    name: "Articles Name",
+                    name: "Article section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -907,12 +939,12 @@ let systemTemplate = {
                 },
                 {
                     _id: ObjectId(),
-                    name: "Books Name",
+                    name: "Book section",
                     metadata: {
                         type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
                     },
                     fields: [
                         {
@@ -935,9 +967,7 @@ let systemTemplate = {
             name: "Additional information",
             metadata: {
                 type: "section",
-                editable: false,
-                deletable: false,
-                required: true,
+                deletable: true,
                 display: "fold"
             },
             fields: [
