@@ -20,20 +20,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic()
                 .and()
-                .cors().configurationSource(corsConfigurationSource());
+                .csrf()
+                .disable()
+                .cors().configurationSource(corsConfigurationSource())
+                .and().authorizeRequests().anyRequest().permitAll();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("hr")
-                .password("{noop}hr")
-                .roles("MANAGER")
-                .and()
-                .withUser("user")
-                .password("{noop}user")
-                .roles("USER");
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("hr")
+//                .password("{noop}hr")
+//                .roles("MANAGER")
+//                .and()
+//                .withUser("user")
+//                .password("{noop}user")
+//                .roles("USER");
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

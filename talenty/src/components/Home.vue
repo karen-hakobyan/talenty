@@ -41,7 +41,7 @@ export default {
     let headers = new Headers()
     headers.set('Authorization', `Basic ${base64.encode(`${username}:${password}`)}`)
 
-    fetch('http://localhost:7800/templates/system', {headers})
+    fetch('http://localhost:7800/templates/system')
         .then(response => response.json())
         .then(data => this.$data.template = data)
   }
