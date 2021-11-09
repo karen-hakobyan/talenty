@@ -1,5 +1,7 @@
 package com.talenty.mapper;
 
+import com.talenty.domain.dto.CompanyLoginRequestDetails;
+import com.talenty.domain.dto.CompanyLoginResponseDetails;
 import com.talenty.domain.dto.CompanyRegisterRequestDetails;
 import com.talenty.domain.dto.CompanyRegisterResponseDetails;
 import com.talenty.domain.mongo.CompanyDocument;
@@ -13,6 +15,11 @@ public interface CompanyMapper {
 
     CompanyDocument requestToDocument(CompanyRegisterRequestDetails request);
 
-    CompanyRegisterResponseDetails documentToResponse(CompanyDocument document);
+    CompanyDocument requestToDocument(CompanyLoginRequestDetails request);
+
+    CompanyRegisterResponseDetails documentToRegisterResponse(CompanyDocument document);
+
+    CompanyLoginResponseDetails documentToLoginResponse(CompanyDocument document);
+
 
 }
