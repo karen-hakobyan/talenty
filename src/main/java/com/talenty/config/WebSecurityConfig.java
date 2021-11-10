@@ -26,18 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().anyRequest().permitAll();
     }
 
-// @Override
-// protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-// auth.inMemoryAuthentication()
-// .withUser("hr")
-// .password("{noop}hr")
-// .roles("MANAGER")
-// .and()
-// .withUser("user")
-// .password("{noop}user")
-// .roles("USER");
-// }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         var source = new UrlBasedCorsConfigurationSource();

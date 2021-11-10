@@ -9,9 +9,7 @@ let systemTemplate = {
             name: "Personal Info",
             metadata: {
                 type: "section",
-                editable: false,
                 deletable: false,
-                required: true,
                 display: "fold"
             },
             fields: [
@@ -22,6 +20,7 @@ let systemTemplate = {
                         type: "text",
                         maxLength: 100,
                         editable: false,
+                        required_editable: false,
                         deletable: false,
                         required: true
                     }
@@ -33,6 +32,7 @@ let systemTemplate = {
                         type: "text",
                         maxLength: 100,
                         editable: false,
+                        required_editable: false,
                         deletable: false,
                         required: true
                     }
@@ -41,55 +41,946 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Gender",
                     metadata: {
-                        type: "text",
-                        maxLength: 100,
+                        type: "gender",
                         editable: false,
+                        required_editable: true,
                         deletable: true,
-                        required: false,
-                        values: ["MALE", "FEMALE"]
+                        required: true
                     }
                 },
                 {
                     _id: ObjectId(),
-                    name: "Social Media",
+                    name: "Date of birth",
                     metadata: {
-                        "type": "section",
-                        "editable": false,
-                        "deletable": true,
-                        "required": false
+                        type: "section",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: true
                     },
                     fields: [
                         {
                             _id: ObjectId(),
-                            name: "Facebook",
+                            name: "Day",
                             metadata: {
-                                "type": "social_link",
-                                "editable": false,
-                                "deletable": false,
-                                "required": false
+                                type: "day",
+                                editable: false,
+                                deletable: false
                             }
                         },
                         {
                             _id: ObjectId(),
-                            name: "Linkedin",
+                            name: "Month",
                             metadata: {
-                                "type": "social_link",
-                                "editable": false,
-                                "deletable": false,
-                                "required": false
+                                type: "month",
+                                editable: false,
+                                deletable: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Year",
+                            metadata: {
+                                type: "year",
+                                editable: false,
+                                deletable: false
                             }
                         }
                     ]
                 },
                 {
                     _id: ObjectId(),
-                    name: "Expected Salary",
+                    name: "Phone Number",
+                    metadata: {
+                        type: "phone_number",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Email",
+                    metadata: {
+                        type: "email",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Social media links",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: true
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Facebook",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Linkedin",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Twitter",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Instagram",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Youtube",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Behance",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Dribbble",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Github",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Custom link",
+                            metadata: {
+                                type: "social_link",
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false
+                            }
+                        }
+                    ]
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Country",
+                    metadata: {
+                        type: "country",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "City",
                     metadata: {
                         type: "text",
-                        maxlength: 20,
+                        maxLength: 100,
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Address",
+                    metadata: {
+                        type: "text",
+                        maxLength: 100,
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Salary",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: true
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Expected Salary",
+                            metadata: {
+                                type: "expected_salary",
+                                editable: false,
+                                deletable: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Salary type",
+                            metadata: {
+                                type: "salary_type",
+                                editable: false,
+                                deletable: false
+                            }
+                        }
+                    ]
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Add photo",
+                    metadata: {
+                        type: "add_photo",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Military ID",
+                    metadata: {
+                        type: "military_id",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Driving license",
+                    metadata: {
+                        type: "driving_license",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Education and Training",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Education and Training section",
+                    metadata: {
+                        type: "section",
                         editable: false,
                         deletable: false,
-                        required: true
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "University/Organization",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Location",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: false,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Degree/Specialization",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: false,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "From/to",
+                            metadata: {
+                                type: "section",
+                                editable: false,
+                                required_editable: false,
+                                deletable: true,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "From",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "To",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Education details",
+                            metadata: {
+                                type: "description",
+                                maxLength: 1000,
+                                editable: false,
+                                required_editable: false,
+                                deletable: true,
+                                required: false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Work Experience",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Work Experience section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Company",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Location",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Position",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "From/to",
+                            metadata: {
+                                type: "section",
+                                editable: false,
+                                required_editable: false,
+                                deletable: true,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "From",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "To",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Job details",
+                            metadata: {
+                                type: "description",
+                                maxLength: 1000,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Professional skills",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Professional skill section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Skill",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Evaluate bar",
+                            metadata: {
+                                type: "section",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "25%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "25%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "50%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "50%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "75%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "75%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "100%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "100%"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Personal skills",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Personal skill section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Skill",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Evaluate bar",
+                            metadata: {
+                                type: "section",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "25%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "25%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "50%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "50%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "75%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "75%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "100%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "100%"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Languages",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Language section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Language",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Evaluate bar",
+                            metadata: {
+                                type: "section",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "Beginner",
+                                    metadata: {
+                                        type: "language_level",
+                                        value: "Beginner"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "Advanced",
+                                    metadata: {
+                                        type: "language_level",
+                                        value: "Advanced"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "Proficiency",
+                                    metadata: {
+                                        type: "language_level",
+                                        value: "Proficiency"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Summary",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Description",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                }
+            ]
+
+        },
+        {
+            _id: ObjectId(),
+            name: "Interests and Hobbies",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Interest and Hobby section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Description",
+                            metadata: {
+                                type: "description",
+                                maxLength: 1000,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Projects/Products",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Project/Product section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Projects/Products",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: true
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Description",
+                            metadata: {
+                                type: "description",
+                                maxLength: 1000,
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "URL",
+                            metadata: {
+                                type: "url",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Start-End",
+                            metadata: {
+                                type: "section",
+                                editable: false,
+                                required_editable: false,
+                                deletable: true,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "Start",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "End",
+                                    metadata: {
+                                        type: "date",
+                                        editable: false,
+                                        deletable: false
+                                    }
+                                }
+                            ]
+                        },
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Publications",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Article section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Article Name",
+                            metadata: {
+                                type: "url",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: true
+                            }
+                        }
+                    ]
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Book section",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Book Name",
+                            metadata: {
+                                type: "url",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Additional information",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Description",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: false
                     }
                 }
             ]
@@ -97,5 +988,39 @@ let systemTemplate = {
     ]
 }
 
+// let companies = [
+//     {
+//         _id: ObjectId(),
+//         company_name: "company name",
+//         first_name: "first name",
+//         last_name: "last name",
+//         email: "company@gmail.com",
+//         password: "test",
+//         verified_account: false
+//     },
+//     {
+//         _id: ObjectId(),
+//         company_name: "company name 2",
+//         first_name: "first name 2",
+//         last_name: "last name 2",
+//         email: "company@gmail.com 2",
+//         password: "test 2",
+//         verified_account: true
+//     }
+// ]
+
+// let users = {
+//     _id: ObjectId(),
+//     first_name: "first name user",
+//     last_name: "last name 2",
+//     email: "company@gmail.com 2",
+//     password: "test 2",
+//     role: 'admin',
+//     company_id: {$match: {'company_name': 'company name'}},
+//     verified_account: true
+// }
+
 // noinspection JSUnresolvedVariable
 db.templates.insert(systemTemplate);
+// db.companies.insert(companies)
+// db.users.insert(users)
