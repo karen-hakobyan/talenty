@@ -1,7 +1,7 @@
 .template-wrapper {
-    background: #FFFFFF;
     height: 1258px;
-    width: 1142px;
+    width: calc(100% - 12px);
+    margin: 0 auto;
     padding: 36px 24px;
     position: relative;
 }
@@ -52,8 +52,7 @@
     position: relative;
 }
 
-.edit-btn,
-.delete-btn {
+.edit-btn, .delete-btn {
     margin-left: 16px;
     padding: 4px 14px;
     position: static;
