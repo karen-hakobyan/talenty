@@ -1,8 +1,11 @@
 package com.talenty.controller;
 
-import com.talenty.domain.dto.CompanyRegisterRequestDetails;
-import com.talenty.domain.dto.CompanyRegisterResponseDetails;
-import com.talenty.service.CompanyService;
+import com.talenty.domain.dto.hr.HrRegisterRequestDetails;
+import com.talenty.domain.dto.hr.HrRegisterResponseDetails;
+import com.talenty.domain.mongo.CompanyDocument;
+import com.talenty.domain.mongo.UserDocument;
+import com.talenty.mapper.CompanyMapper;
+import com.talenty.service.HrService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/register")
 public class RegisterController {
 
-    private final CompanyService companyService;
+    private final HrService hrService;
 
-    public RegisterController(final CompanyService companyService) {
-        this.companyService = companyService;
+    public RegisterController(final HrService hrService) {
+        this.hrService = hrService;
     }
 
-    @PostMapping("/company")
-    public ResponseEntity<?> register(@RequestBody final CompanyRegisterRequestDetails request) {
-        final CompanyRegisterResponseDetails register = companyService.register(request);
-        return ResponseEntity.ok(register);
+    @PostMapping("/hr")
+    public ResponseEntity<?> register(@RequestBody final HrRegisterRequestDetails request) {
+        final HrRegisterResponseDetails registered = hrService.register(request);
+        return ResponseEntity.ok(registered);
     }
 
 }
