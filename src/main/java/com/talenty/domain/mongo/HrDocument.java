@@ -16,5 +16,6 @@ public class HrDocument {
     private String password;
     private String role;
     private String companyId;
+    private boolean verifiedAccount;
 
 }
