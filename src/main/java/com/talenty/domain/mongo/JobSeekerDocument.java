@@ -6,15 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Document("users")
-public class UserDocument {
+@Document("job_seekers")
+public class JobSeekerDocument {
 
     private String id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String role;
-    private String companyId;
 
 }
