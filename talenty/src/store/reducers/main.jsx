@@ -1,4 +1,3 @@
-// noinspection JSUnresolvedFunction
 let systemTemplate = {
     system: true,
     name: "System Template",
@@ -855,15 +854,18 @@ let systemTemplate = {
         }
     ]
 }
+const initialState = {
+    systemTemplate
+}
 
 
+function main(state = initialState, action) {
 
-function main(state = systemTemplate, action) {
     switch (action.type) {
+
         case 'test':
             return {
                 ...state,
-
             }
             break;
 
