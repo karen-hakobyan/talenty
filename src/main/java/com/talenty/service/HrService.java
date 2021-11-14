@@ -9,6 +9,7 @@ import com.talenty.domain.mongo.HrDocument;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.HrRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class HrService {
     }
 
     public HrRegisterResponseDetails register(final HrRegisterRequestDetails request) {
-        // TODO validation of information and passwords matching
+        ValidationChecker.assertDetailsAreValid(request);
 
         // TODO check email in DB (must not exists)
 

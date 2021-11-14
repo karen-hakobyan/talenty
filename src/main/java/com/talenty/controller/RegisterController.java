@@ -27,13 +27,13 @@ public class RegisterController {
     @PostMapping("/hr")
     public ResponseEntity<?> register(@RequestBody final HrRegisterRequestDetails request) {
         final HrRegisterResponseDetails registered = hrService.register(request);
-        return ResponseEntity.ok(registered);
+        return ResponseEntity.ok("registered");
     }
 
     @PostMapping("/jobseeker")
     public ResponseEntity<?> register(@RequestBody final JobSeekerRegisterRequestDetails request) {
         final JobSeekerRegisterResponseDetails registered = jobSeekerService.register(request);
-        return ResponseEntity.ok(registered);
+        return ResponseEntity.ok("registered");
     }
 
 }

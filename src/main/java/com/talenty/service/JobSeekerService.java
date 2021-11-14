@@ -5,6 +5,7 @@ import com.talenty.domain.dto.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.repository.JobSeekerRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,8 @@ public class JobSeekerService {
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
+        ValidationChecker.assertDetailsAreValid(request);
+
         final JobSeekerDocument jobSeekerDocument = CompanyMapper.instance.requestToDocument(request);
         jobSeekerDocument.setRole("ROLE_JOB_SEEKER");
         final JobSeekerDocument savedJobSeeker = jobSeekerRepository.save(jobSeekerDocument);

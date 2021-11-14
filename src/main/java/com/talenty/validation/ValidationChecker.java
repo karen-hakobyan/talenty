@@ -1,6 +1,7 @@
 package com.talenty.validation;
 
 import com.talenty.domain.dto.hr.HrRegisterRequestDetails;
+import com.talenty.domain.dto.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.exceptions.*;
 
 import java.util.Objects;
@@ -8,18 +9,29 @@ import java.util.regex.Pattern;
 
 public class ValidationChecker {
 
-    private static final Pattern EMAIL_REGEX = Pattern.compile("/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/");
-    private static final Pattern COMPANY_NAME_REGEX = Pattern.compile("/^[a-zA-Z]([a-zA-Z0-9.-_,]|[- @.#&!])*$/");
+    private static final Pattern EMAIL_REGEX = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
+    private static final Pattern COMPANY_NAME_REGEX = Pattern.compile("^[a-zA-Z]([a-zA-Z0-9.-_,]|[- @.#&!])*$");
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$");
-    private static final Pattern PASSWORD_REGEX = Pattern.compile("/(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/");
+    private static final Pattern PASSWORD_REGEX = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
 
-    public static boolean areDetailsValid(final HrRegisterRequestDetails details) {
+    public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
         return isEmailValid(details.getEmail()) &&
                 isCompanyNameValid(details.getCompanyName()) &&
                 isNameValid(
-                        details.getFirstname().replace(" ", "")
+                        details.getFirstName().replace(" ", "")
                                 + " "
-                                + details.getLastname().replace(" ", "")
+                                + details.getLastName().replace(" ", "")
+                ) &&
+                isPasswordValid(details.getPassword()) &&
+                arePasswordsEqual(details.getPassword(), details.getConfirmPassword());
+    }
+
+    public static boolean assertDetailsAreValid(final JobSeekerRegisterRequestDetails details) {
+        return isEmailValid(details.getEmail()) &&
+                isNameValid(
+                        details.getFirstName().replace(" ", "")
+                                + " "
+                                + details.getLastName().replace(" ", "")
                 ) &&
                 isPasswordValid(details.getPassword()) &&
                 arePasswordsEqual(details.getPassword(), details.getConfirmPassword());
