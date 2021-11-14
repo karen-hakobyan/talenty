@@ -19,7 +19,7 @@ public class LoginController {
         this.hrService = hrService;
     }
 
-    @PostMapping("/company")
+    @PostMapping("/hr")
     public ResponseEntity<?> login(@RequestBody final HrLoginRequestDetails request) {
         final HrLoginResponseDetails response = hrService.login(request);
         return ResponseEntity.ok(response);

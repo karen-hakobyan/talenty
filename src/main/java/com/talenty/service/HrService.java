@@ -9,6 +9,7 @@ import com.talenty.domain.mongo.HrDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.HrAlreadyRegisteredException;
 import com.talenty.mapper.CompanyMapper;
+import com.talenty.mapper.HrMapper;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.HrRepository;
 import com.talenty.validation.ValidationChecker;
@@ -44,8 +45,8 @@ public class HrService {
             throw new HrAlreadyRegisteredException();
         }
 
-        final CompanyDocument company = CompanyMapper.instance.extractCompany(request);
-        final HrDocument hr = CompanyMapper.instance.extractHr(request);
+        final CompanyDocument company = CompanyMapper.instance.extractCompanyFromRegisterRequest(request);
+        final HrDocument hr = HrMapper.instance.extractHrFromRegisterRequest(request);
 
         final CompanyDocument savedCompany = companyRepository.save(company);
 
@@ -57,7 +58,7 @@ public class HrService {
         //TODO token generating and keeping logic here
         emailSender.sendConfirmation(request.getEmail(), "token");
 
-        return CompanyMapper.instance.documentToRegisterResponse(savedHr);
+        return HrMapper.instance.documentToRegisterResponse(savedHr);
     }
 
     public HrLoginResponseDetails login(final HrLoginRequestDetails request) {

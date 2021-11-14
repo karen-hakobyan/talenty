@@ -14,9 +14,7 @@ public class TemplateDocument {
 
     @MongoId
     private String id;
-
     private String name;
-
     private List<FieldDocument> fields;
 
 }

@@ -13,10 +13,8 @@ public class FieldDocument {
 
     @MongoId
     private String id;
-
     private String name;
-
     private List<FieldDocument> fields;
-
     private Map<String, Object> metadata;
+
 }
