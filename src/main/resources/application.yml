@@ -10,7 +10,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: rafayel.shahnazaryan@gmail.com
-    password: htgfjzcfzvdxanku
+    password: qrypksgxvnoufdso
     properties:
       mail:
         transport:
