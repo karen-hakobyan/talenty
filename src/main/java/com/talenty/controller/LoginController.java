@@ -1,8 +1,8 @@
 package com.talenty.controller;
 
-import com.talenty.domain.dto.CompanyLoginRequestDetails;
-import com.talenty.domain.dto.CompanyLoginResponseDetails;
-import com.talenty.service.CompanyService;
+import com.talenty.domain.dto.hr.HrLoginRequestDetails;
+import com.talenty.domain.dto.hr.HrLoginResponseDetails;
+import com.talenty.service.HrService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
-    private final CompanyService companyService;
+    private final HrService hrService;
 
-    public LoginController(final CompanyService companyService) {
-        this.companyService = companyService;
+    public LoginController(final HrService hrService) {
+        this.hrService = hrService;
     }
 
-    @PostMapping("/company")
-    public ResponseEntity<?> login(@RequestBody final CompanyLoginRequestDetails request) {
-        final CompanyLoginResponseDetails response = companyService.login(request);
+    @PostMapping("/hr")
+    public ResponseEntity<?> login(@RequestBody final HrLoginRequestDetails request) {
+        final HrLoginResponseDetails response = hrService.login(request);
         return ResponseEntity.ok(response);
     }
 

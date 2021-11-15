@@ -5,16 +5,19 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.util.List;
-
 @Getter
 @Setter
-@Document("templates")
-public class TemplateDocument {
+@Document("hrs")
+public class HrDocument {
 
     @MongoId
     private String id;
-    private String name;
-    private List<FieldDocument> fields;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String role;
+    private String companyId;
+    private boolean verifiedAccount;
 
 }

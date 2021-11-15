@@ -6,3 +6,18 @@ spring:
       database: talenty
       host: localhost
       port: 27777
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: rafayel.shahnazaryan@gmail.com
+    password: qrypksgxvnoufdso
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        debug: false
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
