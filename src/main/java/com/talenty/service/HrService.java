@@ -7,6 +7,7 @@ import com.talenty.domain.dto.hr.HrRegisterResponseDetails;
 import com.talenty.domain.mongo.CompanyDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobSeekerDocument;
+import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.HrAlreadyRegisteredException;
 import com.talenty.exceptions.ProvidedEmailAlreadyRegistered;
@@ -15,10 +16,12 @@ import com.talenty.mapper.HrMapper;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.HrRepository;
 import com.talenty.repository.JobSeekerRepository;
+import com.talenty.repository.TokenRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class HrService {
@@ -26,12 +29,14 @@ public class HrService {
     private final CompanyRepository companyRepository;
     private final HrRepository hrRepository;
     private final JobSeekerRepository jobSeekerRepository;
+    private final TokenRepository tokenRepository;
     private final EmailSender emailSender;
 
-    public HrService(final CompanyRepository companyRepository, final HrRepository hrRepository, final JobSeekerRepository jobSeekerRepository, final EmailSender emailSender) {
+    public HrService(final CompanyRepository companyRepository, final HrRepository hrRepository, final JobSeekerRepository jobSeekerRepository, final TokenRepository tokenRepository, final EmailSender emailSender) {
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
         this.jobSeekerRepository = jobSeekerRepository;
+        this.tokenRepository = tokenRepository;
         this.emailSender = emailSender;
     }
 
@@ -62,13 +67,13 @@ public class HrService {
         final CompanyDocument savedCompany = companyRepository.save(company);
 
         hr.setCompanyId(savedCompany.getId());
-        hr.setRole("ROLE_ADMIN");
+        hr.setRole("ROLE_HR_ADMIN");
 
         final HrDocument savedHr = hrRepository.save(hr);
 
-        //TODO token generating and keeping logic here
-
-        emailSender.sendConfirmation(request.getEmail(), "token");
+        final String token = UUID.randomUUID().toString();
+        tokenRepository.save(new TokenDocument(token, savedHr.getId()));
+        emailSender.sendConfirmation(request.getEmail(), token);
 
         return HrMapper.instance.documentToRegisterResponse(savedHr);
     }
