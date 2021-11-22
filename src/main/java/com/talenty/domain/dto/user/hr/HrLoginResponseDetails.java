@@ -1,4 +1,4 @@
-package com.talenty.domain.dto.hr;
+package com.talenty.domain.dto.user.hr;
 
 public class HrLoginResponseDetails {
 }
