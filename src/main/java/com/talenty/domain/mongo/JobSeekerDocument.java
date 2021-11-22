@@ -11,5 +11,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "users")
 @TypeAlias("job_seeker")
-public class JobSeekerDocument {
+public class JobSeekerDocument extends UserDocument {
 }
