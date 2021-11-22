@@ -1,7 +1,7 @@
 package com.talenty.validation;
 
-import com.talenty.domain.dto.hr.HrRegisterRequestDetails;
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterRequestDetails;
+import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.exceptions.*;
 
 import java.util.Objects;

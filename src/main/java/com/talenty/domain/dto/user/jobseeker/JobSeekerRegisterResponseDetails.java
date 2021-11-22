@@ -1,4 +1,4 @@
-package com.talenty.domain.dto.jobseeker;
+package com.talenty.domain.dto.user.jobseeker;
 
 public class JobSeekerRegisterResponseDetails {
 }

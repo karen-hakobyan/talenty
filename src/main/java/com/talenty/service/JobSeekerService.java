@@ -1,7 +1,7 @@
 package com.talenty.service;
 
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterRequestDetails;
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterResponseDetails;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.TokenDocument;
