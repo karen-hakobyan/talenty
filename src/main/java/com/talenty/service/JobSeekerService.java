@@ -5,6 +5,7 @@ import com.talenty.domain.dto.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.TokenDocument;
+import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.JobSeekerAlreadyRegisteredException;
 import com.talenty.exceptions.ProvidedEmailAlreadyRegistered;
@@ -12,6 +13,7 @@ import com.talenty.mapper.JobSeekerMapper;
 import com.talenty.repository.HrRepository;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.TokenRepository;
+import com.talenty.repository.UserRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
@@ -25,25 +27,24 @@ public class JobSeekerService {
     private final HrRepository hrRepository;
     private final EmailSender emailSender;
     private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
 
-    public JobSeekerService(JobSeekerRepository jobSeekerRepository, HrRepository hrRepository, EmailSender emailSender, TokenRepository tokenRepository) {
+    public JobSeekerService(final JobSeekerRepository jobSeekerRepository, final HrRepository hrRepository, final EmailSender emailSender, final TokenRepository tokenRepository, final UserRepository userRepository) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.hrRepository = hrRepository;
         this.emailSender = emailSender;
         this.tokenRepository = tokenRepository;
+        this.userRepository = userRepository;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
         ValidationChecker.assertDetailsAreValid(request);
 
-        final Optional<HrDocument> hrOptional = hrRepository.findByEmail(request.getEmail());
-        if (hrOptional.isPresent()){
-            throw new ProvidedEmailAlreadyRegistered("Email " + request.getEmail() + "already registered");
-        }
+        final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
 
-        final Optional<JobSeekerDocument> jobSeekerOptional = jobSeekerRepository.findByEmail(request.getEmail());
-        if (jobSeekerOptional.isPresent()) {
-            throw new JobSeekerAlreadyRegisteredException();
+        if(userOptional.isPresent()) {
+            throw new ProvidedEmailAlreadyRegistered("Email " + request.getEmail() + "already registered");
+
         }
 
         final JobSeekerDocument jobSeekerDocument = JobSeekerMapper.instance.requestToDocument(request);
