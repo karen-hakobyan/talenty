@@ -13,6 +13,7 @@ import com.talenty.repository.HrRepository;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.TokenRepository;
 import com.talenty.validation.ValidationChecker;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,19 +26,21 @@ public class JobSeekerService {
     private final HrRepository hrRepository;
     private final EmailSender emailSender;
     private final TokenRepository tokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public JobSeekerService(JobSeekerRepository jobSeekerRepository, HrRepository hrRepository, EmailSender emailSender, TokenRepository tokenRepository) {
+    public JobSeekerService(JobSeekerRepository jobSeekerRepository, HrRepository hrRepository, EmailSender emailSender, TokenRepository tokenRepository, final PasswordEncoder passwordEncoder) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.hrRepository = hrRepository;
         this.emailSender = emailSender;
         this.tokenRepository = tokenRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
         ValidationChecker.assertDetailsAreValid(request);
 
         final Optional<HrDocument> hrOptional = hrRepository.findByEmail(request.getEmail());
-        if (hrOptional.isPresent()){
+        if (hrOptional.isPresent()) {
             throw new ProvidedEmailAlreadyRegistered("Email " + request.getEmail() + "already registered");
         }
 
@@ -48,6 +51,8 @@ public class JobSeekerService {
 
         final JobSeekerDocument jobSeekerDocument = JobSeekerMapper.instance.requestToDocument(request);
         jobSeekerDocument.setRole("ROLE_JOB_SEEKER");
+        jobSeekerDocument.setPassword(passwordEncoder.encode(jobSeekerDocument.getPassword()));
+
         final JobSeekerDocument savedJobSeeker = jobSeekerRepository.save(jobSeekerDocument);
 
         final String token = UUID.randomUUID().toString();
