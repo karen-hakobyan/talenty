@@ -1,7 +1,7 @@
 package com.talenty.controller;
 
 import com.talenty.domain.dto.user.UserLoginRequestDetails;
-import com.talenty.domain.dto.user.hr.HrLoginResponseDetails;
+import com.talenty.domain.dto.user.UserLoginResponseDetails;
 import com.talenty.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class LoginController {
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody final UserLoginRequestDetails request) {
-        final HrLoginResponseDetails response = userService.login(request);
+        final UserLoginResponseDetails response = userService.login(request);
         return ResponseEntity.ok(response);
     }
 
