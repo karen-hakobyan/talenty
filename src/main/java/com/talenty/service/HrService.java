@@ -20,15 +20,13 @@ public class HrService {
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final HrRepository hrRepository;
-    private final JobSeekerRepository jobSeekerRepository;
     private final TokenRepository tokenRepository;
     private final EmailSender emailSender;
 
-    public HrService(final UserRepository userRepository, final CompanyRepository companyRepository, final HrRepository hrRepository, final JobSeekerRepository jobSeekerRepository, final TokenRepository tokenRepository, final EmailSender emailSender) {
+    public HrService(final UserRepository userRepository, final CompanyRepository companyRepository, final HrRepository hrRepository, final TokenRepository tokenRepository, final EmailSender emailSender) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
-        this.jobSeekerRepository = jobSeekerRepository;
         this.tokenRepository = tokenRepository;
         this.emailSender = emailSender;
     }

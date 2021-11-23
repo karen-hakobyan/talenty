@@ -1,6 +1,6 @@
 package com.talenty.controller;
 
-import com.talenty.repository.TokenRepository;
+import com.talenty.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,18 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/confirm")
 public class ConfirmationController {
 
-    private final TokenRepository tokenRepository;
+    private final UserService userService;
 
-    public ConfirmationController(final TokenRepository tokenRepository) {
-        this.tokenRepository = tokenRepository;
+    public ConfirmationController(final UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public ResponseEntity<?> confirm(@RequestParam final String token) {
-        /* TODO
-            1. handle token and confirm account if the token is valid
-            2. expire token after successfully confirmation
-         */
+        userService.confirm(token);
         return ResponseEntity.ok("confirmed");
     }
 
