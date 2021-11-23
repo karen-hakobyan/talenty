@@ -1,6 +1,6 @@
 package com.talenty.mapper;
 
-import com.talenty.domain.dto.hr.HrRegisterRequestDetails;
+import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.mongo.CompanyDocument;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

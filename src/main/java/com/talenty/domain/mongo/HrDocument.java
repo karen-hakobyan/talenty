@@ -1,23 +1,18 @@
 package com.talenty.domain.mongo;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Getter
 @Setter
-@Document("hrs")
-public class HrDocument {
+@NoArgsConstructor
+@Document(collection = "users")
+@TypeAlias("hr")
+public class HrDocument extends UserDocument {
 
-    @MongoId
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String role;
     private String companyId;
-    private boolean verifiedAccount;
 
 }

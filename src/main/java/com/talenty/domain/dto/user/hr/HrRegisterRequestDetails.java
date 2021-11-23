@@ -1,4 +1,4 @@
-package com.talenty.domain.dto.jobseeker;
+package com.talenty.domain.dto.user.hr;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JobSeekerRegisterRequestDetails {
+public class HrRegisterRequestDetails {
 
+    private String companyName;
     private String firstName;
     private String lastName;
     private String email;

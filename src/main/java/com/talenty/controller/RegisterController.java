@@ -1,9 +1,9 @@
 package com.talenty.controller;
 
-import com.talenty.domain.dto.hr.HrRegisterRequestDetails;
-import com.talenty.domain.dto.hr.HrRegisterResponseDetails;
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterRequestDetails;
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterResponseDetails;
+import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
+import com.talenty.domain.dto.user.hr.HrRegisterResponseDetails;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.service.HrService;
 import com.talenty.service.JobSeekerService;
 import org.springframework.http.ResponseEntity;

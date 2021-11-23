@@ -1,18 +1,18 @@
 package com.talenty.service;
 
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterRequestDetails;
-import com.talenty.domain.dto.jobseeker.JobSeekerRegisterResponseDetails;
-import com.talenty.domain.mongo.HrDocument;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
+import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.TokenDocument;
+import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
-import com.talenty.exceptions.JobSeekerAlreadyRegisteredException;
 import com.talenty.exceptions.ProvidedEmailAlreadyRegistered;
 import com.talenty.mapper.JobSeekerMapper;
-import com.talenty.repository.HrRepository;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.TokenRepository;
+import com.talenty.repository.UserRepository;
 import com.talenty.validation.ValidationChecker;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,32 +22,32 @@ import java.util.UUID;
 public class JobSeekerService {
 
     private final JobSeekerRepository jobSeekerRepository;
-    private final HrRepository hrRepository;
     private final EmailSender emailSender;
     private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public JobSeekerService(JobSeekerRepository jobSeekerRepository, HrRepository hrRepository, EmailSender emailSender, TokenRepository tokenRepository) {
+    public JobSeekerService(final JobSeekerRepository jobSeekerRepository, final EmailSender emailSender, final TokenRepository tokenRepository, final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
         this.jobSeekerRepository = jobSeekerRepository;
-        this.hrRepository = hrRepository;
         this.emailSender = emailSender;
         this.tokenRepository = tokenRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
         ValidationChecker.assertDetailsAreValid(request);
 
-        final Optional<HrDocument> hrOptional = hrRepository.findByEmail(request.getEmail());
-        if (hrOptional.isPresent()){
-            throw new ProvidedEmailAlreadyRegistered("Email " + request.getEmail() + "already registered");
-        }
+        final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
 
-        final Optional<JobSeekerDocument> jobSeekerOptional = jobSeekerRepository.findByEmail(request.getEmail());
-        if (jobSeekerOptional.isPresent()) {
-            throw new JobSeekerAlreadyRegisteredException();
+        if (userOptional.isPresent()) {
+            throw new ProvidedEmailAlreadyRegistered("Email " + request.getEmail() + "already registered");
         }
 
         final JobSeekerDocument jobSeekerDocument = JobSeekerMapper.instance.requestToDocument(request);
         jobSeekerDocument.setRole("ROLE_JOB_SEEKER");
+        jobSeekerDocument.setPassword(passwordEncoder.encode(jobSeekerDocument.getPassword()));
+
         final JobSeekerDocument savedJobSeeker = jobSeekerRepository.save(jobSeekerDocument);
 
         final String token = UUID.randomUUID().toString();
