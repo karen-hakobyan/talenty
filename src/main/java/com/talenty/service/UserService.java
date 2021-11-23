@@ -5,7 +5,6 @@ import com.talenty.domain.dto.user.hr.HrLoginResponseDetails;
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.exceptions.ConfirmationException;
-import com.talenty.repository.HrRepository;
 import com.talenty.repository.TokenRepository;
 import com.talenty.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -17,12 +16,10 @@ public class UserService {
 
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
-    private final HrRepository hrRepository;
 
-    public UserService(final TokenRepository tokenRepository, final UserRepository userRepository, final HrRepository hrRepository) {
+    public UserService(final TokenRepository tokenRepository, final UserRepository userRepository) {
         this.tokenRepository = tokenRepository;
         this.userRepository = userRepository;
-        this.hrRepository = hrRepository;
     }
 
     public HrLoginResponseDetails login(final UserLoginRequestDetails request) {
