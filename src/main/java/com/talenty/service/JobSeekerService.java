@@ -23,14 +23,14 @@ public class JobSeekerService {
 
     private final JobSeekerRepository jobSeekerRepository;
     private final EmailSender emailSender;
-    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public JobSeekerService(final JobSeekerRepository jobSeekerRepository, final EmailSender emailSender, final TokenRepository tokenRepository, final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
+    public JobSeekerService(final JobSeekerRepository jobSeekerRepository, final EmailSender emailSender, final TokenService tokenService, final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
-        this.tokenRepository = tokenRepository;
+        this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -50,8 +50,7 @@ public class JobSeekerService {
 
         final JobSeekerDocument savedJobSeeker = jobSeekerRepository.save(jobSeekerDocument);
 
-        final String token = UUID.randomUUID().toString();
-        tokenRepository.save(new TokenDocument(token, savedJobSeeker.getId()));
+        final String token = tokenService.generate(savedJobSeeker);
         emailSender.sendConfirmation(request.getEmail(), token);
 
         return JobSeekerMapper.instance.documentToRegisterResponse(savedJobSeeker);

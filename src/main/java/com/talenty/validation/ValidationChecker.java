@@ -22,8 +22,8 @@ public class ValidationChecker {
                                 + " "
                                 + details.getLastName().replace(" ", "")
                 ) &&
-                isPasswordValid(details.getPassword()) &&
-                arePasswordsEqual(details.getPassword(), details.getConfirmPassword());
+                assertPasswordIsValid(details.getPassword()) &&
+                assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
     public static boolean assertDetailsAreValid(final JobSeekerRegisterRequestDetails details) {
@@ -33,8 +33,8 @@ public class ValidationChecker {
                                 + " "
                                 + details.getLastName().replace(" ", "")
                 ) &&
-                isPasswordValid(details.getPassword()) &&
-                arePasswordsEqual(details.getPassword(), details.getConfirmPassword());
+                assertPasswordIsValid(details.getPassword()) &&
+                assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
     private static boolean isEmailValid(final String email) {
@@ -58,14 +58,14 @@ public class ValidationChecker {
         return true;
     }
 
-    private static boolean isPasswordValid(final String password) {
+    public static boolean assertPasswordIsValid(final String password) {
         if (!PASSWORD_REGEX.matcher(password).matches()) {
             throw new InvalidPasswordException();
         }
         return true;
     }
 
-    private static boolean arePasswordsEqual(final String password, final String confirmPassword) {
+    public static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
         if (!Objects.equals(password, confirmPassword)) {
             throw new PasswordsDoNotMatchException();
         }
