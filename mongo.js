@@ -988,39 +988,9 @@ let systemTemplate = {
     ]
 }
 
-// let companies = [
-//     {
-//         _id: ObjectId(),
-//         company_name: "company name",
-//         first_name: "first name",
-//         last_name: "last name",
-//         email: "company@gmail.com",
-//         password: "test",
-//         verified_account: false
-//     },
-//     {
-//         _id: ObjectId(),
-//         company_name: "company name 2",
-//         first_name: "first name 2",
-//         last_name: "last name 2",
-//         email: "company@gmail.com 2",
-//         password: "test 2",
-//         verified_account: true
-//     }
-// ]
+let jobAnnouncement = {
 
-// let users = {
-//     _id: ObjectId(),
-//     first_name: "first name user",
-//     last_name: "last name 2",
-//     email: "company@gmail.com 2",
-//     password: "test 2",
-//     role: 'admin',
-//     company_id: {$match: {'company_name': 'company name'}},
-//     verified_account: true
-// }
+}
 
-// noinspection JSUnresolvedVariable
 db.templates.insert(systemTemplate);
-// db.companies.insert(companies)
-// db.users.insert(users)
+db.job_announcement.insert(jobAnnouncement);
