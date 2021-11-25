@@ -989,7 +989,44 @@ let systemTemplate = {
 }
 
 let jobAnnouncement = {
-
+    _id: ObjectId(),
+    system: true,
+    name: "System Job Announcement",
+    fields: [
+        {
+            _id: ObjectId(),
+            name: "General Information",
+            metadata: {
+                type: "section",
+                deletable: false,
+                editable: true,
+                display: "fold"
+            },
+            fields: []
+        },
+        {
+            _id: ObjectId(),
+            name: "Vacancy details",
+            metadata: {
+                type: "section",
+                deletable: false,
+                editable: true,
+                display: "fold"
+            },
+            fields: []
+        },
+        {
+            _id: ObjectId(),
+            name: "Skills",
+            metadata: {
+                type: "section",
+                deletable: false,
+                editable: true,
+                display: "fold"
+            },
+            fields: []
+        }
+    ]
 }
 
 db.templates.insert(systemTemplate);
