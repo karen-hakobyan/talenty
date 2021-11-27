@@ -1002,7 +1002,146 @@ let jobAnnouncement = {
                 editable: true,
                 display: "fold"
             },
-            fields: []
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Title",
+                    metadata: {
+                        type: "text",
+                        maxLength: 100,
+                        deletable: false,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Employment terms",
+                    metadata: {
+                        type: "employment_terms",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Job type",
+                    metadata: {
+                        type: "job_type",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Job Category",
+                    metadata: {
+                        type: "job_category",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Candidate level",
+                    metadata: {
+                        type: "candidate_level",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Country",
+                    metadata: {
+                        type: "country",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "City",
+                    metadata: {
+                        type: "city",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Salary",
+                    metadata: {
+                        type: "section",
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Type",
+                            metadata: {
+                                type: "section",
+                                deletable: false,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "Net",
+                                    metadata: {
+                                        type: "button",
+                                        value: "Net"
+                                    }
+                                },{
+                                    _id: ObjectId(),
+                                    name: "Gross",
+                                    metadata: {
+                                        type: "button",
+                                        value: "Gross"
+                                    }
+                                },
+                            ]
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "From",
+                            metadata: {
+                                type: "int",
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "To",
+                            metadata: {
+                                type: "int",
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "",
+                            metadata: {
+                                type: "currency",
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Deadline",
+                            metadata: {
+                                type: "text",
+                                maxLength: 100,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                    ]
+                }
+            ]
         },
         {
             _id: ObjectId(),
@@ -1013,7 +1152,38 @@ let jobAnnouncement = {
                 editable: true,
                 display: "fold"
             },
-            fields: []
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Description",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Responsibilities",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Required qualifications",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: false
+                    }
+                },
+            ]
         },
         {
             _id: ObjectId(),
@@ -1024,7 +1194,26 @@ let jobAnnouncement = {
                 editable: true,
                 display: "fold"
             },
-            fields: []
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Professional skills",
+                    metadata: {
+                        type: "professional_skills",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Soft skills",
+                    metadata: {
+                        type: "soft_skills",
+                        deletable: false,
+                        required: false
+                    }
+                },
+            ]
         }
     ]
 }
