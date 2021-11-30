@@ -1089,14 +1089,14 @@ let jobAnnouncement = {
                                     _id: ObjectId(),
                                     name: "Net",
                                     metadata: {
-                                        type: "button",
+                                        type: "salary_type_ja",
                                         value: "Net"
                                     }
                                 },{
                                     _id: ObjectId(),
                                     name: "Gross",
                                     metadata: {
-                                        type: "button",
+                                        type: "salary_type_ja",
                                         value: "Gross"
                                     }
                                 },
@@ -1122,7 +1122,7 @@ let jobAnnouncement = {
                         },
                         {
                             _id: ObjectId(),
-                            name: "",
+                            name: "Currency",
                             metadata: {
                                 type: "currency",
                                 deletable: false,
@@ -1133,7 +1133,7 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Deadline",
                             metadata: {
-                                type: "text",
+                                type: "deadline_ja",
                                 maxLength: 100,
                                 deletable: false,
                                 required: false
