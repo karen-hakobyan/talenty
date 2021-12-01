@@ -1,4 +1,5 @@
-import CvTemplate from "./components/CvTemplate";
+import React from "react";
+import CvTemplate from "./components/CvTemplate/CvTemplate";
 
 function App() {
   return (
