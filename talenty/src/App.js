@@ -1,10 +1,11 @@
 import React from "react";
-import CvTemplate from "./components/CvTemplate/CvTemplate";
+
+import SignIn from "./components/SiginIn/SignIn";
 
 function App() {
   return (
     <>
-      <CvTemplate />
+      <SignIn />
     </>
   );
 }
