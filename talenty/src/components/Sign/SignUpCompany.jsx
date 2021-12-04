@@ -137,17 +137,24 @@ function SignUp({ bgImg, data }) {
       return;
     }
     // here would be check if exists in db
+    // axios
+    //   .get("http://localhost:7800/templates/system")
+    //   .then((resp) => console.log(resp))
+    //   .catch((err) => console.log(err));
     axios
-      .post("/user", {
+      .post("http://localhost:7800/register/hr", {
+        company,
         firstName,
         lastName,
         email,
         password,
+        confirmPassword,
       })
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
+        console.log("Error here");
         console.log(error);
       });
   };
