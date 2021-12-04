@@ -1,11 +1,8 @@
-import CvTemplate from "./components/CvTemplate";
+import SignUpCompany from "./components/Sign/SignUpCompany";
+import Gagarin from "./components/Assets/SignInImages/gagarin.png";
 
 function App() {
-  return (
-    <>
-      <CvTemplate />
-    </>
-  );
+  return <SignUpCompany bgImg={Gagarin} />;
 }
 
 export default App;
