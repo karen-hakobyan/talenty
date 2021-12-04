@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface JobAnnouncementMapper {
 
-    JobAnnouncementMapper instance = Mappers.getMapper(JobAnnouncementMapper.class)
+    JobAnnouncementMapper instance = Mappers.getMapper(JobAnnouncementMapper.class);
 
     JobAnnouncement documentToDto(JobAnnouncementDocument document);
 
