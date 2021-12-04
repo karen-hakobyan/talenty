@@ -17,4 +17,5 @@ public class JobAnnouncementService {
     public JobAnnouncement getSystemJobAnnouncement() {
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.findSystemJobAnnouncement());
     }
+
 }
