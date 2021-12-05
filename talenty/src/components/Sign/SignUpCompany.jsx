@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { FormControl, styled, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Checkbox from "@mui/material/Checkbox";
@@ -13,6 +13,7 @@ import {
   passValid,
 } from "../../helpers/validation/fieldValidations";
 import axios from "axios";
+import Gagarin from "../Assets/SignImages/gagarin.png";
 
 const StyledContainer = styled(Box)({
   p: 0,
@@ -45,7 +46,7 @@ const StyledSpan = styled("span")({
   cursor: "pointer",
 });
 const style = {
-  width: "34.11420204978038vw",
+  width: "35vw",
   innerHeight: "auto",
   display: "flex",
   flexDirection: "column",
@@ -58,12 +59,12 @@ const StyledBGImage = styled("div")({
     height: "100%",
     widht: "auto",
     minHeight: "23.75rem",
-    maxWidth: "40rem",
+    maxWidth: "30rem",
   },
 });
 
-function SignUp({ bgImg, data }) {
-  const [company, setCompany] = useState("");
+function SignUp() {
+  const [companyName, setCompanyName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -71,35 +72,39 @@ function SignUp({ bgImg, data }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [terms, setTerms] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
-  const validFields = useRef([]);
   const fieldLabels = [
     {
       name: "Company name",
-      value: company,
-      onChange: setCompany,
+      value: companyName,
+      errMsg: "Company name is incorrect",
+      onChange: setCompanyName,
       valid: companyNameValid,
     },
     {
       name: "First name",
       value: firstName,
+      errMsg: "Name is incorrect",
       onChange: setFirstName,
       valid: nameValid,
     },
     {
       name: "Last name",
       value: lastName,
+      errMsg: "Surname is incorrect",
       onChange: setLastName,
       valid: nameValid,
     },
     {
       name: "Email",
       value: email,
+      errMsg: "Your email is incorrect",
       onChange: setEmail,
       valid: emailValid,
     },
     {
       name: "Password",
       value: password,
+      errMsg: "Your password is incorrect",
       onChange: setPassword,
       valid: passValid,
     },
@@ -124,7 +129,7 @@ function SignUp({ bgImg, data }) {
       setAlertMsg("Passwords didn't match");
       return;
     }
-    if (!companyNameValid(company)) {
+    if (!companyNameValid(companyName)) {
       setAlertMsg("Company name is incorrect");
       return;
     }
@@ -136,14 +141,15 @@ function SignUp({ bgImg, data }) {
       setAlertMsg("Your email is incorrect");
       return;
     }
-    // here would be check if exists in db
-    // axios
-    //   .get("http://localhost:7800/templates/system")
-    //   .then((resp) => console.log(resp))
-    //   .catch((err) => console.log(err));
+    if (!passValid(password)) {
+      setAlertMsg("Your password is incorrect");
+      return;
+    }
+
+    // minch uxxarkeln get anel ardyoq tenc mard arden chka bazayi mech
     axios
       .post("http://localhost:7800/register/hr", {
-        company,
+        companyName,
         firstName,
         lastName,
         email,
@@ -173,11 +179,7 @@ function SignUp({ bgImg, data }) {
           >
             <H1>Create Account</H1>
             {fieldLabels.map((label, index) => (
-              <SignUpField
-                key={label + index}
-                label={label}
-                validFields={validFields}
-              />
+              <SignUpField key={label + index} label={label} />
             ))}
             <Box
               sx={{
@@ -199,7 +201,7 @@ function SignUp({ bgImg, data }) {
                 }}
               >
                 By creating an account, I agree to Talenty’s{" "}
-                <StyledSpan>Terms of use</StyledSpan> and <br />
+                <StyledSpan>Terms of use</StyledSpan> and
                 <StyledSpan>Privacy policy</StyledSpan> and to receive emails
               </Typography>
               <Checkbox
@@ -217,7 +219,7 @@ function SignUp({ bgImg, data }) {
           </FormControl>
         </StyledDiv>
         <StyledBGImage>
-          <img src={bgImg} alt="sign up" />
+          <img src={Gagarin} alt="sign up" />
         </StyledBGImage>
         {!!alertMsg && <Alert info={alertMsg} setOpen={setAlertMsg} />}
       </StyledContainer>
