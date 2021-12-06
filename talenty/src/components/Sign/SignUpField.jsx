@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { styled } from "@mui/system";
+import { Box, styled } from "@mui/system";
 import "../../fonts/index.css";
 import { MAIN_PURPLE, TEXT } from "../../constants/colors";
 import { useState } from "react";
@@ -17,12 +17,13 @@ const StyledSpan = styled("span")({
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
     "&.Mui-focused fieldset": {
-      borderColor: "#9c27b0",
+      borderColor: MAIN_PURPLE,
       paddingBottom: 1,
     },
   },
   color: TEXT,
   paddingTop: 1,
+  width: "80%",
 });
 
 const SignUpFields = ({ label }) => {
@@ -31,46 +32,46 @@ const SignUpFields = ({ label }) => {
   return (
     <>
       <StyledSpan>{label.name}</StyledSpan>
-      {label.name.toLowerCase().includes("password") ? (
-        <>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {label.name.toLowerCase().includes("password") ? (
+          <>
+            <CssTextField
+              placeholder={label.name}
+              value={label.value}
+              onChange={(e) => label.onChange(e.target.value)}
+              sx={{ color: TEXT, paddingTop: 1 }}
+              type={!show ? "password" : "text"}
+              size="small"
+              error={err}
+              onBlur={() =>
+                label.valid(label.value) ? setErr(false) : setErr(true)
+              }
+            />
+            <Checkbox
+              sx={{
+                "& .MuiSvgIcon-root": {
+                  fontSize: 28,
+                  color: MAIN_PURPLE,
+                },
+              }}
+              checked={show}
+              onClick={() => setShow((prev) => !prev)}
+            />
+          </>
+        ) : (
           <CssTextField
             placeholder={label.name}
             value={label.value}
             onChange={(e) => label.onChange(e.target.value)}
-            sx={{ color: TEXT, paddingTop: 1 }}
-            type={!show ? "password" : "text"}
-            size="small"
             error={err}
+            helperText={err && label.errMsg}
+            size="small"
             onBlur={() =>
-              label.valid(label.value)
-                ? (setErr(false), (label.isValid = true))
-                : setErr(true)
+              label.valid(label.value) ? setErr(false) : setErr(true)
             }
           />
-          <Checkbox
-            sx={{
-              "& .MuiSvgIcon-root": {
-                fontSize: 28,
-                color: MAIN_PURPLE,
-              },
-            }}
-            className="checkbox"
-            checked={show}
-            onClick={() => setShow((prev) => !prev)}
-          />
-        </>
-      ) : (
-        <CssTextField
-          placeholder={label.name}
-          value={label.value}
-          onChange={(e) => label.onChange(e.target.value)}
-          error={err}
-          size="small"
-          onBlur={() =>
-            label.valid(label.value) ? setErr(false) : setErr(true)
-          }
-        />
-      )}
+        )}
+      </Box>
     </>
   );
 };
