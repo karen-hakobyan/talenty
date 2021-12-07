@@ -1,7 +1,7 @@
-import SignUpCompany from "./components/Sign/SignUpCompany";
+import SignUp from "./components/Sign/SignUp.jsx";
 
 function App() {
-  return <SignUpCompany />;
+  return <SignUp isCompany={false} />;
 }
 
 export default App;
