@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/job_announcement")
+@RequestMapping("/job_announcements")
 @PreAuthorize("permitAll()")
 public class JobAnnouncementController {
 
@@ -25,4 +25,5 @@ public class JobAnnouncementController {
         JobAnnouncement jobAnnouncement = jobAnnouncementService.getSystemJobAnnouncement();
         return ResponseEntity.ok(jobAnnouncement);
     }
+
 }
