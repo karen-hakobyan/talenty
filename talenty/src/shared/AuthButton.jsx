@@ -2,9 +2,13 @@ import React from "react";
 import { styled } from "@mui/system";
 import "../fonts/index.css";
 import { ELECTRICVIOLET, FRENCH_VIOLET, WHITE } from "../constants/colors";
+import { Box } from "@mui/material";
+// import { Button } from "@mui/material";
 
-const Button = styled("div")(({ theme }) => ({
+const Button = styled(Box)(({ theme }) => ({
   height: "40px",
+  width: "100%",
+  outline: "none",
   background: ELECTRICVIOLET,
   borderRadius: "4px",
   marginTop: 26,
@@ -34,10 +38,12 @@ function AuthButton(props) {
   const text = props.text;
   return (
     <>
+      {/* <Button variant="outlined">{text}</Button> */}
+
       <Button
         onClick={onClick}
-        style={{
-          maxWidth: !width ? "466px" : width,
+        sx={{
+          maxWidth: width ? width : "466px",
         }}
       >
         <Text>{text}</Text>

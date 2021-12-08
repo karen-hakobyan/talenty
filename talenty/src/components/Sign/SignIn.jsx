@@ -1,15 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
-import { Container } from "@mui/material";
-import AuthInput from "../../shared/AuthInput";
+import { Container, TextField } from "@mui/material";
 import logo from "./SignPhoto/TalentyLogo.svg";
 import TalentyAuth from "./SignPhoto/talenty.png";
 import AuthButton from "../../shared/AuthButton";
 import "../../fonts/index.css";
-import { ELECTRICVIOLET, MAGNET, SR_TROPAZ } from "../../constants/colors";
-import Auth from "../../shared/Auth";
+import { Link } from "react-router-dom";
+import {
+  ELECTRICVIOLET,
+  MAGNET,
+  MAIN_PURPLE,
+  PLACEHOLDER_GRAY,
+  SR_TROPAZ,
+  TEXT,
+} from "../../constants/colors";
+import {
+  FORGOT_PASSWORD_ROUTE,
+  SIGN_UP_ROUTE,
+} from "../../helpers/routes/routes";
+import {
+  emailValid,
+  passValid,
+} from "../../helpers/validation/fieldValidations";
+import MuiContainedBtn from "../../shared/MuiContainedBtn";
 
-const ImgContainer = styled(Container)(({ theme }) => ({
+const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
   backgroundImage: `url(${TalentyAuth})`,
   backgroundRepeat: "no-repeat",
@@ -23,6 +38,7 @@ const Logo = styled("div")(({ theme }) => ({
   justifyContent: "end",
   marginBottom: 146,
   paddingTop: 46,
+  marginRight: 60,
 }));
 
 const H2 = styled("h2")(({ theme }) => ({
@@ -33,17 +49,16 @@ const H2 = styled("h2")(({ theme }) => ({
   lineHeight: "25px",
   marginBottom: 20,
 }));
-const EmailInput = styled(AuthInput)({
-  marginTop: 20,
-});
+
 const Form = styled("form")({
   marginTop: 20,
+  maxWidth: 466,
+  marginLeft: "154px",
 });
-
-// const Chekbox = styled("input")({
-//   width: "0px",
-//   height: "0px",
-// });
+const ContentContainer = styled("div")(({ tehem }) => ({
+  maxWidth: 466,
+  marginLeft: "154px",
+}));
 
 const Chekbox = styled("div")({
   width: 20,
@@ -72,11 +87,11 @@ const ChekboxActive = styled("div")({
 
 const ChekboxContainer = styled("div")({
   display: "flex",
-  marginTop: 20,
+
   justifyContent: "space-between",
 });
 const ChekboxLable = styled("span")(({ theme }) => ({
-  fontFamily: "ProximaNova",
+  fontFamily: "Proxima Nova",
   fontStyle: "normal",
   fontWeight: "normal",
   fontSize: "16px",
@@ -85,12 +100,13 @@ const ChekboxLable = styled("span")(({ theme }) => ({
   cursor: "pointer",
 }));
 const ForgotPassword = styled("div")({
-  fontFamily: "ProximaNova",
+  fontFamily: "Proxima Nova",
   fontStyle: "normal",
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "19px",
   color: SR_TROPAZ,
+  outline: "none",
 });
 const ChekConatiner = styled("div")({
   display: "flex",
@@ -98,13 +114,16 @@ const ChekConatiner = styled("div")({
   alignItems: "center",
 });
 const SignUp = styled("div")({
+  maxWidth: 466,
   textAlign: "center",
-  fontFamily: "ProximaNova",
+  fontFamily: "Proxima Nova",
   fontStyle: "normal",
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
   color: MAGNET,
+  marginTop: 16,
+  outline: "none",
 
   "& span": {
     fontWeight: "600",
@@ -115,94 +134,130 @@ const SignUp = styled("div")({
     color: ELECTRICVIOLET,
   },
 });
+const CssTextField = styled(TextField)({
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: MAIN_PURPLE,
+      paddingBottom: 1,
+    },
+  },
+  "&::placeholder": {
+    color: PLACEHOLDER_GRAY,
+  },
+  fontFamily: "Proxima Nova",
+  fontStyle: "normal",
+  fontWeight: "normal",
+  fontSize: "16px",
+  color: TEXT,
+  paddingTop: 1,
+  width: "100%",
+  marginBottom: 20,
+});
+const H5 = styled("h5")(({ theme }) => ({
+  fontFamily: "Proxima Nova",
+  fontStyle: "normal",
+  fontWeight: "normal",
+  fontSize: "16px",
+  lineHeight: "24px",
+  color: MAGNET,
+  marginLeft: 3,
+  marginBottom: 5,
+}));
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cheked, setCheked] = useState(true);
-
-  const handleChangeEmail = (event) => setEmail(event.target.value);
-  const handleChangePassword = (event) => setPassword(event.target.value);
+  const [cheked, setCheked] = useState(false);
+  const [errEmail, setErrEmail] = useState(false);
+  const [errPassword, setErrPassword] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const onHandleChangeCheked = () => setCheked(!cheked);
-  const signIN = [
-    {
-      value: email,
-      validetion: true,
-      name: "Email",
-      validetion: true,
-      errorText: "Your email is incorrect",
+  useEffect(() => {
+    if (!errPassword && !errEmail) {
+      return setDisabled(false);
+    }
+    return setDisabled(true);
+  }, [disabled, errPassword, errEmail]);
+  console.log(disabled);
+  console.log(errPassword, "pas");
 
-      onChange: setEmail,
-    },
-    // {
-    //   value: password,
-    //   validetion: false,
-    //   name: "Password",
-    //   onChange: setPassword,
-    // },
-  ];
   return (
     <>
       <ImgContainer>
-        <Container maxWidth="xl" style={{}}>
-          <Logo>
-            <img src={logo} />
-          </Logo>
-          <div
+        <Logo>
+          <img src={logo} />
+        </Logo>
+
+        <Form>
+          <H2>Sign in</H2>
+          <>
+            <H5>Email</H5>
+            <CssTextField
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
+              type="email"
+              size="small"
+              error={errEmail}
+              helperText={errEmail ? "Your email is incorrect" : null}
+              onBlur={() =>
+                emailValid(email) ? setErrEmail(false) : setErrEmail(true)
+              }
+            />
+          </>
+          <>
+            <H5>Password</H5>
+            <CssTextField
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
+              type="password"
+              size="small"
+              error={errPassword}
+              helperText={errPassword ? "Your password is incorrect" : null}
+              onBlur={() =>
+                passValid(password)
+                  ? setErrPassword(false)
+                  : setErrPassword(true)
+              }
+            />
+          </>
+          <ChekboxContainer
             style={{
-              maxWidth: 466,
+              display: "flex",
             }}
           >
-            <Form>
-              <H2>Sign in</H2>
-              <div>
-                {signIN.map((item) => (
-                  <Auth label={item} key={item.name} />
-                ))}
-              </div>
-              <AuthInput
-                placeholder="Email"
-                text="Email"
-                validetion={true}
-                value={email}
-                errorText="Your email is incorrect"
-                onChange={handleChangeEmail}
-              />
-              {/* <AuthInput
-                placeholder="Password"
-                text="Password"
-                value={password}
-                onChange={handleChangePassword}
-              /> */}
-
-              <ChekboxContainer
+            <ChekConatiner>
+              <Chekbox
+                onClick={onHandleChangeCheked}
                 style={{
-                  display: "flex",
+                  border: cheked ? `1px solid #8C0DF0` : null,
                 }}
               >
-                <ChekConatiner>
-                  <Chekbox
-                    onClick={onHandleChangeCheked}
-                    style={{
-                      border: cheked ? `1px solid #8C0DF0` : null,
-                    }}
-                  >
-                    {cheked ? <ChekboxActive /> : null}
-                  </Chekbox>
-                  <ChekboxLable onClick={onHandleChangeCheked}>
-                    Remember me
-                  </ChekboxLable>
-                </ChekConatiner>
-                <ForgotPassword>Forgot password?</ForgotPassword>
-              </ChekboxContainer>
+                {cheked ? <ChekboxActive /> : null}
+              </Chekbox>
+              <ChekboxLable onClick={onHandleChangeCheked}>
+                Remember me
+              </ChekboxLable>
+            </ChekConatiner>
+            <Link to={FORGOT_PASSWORD_ROUTE}>
+              <ForgotPassword>Forgot password?</ForgotPassword>
+            </Link>
+          </ChekboxContainer>
 
-              <AuthButton text="Sign in" />
-              <SignUp>
-                Dont you have an account?<span>Sign up</span>
-              </SignUp>
-            </Form>
-          </div>
-        </Container>
+          <MuiContainedBtn disabled={disabled}>Sign in</MuiContainedBtn>
+
+          {/* <AuthButton text="Sign in" /> */}
+
+          <SignUp>
+            {"Dont you have an account?"}
+            <Link to={SIGN_UP_ROUTE}>
+              <span>{"Sign up"}</span>
+            </Link>
+          </SignUp>
+        </Form>
       </ImgContainer>
     </>
   );

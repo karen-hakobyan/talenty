@@ -1,9 +1,11 @@
 import SignUpCompany from "./components/Sign/SignUpCompany";
 import SignIn from "./components/Sign/SignIn";
 import ForgotPassword from "./components/Sign/ForgotPassword";
+import ConfirmPassword from "./components/Sign/ConfirmPassword";
+import SingRoute from "./components/Sign/Sign";
 
 function App() {
-  return <SignUpCompany />;
+  return <SingRoute />;
 }
 
 export default App;

@@ -54,13 +54,6 @@ const Auth = ({ label }) => {
       return setErr(label.value === label.validetion);
     } else if (
       label.validetion &&
-      label.name.toLowerCase().includes("company")
-    ) {
-      return setErr(companyNameValid(label.value));
-    } else if (label.validetion && label.name.toLowerCase().includes("email")) {
-      return setErr(emailValid(label.value));
-    } else if (
-      label.validetion &&
       label.name.toLowerCase().includes("password")
     ) {
       return setErr(passValid(label.value));
