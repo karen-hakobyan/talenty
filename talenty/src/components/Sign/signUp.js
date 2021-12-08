@@ -68,5 +68,5 @@ export const CssTextField = styled(TextField)({
     },
     color: TEXT,
     paddingTop: 1,
-    width: "80%",
+    width: "100%",
 });

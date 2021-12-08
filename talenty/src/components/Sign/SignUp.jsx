@@ -11,16 +11,37 @@ import {
   StyledBGImage,
   MainStyledSpan,
 } from "./signUp";
+import {
+  companyNameValid,
+  nameValid,
+  emailValid,
+  passValid,
+} from "../../helpers/validation/fieldValidations";
 import SignUpField from "./SignUpField";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
-import Gagarin from "../Assets/SignImages/gagarin.png";
 import AlertDialog from "../Dialogs/Alert";
-
-export default function SignUp({ isCompany }) {
+import axios from "axios";
+export default function SignUp({ isCompany, img }) {
   const [alertMsg, setAlertMsg] = useState(false);
   const [terms, setTerms] = useState(false);
   const fieldLabels = useSelector((state) => state.signUp);
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const data = fieldLabels.reduce((accum, item) => {
+      accum[item.inputName] = item.value;
+      return accum;
+    }, {});
+    console.log(data);
+    axios
+      .post("http://localhost:7800/register/hr", {
+        ...data,
+      })
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(new Error(err));
+      });
+  };
 
   return (
     <StyledContainer>
@@ -64,7 +85,7 @@ export default function SignUp({ isCompany }) {
               }}
             >
               By creating an account, I agree to Talenty’s{" "}
-              <MainStyledSpan>Terms of use</MainStyledSpan> and
+              <MainStyledSpan>Terms of use</MainStyledSpan> and{" "}
               <MainStyledSpan>Privacy policy</MainStyledSpan> and to receive
               emails
             </Typography>
@@ -83,7 +104,7 @@ export default function SignUp({ isCompany }) {
         </FormControl>
       </StyledDiv>
       <StyledBGImage>
-        <img src={Gagarin} alt="sign up" />
+        <img src={img} alt="sign up" />
       </StyledBGImage>
       {!!alertMsg && <AlertDialog info={alertMsg} setOpen={setAlertMsg} />}
     </StyledContainer>

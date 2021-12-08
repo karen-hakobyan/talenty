@@ -2,27 +2,10 @@ import { useDispatch } from "react-redux";
 import { onChangeAction } from "../../features/signUp/signUpSlicer";
 import { Box } from "@mui/system";
 import "../../fonts/index.css";
-import { MAIN_PURPLE, TEXT } from "../../constants/colors";
-import { useState } from "react";
-import { Checkbox } from "@mui/material";
+import { TEXT } from "../../constants/colors";
 import { StyledSpan, CssTextField } from "./signUp";
-import {
-  companyNameValid,
-  nameValid,
-  emailValid,
-  passValid,
-} from "../../helpers/validation/fieldValidations";
 
 const SignUpFields = ({ label }) => {
-  const [err, setErr] = useState(false);
-  const validate =
-    label.action === "companyName"
-      ? companyNameValid
-      : label.action === "firstName" || label.action === "lastName"
-      ? nameValid
-      : label.action === "email"
-      ? emailValid
-      : passValid;
   const dispatch = useDispatch();
   return (
     <>
@@ -42,14 +25,8 @@ const SignUpFields = ({ label }) => {
                 )
               }
               sx={{ color: TEXT, paddingTop: 1 }}
-              // type={!show ? "password" : "text"}
               type="password"
               size="small"
-              error={err}
-              helperText={err && label.errMsg}
-              onBlur={() =>
-                validate(label.value) ? setErr(false) : setErr(true)
-              }
             />
           </>
         ) : (
@@ -64,12 +41,7 @@ const SignUpFields = ({ label }) => {
                 })
               )
             }
-            error={err}
-            helperText={err && label.errMsg}
             size="small"
-            onBlur={() =>
-              validate(label.value) ? setErr(false) : setErr(true)
-            }
           />
         )}
       </Box>
