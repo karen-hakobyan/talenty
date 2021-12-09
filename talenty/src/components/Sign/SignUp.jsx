@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Checkbox, FormControl, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import axios from "axios";
 import { MAIN_PURPLE, TEXT } from "../../constants/colors";
 import {
   StyledContainer,
@@ -20,27 +22,39 @@ import {
 import SignUpField from "./SignUpField";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertDialog from "../Dialogs/Alert";
-import axios from "axios";
+
 export default function SignUp({ isCompany, img }) {
   const [alertMsg, setAlertMsg] = useState(false);
   const [terms, setTerms] = useState(false);
+  let { pathname } = useLocation();
+  pathname = pathname.split("-").slice(-1)[0];
   const fieldLabels = useSelector((state) => state.signUp);
+
   const onSubmit = () => {
     const data = fieldLabels.reduce((accum, item) => {
       accum[item.inputName] = item.value;
       return accum;
     }, {});
+    if (pathname === "user") {
+      delete data.companyName;
+    }
     console.log(data);
-    axios
-      .post("http://localhost:7800/register/hr", {
-        ...data,
-      })
-      .then((resp) => {
-        console.log(resp);
-      })
-      .catch((err) => {
-        console.log(new Error(err));
-      });
+
+    if (!terms) {
+      setAlertMsg("Please check the Terms & Privacy policy");
+    } else {
+      axios
+        .post("http://localhost:7800/register/hr", {
+          ...data,
+        })
+        .then((resp) => {
+          console.log(resp);
+        })
+        .catch((err) => {
+          console.log(new Error(err));
+          setAlertMsg("Something went wrong please try after few minutes");
+        });
+    }
   };
 
   return (
