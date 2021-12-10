@@ -20,9 +20,20 @@ export default function AlertDialog({ info, setOpen }) {
           {`Problem has accured!!!`}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {info}
-          </DialogContentText>
+          {typeof info !== "object" ? (
+            <DialogContentText id="alert-dialog-description">
+              {info}
+            </DialogContentText>
+          ) : (
+            <>
+              <DialogContentText id="alert-dialog-description">
+                {info.part1}
+              </DialogContentText>
+              <DialogContentText id="alert-dialog-description">
+                {info.part2}
+              </DialogContentText>
+            </>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} autoFocus>

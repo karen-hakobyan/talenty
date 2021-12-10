@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Checkbox, FormControl, Typography } from "@mui/material";
 import { Box } from "@mui/system";
@@ -23,13 +22,57 @@ import SignUpField from "./SignUpField";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertDialog from "../Dialogs/Alert";
 
-export default function SignUp({ isCompany, img }) {
+export default function SignUp({ isCompany }) {
   const [alertMsg, setAlertMsg] = useState(false);
   const [terms, setTerms] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   let { pathname } = useLocation();
   pathname = pathname.split("-").slice(-1)[0];
-  const fieldLabels = useSelector((state) => state.signUp);
-
+  const fieldLabels = [
+    {
+      name: "Company name",
+      value: companyName,
+      inputName: "companyName",
+      onChange: setCompanyName,
+    },
+    {
+      name: "First name",
+      value: firstName,
+      inputName: "firstName",
+      onChange: setFirstName,
+    },
+    {
+      name: "Last name",
+      value: lastName,
+      inputName: "lastName",
+      onChange: setLastName,
+    },
+    {
+      name: "Email",
+      value: email,
+      inputName: "email",
+      onChange: setEmail,
+    },
+    {
+      name: "Password",
+      value: password,
+      inputName: "password",
+      onChange: setPassword,
+      isPass: true,
+    },
+    {
+      name: "Confirm password",
+      value: confirmPassword,
+      inputName: "confirmPassword",
+      onChange: setConfirmPassword,
+      isPass: true,
+    },
+  ];
   const onSubmit = () => {
     const data = fieldLabels.reduce((accum, item) => {
       accum[item.inputName] = item.value;
@@ -38,16 +81,29 @@ export default function SignUp({ isCompany, img }) {
     if (pathname === "user") {
       delete data.companyName;
     }
-    console.log(data);
 
     if (!terms) {
-      setAlertMsg("Please check the Terms & Privacy policy");
+      setAlertMsg("Check the Terms & Privacy policy");
+    } else if (isCompany && !companyNameValid(companyName)) {
+      setAlertMsg("Incorrect company name type");
+    } else if (!nameValid(firstName) || !nameValid(lastName)) {
+      setAlertMsg("Incorrect name or surname type");
+    } else if (!emailValid(email)) {
+      setAlertMsg("Incorrect email type");
+    } else if (!password || password !== confirmPassword) {
+      setAlertMsg("Passwords didn't mutch");
+    } else if (!passValid(password)) {
+      setAlertMsg({
+        part1: "Your password is weak!!! Should has",
+        part2: "8 characters, 1 uppercase, 1 special character, 1 number",
+      });
     } else {
       axios
         .post("http://localhost:7800/register/hr", {
           ...data,
         })
         .then((resp) => {
+          // ask about already have
           console.log(resp);
         })
         .catch((err) => {
@@ -64,7 +120,7 @@ export default function SignUp({ isCompany, img }) {
           sx={{
             ...style,
           }}
-          required={true}
+          required
           autoComplete="off"
           component="form"
           onSubmit={onSubmit}
@@ -118,7 +174,14 @@ export default function SignUp({ isCompany, img }) {
         </FormControl>
       </StyledDiv>
       <StyledBGImage>
-        <img src={img} alt="sign up" />
+        <img
+          src={
+            require(`../Assets/SignImages/${
+              pathname === "user" ? "user" : "company"
+            }.webp`).default
+          }
+          alt="sign up"
+        />
       </StyledBGImage>
       {!!alertMsg && <AlertDialog info={alertMsg} setOpen={setAlertMsg} />}
     </StyledContainer>
