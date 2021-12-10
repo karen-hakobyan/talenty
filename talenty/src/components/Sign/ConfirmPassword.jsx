@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import { Container, TextField } from "@mui/material";
-import AuthButton from "../../shared/AuthButton";
 import logo from "./SignPhoto/TalentyLogo.svg";
 import TalentyAuth from "./SignPhoto/talenty1.png";
 
@@ -20,6 +19,7 @@ const Logo = styled("div")(({ theme }) => ({
   justifyContent: "end",
   marginBottom: 146,
   paddingTop: 46,
+  marginRight: 60,
 }));
 const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
@@ -29,7 +29,6 @@ const ImgContainer = styled("div")(({ theme }) => ({
   backgroundSize: "auto",
 }));
 const Title = styled("h3")(({ theme }) => ({
-  maxWidth: 317,
   fontFamily: "Proxima Nova",
   fontStyle: "normal",
   fontWeight: 600,
@@ -94,7 +93,10 @@ function ConfirmPassword() {
         <img src={logo} />
       </Logo>
       <ContentContainer>
-        <Title>Please enter a new password for your account.</Title>
+        <Title>
+          Please enter a new
+          <br /> password for your account.
+        </Title>
 
         <H5>Password</H5>
         <CssTextField
@@ -104,11 +106,11 @@ function ConfirmPassword() {
           sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
           type="password"
           size="small"
-          error={errPassword}
-          helperText={errPassword ? "Your password is incorrect" : null}
-          onBlur={() =>
-            passValid(password) ? setErrPassword(true) : setErrPassword(false)
-          }
+          // error={errPassword}
+          // helperText={errPassword ? "Your password is incorrect" : null}
+          // onBlur={() =>
+          //   passValid(password) ? setErrPassword(true) : setErrPassword(false)
+          // }
         />
 
         <H5>Confirm password</H5>
@@ -119,15 +121,15 @@ function ConfirmPassword() {
           sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
           type="password"
           size="small"
-          error={errConfirmPassword}
-          helperText={errConfirmPassword ? "Passwords didn't match" : null}
-          onBlur={() =>
-            password === confirmPassword
-              ? setErrConfirmPassword(true)
-              : setErrConfirmPassword(false)
-          }
+          // error={errConfirmPassword}
+          // helperText={errConfirmPassword ? "Passwords didn't match" : null}
+          // onBlur={() =>
+          //   password === confirmPassword
+          //     ? setErrConfirmPassword(true)
+          //     : setErrConfirmPassword(false)
+          // }
         />
-        <MuiContainedBtn disabled>Submit</MuiContainedBtn>
+        <MuiContainedBtn>Submit</MuiContainedBtn>
       </ContentContainer>
     </ImgContainer>
   );

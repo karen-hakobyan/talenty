@@ -22,6 +22,7 @@ const Logo = styled("div")(({ theme }) => ({
   justifyContent: "end",
   marginBottom: 146,
   paddingTop: 46,
+  marginRight: 60,
 }));
 const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
@@ -43,7 +44,6 @@ const Title = styled(Typography)(({ theme }) => ({
 }));
 
 const Tetx = styled(Typography)(({ theme }) => ({
-  maxWidth: 319,
   width: "100%",
   fontFamily: "Proxima Nova",
   fontStyle: "normal",
@@ -124,8 +124,8 @@ function ForgotPassword() {
               fontWeight: "normal",
             }}
           >
-            Enter your email address below and we’ll send an email with a link
-            to update your password.
+            Enter your email address below and we’ll send an
+            <br /> email with a link to update your password.
           </Tetx>
 
           <H5>Email</H5>
@@ -137,11 +137,11 @@ function ForgotPassword() {
             sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
             type="email"
             size="small"
-            error={errEmail}
-            helperText={errEmail ? "Your email is incorrect" : null}
-            onBlur={() =>
-              emailValid(email) ? setErrEmail() : setErrEmail(true)
-            }
+            // error={errEmail}
+            // helperText={errEmail ? "Your email is incorrect" : null}
+            // onBlur={() =>
+            //   emailValid(email) ? setErrEmail() : setErrEmail(true)
+            // }
           />
           <MuiContainedBtn disabled={false} onClick={() => setOpen(true)}>
             Submit

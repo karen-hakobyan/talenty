@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
-import DeleteIcon from "../Assets/Icons/deleteIcon.js";
-import EditSquareIcon from "../Assets/Icons/editSquareIcon.js";
+import DeleteIcon from "../Assets/Icons/deleteIcon.jsx";
+import EditSquareIcon from "../Assets/Icons/editSquareIcon.jsx";
 import { Magnet } from "../../colors/colors.js";
 
 const Container = styled("div")(({ theme }) => ({
@@ -32,7 +32,7 @@ function CvSections(props) {
 
   return (
     <>
-      <Container>
+      {/* <Container>
         <H5>
           {item.title}
           {item.spanText !== undefined ? <Span>{item.spanText}</Span> : null}
@@ -47,7 +47,7 @@ function CvSections(props) {
             <span>Delete</span>
           </button>
         </div>
-      </Container>
+      </Container> */}
     </>
   );
 }

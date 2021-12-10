@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { styled } from "@mui/system";
 
 import EditIcon from "../Assets/Icons/editIcon.js";
-import PaperIcon from "../Assets/Icons/paperIcon.js";
-import PluseIcon from "../Assets/Icons/pluseIcon.js";
+import PaperIcon from "../Assets/Icons/paperIcon.jsx";
+import PluseIcon from "../Assets/Icons/pluseIcon.jsx";
 import TickSquareIcon from "../Assets/Icons/tickSquareIcon.js";
 import Container from "@mui/material/Container";
 import { Gray90, Magnet, Pink } from "../../colors/colors.js";
-import CvSections from "./CvSections.js";
+import CvSections from "./CvSections.jsx";
 
 const BackgroundColor = styled("div")({
   backgroundColor: Gray90,
@@ -88,39 +88,37 @@ const item = [
 ];
 
 function CvTemplate() {
-  const [editeCvName, setEditeCvName] = useState(true);
-  const [editeName, setEditeName] = useState("CV Template Name");
-  const changeName = (event) => setEditeName(event.target.value);
-  const renderCvSectionItem = (item) => <CvSections item={item} />;
-  return (
-    <>
-      <BackgroundColor>
-        <Container maxWidth="lg">
-          <CreateCVTamlateContainer>
-            <PaperIcons />
-            <CvTitle>Create CV Template</CvTitle>
-          </CreateCVTamlateContainer>
-          <CvName>
-            {editeCvName === false ? (
-              <CvNameTitle>{editeName}</CvNameTitle>
-            ) : (
-              <CvNameInput
-                type="text"
-                value={editeName}
-                onChange={changeName}
-              />
-            )}
-
-            <TickSquareIcon />
-
-            <Edite onClick={() => setEditeCvName(!editeCvName)} />
-          </CvName>
-          <Border />
-          <div>{item.map((item) => renderCvSectionItem(item))}</div>
-        </Container>
-      </BackgroundColor>
-    </>
-  );
+  // const [editeCvName, setEditeCvName] = useState(true);
+  // const [editeName, setEditeName] = useState("CV Template Name");
+  // const changeName = (event) => setEditeName(event.target.value);
+  // const renderCvSectionItem = (item) => <CvSections item={item} />;
+  // return (
+  //   <>
+  //     <BackgroundColor>
+  //       <Container maxWidth="lg">
+  //         <CreateCVTamlateContainer>
+  //           <PaperIcons />
+  //           <CvTitle>Create CV Template</CvTitle>
+  //         </CreateCVTamlateContainer>
+  //         <CvName>
+  //           {editeCvName === false ? (
+  //             <CvNameTitle>{editeName}</CvNameTitle>
+  //           ) : (
+  //             <CvNameInput
+  //               type="text"
+  //               value={editeName}
+  //               onChange={changeName}
+  //             />
+  //           )}
+  //           <TickSquareIcon />
+  //           <Edite onClick={() => setEditeCvName(!editeCvName)} />
+  //         </CvName>
+  //         <Border />
+  //         <div>{item.map((item) => renderCvSectionItem(item))}</div>
+  //       </Container>
+  //     </BackgroundColor>
+  //   </>
+  // );
 }
 
 export default CvTemplate;

@@ -3,7 +3,6 @@ import { styled } from "@mui/system";
 import { Container, TextField } from "@mui/material";
 import logo from "./SignPhoto/TalentyLogo.svg";
 import TalentyAuth from "./SignPhoto/talenty.png";
-import AuthButton from "../../shared/AuthButton";
 import "../../fonts/index.css";
 import { Link } from "react-router-dom";
 import {

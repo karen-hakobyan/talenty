@@ -42,11 +42,11 @@ const SignUpFields = ({ label }) => {
               sx={{ color: TEXT, paddingTop: 1 }}
               type={!show ? "password" : "text"}
               size="small"
-              error={err}
-              helperText={err && label.errMsg}
-              onBlur={() =>
-                label.valid(label.value) ? setErr(false) : setErr(true)
-              }
+              // error={err}
+              // helperText={err && label.errMsg}
+              // onBlur={() =>
+              //   label.valid(label.value) ? setErr(false) : setErr(true)
+              // }
             />
             {/* <Checkbox
               sx={{
