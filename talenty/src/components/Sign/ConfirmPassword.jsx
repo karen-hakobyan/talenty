@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import { Container, TextField } from "@mui/material";
 import logo from "./SignPhoto/TalentyLogo.svg";
-import TalentyAuth from "./SignPhoto/talenty1.png";
+import TalentyAuth from "./../Assets/SignImages/TalentyAuth1.png";
 
 import "../../fonts//index.css";
 import {
@@ -26,7 +26,7 @@ const ImgContainer = styled("div")(({ theme }) => ({
   backgroundImage: `url(${TalentyAuth})`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right",
-  backgroundSize: "auto",
+  backgroundSize: "42%",
 }));
 const Title = styled("h3")(({ theme }) => ({
   fontFamily: "Proxima Nova",

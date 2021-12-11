@@ -9,19 +9,20 @@ import {
 import ConfirmPassword from "./ConfirmPassword";
 import ForgotPassword from "./ForgotPassword";
 import SignIn from "./SignIn";
-import SignUp from "./SignUpCompany";
 
 function SingRoute() {
   return (
     <>
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path={SIGN_UP_ROUTE} element={<SignUp />} />
           <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword />} />
-          <Route path={CONFIRME_PASSWORD_ROUTE} element={<ConfirmPassword />} />
+
+          <Route path="sign-up-company" element={<SignUp isCompany={true} />} />
+          <Route path="sign-up-user" element={<SignUp isCompany={false} />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
     </>
   );
 }

@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 import { Container, TextField, Typography } from "@mui/material";
 import AuthButton from "../../shared/AuthButton";
 import logo from "./SignPhoto/TalentyLogo.svg";
-import TalentyAuth from "./SignPhoto/talenty1.png";
+import TalentyAuth from "./../Assets/SignImages/TalentyAuth2.png";
 import { useNavigate } from "react-router-dom";
 import "../../fonts//index.css";
 import {
@@ -29,7 +29,7 @@ const ImgContainer = styled("div")(({ theme }) => ({
   backgroundImage: `url(${TalentyAuth})`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right",
-  backgroundSize: "auto",
+  backgroundSize: "42%",
 }));
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
