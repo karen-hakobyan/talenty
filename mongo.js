@@ -988,39 +988,235 @@ let systemTemplate = {
     ]
 }
 
-// let companies = [
-//     {
-//         _id: ObjectId(),
-//         company_name: "company name",
-//         first_name: "first name",
-//         last_name: "last name",
-//         email: "company@gmail.com",
-//         password: "test",
-//         verified_account: false
-//     },
-//     {
-//         _id: ObjectId(),
-//         company_name: "company name 2",
-//         first_name: "first name 2",
-//         last_name: "last name 2",
-//         email: "company@gmail.com 2",
-//         password: "test 2",
-//         verified_account: true
-//     }
-// ]
+let jobAnnouncement = {
+    _id: ObjectId(),
+    system: true,
+    name: "System Job Announcement",
+    fields: [
+        {
+            _id: ObjectId(),
+            name: "General Information",
+            metadata: {
+                type: "section",
+                deletable: false,
+                editable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Title",
+                    metadata: {
+                        type: "text",
+                        maxLength: 100,
+                        deletable: false,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Employment terms",
+                    metadata: {
+                        type: "employment_terms",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Job type",
+                    metadata: {
+                        type: "job_type",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Job Category",
+                    metadata: {
+                        type: "job_category",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Candidate level",
+                    metadata: {
+                        type: "candidate_level",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Country",
+                    metadata: {
+                        type: "country",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "City",
+                    metadata: {
+                        type: "city",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Salary",
+                    metadata: {
+                        type: "section",
+                        deletable: false,
+                        required: false
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Type",
+                            metadata: {
+                                type: "section",
+                                deletable: false,
+                                required: false
+                            },
+                            fields: [
+                                {
+                                    _id: ObjectId(),
+                                    name: "Net",
+                                    metadata: {
+                                        type: "salary_type_ja",
+                                        value: "Net"
+                                    }
+                                },{
+                                    _id: ObjectId(),
+                                    name: "Gross",
+                                    metadata: {
+                                        type: "salary_type_ja",
+                                        value: "Gross"
+                                    }
+                                },
+                            ]
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "From",
+                            metadata: {
+                                type: "int",
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "To",
+                            metadata: {
+                                type: "int",
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Currency",
+                            metadata: {
+                                type: "currency",
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Deadline",
+                            metadata: {
+                                type: "deadline_ja",
+                                maxLength: 100,
+                                deletable: false,
+                                required: false
+                            }
+                        },
+                    ]
+                }
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Vacancy details",
+            metadata: {
+                type: "section",
+                deletable: false,
+                editable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Description",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Responsibilities",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Required qualifications",
+                    metadata: {
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: false
+                    }
+                },
+            ]
+        },
+        {
+            _id: ObjectId(),
+            name: "Skills",
+            metadata: {
+                type: "section",
+                deletable: false,
+                editable: true,
+                display: "fold"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Professional skills",
+                    metadata: {
+                        type: "professional_skills",
+                        deletable: false,
+                        required: false
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Soft skills",
+                    metadata: {
+                        type: "soft_skills",
+                        deletable: false,
+                        required: false
+                    }
+                },
+            ]
+        }
+    ]
+}
 
-// let users = {
-//     _id: ObjectId(),
-//     first_name: "first name user",
-//     last_name: "last name 2",
-//     email: "company@gmail.com 2",
-//     password: "test 2",
-//     role: 'admin',
-//     company_id: {$match: {'company_name': 'company name'}},
-//     verified_account: true
-// }
-
-// noinspection JSUnresolvedVariable
 db.templates.insert(systemTemplate);
-// db.companies.insert(companies)
-// db.users.insert(users)
+db.job_announcement.insert(jobAnnouncement);
