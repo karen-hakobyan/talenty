@@ -26,4 +26,5 @@ public class TokenService {
     public Optional<TokenDocument> findByValue(final String token) {
         return tokenRepository.findByValue(token);
     }
+
 }
