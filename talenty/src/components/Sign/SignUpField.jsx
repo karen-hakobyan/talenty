@@ -17,7 +17,23 @@ const SignUpFields = ({ label }) => {
               sx={{ color: TEXT, paddingTop: 1 }}
               type="password"
               size="small"
+              // error={err}
+              // helperText={err && label.errMsg}
+              // onBlur={() =>
+              //   label.valid(label.value) ? setErr(false) : setErr(true)
+              // }
             />
+            {/* <Checkbox
+              sx={{
+                "& .MuiSvgIcon-root": {
+                  fontSize: 28,
+                  color: MAIN_PURPLE,
+                },
+              }}
+              checked={show}
+              onClick={() => setShow((prev) => !prev)}
+            /> */}
+
           </>
         ) : (
           <CssTextField
