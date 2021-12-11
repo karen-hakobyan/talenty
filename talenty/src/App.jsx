@@ -1,5 +1,7 @@
-import SignUp from "./components/Sign/SignUp.jsx";
+import SignUp from "./components/Sign/SignUp.js";
 import { Routes, Route } from "react-router-dom";
+import React from "react";
+import CvTemplate from "./components/CvTemplate/CvTemplate";
 
 function App() {
   return (
