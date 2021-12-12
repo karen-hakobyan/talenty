@@ -21,6 +21,7 @@ import {
 import SignUpField from "./SignUpField";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertDialog from "../Dialogs/Alert";
+import { POST_SIGN_UP } from "../../constants/requests";
 
 export default function SignUp({ isCompany }) {
   const [alertMsg, setAlertMsg] = useState(false);
@@ -99,11 +100,10 @@ export default function SignUp({ isCompany }) {
       });
     } else {
       axios
-        .post("http://localhost:7800/register/hr", {
+        .post(POST_SIGN_UP, {
           ...data,
         })
         .then((resp) => {
-          // ask about already have
           console.log(resp);
         })
         .catch((err) => {

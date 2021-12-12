@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
-import { Container, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import logo from "./SignPhoto/TalentyLogo.svg";
-import TalentyAuth from "./../Assets/SignImages/TalentyAuth1.png";
+import TalentyAuth from "../Assets/SignImages/user.webp";
 
 import "../../fonts//index.css";
 import {
-  MAGNET,
   MAIN_PURPLE,
   NIGHT_RIDER,
   PLACEHOLDER_GRAY,
   TEXT,
 } from "../../constants/colors";
-import { passValid } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 const Logo = styled("div")(({ theme }) => ({
   display: "flex",
@@ -64,7 +62,7 @@ const H5 = styled("h5")(({ theme }) => ({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
-  color: MAGNET,
+  color: TEXT,
   marginLeft: 3,
   marginBottom: 5,
 }));
@@ -121,13 +119,6 @@ function ConfirmPassword() {
           sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
           type="password"
           size="small"
-          // error={errConfirmPassword}
-          // helperText={errConfirmPassword ? "Passwords didn't match" : null}
-          // onBlur={() =>
-          //   password === confirmPassword
-          //     ? setErrConfirmPassword(true)
-          //     : setErrConfirmPassword(false)
-          // }
         />
         <MuiContainedBtn>Submit</MuiContainedBtn>
       </ContentContainer>

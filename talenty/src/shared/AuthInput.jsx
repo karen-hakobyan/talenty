@@ -4,7 +4,7 @@ import "../fonts/index.css";
 import {
   ELECTRICVIOLET,
   ERROR_COLOR,
-  MAGNET,
+  TEXT,
   PLACEHOLDER_GRAY,
 } from "../constants/colors";
 import {
@@ -12,7 +12,6 @@ import {
   emailValid,
   passValid,
 } from "../helpers/validation/fieldValidations";
-import { FormControl, FormHelperText, Input, InputLabel } from "@mui/material";
 
 const Container = styled("div")({
   marginTop: 20,
@@ -24,7 +23,7 @@ const H5 = styled("h5")(({ theme }) => ({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
-  color: MAGNET,
+  color: TEXT,
   marginLeft: 3,
   marginBottom: 10,
 }));
@@ -46,7 +45,7 @@ const Inputs = styled("input")(({ theme }) => ({
 
   transition: "all 0.4s",
   "&:focus": {
-    color: MAGNET,
+    color: TEXT,
     transition: "all 0.4s",
   },
   "&.error": {

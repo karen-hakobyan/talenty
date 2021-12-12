@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
-import { Container, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import logo from "./SignPhoto/TalentyLogo.svg";
-import TalentyAuth from "./../Assets/SignImages/TalentyAuth1.png";
+import TalentyAuth from "../Assets/SignImages/company.webp";
 import "../../fonts/index.css";
 import { Link } from "react-router-dom";
 import {
   ELECTRICVIOLET,
-  MAGNET,
+  TEXT,
   MAIN_PURPLE,
   PLACEHOLDER_GRAY,
   SR_TROPAZ,
-  TEXT,
 } from "../../constants/colors";
-import {
-  FORGOT_PASSWORD_ROUTE,
-  SIGN_UP_ROUTE,
-} from "../../helpers/routes/routes";
+import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
 import {
   emailValid,
   passValid,
 } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
+import axios from "axios";
 
 const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
@@ -54,10 +51,6 @@ const Form = styled("form")({
   maxWidth: 466,
   marginLeft: "154px",
 });
-const ContentContainer = styled("div")(({ tehem }) => ({
-  maxWidth: 466,
-  marginLeft: "154px",
-}));
 
 const Chekbox = styled("div")({
   width: 20,
@@ -95,7 +88,7 @@ const ChekboxLable = styled("span")(({ theme }) => ({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
-  color: MAGNET,
+  color: TEXT,
   cursor: "pointer",
 }));
 const ForgotPassword = styled("div")({
@@ -120,7 +113,7 @@ const SignUp = styled("div")({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
-  color: MAGNET,
+  color: TEXT,
   marginTop: 16,
   outline: "none",
 
@@ -158,7 +151,7 @@ const H5 = styled("h5")(({ theme }) => ({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
-  color: MAGNET,
+  color: TEXT,
   marginLeft: 3,
   marginBottom: 5,
 }));
@@ -171,6 +164,15 @@ function SignIn() {
   const [errPassword, setErrPassword] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const onHandleChangeCheked = () => setCheked(!cheked);
+  const onSubmit = () => {
+    axios
+      .post("http://localhost:7800/login", {
+        email,
+        password,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     if (!errPassword && !errEmail) {
       return setDisabled(false);
@@ -246,7 +248,9 @@ function SignIn() {
             </Link>
           </ChekboxContainer>
 
-          <MuiContainedBtn disabled={disabled}>Sign in</MuiContainedBtn>
+          <MuiContainedBtn onClick={onSubmit} disabled={disabled}>
+            Sign in
+          </MuiContainedBtn>
 
           {/* <AuthButton text="Sign in" /> */}
 

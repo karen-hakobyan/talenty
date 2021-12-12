@@ -1,13 +1,9 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Close from "./SignPhoto/CloseSquare.svg";
-import { Box } from "@mui/system";
-import { ELECTRICVIOLET, MAGNET } from "../../constants/colors";
+import { TEXT } from "../../constants/colors";
 import "./../../fonts/index.css";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 
@@ -31,10 +27,10 @@ function AlertMessage({ handleClose, open }) {
               fontWeight: "normal",
               fontSize: "16px",
               lineHeight: "24px",
-              color: MAGNET,
+              color: TEXT,
             }}
           >
-            The letter was sent to your Email
+            Please, check your email
           </DialogContentText>
         </DialogContent>
         <DialogActions

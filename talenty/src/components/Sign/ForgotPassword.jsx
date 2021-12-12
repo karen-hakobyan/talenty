@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
-import { Container, TextField, Typography } from "@mui/material";
-import AuthButton from "../../shared/AuthButton";
+import { TextField, Typography } from "@mui/material";
 import logo from "./SignPhoto/TalentyLogo.svg";
-import TalentyAuth from "./../Assets/SignImages/TalentyAuth2.png";
+import TalentyAuth from "../Assets/SignImages/user.webp";
 import { useNavigate } from "react-router-dom";
 import "../../fonts//index.css";
 import {
-  MAGNET,
   MAIN_PURPLE,
   NIGHT_RIDER,
   PLACEHOLDER_GRAY,
   TEXT,
 } from "../../constants/colors";
-import { CONFIRME_PASSWORD_ROUTE } from "../../helpers/routes/routes";
 import { emailValid } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertMessage from "./AlertMessage";
+import axios from "axios";
 const Logo = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "end",
@@ -50,7 +48,7 @@ const Tetx = styled(Typography)(({ theme }) => ({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "22px",
-  color: MAGNET,
+  color: TEXT,
 }));
 const H5 = styled("h5")(({ theme }) => ({
   fontFamily: "Proxima Nova",
@@ -58,7 +56,7 @@ const H5 = styled("h5")(({ theme }) => ({
   fontWeight: "normal",
   fontSize: "16px",
   lineHeight: "24px",
-  color: MAGNET,
+  color: TEXT,
   marginLeft: 3,
   marginBottom: 5,
   marginTop: 36,
@@ -93,10 +91,13 @@ function ForgotPassword() {
   const [disabled, setDisabled] = useState(true);
   const [open, setOpen] = useState(false);
 
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(CONFIRME_PASSWORD_ROUTE);
+  const onSubmit = () => {
+    axios
+      .get(`http://localhost:7800/reset/password?email=${email}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
+
   useEffect(() => {
     if (!errEmail) {
       return setDisabled(false);
@@ -137,13 +138,13 @@ function ForgotPassword() {
             sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
             type="email"
             size="small"
-            // error={errEmail}
-            // helperText={errEmail ? "Your email is incorrect" : null}
-            // onBlur={() =>
-            //   emailValid(email) ? setErrEmail() : setErrEmail(true)
-            // }
+            error={errEmail}
+            helperText={errEmail ? "Your email is incorrect" : null}
+            onBlur={() =>
+              emailValid(email) ? setErrEmail() : setErrEmail(true)
+            }
           />
-          <MuiContainedBtn disabled={false} onClick={() => setOpen(true)}>
+          <MuiContainedBtn disabled={false} onClick={onSubmit}>
             Submit
           </MuiContainedBtn>
           {open && <AlertMessage handleClose={setOpen} open={open} />}
