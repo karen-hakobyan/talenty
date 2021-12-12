@@ -15,6 +15,7 @@ public class TemplateService {
     }
 
     public Template getSystemTemplate() {
+        System.out.println("2");
         return TemplateMapper.instance.documentToDto(templateRepository.findSystemTemplate());
     }
 

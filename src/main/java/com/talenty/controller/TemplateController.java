@@ -21,6 +21,7 @@ public class TemplateController {
 
     @GetMapping("/system")
     public ResponseEntity<?> getSystemTemplate() {
+        System.out.println("1");
         Template systemTemplate = templateService.getSystemTemplate();
         return ResponseEntity.ok(systemTemplate);
     }
