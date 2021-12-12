@@ -1006,7 +1006,6 @@ let filled_template_example = {
             ]
         }
     ]
-
 }
 
 let jobAnnouncement = {
