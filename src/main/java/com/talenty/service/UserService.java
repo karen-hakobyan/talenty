@@ -5,6 +5,8 @@ import com.talenty.domain.dto.user.UserLoginRequestDetails;
 import com.talenty.domain.dto.user.UserLoginResponseDetails;
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
+import com.talenty.email.EmailSender;
+import com.talenty.exceptions.IsNotVerifiedAccountException;
 import com.talenty.exceptions.TokenNotFoundException;
 import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.mapper.UserBuilder;
@@ -21,12 +23,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserBuilder userBuilder;
     private final TokenService tokenService;
+    private final EmailSender emailSender;
 
-    public UserService(final UserRepository userRepository, final PasswordEncoder passwordEncoder, final UserBuilder userBuilder, final TokenService tokenService) {
+    public UserService(final UserRepository userRepository, final PasswordEncoder passwordEncoder, final UserBuilder userBuilder, final TokenService tokenService, EmailSender emailSender) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userBuilder = userBuilder;
         this.tokenService = tokenService;
+        this.emailSender = emailSender;
     }
 
     public UserLoginResponseDetails login(final UserLoginRequestDetails request) {
@@ -41,6 +45,12 @@ public class UserService {
 
         if (!passwordsMatch) {
             throw new UserNotFoundException();
+        }
+
+        final UserDocument user = userOptional.get();
+        if(!user.isVerifiedAccount()) {
+            emailSender.sendConfirmation(user.getEmail(), tokenService.generate(user));
+            throw new IsNotVerifiedAccountException();
         }
 
         return userBuilder.buildAuthenticatedUser(userOptional.get());
