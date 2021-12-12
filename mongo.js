@@ -1238,5 +1238,6 @@ let jobAnnouncement = {
     ]
 }
 
+
 db.templates.insert(systemTemplate);
 db.job_announcement.insert(jobAnnouncement);
