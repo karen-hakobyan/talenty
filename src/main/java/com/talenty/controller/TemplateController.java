@@ -4,9 +4,7 @@ import com.talenty.domain.dto.Template;
 import com.talenty.service.TemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/templates")
@@ -23,6 +21,12 @@ public class TemplateController {
     public ResponseEntity<?> getSystemTemplate() {
         Template systemTemplate = templateService.getSystemTemplate();
         return ResponseEntity.ok(systemTemplate);
+    }
+
+    @PostMapping("/save_filled_template")
+    public ResponseEntity<?> saveFilledTemplate(@RequestBody final Template template) {
+        templateService.saveFilledTemplate(template);
+        return ResponseEntity.ok("saved_filled_template");
     }
 
 }

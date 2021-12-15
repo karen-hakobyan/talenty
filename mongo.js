@@ -988,6 +988,26 @@ let systemTemplate = {
     ]
 }
 
+let filled_template_example = {
+//    Same as systemTemplate only with values in metadata
+}
+
+let filled_template_example = {
+    _id: ObjectId(),
+    template_id: "get_from_templates_with_comparing",
+    field:[
+        {
+            section_id: "id_of_section",
+            fields:[
+                {
+                    field_id: "get_id_field",
+                    value: "value_from_metadata_of_field"
+                }
+            ]
+        }
+    ]
+}
+
 let jobAnnouncement = {
     _id: ObjectId(),
     system: true,
@@ -1217,6 +1237,7 @@ let jobAnnouncement = {
         }
     ]
 }
+
 
 db.templates.insert(systemTemplate);
 db.job_announcement.insert(jobAnnouncement);
