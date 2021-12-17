@@ -186,7 +186,7 @@ function SignIn() {
     <>
       <ImgContainer>
         <Logo>
-          <img src={logo} />
+          <img src={logo} alt="logo" />
         </Logo>
 
         <Form>

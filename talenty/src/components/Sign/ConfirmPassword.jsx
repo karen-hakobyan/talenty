@@ -88,7 +88,7 @@ function ConfirmPassword() {
   return (
     <ImgContainer>
       <Logo>
-        <img src={logo} />
+        <img src={logo} alt="logo" />
       </Logo>
       <ContentContainer>
         <Title>

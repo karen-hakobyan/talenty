@@ -1,5 +1,5 @@
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import {
   Container,
   List,
@@ -21,13 +21,18 @@ import { Box } from "@mui/system";
 import { ListStyle, TextFieldStyle, StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
-
+import PersonalInfo from "../Dialogs/PersonalInfo";
 function CvTemplateMain() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [tempName, setTempName] = useState("CV Template name");
   const [toggle, setToggle] = useState(true);
+  const [activeData, setActiveData] = useState(null);
 
   const onAddSection = () => {};
+  const onDialogOpen = useCallback(
+    (editedItem) => setActiveData(editedItem),
+    []
+  );
   useEffect(() => {
     axios
       .get(GET_TEMPLATES)
@@ -78,7 +83,9 @@ function CvTemplateMain() {
           <TextField
             sx={TextFieldStyle}
             fullWidth
-            onBlur={() => setToggle(true)}
+            onBlur={() => tempName && setToggle(true)}
+            error={true}
+            helperText={!tempName && "You should have name for the Template"}
             value={tempName}
             onChange={(e) => setTempName(e.target.value)}
             variant="standard"
@@ -88,8 +95,8 @@ function CvTemplateMain() {
           data.fields.map((item) => (
             <TemplateItem
               key={item.id}
-              fieldName={item.name}
-              metadata={item.metadata}
+              item={item}
+              onDialogOpen={onDialogOpen}
             />
           ))
         ) : (
@@ -102,12 +109,15 @@ function CvTemplateMain() {
       </List>
       <Box sx={StyledBtns}>
         <Box component="img" src={AddSection} onClick={onAddSection} />
-        {false ? (
+        {true ? (
           <Box component="img" src={CreateCV} />
         ) : (
           <Box component="img" src={CreateCVDisabled} />
         )}
       </Box>
+      {!!activeData && activeData.id === "61b0ec57f859615fcace5470" && (
+        <PersonalInfo data={activeData} onDialogOpen={onDialogOpen} />
+      )}
     </Container>
   );
 }

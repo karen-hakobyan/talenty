@@ -1,3 +1,6 @@
+import { Checkbox, styled } from "@mui/material";
+import { MAIN_PURPLE } from "../../constants/colors";
+
 export const ListStyle = {
     width: "100%",
     maxWidth: "100%",
@@ -25,3 +28,27 @@ export const StyledBtns = {
     img: { "&:last-child": { ml: 2 }, cursor: "pointer" },
     mb: "2%",
 };
+
+export const StyledNames = {
+    display: "flex",
+    flexDirection: "column",
+    mb: 2,
+    span: {
+        mt: 0.2,
+    },
+};
+
+export const StyledGenders = {
+    flexDirection: "column",
+    display: "flex",
+    mb: 2,
+    span: {
+        mt: 0.2,
+    },
+};
+
+export const StyledCheckbox = styled(Checkbox)({
+    "& .MuiSvgIcon-root": {
+        color: MAIN_PURPLE,
+    },
+});

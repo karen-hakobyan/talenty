@@ -4,8 +4,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { memo } from "react";
 
-export default function AlertDialog({ info, setOpen }) {
+function AlertDialog({ info, setOpen }) {
   const handleClose = () => setOpen(null);
 
   return (
@@ -44,3 +45,5 @@ export default function AlertDialog({ info, setOpen }) {
     </div>
   );
 }
+
+export default memo(AlertDialog);

@@ -33,7 +33,6 @@ const SignUpFields = ({ label }) => {
               checked={show}
               onClick={() => setShow((prev) => !prev)}
             /> */}
-
           </>
         ) : (
           <CssTextField
