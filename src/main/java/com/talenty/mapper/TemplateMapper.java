@@ -12,4 +12,6 @@ public interface TemplateMapper {
 
     Template documentToDto(TemplateDocument document);
 
+    TemplateDocument dtoToTemplate(Template template);
+
 }

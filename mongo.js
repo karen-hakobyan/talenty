@@ -988,25 +988,109 @@ let systemTemplate = {
     ]
 }
 
-let filled_template_example = {
-//    Same as systemTemplate only with values in metadata
-}
-
-let filled_template_example = {
+let systemTemplate_test = {
     _id: ObjectId(),
-    template_id: "get_from_templates_with_comparing",
-    field:[
+    system: true,
+    name: "System Template",
+    fields: [
         {
-            section_id: "id_of_section",
-            fields:[
+            _id: ObjectId(),
+            name: "Personal Info",
+            metadata: {
+                type: "section",
+                deletable: false,
+                display: "fold"
+            },
+            fields: [
                 {
-                    field_id: "get_id_field",
-                    value: "value_from_metadata_of_field"
+                    _id: ObjectId(),
+                    name: "First name",
+                    metadata: {
+                        type: "text",
+                        maxLength: 100,
+                        editable: false,
+                        required_editable: false,
+                        deletable: false,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Last name",
+                    metadata: {
+                        type: "text",
+                        maxLength: 100,
+                        editable: false,
+                        required_editable: false,
+                        deletable: false,
+                        required: true
+                    }
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Date of birth",
+                    metadata: {
+                        type: "section",
+                        editable: false,
+                        required_editable: true,
+                        deletable: true,
+                        required: true
+                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Day",
+                            metadata: {
+                                type: "day",
+                                editable: false,
+                                deletable: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Month",
+                            metadata: {
+                                type: "month",
+                                editable: false,
+                                deletable: false
+                            }
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Year",
+                            metadata: {
+                                type: "year",
+                                editable: false,
+                                deletable: false
+                            }
+                        }
+                    ]
                 }
             ]
         }
     ]
 }
+
+// let filled_template_example = {
+// //    Same as systemTemplate only with values in metadata
+// }
+
+// let filled_template_example = {
+//     _id: ObjectId(),
+//     parent_id: "get_from_templates_with_comparing",
+//     field:[
+//         {
+//             _id: "id_of_section",
+//             fields:[
+//                 {
+//                     _id: "get_id_field",
+//                     value: "value_from_metadata_of_field"
+//                 }
+//             ]
+//
+//         }
+//     ]
+// }
 
 let jobAnnouncement = {
     _id: ObjectId(),
@@ -1112,7 +1196,7 @@ let jobAnnouncement = {
                                         type: "salary_type_ja",
                                         value: "Net"
                                     }
-                                },{
+                                }, {
                                     _id: ObjectId(),
                                     name: "Gross",
                                     metadata: {
@@ -1240,4 +1324,5 @@ let jobAnnouncement = {
 
 
 db.templates.insert(systemTemplate);
+db.templates.insert(systemTemplate_test);
 db.job_announcement.insert(jobAnnouncement);
