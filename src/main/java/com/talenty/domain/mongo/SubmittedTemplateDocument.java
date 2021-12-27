@@ -9,12 +9,12 @@ import java.util.List;
 
 @Getter
 @Setter
-@Document("filled_templates")
-public class FilledTemplateDocument {
+@Document("submitted_templates")
+public class SubmittedTemplateDocument {
 
     @Id
     private String id;
     private String parentId;
-    private List<FilledFieldDocument> fields;
+    private List<SubmittedFieldDocument> fields;
 
 }
