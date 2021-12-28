@@ -14,6 +14,7 @@ public class ValidationChecker {
     private static final Pattern COMPANY_NAME_REGEX = Pattern.compile("^[a-zA-Z]([a-zA-Z0-9.-_,]|[- @.#&!])*$");
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$");
     private static final Pattern PASSWORD_REGEX = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+    private static final Pattern DATE_REGEX = Pattern.compile("^\\d{2}?[/]\\d{2}?[/]\\d{4}$");
 
     public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
         return isEmailValid(details.getEmail()) &&
@@ -47,21 +48,6 @@ public class ValidationChecker {
 
             case "gender": {
                 System.out.println("gender");
-                break;
-            }
-
-            case "day": {
-                System.out.println("day");
-                break;
-            }
-
-            case "month": {
-                System.out.println("month");
-                break;
-            }
-
-            case "year": {
-                System.out.println("year");
                 break;
             }
 
@@ -111,7 +97,10 @@ public class ValidationChecker {
             }
 
             case "date": {
-                System.out.println("date");
+                final String value = (String) submittedMetadata.get("value");
+                if (!DATE_REGEX.matcher(value).matches()) {
+                    throw new InvalidDateFormatException();
+                }
                 break;
             }
 
