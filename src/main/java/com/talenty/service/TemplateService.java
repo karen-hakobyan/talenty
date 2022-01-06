@@ -1,6 +1,7 @@
 package com.talenty.service;
 
 import com.talenty.domain.dto.Template;
+import com.talenty.domain.mongo.SubmittedTemplateDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.TemplateRepository;
@@ -13,20 +14,12 @@ public class TemplateService {
 
     private final TemplateRepository templateRepository;
 
-    public TemplateService(TemplateRepository templateRepository) {
+    public TemplateService(final TemplateRepository templateRepository) {
         this.templateRepository = templateRepository;
     }
 
     public Template getSystemTemplate() {
         return TemplateMapper.instance.documentToDto(templateRepository.findSystemTemplate());
-    }
-
-    public void saveFilledTemplate(final Template template) {
-        final Optional<TemplateDocument> templateOptional = templateRepository.findById(template.getId());
-        if(templateOptional.isEmpty()) {
-            //TODO exception
-        }
-        //TODO logic
     }
 
 }

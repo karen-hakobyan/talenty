@@ -50,43 +50,14 @@ let systemTemplate = {
                 },
                 {
                     _id: ObjectId(),
-                    name: "Date of birth",
+                    name: "Date fo birth",
                     metadata: {
-                        type: "section",
+                        type: "date",
                         editable: false,
                         required_editable: true,
                         deletable: true,
                         required: true
-                    },
-                    fields: [
-                        {
-                            _id: ObjectId(),
-                            name: "Day",
-                            metadata: {
-                                type: "day",
-                                editable: false,
-                                deletable: false
-                            }
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Month",
-                            metadata: {
-                                type: "month",
-                                editable: false,
-                                deletable: false
-                            }
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Year",
-                            metadata: {
-                                type: "year",
-                                editable: false,
-                                deletable: false
-                            }
-                        }
-                    ]
+                    }
                 },
                 {
                     _id: ObjectId(),
@@ -1092,7 +1063,7 @@ let jobAnnouncement = {
                                         type: "salary_type_ja",
                                         value: "Net"
                                     }
-                                },{
+                                }, {
                                     _id: ObjectId(),
                                     name: "Gross",
                                     metadata: {
@@ -1222,3 +1193,4 @@ db = new Mongo().getDB("talenty");
 
 db.templates.insert(systemTemplate);
 db.job_announcement.insert(jobAnnouncement);
+
