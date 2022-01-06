@@ -4,8 +4,8 @@ spring:
   data:
     mongodb:
       database: talenty
-      host: localhost
-      port: 27777
+      host: talenty-mongo
+      port: 27017
   mail:
     host: smtp.gmail.com
     port: 587

@@ -959,89 +959,6 @@ let systemTemplate = {
     ]
 }
 
-let systemTemplate_test = {
-    _id: ObjectId(),
-    system: true,
-    name: "System Template",
-    fields: [
-        {
-            _id: ObjectId(),
-            name: "Personal Info",
-            metadata: {
-                type: "section",
-                deletable: false,
-                display: "fold"
-            },
-            fields: [
-                {
-                    _id: ObjectId(),
-                    name: "First name",
-                    metadata: {
-                        type: "text",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: false,
-                        deletable: false,
-                        required: true
-                    }
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Last name",
-                    metadata: {
-                        type: "text",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: false,
-                        deletable: false,
-                        required: true
-                    }
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Date of birth",
-                    metadata: {
-                        type: "section",
-                        editable: false,
-                        required_editable: true,
-                        deletable: true,
-                        required: true
-                    },
-                    fields: [
-                        {
-                            _id: ObjectId(),
-                            name: "Day",
-                            metadata: {
-                                type: "day",
-                                editable: false,
-                                deletable: false
-                            }
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Month",
-                            metadata: {
-                                type: "month",
-                                editable: false,
-                                deletable: false
-                            }
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Year",
-                            metadata: {
-                                type: "year",
-                                editable: false,
-                                deletable: false
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
-
 let jobAnnouncement = {
     _id: ObjectId(),
     system: true,
@@ -1272,7 +1189,8 @@ let jobAnnouncement = {
     ]
 }
 
+db = new Mongo().getDB("talenty");
 
 db.templates.insert(systemTemplate);
-db.templates.insert(systemTemplate_test);
 db.job_announcement.insert(jobAnnouncement);
+
