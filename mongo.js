@@ -17,7 +17,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "First name",
                     metadata: {
-                        type: "text",
+                        type: "special_name",
                         maxLength: 100,
                         editable: false,
                         required_editable: false,
@@ -29,7 +29,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Last name",
                     metadata: {
-                        type: "text",
+                        type: "special_name",
                         maxLength: 100,
                         editable: false,
                         required_editable: false,
@@ -206,7 +206,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "City",
                     metadata: {
-                        type: "text",
+                        type: "city",
                         maxLength: 100,
                         editable: false,
                         required_editable: true,
@@ -218,7 +218,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Address",
                     metadata: {
-                        type: "text",
+                        type: "address",
                         maxLength: 100,
                         editable: false,
                         required_editable: true,
@@ -375,6 +375,16 @@ let systemTemplate = {
                                         editable: false,
                                         deletable: false
                                     }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "Still studying",
+                                    metadata: {
+                                        type: "current_date",
+                                        editable: false,
+                                        deletable: false,
+                                        visibility: "job_seeker"
+                                    }
                                 }
                             ]
                         },
@@ -476,6 +486,16 @@ let systemTemplate = {
                                         type: "date",
                                         editable: false,
                                         deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "Still working",
+                                    metadata: {
+                                        type: "current_date",
+                                        editable: false,
+                                        deletable: false,
+                                        visibility: "job_seeker"
                                     }
                                 }
                             ]
@@ -868,6 +888,16 @@ let systemTemplate = {
                                         type: "date",
                                         editable: false,
                                         deletable: false
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "Still processing",
+                                    metadata: {
+                                        type: "current_date",
+                                        editable: false,
+                                        deletable: false,
+                                        visibility: "job_seeker"
                                     }
                                 }
                             ]
