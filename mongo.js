@@ -383,7 +383,7 @@ let systemTemplate = {
                                         type: "current_date",
                                         editable: false,
                                         deletable: false,
-                                        visibility: "job_seeker"
+                                        visibility: "ROLE_JOB_SEEKER"
                                     }
                                 }
                             ]
@@ -495,7 +495,7 @@ let systemTemplate = {
                                         type: "current_date",
                                         editable: false,
                                         deletable: false,
-                                        visibility: "job_seeker"
+                                        visibility: "ROLE_JOB_SEEKER"
                                     }
                                 }
                             ]
@@ -897,7 +897,7 @@ let systemTemplate = {
                                         type: "current_date",
                                         editable: false,
                                         deletable: false,
-                                        visibility: "job_seeker"
+                                        visibility: "ROLE_JOB_SEEKER"
                                     }
                                 }
                             ]
