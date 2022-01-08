@@ -3,6 +3,9 @@ package com.talenty.validation;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.exceptions.*;
+import com.twilio.Twilio;
+import com.twilio.exception.ApiException;
+import com.twilio.rest.lookups.v1.PhoneNumber;
 
 import java.util.Map;
 import java.util.Objects;
@@ -15,6 +18,11 @@ public class ValidationChecker {
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$");
     private static final Pattern PASSWORD_REGEX = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
     private static final Pattern DATE_REGEX = Pattern.compile("^\\d{2}?[/]\\d{2}?[/]\\d{4}$");
+    private static final Pattern PHONE_NUMBER_REGEX = Pattern.compile("[+]\\d{1,17}$");
+
+    static {
+        Twilio.init("AC237081575f7fa8e68cab48cbe22cb671", "9ed7c87ae1a51f514d496d631930f4ed");
+    }
 
     public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
         return isEmailValid(details.getEmail()) &&
@@ -52,7 +60,8 @@ public class ValidationChecker {
             }
 
             case "phone_number": {
-                System.out.println("phone_number");
+                final String phoneNumber = (String) submittedMetadata.get("submitted_value");
+                assertPhoneNumberIsValid(phoneNumber);
                 break;
             }
 
@@ -163,6 +172,16 @@ public class ValidationChecker {
             throw new PasswordsDoNotMatchException();
         }
         return true;
+    }
+
+    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
+        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) throw new InvalidPhoneNumberException();
+        try {
+            PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
+            return true;
+        } catch (final ApiException e) {
+            throw new InvalidPhoneNumberException();
+        }
     }
 
 }

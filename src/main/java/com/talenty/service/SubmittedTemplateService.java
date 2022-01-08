@@ -64,13 +64,14 @@ public class SubmittedTemplateService {
 
                 if (tempParentFieldMetadata.containsKey("required")) {
                     if ((boolean) tempParentFieldMetadata.get("required")
-                            && tempSubmittedFieldMetadata.get("value") == null) {
+                            && tempSubmittedFieldMetadata.get("submitted_value") == null) {
                         System.out.println("Required field doesn't exist!");
                         throw new NoSuchTemplateException();
                     }
                 }
 
                 ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedFieldMetadata, tempParentFieldMetadata);
+
 
             } else if (tempSubmittedField.getFields() != null && tempParentField.getFields() != null) {
                 cleanUpSubmittedTemplateFields(tempSubmittedField.getFields(), tempParentField.getFields());
