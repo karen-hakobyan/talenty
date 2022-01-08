@@ -64,19 +64,23 @@ public class SubmittedTemplateService {
 
                 if (tempParentFieldMetadata.containsKey("required")) {
                     if ((boolean) tempParentFieldMetadata.get("required")
-                            && tempSubmittedFieldMetadata.get("value") == null) {
+                            && !tempSubmittedFieldMetadata.containsKey("submitted_value")) {
                         System.out.println("Required field doesn't exist!");
                         throw new NoSuchTemplateException();
                     }
                 }
 
-                ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedFieldMetadata, tempParentFieldMetadata);
+                if(tempSubmittedFieldMetadata.containsKey("submitted_value")) {
+                    ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedFieldMetadata, tempParentFieldMetadata);
+                }
+
 
             } else if (tempSubmittedField.getFields() != null && tempParentField.getFields() != null) {
+                ValidationChecker.assertSectionIsValid(tempSubmittedField);
                 cleanUpSubmittedTemplateFields(tempSubmittedField.getFields(), tempParentField.getFields());
             }
-
         }
+        //TODO other logical validations like (country, city)
     }
 
 }

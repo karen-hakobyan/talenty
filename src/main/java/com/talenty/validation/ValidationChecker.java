@@ -2,7 +2,11 @@ package com.talenty.validation;
 
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
+import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.*;
+import com.twilio.Twilio;
+import com.twilio.exception.ApiException;
+import com.twilio.rest.lookups.v1.PhoneNumber;
 
 import java.util.Map;
 import java.util.Objects;
@@ -16,6 +20,11 @@ public class ValidationChecker {
     private static final Pattern PASSWORD_REGEX = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
     private static final Pattern DATE_REGEX = Pattern.compile("^\\d{2}?[/]\\d{2}?[/]\\d{4}$");
     private static final Pattern SALARY_REGEX = Pattern.compile("^\\d+\\.\\d+$");
+    private static final Pattern PHONE_NUMBER_REGEX = Pattern.compile("[+]\\d{1,17}$");
+
+    static {
+        Twilio.init("AC237081575f7fa8e68cab48cbe22cb671", "9ed7c87ae1a51f514d496d631930f4ed");
+    }
 
     public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
         return isEmailValid(details.getEmail()) &&
@@ -40,60 +49,31 @@ public class ValidationChecker {
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
+    public static boolean assertSectionIsValid(final FieldDocument section) {
+        final Map<String, Object> sectionMetadata = section.getMetadata();
+        if (sectionMetadata.containsKey("selected_values") && sectionMetadata.get("selected_values").equals("only_one")) {
+            int temp = 0;
+            for (final FieldDocument field : section.getFields()) {
+                if (field.getMetadata().containsKey("submitted_value")) {
+                    if (++temp > 1) throw new InvalidSectionException();
+                }
+            }
+        }
+        return true;
+    }
+
     public static boolean assertSubmittedFieldIsValid(final Map<String, Object> submittedMetadata, final Map<String, Object> parentMetadata) {
+        final Object submittedValue = submittedMetadata.get("submitted_value");
         switch ((String) parentMetadata.get("type")) {
 
-            case "special_name": {
-                assertLengthIsValid(submittedMetadata, parentMetadata);
-                isNameValid((String) submittedMetadata.get("submitted_value"));
-                break;
-            }
-            case "gender": {
-                System.out.println("gender");
-                break;
-            }
-
             case "phone_number": {
-                System.out.println("phone_number");
+                assertPhoneNumberIsValid((String) submittedValue);
                 break;
             }
 
             case "email": {
                 assertLengthIsValid(submittedMetadata, parentMetadata);
-                isEmailValid((String) submittedMetadata.get("submitted_value"));
-                break;
-            }
-
-            case "expected_salary": {
-                assertLengthIsValid(submittedMetadata, parentMetadata);
-                final String value = (String) submittedMetadata.get("submitted_value");
-                if (!SALARY_REGEX.matcher(value).matches()) {
-                    throw new InvalidDateFormatException();
-                }
-                break;
-            }
-
-            case "url":
-            case "description":
-            case "text":
-            case "address":
-            case "social_link": {
-                assertLengthIsValid(submittedMetadata, parentMetadata);
-                break;
-            }
-
-            case "country": {
-                System.out.println("country");
-                break;
-            }
-
-            case "city": {
-                System.out.println("city");
-                break;
-            }
-
-            case "salary_type": {
-                System.out.println("salary_type");
+                isEmailValid((String) submittedValue);
                 break;
             }
 
@@ -102,26 +82,47 @@ public class ValidationChecker {
                 break;
             }
 
-            case "current_date":
-            case "military_id":
-            case "driving_license": {
-                break;
-            }
-
             case "date": {
-                final String value = (String) submittedMetadata.get("submitted_value");
-                if (!DATE_REGEX.matcher(value).matches()) {
-                    throw new InvalidDateFormatException();
-                }
                 break;
             }
 
+            case "expected_salary": {
+                assertLengthIsValid(submittedMetadata, parentMetadata);
+                if (!SALARY_REGEX.matcher((String) submittedValue).matches())
+                    throw new InvalidDateFormatException();
+                break;
+            }
+
+            case "salary_type":
+            case "gender": {
+                System.out.println("admin check");
+                break;
+            }
+
+            case "special_name":
+                assertLengthIsValid(submittedMetadata, parentMetadata);
+            case "country":
+            case "city": {
+                isNameValid((String) submittedValue);
+                break;
+            }
+
+            case "url":
+            case "text":
+            case "address":
+            case "description":
+            case "social_link": {
+                assertLengthIsValid(submittedMetadata, parentMetadata);
+                break;
+            }
+
+            case "percentage":
+            case "military_id":
+            case "current_date":
             case "language_level":
-            case "percentage": {
-                final Object percentage = submittedMetadata.get("submitted_value");
-                if (percentage != null && !percentage.equals("selected")) {
+            case "driving_license": {
+                if (submittedValue != null && !submittedValue.equals("selected"))
                     throw new InvalidPercentageValueException();
-                }
                 break;
             }
 
@@ -133,7 +134,7 @@ public class ValidationChecker {
 
     private static boolean assertLengthIsValid(final Map<String, Object> submittedMetadata, final Map<String, Object> parentMetadata) {
         final String value = (String) submittedMetadata.get("submitted_value");
-        final int maxLength = (int) parentMetadata.get("maxLength");
+        final double maxLength = (double) parentMetadata.get("maxLength");
 
         if (value.length() > maxLength) {
             throw new InvalidFieldLengthException();
@@ -174,6 +175,16 @@ public class ValidationChecker {
             throw new PasswordsDoNotMatchException();
         }
         return true;
+    }
+
+    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
+        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) throw new InvalidPhoneNumberException();
+        try {
+            PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
+            return true;
+        } catch (final ApiException e) {
+            throw new InvalidPhoneNumberException();
+        }
     }
 
 }
