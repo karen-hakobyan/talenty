@@ -15,6 +15,7 @@ public class ValidationChecker {
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$");
     private static final Pattern PASSWORD_REGEX = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
     private static final Pattern DATE_REGEX = Pattern.compile("^\\d{2}?[/]\\d{2}?[/]\\d{4}$");
+    private static final Pattern SALARY_REGEX = Pattern.compile("^\\d+\\.\\d+$");
 
     public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
         return isEmailValid(details.getEmail()) &&
@@ -41,11 +42,12 @@ public class ValidationChecker {
 
     public static boolean assertSubmittedFieldIsValid(final Map<String, Object> submittedMetadata, final Map<String, Object> parentMetadata) {
         switch ((String) parentMetadata.get("type")) {
-            case "text": {
-                System.out.println("text");
+
+            case "special_name": {
+                assertLengthIsValid(submittedMetadata, parentMetadata);
+                isNameValid((String) submittedMetadata.get("submitted_value"));
                 break;
             }
-
             case "gender": {
                 System.out.println("gender");
                 break;
@@ -57,12 +59,26 @@ public class ValidationChecker {
             }
 
             case "email": {
-                System.out.println("email");
+                assertLengthIsValid(submittedMetadata, parentMetadata);
+                isEmailValid((String) submittedMetadata.get("submitted_value"));
                 break;
             }
 
+            case "expected_salary": {
+                assertLengthIsValid(submittedMetadata, parentMetadata);
+                final String value = (String) submittedMetadata.get("submitted_value");
+                if (!SALARY_REGEX.matcher(value).matches()) {
+                    throw new InvalidDateFormatException();
+                }
+                break;
+            }
+
+            case "url":
+            case "description":
+            case "text":
+            case "address":
             case "social_link": {
-                System.out.println("social_link");
+                assertLengthIsValid(submittedMetadata, parentMetadata);
                 break;
             }
 
@@ -71,8 +87,8 @@ public class ValidationChecker {
                 break;
             }
 
-            case "expected_salary": {
-                System.out.println("expected_salary");
+            case "city": {
+                System.out.println("city");
                 break;
             }
 
@@ -86,46 +102,41 @@ public class ValidationChecker {
                 break;
             }
 
-            case "military_id": {
-                System.out.println("military_id");
-                break;
-            }
-
+            case "current_date":
+            case "military_id":
             case "driving_license": {
-                System.out.println("driving_license");
                 break;
             }
 
             case "date": {
-                final String value = (String) submittedMetadata.get("value");
+                final String value = (String) submittedMetadata.get("submitted_value");
                 if (!DATE_REGEX.matcher(value).matches()) {
                     throw new InvalidDateFormatException();
                 }
                 break;
             }
 
+            case "language_level":
             case "percentage": {
-                System.out.println("percentage");
-                break;
-            }
-
-            case "language_level": {
-                System.out.println("language_level");
-                break;
-            }
-
-            case "description": {
-                System.out.println("description");
-                break;
-            }
-
-            case "url": {
-                System.out.println("url");
+                final Object percentage = submittedMetadata.get("submitted_value");
+                if (percentage != null && !percentage.equals("selected")) {
+                    throw new InvalidPercentageValueException();
+                }
                 break;
             }
 
             default:
                 System.out.println("No such type");
+        }
+        return true;
+    }
+
+    private static boolean assertLengthIsValid(final Map<String, Object> submittedMetadata, final Map<String, Object> parentMetadata) {
+        final String value = (String) submittedMetadata.get("submitted_value");
+        final int maxLength = (int) parentMetadata.get("maxLength");
+
+        if (value.length() > maxLength) {
+            throw new InvalidFieldLengthException();
         }
         return true;
     }

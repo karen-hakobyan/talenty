@@ -18,7 +18,7 @@ let systemTemplate = {
                     name: "First name",
                     metadata: {
                         type: "special_name",
-                        maxLength: 100,
+                        maxLength: 20,
                         editable: false,
                         required_editable: false,
                         deletable: false,
@@ -30,7 +30,7 @@ let systemTemplate = {
                     name: "Last name",
                     metadata: {
                         type: "special_name",
-                        maxLength: 100,
+                        maxLength: 20,
                         editable: false,
                         required_editable: false,
                         deletable: false,
@@ -75,6 +75,7 @@ let systemTemplate = {
                     name: "Email",
                     metadata: {
                         type: "email",
+                        maxLength: 50,
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -95,6 +96,7 @@ let systemTemplate = {
                             name: "Facebook",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -106,6 +108,7 @@ let systemTemplate = {
                             name: "Linkedin",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -117,6 +120,7 @@ let systemTemplate = {
                             name: "Twitter",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -128,6 +132,7 @@ let systemTemplate = {
                             name: "Instagram",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -139,6 +144,7 @@ let systemTemplate = {
                             name: "Youtube",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -150,6 +156,7 @@ let systemTemplate = {
                             name: "Behance",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -161,6 +168,7 @@ let systemTemplate = {
                             name: "Dribbble",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -172,6 +180,7 @@ let systemTemplate = {
                             name: "Github",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -183,6 +192,7 @@ let systemTemplate = {
                             name: "Custom link",
                             metadata: {
                                 type: "social_link",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
@@ -207,7 +217,6 @@ let systemTemplate = {
                     name: "City",
                     metadata: {
                         type: "city",
-                        maxLength: 100,
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -242,6 +251,7 @@ let systemTemplate = {
                             name: "Expected Salary",
                             metadata: {
                                 type: "expected_salary",
+                                maxLength: 10,
                                 editable: false,
                                 deletable: false
                             }
@@ -251,6 +261,7 @@ let systemTemplate = {
                             name: "Salary type",
                             metadata: {
                                 type: "salary_type",
+                                maxLength: 3,
                                 editable: false,
                                 deletable: false
                             }
@@ -560,7 +571,7 @@ let systemTemplate = {
                             fields: [
                                 {
                                     _id: ObjectId(),
-                                    name: "25%",
+                                    name: "20%",
                                     metadata: {
                                         type: "percentage",
                                         value: "25%"
@@ -568,7 +579,7 @@ let systemTemplate = {
                                 },
                                 {
                                     _id: ObjectId(),
-                                    name: "50%",
+                                    name: "40%",
                                     metadata: {
                                         type: "percentage",
                                         value: "50%"
@@ -576,10 +587,18 @@ let systemTemplate = {
                                 },
                                 {
                                     _id: ObjectId(),
-                                    name: "75%",
+                                    name: "60%",
                                     metadata: {
                                         type: "percentage",
                                         value: "75%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "80%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "100%"
                                     }
                                 },
                                 {
@@ -640,7 +659,7 @@ let systemTemplate = {
                             fields: [
                                 {
                                     _id: ObjectId(),
-                                    name: "25%",
+                                    name: "20%",
                                     metadata: {
                                         type: "percentage",
                                         value: "25%"
@@ -648,7 +667,7 @@ let systemTemplate = {
                                 },
                                 {
                                     _id: ObjectId(),
-                                    name: "50%",
+                                    name: "40%",
                                     metadata: {
                                         type: "percentage",
                                         value: "50%"
@@ -656,10 +675,18 @@ let systemTemplate = {
                                 },
                                 {
                                     _id: ObjectId(),
-                                    name: "75%",
+                                    name: "60%",
                                     metadata: {
                                         type: "percentage",
                                         value: "75%"
+                                    }
+                                },
+                                {
+                                    _id: ObjectId(),
+                                    name: "80%",
+                                    metadata: {
+                                        type: "percentage",
+                                        value: "100%"
                                     }
                                 },
                                 {
@@ -700,7 +727,7 @@ let systemTemplate = {
                             name: "Language",
                             metadata: {
                                 type: "text",
-                                maxLength: 100,
+                                maxLength: 20,
                                 editable: false,
                                 required_editable: true,
                                 deletable: true,
@@ -855,6 +882,7 @@ let systemTemplate = {
                             name: "URL",
                             metadata: {
                                 type: "url",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: true,
@@ -930,6 +958,7 @@ let systemTemplate = {
                             name: "Article Name",
                             metadata: {
                                 type: "url",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: true,
@@ -953,6 +982,7 @@ let systemTemplate = {
                             name: "Book Name",
                             metadata: {
                                 type: "url",
+                                maxLength: 100,
                                 editable: false,
                                 required_editable: true,
                                 deletable: true,
