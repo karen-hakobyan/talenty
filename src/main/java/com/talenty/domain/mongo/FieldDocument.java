@@ -26,4 +26,12 @@ public class FieldDocument {
         final FieldDocument other = (FieldDocument) obj;
         return id.equals(other.getId());
     }
+
+    @Override
+    public String toString() {
+        return "FieldDocument{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

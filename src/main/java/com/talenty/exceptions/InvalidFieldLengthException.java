@@ -5,4 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class InvalidFieldLengthException extends RuntimeException {
+
+    public InvalidFieldLengthException(String message) {
+        super(message);
+    }
+
 }

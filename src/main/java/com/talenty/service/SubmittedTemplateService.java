@@ -30,7 +30,9 @@ public class SubmittedTemplateService {
         final Optional<TemplateDocument> parentTemplateOptional = templateRepository.findById(template.getId());
 
         if (parentTemplateOptional.isEmpty()) {
-            throw new NoSuchTemplateException();
+            final String cause = String.format("Cause: No template with ID: %s", template.getId());
+            System.out.println(cause);
+            throw new NoSuchTemplateException(cause);
         }
 
         final TemplateDocument submittedTemplate = TemplateMapper.instance.dtoToTemplate(template);
@@ -46,16 +48,20 @@ public class SubmittedTemplateService {
 
     private void cleanUpSubmittedTemplateFields(final List<FieldDocument> submittedFields, final List<FieldDocument> parentFields) {
         if (submittedFields.size() != parentFields.size()) {
-            System.out.println("Templates miss match");
-            throw new NoSuchTemplateException();
+            throw new NoSuchTemplateException("Cause: Section size miss match!");
         }
         for (int i = 0; i < parentFields.size(); i++) {
             final FieldDocument tempSubmittedField = submittedFields.get(i);
             final FieldDocument tempParentField = parentFields.get(i);
 
             if (!tempParentField.getId().equals(tempSubmittedField.getId())) {
-                System.out.println("field ID miss match");
-                throw new NoSuchTemplateException();
+                final String cause = String.format(
+                        "Cause: Field ID miss match. Current Field: %s, Current Parent's Field: %s",
+                        tempSubmittedField,
+                        tempParentField
+                );
+                System.out.println(cause);
+                throw new NoSuchTemplateException(cause);
             }
 
             if (tempSubmittedField.getFields() == null && tempParentField.getFields() == null) {
@@ -65,15 +71,18 @@ public class SubmittedTemplateService {
                 if (tempParentFieldMetadata.containsKey("required")) {
                     if ((boolean) tempParentFieldMetadata.get("required")
                             && !tempSubmittedFieldMetadata.containsKey("submitted_value")) {
-                        System.out.println("Required field doesn't exist!");
-                        throw new NoSuchTemplateException();
+                        final String cause = String.format(
+                                "Cause: Required field doesn't submitted! Field: %s ",
+                                tempSubmittedField
+                        );
+                        System.out.println(cause);
+                        throw new NoSuchTemplateException(cause);
                     }
                 }
 
-                if(tempSubmittedFieldMetadata.containsKey("submitted_value")) {
-                    ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedFieldMetadata, tempParentFieldMetadata);
+                if (tempSubmittedFieldMetadata.containsKey("submitted_value")) {
+                    ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedField, tempParentField);
                 }
-
 
             } else if (tempSubmittedField.getFields() != null && tempParentField.getFields() != null) {
                 ValidationChecker.assertSectionIsValid(tempSubmittedField);

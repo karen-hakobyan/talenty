@@ -19,7 +19,7 @@ public class ValidationChecker {
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Z][a-z]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\\.?)( [IVXLCDM]+)?$");
     private static final Pattern PASSWORD_REGEX = Pattern.compile("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
     private static final Pattern DATE_REGEX = Pattern.compile("^\\d{2}?[/]\\d{2}?[/]\\d{4}$");
-    private static final Pattern SALARY_REGEX = Pattern.compile("^\\d+\\.\\d+$");
+    private static final Pattern SALARY_REGEX = Pattern.compile("\\d*\\.?\\d+$");
     private static final Pattern PHONE_NUMBER_REGEX = Pattern.compile("[+]\\d{1,17}$");
 
     static {
@@ -62,9 +62,10 @@ public class ValidationChecker {
         return true;
     }
 
-    public static boolean assertSubmittedFieldIsValid(final Map<String, Object> submittedMetadata, final Map<String, Object> parentMetadata) {
-        final Object submittedValue = submittedMetadata.get("submitted_value");
-        switch ((String) parentMetadata.get("type")) {
+    public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
+        final Object submittedValue = submittedField.getMetadata().get("submitted_value");
+        final String type = (String) parentField.getMetadata().get("type");
+        switch (type) {
 
             case "phone_number": {
                 assertPhoneNumberIsValid((String) submittedValue);
@@ -72,7 +73,7 @@ public class ValidationChecker {
             }
 
             case "email": {
-                assertLengthIsValid(submittedMetadata, parentMetadata);
+                assertLengthIsValid(submittedField, parentField);
                 isEmailValid((String) submittedValue);
                 break;
             }
@@ -87,9 +88,11 @@ public class ValidationChecker {
             }
 
             case "expected_salary": {
-                assertLengthIsValid(submittedMetadata, parentMetadata);
-                if (!SALARY_REGEX.matcher((String) submittedValue).matches())
+                assertLengthIsValid(submittedField, parentField);
+                if (!SALARY_REGEX.matcher((String) submittedValue).matches()) {
+                    System.out.println("Salary must contain only numbers!");
                     throw new InvalidDateFormatException();
+                }
                 break;
             }
 
@@ -100,7 +103,7 @@ public class ValidationChecker {
             }
 
             case "special_name":
-                assertLengthIsValid(submittedMetadata, parentMetadata);
+                assertLengthIsValid(submittedField, parentField);
             case "country":
             case "city": {
                 isNameValid((String) submittedValue);
@@ -112,7 +115,7 @@ public class ValidationChecker {
             case "address":
             case "description":
             case "social_link": {
-                assertLengthIsValid(submittedMetadata, parentMetadata);
+                assertLengthIsValid(submittedField, parentField);
                 break;
             }
 
@@ -121,8 +124,10 @@ public class ValidationChecker {
             case "current_date":
             case "language_level":
             case "driving_license": {
-                if (submittedValue != null && !submittedValue.equals("selected"))
+                if (submittedValue != null && !submittedValue.equals("selected")) {
+                    System.out.printf("%s should be selected/unselected or nothing!", type);
                     throw new InvalidPercentageValueException();
+                }
                 break;
             }
 
@@ -132,18 +137,29 @@ public class ValidationChecker {
         return true;
     }
 
-    private static boolean assertLengthIsValid(final Map<String, Object> submittedMetadata, final Map<String, Object> parentMetadata) {
-        final String value = (String) submittedMetadata.get("submitted_value");
-        final double maxLength = (double) parentMetadata.get("maxLength");
+    private static boolean assertLengthIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
+        if (!parentField.getMetadata().containsKey("maxLength")) return true;
+
+        final String value = (String) submittedField.getMetadata().get("submitted_value");
+        final double maxLength = (Double) parentField.getMetadata().get("maxLength");
 
         if (value.length() > maxLength) {
-            throw new InvalidFieldLengthException();
+            final String cause = String.format(
+                    "Submitted Field size is bigger than expected. Field: %s, given size: %s, expected size: %s",
+                    submittedField,
+                    value.length(),
+                    maxLength
+            );
+            System.out.println(cause);
+            throw new InvalidFieldLengthException(cause);
         }
+
         return true;
     }
 
     private static boolean isEmailValid(final String email) {
         if (!EMAIL_REGEX.matcher(email).matches()) {
+            System.out.println("Email format exception!");
             throw new InvalidEmailException();
         }
         return true;
@@ -151,6 +167,7 @@ public class ValidationChecker {
 
     private static boolean isCompanyNameValid(final String companyName) {
         if (!COMPANY_NAME_REGEX.matcher(companyName).matches()) {
+            System.out.println("Company name format exception!");
             throw new InvalidCompanyNameException();
         }
         return true;
@@ -158,6 +175,7 @@ public class ValidationChecker {
 
     private static boolean isNameValid(final String name) {
         if (!NAME_REGEX.matcher(name).matches()) {
+            System.out.println("Name format exception!");
             throw new InvalidUserNameException();
         }
         return true;
@@ -178,11 +196,15 @@ public class ValidationChecker {
     }
 
     public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
-        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) throw new InvalidPhoneNumberException();
+        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) {
+            System.out.println("Incorrect phone number format!");
+            throw new InvalidPhoneNumberException();
+        }
         try {
             PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
             return true;
         } catch (final ApiException e) {
+            System.out.println("Incorrect phone number format!");
             throw new InvalidPhoneNumberException();
         }
     }

@@ -5,4 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class NoSuchTemplateException extends RuntimeException {
+
+    public NoSuchTemplateException(String message) {
+        super(message);
+    }
 }
