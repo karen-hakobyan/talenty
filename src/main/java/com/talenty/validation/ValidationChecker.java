@@ -63,18 +63,18 @@ public class ValidationChecker {
     }
 
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
-        final Object submittedValue = submittedField.getMetadata().get("submitted_value");
+        final String submittedValue = (String) submittedField.getMetadata().get("submitted_value");
         final String type = (String) parentField.getMetadata().get("type");
         switch (type) {
 
             case "phone_number": {
-                assertPhoneNumberIsValid((String) submittedValue);
+                assertPhoneNumberIsValid(submittedValue);
                 break;
             }
 
             case "email": {
                 assertLengthIsValid(submittedField, parentField);
-                isEmailValid((String) submittedValue);
+                isEmailValid(submittedValue);
                 break;
             }
 
@@ -89,7 +89,7 @@ public class ValidationChecker {
 
             case "expected_salary": {
                 assertLengthIsValid(submittedField, parentField);
-                if (!SALARY_REGEX.matcher((String) submittedValue).matches()) {
+                if (!SALARY_REGEX.matcher(submittedValue).matches()) {
                     System.out.println("Salary must contain only numbers!");
                     throw new InvalidDateFormatException();
                 }
@@ -106,7 +106,7 @@ public class ValidationChecker {
                 assertLengthIsValid(submittedField, parentField);
             case "country":
             case "city": {
-                isNameValid((String) submittedValue);
+                isNameValid(submittedValue);
                 break;
             }
 
