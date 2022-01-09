@@ -8,6 +8,7 @@ import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.lookups.v1.PhoneNumber;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -84,6 +85,21 @@ public class ValidationChecker {
             }
 
             case "date": {
+                if (!DATE_REGEX.matcher(submittedValue).matches()) {
+                    System.out.println("Invalid date format!");
+                    throw new InvalidDateFormatException();
+                }
+                final String[] DMY = submittedValue.split("/");
+                try {
+                    LocalDate.of(
+                            Integer.parseInt(DMY[2]),
+                            Integer.parseInt(DMY[1]),
+                            Integer.parseInt(DMY[0])
+                    );
+                } catch (final Exception e) {
+                    System.out.println("Invalid date!");
+                    throw new InvalidDateFormatException();
+                }
                 break;
             }
 
