@@ -207,21 +207,21 @@ public class ValidationChecker {
         return true;
     }
 
-    private static boolean assertPasswordIsValid(final String password) {
+    public static boolean assertPasswordIsValid(final String password) {
         if (!PASSWORD_REGEX.matcher(password).matches()) {
             throw new InvalidPasswordException();
         }
         return true;
     }
 
-    private static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
+    public static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
         if (!Objects.equals(password, confirmPassword)) {
             throw new PasswordsDoNotMatchException();
         }
         return true;
     }
 
-    private static boolean assertPhoneNumberIsValid(final String phoneNumber) {
+    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
         if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) {
             System.out.println("Incorrect phone number format!");
             throw new InvalidPhoneNumberException();
