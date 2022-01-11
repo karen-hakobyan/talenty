@@ -107,7 +107,7 @@ public class ValidationChecker {
                 assertLengthIsValid(submittedField, parentField);
                 if (!SALARY_REGEX.matcher(submittedValue).matches()) {
                     System.out.println("Salary must contain only numbers!");
-                    throw new InvalidDateFormatException();
+                    throw new InvalidSalaryException();
                 }
                 break;
             }
@@ -162,7 +162,7 @@ public class ValidationChecker {
         if (value.length() > maxLength) {
             final String cause = String.format(
                     "Submitted Field size is bigger than expected. Field: %s, given size: %s, expected size: %s",
-                    submittedField,
+                    parentField,
                     value.length(),
                     maxLength
             );
@@ -220,7 +220,7 @@ public class ValidationChecker {
             PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
             return true;
         } catch (final ApiException e) {
-            System.out.println("Incorrect phone number format!");
+            System.out.println("Incorrect phone number!");
             throw new InvalidPhoneNumberException();
         }
     }
