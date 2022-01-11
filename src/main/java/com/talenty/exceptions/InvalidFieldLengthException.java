@@ -3,10 +3,11 @@ package com.talenty.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.CONFLICT)
-public class NoSuchTemplateException extends RuntimeException {
+@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+public class InvalidFieldLengthException extends RuntimeException {
 
-    public NoSuchTemplateException(String message) {
+    public InvalidFieldLengthException(String message) {
         super(message);
     }
+
 }
