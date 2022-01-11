@@ -1,0 +1,5 @@
+{
+    "instantMongo": {
+        "connections": [{ "name": "talenty-db", "uri": "localhost:27777" }]
+    }
+}
