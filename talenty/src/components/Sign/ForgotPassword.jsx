@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import { TextField, Typography } from "@mui/material";
-import logo from "./SignPhoto/TalentyLogo.svg";
+// import logo from "./SignPhoto/TalentyLogo.svg";
+import { TalentyLogo } from "../../assets/sign";
 import TalentyAuth from "../Assets/SignImages/user.webp";
-import { useNavigate } from "react-router-dom";
 import "../../fonts//index.css";
 import {
   MAIN_PURPLE,
@@ -110,7 +110,7 @@ function ForgotPassword() {
     <>
       <ImgContainer>
         <Logo>
-          <img src={logo} />
+          <TalentyLogo />
         </Logo>
 
         <ContentContainer>
