@@ -16,12 +16,13 @@ import {
   AddSection,
   CreateCV,
   CreateCVDisabled,
-} from "../Assets/Icons/CreateTemplate";
+} from "../../assets/icons/createTemplate";
 import { Box } from "@mui/system";
 import { ListStyle, TextFieldStyle, StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
 import PersonalInfo from "../Dialogs/PersonalInfo";
+
 function CvTemplateMain() {
   const [data, setData] = useState({});
   const [tempName, setTempName] = useState("CV Template name");
@@ -45,12 +46,7 @@ function CvTemplateMain() {
   return (
     <Container>
       <Box sx={{ display: "flex", mt: 5 }}>
-        <object
-          type="image/svg+xml"
-          data={ListSVG}
-          color="black"
-          aria-labelledby="list"
-        />
+        <ListSVG />
         <Typography
           sx={{
             fontWeight: 600,
@@ -72,12 +68,7 @@ function CvTemplateMain() {
               sx={{ cursor: "text" }}
               onChange={(e) => setTempName(e.target.value)}
             />
-            <Box
-              component="img"
-              src={EditSVG}
-              alt="edit"
-              onClick={() => setToggle(false)}
-            />
+            <EditSVG />
           </ListItem>
         ) : (
           <TextField
@@ -108,11 +99,11 @@ function CvTemplateMain() {
         )}
       </List>
       <Box sx={StyledBtns}>
-        <Box component="img" src={AddSection} onClick={onAddSection} />
+        <AddSection onClick={onAddSection} />
         {true ? (
-          <Box component="img" src={CreateCV} />
+          <CreateCV />
         ) : (
-          <Box component="img" src={CreateCVDisabled} />
+          <CreateCVDisabled />
         )}
       </Box>
       {!!activeData && activeData.id === "61b0ec57f859615fcace5470" && (

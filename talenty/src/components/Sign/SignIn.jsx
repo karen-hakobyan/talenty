@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
 import { TextField } from "@mui/material";
-import logo from "./SignPhoto/TalentyLogo.svg";
+// import logo from "./SignPhoto/TalentyLogo.svg";
+import { TalentyLogo } from "../../assets/sign";
 import TalentyAuth from "../Assets/SignImages/company.webp";
 import "../../fonts/index.css";
 import { Link } from "react-router-dom";
@@ -187,7 +188,8 @@ function SignIn() {
     <>
       <ImgContainer>
         <Logo>
-          <img src={logo} alt="logo" />
+          {/* <img src={logo} alt="logo" /> */}
+          <TalentyLogo />
         </Logo>
 
         <Form>
