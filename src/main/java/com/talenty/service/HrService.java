@@ -7,7 +7,7 @@ import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
-import com.talenty.exceptions.ProvidedEmailAlreadyRegistered;
+import com.talenty.exceptions.EmailAlreadyRegisteredException;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.mapper.HrMapper;
 import com.talenty.repository.CompanyRepository;
@@ -46,7 +46,7 @@ public class HrService {
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
 
         if (userOptional.isPresent()) {
-            throw new ProvidedEmailAlreadyRegistered("Email: " + request.getEmail() + " already registered!");
+            throw new EmailAlreadyRegisteredException("Email: " + request.getEmail() + " already registered!");
         }
 
         final CompanyDocument company = CompanyMapper.instance.extractCompanyFromRegisterRequest(request);

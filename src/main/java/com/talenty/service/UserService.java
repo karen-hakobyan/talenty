@@ -6,7 +6,7 @@ import com.talenty.domain.dto.user.UserLoginResponseDetails;
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
-import com.talenty.exceptions.IsNotVerifiedAccountException;
+import com.talenty.exceptions.AccountIsNotVerifiedException;
 import com.talenty.exceptions.TokenNotFoundException;
 import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.mapper.UserBuilder;
@@ -50,7 +50,7 @@ public class UserService {
         final UserDocument user = userOptional.get();
         if(!user.isVerifiedAccount()) {
             emailSender.sendConfirmation(user.getEmail(), tokenService.generate(user));
-            throw new IsNotVerifiedAccountException();
+            throw new AccountIsNotVerifiedException();
         }
 
         return userBuilder.buildAuthenticatedUser(userOptional.get());
