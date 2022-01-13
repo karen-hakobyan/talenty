@@ -22,9 +22,38 @@ public class ValidationChecker {
     private static final Pattern DATE_REGEX = Pattern.compile("^\\d{2}?[/]\\d{2}?[/]\\d{4}$");
     private static final Pattern SALARY_REGEX = Pattern.compile("\\d*\\.?\\d+$");
     private static final Pattern PHONE_NUMBER_REGEX = Pattern.compile("[+]\\d{1,17}$");
+    private static final Pattern URL_REGEX = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 
     static {
         Twilio.init("AC237081575f7fa8e68cab48cbe22cb671", "9ed7c87ae1a51f514d496d631930f4ed");
+    }
+
+    public static boolean assertPasswordIsValid(final String password) {
+        if (!PASSWORD_REGEX.matcher(password).matches()) {
+            throw new InvalidPasswordException();
+        }
+        return true;
+    }
+
+    public static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
+        if (!Objects.equals(password, confirmPassword)) {
+            throw new PasswordsDoNotMatchException();
+        }
+        return true;
+    }
+
+    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
+        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) {
+            System.out.println("Incorrect phone number format!");
+            throw new InvalidPhoneNumberException();
+        }
+        try {
+            PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
+            return true;
+        } catch (final ApiException e) {
+            System.out.println("Incorrect phone number!");
+            throw new InvalidPhoneNumberException();
+        }
     }
 
     public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
@@ -131,6 +160,7 @@ public class ValidationChecker {
             }
 
             case "url":
+                assertUrlIsValid(submittedValue);
             case "text":
             case "address":
             case "description":
@@ -153,6 +183,14 @@ public class ValidationChecker {
 
             default:
                 System.out.println("No such type");
+        }
+        return true;
+    }
+
+    private static boolean assertUrlIsValid(final String value) {
+        if (!URL_REGEX.matcher(value).matches()) {
+            System.out.printf("The url: %s is not valid!", value);
+            throw new InvalidUrlException();
         }
         return true;
     }
@@ -205,34 +243,6 @@ public class ValidationChecker {
         if (!COUNTRIES.contains(country))
             throw new InvalidCountryException();
         return true;
-    }
-
-    public static boolean assertPasswordIsValid(final String password) {
-        if (!PASSWORD_REGEX.matcher(password).matches()) {
-            throw new InvalidPasswordException();
-        }
-        return true;
-    }
-
-    public static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
-        if (!Objects.equals(password, confirmPassword)) {
-            throw new PasswordsDoNotMatchException();
-        }
-        return true;
-    }
-
-    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
-        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) {
-            System.out.println("Incorrect phone number format!");
-            throw new InvalidPhoneNumberException();
-        }
-        try {
-            PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
-            return true;
-        } catch (final ApiException e) {
-            System.out.println("Incorrect phone number!");
-            throw new InvalidPhoneNumberException();
-        }
     }
 
 }

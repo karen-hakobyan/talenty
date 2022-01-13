@@ -3,7 +3,7 @@ package com.talenty.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(code = HttpStatus.CONFLICT)
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "Email already registered!")
 public class ProvidedEmailAlreadyRegistered extends RuntimeException {
 
     public ProvidedEmailAlreadyRegistered(final String message) {

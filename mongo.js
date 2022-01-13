@@ -1,4 +1,3 @@
-// noinspection JSUnresolvedFunction
 let systemTemplate = {
     _id: ObjectId(),
     system: true,
@@ -243,8 +242,7 @@ let systemTemplate = {
                         type: "section",
                         editable: false,
                         required_editable: true,
-                        deletable: true,
-                        required: true
+                        deletable: true
                     },
                     fields: [
                         {
@@ -254,7 +252,8 @@ let systemTemplate = {
                                 type: "expected_salary",
                                 maxLength: 10,
                                 editable: false,
-                                deletable: false
+                                deletable: false,
+                                required: true
                             }
                         },
                         {
@@ -264,7 +263,9 @@ let systemTemplate = {
                                 type: "salary_type",
                                 maxLength: 3,
                                 editable: false,
-                                deletable: false
+                                deletable: false,
+                                value: "USD",
+                                submitted_value: "USD"
                             }
                         }
                     ]
@@ -576,7 +577,7 @@ let systemTemplate = {
                                     name: "20%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "25%"
+                                        value: "20%"
                                     }
                                 },
                                 {
@@ -584,7 +585,7 @@ let systemTemplate = {
                                     name: "40%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "50%"
+                                        value: "40%"
                                     }
                                 },
                                 {
@@ -592,7 +593,7 @@ let systemTemplate = {
                                     name: "60%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "75%"
+                                        value: "60%"
                                     }
                                 },
                                 {
@@ -600,7 +601,7 @@ let systemTemplate = {
                                     name: "80%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "100%"
+                                        value: "80%"
                                     }
                                 },
                                 {
@@ -665,7 +666,7 @@ let systemTemplate = {
                                     name: "20%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "25%"
+                                        value: "20%"
                                     }
                                 },
                                 {
@@ -673,7 +674,7 @@ let systemTemplate = {
                                     name: "40%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "50%"
+                                        value: "40%"
                                     }
                                 },
                                 {
@@ -681,7 +682,7 @@ let systemTemplate = {
                                     name: "60%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "75%"
+                                        value: "60%"
                                     }
                                 },
                                 {
@@ -689,7 +690,7 @@ let systemTemplate = {
                                     name: "80%",
                                     metadata: {
                                         type: "percentage",
-                                        value: "100%"
+                                        value: "80%"
                                     }
                                 },
                                 {
@@ -1255,4 +1256,3 @@ let jobAnnouncement = {
 
 db.templates.insert(systemTemplate);
 db.job_announcement.insert(jobAnnouncement);
-
