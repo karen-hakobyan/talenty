@@ -100,7 +100,6 @@ function CvTemplateMain() {
         )}
       </List>
       <Box sx={StyledBtns}>
-        {/*<AddSection onClick={onAddSection} />*/}
         <IconButton
           sx={{
             display: "flex",
