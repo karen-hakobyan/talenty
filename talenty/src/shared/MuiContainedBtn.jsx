@@ -2,11 +2,10 @@ import { Button } from "@mui/material";
 import { ELECTRICVIOLET, WHITE } from "../constants/colors";
 import "../fonts/index.css";
 
-function MuiContainedBtn({ bgColor, children, onClick, disabled, Width }) {
+function MuiContainedBtn({ bgColor, children, onClick, Width }) {
   return (
     <Button
       onClick={onClick}
-      // disabled={disabled ? true : false}
       sx={{
         background: bgColor || ELECTRICVIOLET,
         "&:hover": { background: "#5f2989" },
@@ -14,7 +13,6 @@ function MuiContainedBtn({ bgColor, children, onClick, disabled, Width }) {
         maxWidth: Width ? Width : "466px",
         width: "100%",
         outline: "none",
-        background: ELECTRICVIOLET,
         borderRadius: "4px",
         marginTop: "26px",
         transition: "all 0.4s",
