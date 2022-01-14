@@ -1,5 +1,5 @@
-import SignUp from "./components/Sign/SignUp.jsx";
 import { Routes, Route } from "react-router-dom";
+import SignUp from "./components/Sign/SignUp.jsx";
 import {
   FORGOT_PASSWORD_ROUTE,
   SIGN_IN_ROUTE,

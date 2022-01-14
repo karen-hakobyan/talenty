@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+// import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
   Container,
@@ -23,12 +24,15 @@ import { ListStyle, TextFieldStyle, StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
 import PersonalInfo from "../Dialogs/PersonalInfo";
+// import { selectDialogIsOpen } from "../../store/dialogs/selector";
 
 function CvTemplateMain() {
   const [data, setData] = useState({});
   const [tempName, setTempName] = useState("CV Template name");
   const [toggle, setToggle] = useState(true);
   const [activeData, setActiveData] = useState(null);
+  // const isDilogOpen = useSelector(selectDialogIsOpen);
+  // const dispatch = useDispatch();
 
   const onDialogOpen = useCallback(
     (editedItem) => setActiveData(editedItem),
@@ -39,11 +43,11 @@ function CvTemplateMain() {
       .get(GET_TEMPLATES)
       .then((res) => {
         const { data } = res;
-        console.log(data);
         setData(data);
       })
       .catch((err) => new Error(err));
   }, []);
+
   return (
     <Container>
       <Box sx={{ display: "flex", mt: 5 }}>
