@@ -176,7 +176,7 @@ export default function SignUp({ isCompany }) {
       <StyledBGImage>
         <img
           src={
-            require(`../Assets/SignImages/${
+            require(`../../assets/icons/signImages/${
               pathname === "user" ? "user" : "company"
             }.webp`).default
           }

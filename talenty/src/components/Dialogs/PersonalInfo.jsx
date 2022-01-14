@@ -24,8 +24,7 @@ import {
 } from "../CvTemplate/CVTemplateStyle";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
-export default function PersonalInfo({ data, templateName, onDialogOpen }) {
-  const [inputVal, setInputVal] = useState("");
+export default function PersonalInfo({ data, onDialogOpen }) {
   const [gender, setGender] = useState("Choose your gender");
   const [date, setDate] = useState(new Date());
   const genders = ["man", "woman", "other"];

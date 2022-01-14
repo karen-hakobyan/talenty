@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { styled } from "@mui/system";
 import { TextField, Typography } from "@mui/material";
-// import logo from "./SignPhoto/TalentyLogo.svg";
 import { TalentyLogo } from "../../assets/sign";
-import TalentyAuth from "../Assets/SignImages/user.webp";
+import TalentyAuth from "../../assets/icons/signImages/user.webp";
 import "../../fonts//index.css";
 import {
   MAIN_PURPLE,
@@ -14,7 +14,7 @@ import {
 import { emailValid } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertMessage from "./AlertMessage";
-import axios from "axios";
+
 const Logo = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "end",
@@ -41,7 +41,7 @@ const Title = styled(Typography)(({ theme }) => ({
   color: NIGHT_RIDER,
 }));
 
-const Tetx = styled(Typography)(({ theme }) => ({
+const Text = styled(Typography)(({ theme }) => ({
   width: "100%",
   fontFamily: "Proxima Nova",
   fontStyle: "normal",
@@ -117,7 +117,7 @@ function ForgotPassword() {
           <Title variant="h1" component="div">
             Forgot password?
           </Title>
-          <Tetx
+          <Text
             variant="subtitle1"
             component="div"
             sx={{
@@ -128,7 +128,7 @@ function ForgotPassword() {
           >
             Enter your email address below and we’ll send an
             <br /> email with a link to update your password.
-          </Tetx>
+          </Text>
 
           <H5>Email</H5>
 
