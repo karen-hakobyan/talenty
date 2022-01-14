@@ -5,7 +5,8 @@ import { ReactComponent as DisabledDeleteBtnSVG } from "./disabledDeleteBtn.svg"
 import { ReactComponent as DeleteBtn } from "./deleteBtn.svg";
 import { ReactComponent as AddSection } from "./addSection.svg";
 import { ReactComponent as CreateCV } from "./createCV.svg";
-import {ReactComponent as CreateCVDisabled } from "./createCVDisabled.svg";
+import { ReactComponent as CreateCVDisabled } from "./createCVDisabled.svg";
+import { ReactComponent as AddSectionIconSVG } from './addSectionIcon.svg'
 
 export {
     EditSVG,
@@ -16,4 +17,5 @@ export {
     AddSection,
     CreateCV,
     CreateCVDisabled,
+    AddSectionIconSVG
 };

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import {
   Container,
+  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -11,9 +12,9 @@ import {
 } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
+  AddSectionIconSVG,
   ListSVG,
   EditSVG,
-  AddSection,
   CreateCV,
   CreateCVDisabled,
 } from "../../assets/icons/createTemplate";
@@ -29,7 +30,6 @@ function CvTemplateMain() {
   const [toggle, setToggle] = useState(true);
   const [activeData, setActiveData] = useState(null);
 
-  const onAddSection = () => {};
   const onDialogOpen = useCallback(
     (editedItem) => setActiveData(editedItem),
     []
@@ -39,6 +39,7 @@ function CvTemplateMain() {
       .get(GET_TEMPLATES)
       .then((res) => {
         const { data } = res;
+        console.log(data);
         setData(data);
       })
       .catch((err) => new Error(err));
@@ -99,9 +100,27 @@ function CvTemplateMain() {
         )}
       </List>
       <Box sx={StyledBtns}>
-        <AddSection onClick={onAddSection} />
+        {/*<AddSection onClick={onAddSection} />*/}
+        <IconButton
+          sx={{
+            display: "flex",
+            width: "179px",
+            height: "34px",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "9px",
+            fontSize: "14px",
+            borderRadius: "6px",
+            border: "1px solid #ECECEC",
+          }}
+        >
+          <AddSectionIconSVG />
+          Add section
+        </IconButton>
         {true ? (
-          <CreateCV />
+          <IconButton>
+            <CreateCV />
+          </IconButton>
         ) : (
           <CreateCVDisabled />
         )}
