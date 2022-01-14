@@ -1,31 +1,21 @@
-import { Box, ListItem, ListItemText } from "@mui/material";
 import { memo } from "react";
+import { ListItem, ListItemText } from "@mui/material";
 import {
   EditBtnSVG,
   DisabledDeleteBtnSVG,
   DeleteBtn,
-} from "../Assets/Icons/CreateTemplate";
+} from "../../assets/icons/createTemplate";
 import { ListItemStyle } from "./CVTemplateStyle";
 
 function TemplateItem({ onDialogOpen, item }) {
   return (
     <ListItem sx={ListItemStyle} divider>
       <ListItemText primary={item.name} />
-      <Box
-        component="img"
-        src={EditBtnSVG}
-        onClick={() => onDialogOpen(item)}
-        alt="edit"
-      />
+      <EditBtnSVG onClick={() => onDialogOpen(item)} />
       {item.metadata.deletable ? (
-        <Box
-          component="img"
-          src={DeleteBtn}
-          alt="delete"
-          className="deleteBtn"
-        />
+        <DeleteBtn />
       ) : (
-        <Box component="img" src={DisabledDeleteBtnSVG} alt="disabled delete" />
+        <DisabledDeleteBtnSVG />
       )}
     </ListItem>
   );
