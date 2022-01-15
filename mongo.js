@@ -242,7 +242,8 @@ let systemTemplate = {
                         type: "section",
                         editable: false,
                         required_editable: true,
-                        deletable: true
+                        deletable: true,
+                        required: true
                     },
                     fields: [
                         {
@@ -252,8 +253,7 @@ let systemTemplate = {
                                 type: "expected_salary",
                                 maxLength: 10,
                                 editable: false,
-                                deletable: false,
-                                required: true
+                                deletable: false
                             }
                         },
                         {

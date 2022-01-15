@@ -88,6 +88,14 @@ public class ValidationChecker {
                     if (++temp > 1) throw new InvalidSectionException();
                 }
             }
+            if (temp == 1) {
+                return true;
+            }
+            if (section.getMetadata().containsKey("required")) {
+                if ((boolean) section.getMetadata().get("required")) {
+                    throw new InvalidSectionException();
+                }
+            }
         }
         return true;
     }
