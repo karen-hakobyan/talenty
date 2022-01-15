@@ -3,28 +3,33 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isOpen: false,
     actions: {},
-    componentName: null,
+    data: null,
 };
 
 export const dialogSlice = createSlice({
     name: "dialogs",
     initialState,
     reducers: {
-        openDialog: (state) => {
-            state.isOpen = true;
-        },
-        closeDialog: (state) => {
-            state.isOpen = false;
-        },
-        setComponentName: (state, action) => {
-            state.componentName = action.payload;
+        setDialogIsOpen: (state, { payload }) => {
+            state.isOpen = payload;
         },
         setActions: (state, action) => {
             state.actions = action.payload;
         },
+        setInitialState: (state) => {
+            state = initialState;
+        },
+        setDialogData: (state, { payload }) => {
+            state.data = payload;
+        },
     },
 });
 
-export const { openDialog, closeDialog, setComponentName, setActions } =
-dialogSlice.actions;
+export const {
+    setComponentName,
+    setInitialState,
+    setDialogIsOpen,
+    setDialogData,
+} = dialogSlice.actions;
+
 export default dialogSlice.reducer;
