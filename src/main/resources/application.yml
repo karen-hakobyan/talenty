@@ -25,3 +25,7 @@ spring:
           auth: true
           starttls:
             enable: true
+  mvc:
+    view:
+      prefix: /WEB-INF/pages/
+      suffix: .jsp
