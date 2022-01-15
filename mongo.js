@@ -1254,5 +1254,12 @@ let jobAnnouncement = {
     ]
 }
 
+let typeValuesExample = {
+    _id: ObjectId(),
+    type: "gender",
+    values: ["MALE", "FEMALE", "OTHER"]
+}
+
+db.type_values.insert(typeValuesExample)
 db.templates.insert(systemTemplate);
 db.job_announcement.insert(jobAnnouncement);
