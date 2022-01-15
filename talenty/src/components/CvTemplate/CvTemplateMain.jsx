@@ -1,6 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// intro to git 
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Container,
@@ -24,21 +22,12 @@ import { Box } from "@mui/system";
 import { ListStyle, TextFieldStyle, StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
-import PersonalInfo from "../Dialogs/PersonalInfo";
-// import { selectDialogIsOpen } from "../../store/dialogs/selector";
 
 function CvTemplateMain() {
   const [data, setData] = useState({});
   const [tempName, setTempName] = useState("CV Template name");
   const [toggle, setToggle] = useState(true);
-  const [activeData, setActiveData] = useState(null);
-  // const isDilogOpen = useSelector(selectDialogIsOpen);
-  // const dispatch = useDispatch();
 
-  const onDialogOpen = useCallback(
-    (editedItem) => setActiveData(editedItem),
-    []
-  );
   useEffect(() => {
     axios
       .get(GET_TEMPLATES)
@@ -89,13 +78,7 @@ function CvTemplateMain() {
           />
         )}
         {Object.keys(data).length ? (
-          data.fields.map((item) => (
-            <TemplateItem
-              key={item.id}
-              item={item}
-              onDialogOpen={onDialogOpen}
-            />
-          ))
+          data.fields.map((item) => <TemplateItem key={item.id} item={item} />)
         ) : (
           <>
             <Skeleton sx={{ mt: 3 }} animation="wave" />
@@ -129,9 +112,6 @@ function CvTemplateMain() {
           <CreateCVDisabled />
         )}
       </Box>
-      {!!activeData && activeData.id === "61b0ec57f859615fcace5470" && (
-        <PersonalInfo data={activeData} onDialogOpen={onDialogOpen} />
-      )}
     </Container>
   );
 }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Checkbox, FormControl, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import axios from "axios";
 import { MAIN_PURPLE, TEXT } from "../../constants/colors";
 import {
   StyledContainer,
@@ -12,19 +11,10 @@ import {
   StyledBGImage,
   MainStyledSpan,
 } from "./signUp";
-import {
-  companyNameValid,
-  nameValid,
-  emailValid,
-  passValid,
-} from "../../helpers/validation/fieldValidations";
 import SignUpField from "./SignUpField";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
-import AlertDialog from "../Dialogs/Alert";
-import { POST_SIGN_UP } from "../../constants/requests";
 
 export default function SignUp({ isCompany }) {
-  const [alertMsg, setAlertMsg] = useState(false);
   const [terms, setTerms] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -74,44 +64,44 @@ export default function SignUp({ isCompany }) {
       isPass: true,
     },
   ];
-  const onSubmit = () => {
-    const data = fieldLabels.reduce((accum, item) => {
-      accum[item.inputName] = item.value;
-      return accum;
-    }, {});
-    if (pathname === "user") {
-      delete data.companyName;
-    }
+  // const onSubmit = () => {
+  //   const data = fieldLabels.reduce((accum, item) => {
+  //     accum[item.inputName] = item.value;
+  //     return accum;
+  //   }, {});
+  //   if (pathname === "user") {
+  //     delete data.companyName;
+  //   }
 
-    if (!terms) {
-      setAlertMsg("Check the Terms & Privacy policy");
-    } else if (isCompany && !companyNameValid(companyName)) {
-      setAlertMsg("Incorrect company name type");
-    } else if (!nameValid(firstName) || !nameValid(lastName)) {
-      setAlertMsg("Incorrect name or surname type");
-    } else if (!emailValid(email)) {
-      setAlertMsg("Incorrect email type");
-    } else if (!password || password !== confirmPassword) {
-      setAlertMsg("Passwords didn't mutch");
-    } else if (!passValid(password)) {
-      setAlertMsg({
-        part1: "Your password is weak!!! Should has",
-        part2: "8 characters, 1 uppercase, 1 special character, 1 number",
-      });
-    } else {
-      axios
-        .post(POST_SIGN_UP, {
-          ...data,
-        })
-        .then((resp) => {
-          console.log(resp);
-        })
-        .catch((err) => {
-          console.log(new Error(err));
-          setAlertMsg("Something went wrong please try after few minutes");
-        });
-    }
-  };
+  //   if (!terms) {
+  //     setAlertMsg("Check the Terms & Privacy policy");
+  //   } else if (isCompany && !companyNameValid(companyName)) {
+  //     setAlertMsg("Incorrect company name type");
+  //   } else if (!nameValid(firstName) || !nameValid(lastName)) {
+  //     setAlertMsg("Incorrect name or surname type");
+  //   } else if (!emailValid(email)) {
+  //     setAlertMsg("Incorrect email type");
+  //   } else if (!password || password !== confirmPassword) {
+  //     setAlertMsg("Passwords didn't mutch");
+  //   } else if (!passValid(password)) {
+  //     setAlertMsg({
+  //       part1: "Your password is weak!!! Should has",
+  //       part2: "8 characters, 1 uppercase, 1 special character, 1 number",
+  //     });
+  //   } else {
+  //     axios
+  //       .post(POST_SIGN_UP, {
+  //         ...data,
+  //       })
+  //       .then((resp) => {
+  //         console.log(resp);
+  //       })
+  //       .catch((err) => {
+  //         console.log(new Error(err));
+  //         setAlertMsg("Something went wrong please try after few minutes");
+  //       });
+  //   }
+  // };
 
   return (
     <StyledContainer>
@@ -123,7 +113,6 @@ export default function SignUp({ isCompany }) {
           required
           autoComplete="off"
           component="form"
-          onSubmit={onSubmit}
         >
           <H1>Create Account</H1>
           {!isCompany
@@ -168,9 +157,7 @@ export default function SignUp({ isCompany }) {
               onClick={() => setTerms((prev) => !prev)}
             />
           </Box>
-          <MuiContainedBtn onClick={onSubmit} bgColor={MAIN_PURPLE}>
-            Sign up
-          </MuiContainedBtn>
+          <MuiContainedBtn bgColor={MAIN_PURPLE}>Sign up</MuiContainedBtn>
         </FormControl>
       </StyledDiv>
       <StyledBGImage>
@@ -183,7 +170,6 @@ export default function SignUp({ isCompany }) {
           alt="sign up"
         />
       </StyledBGImage>
-      {!!alertMsg && <AlertDialog info={alertMsg} setOpen={setAlertMsg} />}
     </StyledContainer>
   );
 }
