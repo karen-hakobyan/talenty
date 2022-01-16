@@ -27,9 +27,7 @@ export default function Body({ dialogData }) {
       </Box>
       {dialogData.fields.map((field) => {
         return (
-          <Fragment key={field.id}>
-            {typeComponents[field.metadata.type]()}
-          </Fragment>
+          <Fragment>{typeComponents[field.metadata.type](field)}</Fragment>
         );
       })}
     </Box>

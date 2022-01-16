@@ -24,7 +24,7 @@ import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
 
 function CvTemplateMain() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const [tempName, setTempName] = useState("CV Template name");
   const [toggle, setToggle] = useState(true);
 
@@ -38,6 +38,9 @@ function CvTemplateMain() {
       .catch((err) => new Error(err));
   }, []);
 
+  if (!data) {
+    return null;
+  }
   return (
     <Container>
       <Box sx={{ display: "flex", mt: 5 }}>
