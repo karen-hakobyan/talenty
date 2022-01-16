@@ -22,6 +22,7 @@ import { Box } from "@mui/system";
 import { ListStyle, TextFieldStyle, StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
+import hrExData from "../../helpers/ajabsandal";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
@@ -32,10 +33,15 @@ function CvTemplateMain() {
     axios
       .get(GET_TEMPLATES)
       .then((res) => {
+        console.log(res);
         const { data } = res;
         setData(data);
       })
-      .catch((err) => new Error(err));
+      .catch((err) => {
+        // console.log(hrExData);
+        console.log(err);
+        setData(hrExData);
+      });
   }, []);
 
   if (!data) {
