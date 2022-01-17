@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import { Fragment } from "react";
 import typeComponents from "../CvTemplate/typeComponents";
 
 export default function Body({ dialogData }) {
@@ -26,9 +25,8 @@ export default function Body({ dialogData }) {
         {dialogData.name}
       </Box>
       {dialogData.fields.map((field) => {
-        return (
-          <Fragment>{typeComponents[field.metadata.type](field)}</Fragment>
-        );
+        let TempComponent = typeComponents[field.metadata.type];
+        return <TempComponent someProps={12} key={field.id} />;
       })}
     </Box>
   );
