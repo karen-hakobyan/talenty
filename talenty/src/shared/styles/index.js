@@ -16,5 +16,7 @@ const TEMPLATE_ITEM_BUTTON_DISABLED = {
     color: "9F9F9F",
     border: "1px solid #EFEFEF",
     background: "#EFEFEF",
+    cursor: "default",
+    "&:hover": { background: "#EFEFEF" },
 };
 export { TEMPLATE_ITEM_BUTTON, TEMPLATE_ITEM_BUTTON_DISABLED };
