@@ -6,6 +6,7 @@ import com.talenty.mapper.TypeValuesMapper;
 import com.talenty.repository.TypeValuesRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,9 @@ public class TypeValuesService {
 
     public TypeValuesDocument save(final TypeValues typeValues) {
        return typeValuesRepository.save(TypeValuesMapper.instance.dtoToDocument(typeValues));
+    }
+
+    public List<TypeValuesDocument> findAll() {
+        return typeValuesRepository.findAll();
     }
 }

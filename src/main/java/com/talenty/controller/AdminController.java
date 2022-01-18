@@ -27,18 +27,18 @@ public class AdminController {
 
     @GetMapping("/dropdown_lists")
     public ModelAndView getDropdownListsPage(final ModelAndView modelAndView) {
-        TypeValuesDocument typeValuesDocument = new TypeValuesDocument();
-        typeValuesDocument.setType("gender");
-        typeValuesDocument.setValues(new ArrayList<>(Arrays.asList("MALE", "FEMALE", "OTHER")));
-        TypeValuesDocument typeValuesDocument2 = new TypeValuesDocument();
-        typeValuesDocument2.setType("skills");
-        typeValuesDocument2.setValues(new ArrayList<>(Arrays.asList("CODING", "DB", "TRANSLATER")));
+//        TypeValuesDocument typeValuesDocument = new TypeValuesDocument();
+//        typeValuesDocument.setType("gender");
+//        typeValuesDocument.setValues(new ArrayList<>(Arrays.asList("MALE", "FEMALE", "OTHER")));
+//        TypeValuesDocument typeValuesDocument2 = new TypeValuesDocument();
+//        typeValuesDocument2.setType("skills");
+//        typeValuesDocument2.setValues(new ArrayList<>(Arrays.asList("CODING", "DB", "TRANSLATER")));
+//
+//        final ArrayList<TypeValuesDocument> objects = new ArrayList<>();
+//        objects.add(typeValuesDocument);
+//        objects.add(typeValuesDocument2);
 
-        final ArrayList<TypeValuesDocument> objects = new ArrayList<>();
-        objects.add(typeValuesDocument);
-        objects.add(typeValuesDocument2);
-
-        modelAndView.addObject("types_list", typeValuesService.getTypes());
+        modelAndView.addObject("types_list", typeValuesService.findAll());
         modelAndView.setViewName("DropdownListsPage");
         return modelAndView;
     }

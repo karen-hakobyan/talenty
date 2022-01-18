@@ -30,7 +30,6 @@ let modalContent = document.getElementById("modal_content");
 let types_list = httpGet("http://localhost:7800/admin/get_dropdown_lists")
 types_list = JSON.parse(types_list)
 
-
 function openEditModal(index) {
     console.log(index)
     console.log(types_list)
@@ -129,10 +128,12 @@ function httpPost(url, body) {
     for (let key of Object.keys(body)) {
         data.append(key, body[key])
     }
-    data.append('user', 'person');
 
+    console.log(body)
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", url, false);
+
+    xmlHttp.setRequestHeader('Content-type', 'application/json');
 
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
@@ -141,5 +142,5 @@ function httpPost(url, body) {
         }
     }
 
-    xmlHttp.send(data);
+    xmlHttp.send(JSON.stringify(body));
 }
