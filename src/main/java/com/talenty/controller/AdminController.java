@@ -1,8 +1,7 @@
 package com.talenty.controller;
 
 import com.talenty.domain.mongo.TypeValuesDocument;
-import com.talenty.repository.TypeValuesRepository;
-import org.springframework.http.ResponseEntity;
+import com.talenty.service.TypeValuesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,16 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final TypeValuesRepository repository;
+    private final TypeValuesService typeValuesService;
 
-    public AdminController(TypeValuesRepository repository) {
-        this.repository = repository;
+    public AdminController(final TypeValuesService typeValuesService) {
+        this.typeValuesService = typeValuesService;
     }
 
     @GetMapping("/dashboard")
@@ -40,14 +38,9 @@ public class AdminController {
         objects.add(typeValuesDocument);
         objects.add(typeValuesDocument2);
 
-        modelAndView.addObject("types_list", objects);
+        modelAndView.addObject("types_list", typeValuesService.getTypes());
         modelAndView.setViewName("DropdownListsPage");
         return modelAndView;
-    }
-
-    @GetMapping("/get_dropdown_lists")
-    public ResponseEntity<List<TypeValuesDocument>> getDropdownLists() {
-        return ResponseEntity.ok(repository.findAll());
     }
 
 }

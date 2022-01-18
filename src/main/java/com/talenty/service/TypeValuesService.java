@@ -1,6 +1,8 @@
 package com.talenty.service;
 
+import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.mongo.TypeValuesDocument;
+import com.talenty.mapper.TypeValuesMapper;
 import com.talenty.repository.TypeValuesRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +22,11 @@ public class TypeValuesService {
     }
 
 
+    public TypeValues getTypes() {
+        return null;
+    }
+
+    public TypeValuesDocument save(final TypeValues typeValues) {
+       return typeValuesRepository.save(TypeValuesMapper.instance.dtoToDocument(typeValues));
+    }
 }
