@@ -28,6 +28,7 @@ export default function Dialogs() {
         dispatch(setDialogIsOpen(false));
       }}
       maxWidth={false}
+      sx={{ borderRadius: "16px" }}
     >
       <Body dialogData={dialogData} />
     </Dialog>

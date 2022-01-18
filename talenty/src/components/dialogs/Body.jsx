@@ -20,6 +20,7 @@ export default function Body({ dialogData }) {
           color: "#4C494F",
           borderBottom: "2px solid #D2D2D2",
           paddingBottom: "20px",
+          marginBottom: "44px",
         }}
       >
         {dialogData.name}
