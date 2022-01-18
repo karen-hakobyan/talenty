@@ -18,6 +18,7 @@ export default function Body({ dialogData }) {
           lineHeight: "18px",
           fontWeight: 600,
           color: "#4C494F",
+          fontFamily: "Proxima Nova",
           borderBottom: "2px solid #D2D2D2",
           paddingBottom: "20px",
           marginBottom: "44px",
