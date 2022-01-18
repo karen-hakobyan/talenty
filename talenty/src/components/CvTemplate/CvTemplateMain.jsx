@@ -25,6 +25,8 @@ import { GET_TEMPLATES } from "../../constants/requests";
 import hrExData from "../../helpers/ajabsandal";
 import Select from "../shared/Select";
 
+
+
 function CvTemplateMain() {
   const [data, setData] = useState(null);
   const [tempName, setTempName] = useState("CV Template name");
@@ -43,6 +45,8 @@ function CvTemplateMain() {
         setData(hrExData);
       });
   }, []);
+
+
 
   if (!data) {
     return null;
