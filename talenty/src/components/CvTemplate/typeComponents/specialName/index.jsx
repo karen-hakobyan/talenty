@@ -9,6 +9,7 @@ import {
 import { Checkbox } from "../../../shared/Checkbox";
 
 export default function SpecialNameGenerator({ data }) {
+  console.log(data);
   return (
     <Box>
       <Box sx={INPUT_LABEL}>{data?.name}</Box>
