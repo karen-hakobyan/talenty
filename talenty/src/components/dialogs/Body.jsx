@@ -20,14 +20,17 @@ export default function Body({ dialogData }) {
           color: "#4C494F",
           borderBottom: "2px solid #D2D2D2",
           paddingBottom: "20px",
+          marginBottom: "44px",
         }}
       >
         {dialogData.name}
       </Box>
-      {dialogData.fields.map((field) => {
-        let TempComponent = typeComponents[field.metadata.type];
-        return <TempComponent someProps={12} key={field.id} />;
-      })}
+      <Box sx={{ display: "grid", gap: "24px" }}>
+        {dialogData.fields.map((field) => {
+          let TempComponent = typeComponents[field.metadata.type];
+          return <TempComponent data={field} key={field._id} />;
+        })}
+      </Box>
     </Box>
   );
 }

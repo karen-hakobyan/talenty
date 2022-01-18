@@ -38,7 +38,6 @@ function CvTemplateMain() {
         setData(data);
       })
       .catch((err) => {
-        // console.log(hrExData);
         console.log(err);
         setData(hrExData);
       });
@@ -87,7 +86,7 @@ function CvTemplateMain() {
           />
         )}
         {Object.keys(data).length ? (
-          data.fields.map((item) => <TemplateItem key={item.id} item={item} />)
+          data.fields.map((item) => <TemplateItem key={item._id} item={item} />)
         ) : (
           <>
             <Skeleton sx={{ mt: 3 }} animation="wave" />
