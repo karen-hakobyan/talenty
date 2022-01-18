@@ -26,7 +26,10 @@ export default function Body({ dialogData }) {
       </Box>
       {dialogData.fields.map((field) => {
         let TempComponent = typeComponents[field.metadata.type];
-        return <TempComponent someProps={12} key={field.id} />;
+        if (!TempComponent) {
+          return <h1>they have changed again some type</h1>;
+        }
+        return <TempComponent someProps={12} key={field._id} />;
       })}
     </Box>
   );
