@@ -25,12 +25,13 @@ export default function Body({ dialogData }) {
       >
         {dialogData.name}
       </Box>
-      <Box sx={{ display: "grid", gap: "24px" }}>
-        {dialogData.fields.map((field) => {
-          let TempComponent = typeComponents[field.metadata.type];
-          return <TempComponent data={field} key={field._id} />;
-        })}
-      </Box>
+      {dialogData.fields.map((field) => {
+        let TempComponent = typeComponents[field.metadata.type];
+        if (!TempComponent) {
+          return <h1>they have changed again some type</h1>;
+        }
+        return <TempComponent someProps={12} key={field._id} />;
+      })}
     </Box>
   );
 }
