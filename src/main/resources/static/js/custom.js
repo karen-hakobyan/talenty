@@ -30,6 +30,7 @@ let modalContent = document.getElementById("modal_content");
 let types_list = httpGet("http://localhost:7800/admin/get_dropdown_lists")
 types_list = JSON.parse(types_list)
 
+
 function openEditModal(index) {
     console.log(index)
     console.log(types_list)
@@ -48,13 +49,29 @@ function openEditModal(index) {
         modalContent.innerHTML += "<hr/>"
     }
 
-    modal.style.display = "block";
-    disableScroll()
+    showModal()
+}
+
+function openNewTypeModal() {
+    modalContent.innerHTML = "<span class=\"close\" onclick=\"closeModal()\">&times;</span>"
+    modalContent.innerHTML += "<input type='text' placeholder='Input type name'>"
+    modalContent.innerHTML += "<input type='button' onclick='saveNewType()'>"
+    showModal()
+}
+
+function saveNewType() {
+    httpPost("http://localhost:7800/type_values/save", {type: "test2"})
+    closeModal()
 }
 
 function closeModal() {
     modal.style.display = "none";
     enableScroll()
+}
+
+function showModal() {
+    modal.style.display = "block";
+    disableScroll()
 }
 
 //for scrolling
@@ -98,9 +115,31 @@ function enableScroll() {
     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
-function httpGet(theUrl) {
+function httpGet(url) {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
+}
+
+
+function httpPost(url, body) {
+
+    let data = new FormData();
+    for (let key of Object.keys(body)) {
+        data.append(key, body[key])
+    }
+    data.append('user', 'person');
+
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", url, false);
+
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            console.log(xmlHttp.responseText)
+            return xmlHttp.responseText
+        }
+    }
+
+    xmlHttp.send(data);
 }

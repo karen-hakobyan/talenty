@@ -157,7 +157,15 @@ min-height: 80px;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content-smaller {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 10%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
