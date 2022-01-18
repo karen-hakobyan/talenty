@@ -9,6 +9,7 @@ import { ReactComponent as CreateCVDisabled } from "./createCVDisabled.svg";
 import { ReactComponent as AddSectionIconSVG } from "./addSectionIcon.svg";
 import { ReactComponent as DeleteIconSVG } from "./delete.svg";
 import { ReactComponent as CheckIconSVG } from "./check.svg";
+import { ReactComponent as SelectIconSVG } from "./selectIcon.svg";
 
 export {
   EditSVG,
@@ -22,4 +23,5 @@ export {
   AddSectionIconSVG,
   DeleteIconSVG,
   CheckIconSVG,
+  SelectIconSVG,
 };

@@ -2,24 +2,16 @@ import React from "react";
 import { Box, IconButton, TextField } from "@mui/material";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 import {
-  TEMPLATE_ITEM_BUTTON,
+  FIELD_CHECKBOX_CONTAINER,
+  INPUT_LABEL,
   TEMPLATE_ITEM_BUTTON_DISABLED,
 } from "../../../../shared/styles";
 import { Checkbox } from "../../../shared/Checkbox";
 
-export default function SpecialNameGenerator({ data, classes }) {
+export default function SpecialNameGenerator({ data }) {
   return (
     <Box>
-      <Box
-        sx={{
-          color: "#4C494F",
-          lineHeight: "24px",
-          fontSize: "16px",
-          marginBottom: "10px",
-        }}
-      >
-        {data.name}
-      </Box>
+      <Box sx={INPUT_LABEL}>{data.name}</Box>
       <Box
         sx={{
           display: "flex",
@@ -27,7 +19,7 @@ export default function SpecialNameGenerator({ data, classes }) {
           alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", gap: "24px", alignItems: "center" }}>
+        <Box sx={FIELD_CHECKBOX_CONTAINER}>
           <TextField
             placeholder={data.name}
             disabled

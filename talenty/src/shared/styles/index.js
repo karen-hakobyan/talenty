@@ -19,4 +19,22 @@ const TEMPLATE_ITEM_BUTTON_DISABLED = {
     cursor: "default",
     "&:hover": { background: "#EFEFEF" },
 };
-export { TEMPLATE_ITEM_BUTTON, TEMPLATE_ITEM_BUTTON_DISABLED };
+
+const INPUT_LABEL = {
+    color: "#4C494F",
+    lineHeight: "24px",
+    fontSize: "16px",
+    marginBottom: "10px",
+};
+
+const FIELD_CHECKBOX_CONTAINER = {
+    display: "flex",
+    gap: "24px",
+    alignItems: "center",
+};
+export {
+    TEMPLATE_ITEM_BUTTON,
+    TEMPLATE_ITEM_BUTTON_DISABLED,
+    INPUT_LABEL,
+    FIELD_CHECKBOX_CONTAINER,
+};
