@@ -19,4 +19,9 @@ public class TypeValuesDocument {
     private String type;
     private List<String> values;
 
+    public TypeValuesDocument(String type, List<String> values) {
+        this.type = type;
+        this.values = values;
+    }
+
 }

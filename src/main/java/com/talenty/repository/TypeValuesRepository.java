@@ -10,4 +10,5 @@ public interface TypeValuesRepository extends MongoRepository<TypeValuesDocument
 
     Optional<TypeValuesDocument> findByType(String type);
 
+
 }
