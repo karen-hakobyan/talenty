@@ -11,7 +11,7 @@ import { Checkbox } from "../../../shared/Checkbox";
 export default function SpecialNameGenerator({ data }) {
   return (
     <Box>
-      <Box sx={INPUT_LABEL}>{data.name}</Box>
+      <Box sx={INPUT_LABEL}>{data?.name}</Box>
       <Box
         sx={{
           display: "flex",
@@ -21,7 +21,7 @@ export default function SpecialNameGenerator({ data }) {
       >
         <Box sx={FIELD_CHECKBOX_CONTAINER}>
           <TextField
-            placeholder={data.name}
+            placeholder={data?.name}
             disabled
             variant="outlined"
             sx={{ width: "421px", background: "#F5F5F5" }}

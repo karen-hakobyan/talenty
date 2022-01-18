@@ -30,7 +30,7 @@ export default function Body({ dialogData }) {
         if (!TempComponent) {
           return <h1>they have changed again some type</h1>;
         }
-        return <TempComponent someProps={12} key={field._id} />;
+        return <TempComponent data={12} key={field._id} />;
       })}
     </Box>
   );
