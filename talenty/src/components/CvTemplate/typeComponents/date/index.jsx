@@ -1,6 +1,5 @@
 import { TextField } from "@mui/material";
 import { DISABLED_INPUT, TEMPLATE_INPUT } from "../../../../shared/styles";
-import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 
 export default function DateGenerator({
@@ -13,12 +12,11 @@ export default function DateGenerator({
       label={data.name}
       inputComponent={
         <TextField
-          type="date"
           disabled={disabledInput}
+          placeholder="DD/MM/YYYY"
           sx={{ ...TEMPLATE_INPUT, ...(disabledInput ? DISABLED_INPUT : {}) }}
         />
       }
-      checkboxComponent={<Checkbox disabled={disabledCheckbox} />}
     />
   );
 }
