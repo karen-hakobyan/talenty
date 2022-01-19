@@ -6,8 +6,8 @@ import com.talenty.mapper.TypeValuesMapper;
 import com.talenty.repository.TypeValuesRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TypeValuesService {
@@ -18,20 +18,22 @@ public class TypeValuesService {
         this.typeValuesRepository = typeValuesRepository;
     }
 
-    public Optional<TypeValuesDocument> findByType(final String type) {
-        return typeValuesRepository.findByType(type);
-    }
 
-
-    public TypeValues getTypes() {
-        return null;
+    public List<TypeValuesDocument> getTypes() {
+        return typeValuesRepository.getTypes();
     }
 
     public TypeValuesDocument save(final TypeValues typeValues) {
-       return typeValuesRepository.save(TypeValuesMapper.instance.dtoToDocument(typeValues));
+        return typeValuesRepository.save(TypeValuesMapper.instance.dtoToDocument(typeValues));
     }
 
-    public List<TypeValuesDocument> findAll() {
-        return typeValuesRepository.findAll();
+    public List<TypeValues> getTypesWithValues() {
+        final List<TypeValues> result = new ArrayList<>();
+        List<TypeValuesDocument> list = typeValuesRepository.findAll();
+        for (TypeValuesDocument typeValuesDocument : list) {
+            result.add(TypeValuesMapper.instance.documentToDto(typeValuesDocument));
+        }
+
+        return result;
     }
 }
