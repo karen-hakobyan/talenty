@@ -32,9 +32,13 @@ const FIELD_CHECKBOX_CONTAINER = {
     gap: "24px",
     alignItems: "center",
 };
+const TEMPLATE_INPUT = { width: "421px" };
+const DISABLED_INPUT = { background: "#F5F5F5" };
 export {
     TEMPLATE_ITEM_BUTTON,
     TEMPLATE_ITEM_BUTTON_DISABLED,
     INPUT_LABEL,
     FIELD_CHECKBOX_CONTAINER,
+    TEMPLATE_INPUT,
+    DISABLED_INPUT,
 };
