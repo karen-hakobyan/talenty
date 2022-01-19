@@ -23,9 +23,6 @@ import { ListStyle, TextFieldStyle, StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import { GET_TEMPLATES } from "../../constants/requests";
 import hrExData from "../../helpers/ajabsandal";
-import Select from "../shared/Select";
-
-
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
@@ -45,8 +42,6 @@ function CvTemplateMain() {
         setData(hrExData);
       });
   }, []);
-
-
 
   if (!data) {
     return null;
@@ -91,7 +86,9 @@ function CvTemplateMain() {
           />
         )}
         {Object.keys(data).length ? (
-          data.fields.map((item) => <TemplateItem key={item._id} item={item} />)
+          data.fields.map((item) => (
+            <TemplateItem key={item._id} item={item} setData={setData} />
+          ))
         ) : (
           <>
             <Skeleton sx={{ mt: 3 }} animation="wave" />
@@ -117,8 +114,6 @@ function CvTemplateMain() {
           <AddSectionIconSVG />
           Add section
         </IconButton>
-        <Select disabled />
-
         {true ? (
           <IconButton>
             <CreateCV />

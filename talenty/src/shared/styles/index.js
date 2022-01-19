@@ -3,7 +3,7 @@ const TEMPLATE_ITEM_BUTTON = {
     gap: 1,
     fontSize: "14px",
     lineHeight: "22px",
-    fontWeight: "400px",
+    fontWeight: 400,
     width: "94px",
     height: "34px",
     borderRadius: "6px",

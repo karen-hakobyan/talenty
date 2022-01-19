@@ -1,4 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
+import { AddFieldSVG } from "../../assets/icons/createTemplate";
+import { TEMPLATE_ITEM_BUTTON } from "../../shared/styles";
 import typeComponents from "../CvTemplate/typeComponents";
 
 export default function Body({ dialogData }) {
@@ -34,6 +36,30 @@ export default function Body({ dialogData }) {
           }
           return <TempComponent data={field} key={field._id} />;
         })}
+
+        {/* section adding part */}
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}>
+          <IconButton sx={{ ...TEMPLATE_ITEM_BUTTON, width: "179px" }}>
+            <AddFieldSVG />
+            Add field
+          </IconButton>
+          <Button
+            sx={{
+              ...TEMPLATE_ITEM_BUTTON,
+              width: "179px",
+              color: "#FFFFFF",
+              "&:hover": {
+                background: "#8C0DF0",
+              },
+              "&.Mui-disabled": {
+                background: "#9F9F9F",
+              },
+              background: "#8C0DF0",
+            }}
+          >
+            Save
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
