@@ -1,9 +1,4 @@
-import {
-  Box,
-  Checkbox as MuiCheckbox,
-  IconButton,
-  TextField,
-} from "@mui/material";
+import { Checkbox as MuiCheckbox } from "@mui/material";
 import { CheckIconSVG } from "../../assets/icons/createTemplate";
 
 const Checkbox = ({ sx = {}, disabled, checked, ...restProps }) => {
