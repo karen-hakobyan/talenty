@@ -10,7 +10,17 @@ import {
 import { ACTION_WRAPPER } from "./style";
 import { setDialogData, setDialogIsOpen } from "../../store/dialogs/slice";
 
-function TemplateItem({ item }) {
+function onDelete(setData, id) {
+  setData((prevState) => {
+    return {
+      ...prevState,
+      fields: prevState.fields.filter((el) => el._id !== id),
+    };
+  });
+}
+
+function TemplateItem({ item, setData }) {
+  console.log(item);
   const dispatch = useDispatch();
   const onEdit = useCallback(
     (item) => {
@@ -29,6 +39,10 @@ function TemplateItem({ item }) {
           Edit
         </IconButton>
         <IconButton
+          onClick={() => {
+            onDelete(setData, item._id);
+          }}
+          disabled={!item.metadata.deletable}
           sx={
             item.metadata.deletable
               ? TEMPLATE_ITEM_BUTTON

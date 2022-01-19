@@ -10,6 +10,7 @@ import { ReactComponent as AddSectionIconSVG } from "./addSectionIcon.svg";
 import { ReactComponent as DeleteIconSVG } from "./delete.svg";
 import { ReactComponent as CheckIconSVG } from "./check.svg";
 import { ReactComponent as SelectIconSVG } from "./selectIcon.svg";
+import { ReactComponent as AddFieldSVG } from "./addField.svg";
 
 export {
   EditSVG,
@@ -24,4 +25,5 @@ export {
   DeleteIconSVG,
   CheckIconSVG,
   SelectIconSVG,
+  AddFieldSVG,
 };
