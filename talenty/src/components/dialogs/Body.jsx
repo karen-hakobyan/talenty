@@ -1,9 +1,20 @@
 import { Box, Button, IconButton } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { AddFieldSVG } from "../../assets/icons/createTemplate";
+import {
+  TEMPLATE_DATA,
+  UPDATED_TEMPLATE_DATA,
+} from "../../constants/redux/globalData";
 import { TEMPLATE_ITEM_BUTTON } from "../../shared/styles";
+import { setDialogIsOpen } from "../../store/dialogs/slice";
+import { selectGlobalDataViaKey } from "../../store/globalData/selector";
+import { setGlobalDataViaKey } from "../../store/globalData/slice";
 import typeComponents from "../CvTemplate/typeComponents";
 
 export default function Body({ dialogData }) {
+  const dispatch = useDispatch();
+  const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
+
   if (!dialogData) {
     return null;
   }
@@ -44,6 +55,7 @@ export default function Body({ dialogData }) {
             Add field
           </IconButton>
           <Button
+            onClick={() => onSave({ dispatch, dialogData, templateData })}
             sx={{
               ...TEMPLATE_ITEM_BUTTON,
               width: "179px",
@@ -63,4 +75,16 @@ export default function Body({ dialogData }) {
       </Box>
     </Box>
   );
+}
+
+function onSave({ dialogData, dispatch, templateData }) {
+  const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
+    if (value._id === dialogData._id) {
+      return dialogData;
+    } else {
+      return value;
+    }
+  });
+  dispatch(setGlobalDataViaKey({ key: UPDATED_TEMPLATE_DATA, value: result }));
+  dispatch(setDialogIsOpen(false));
 }
