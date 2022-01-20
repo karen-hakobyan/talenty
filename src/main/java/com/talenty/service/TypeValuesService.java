@@ -2,6 +2,7 @@ package com.talenty.service;
 
 import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.mongo.TypeValuesDocument;
+import com.talenty.exceptions.NoSuchTypeException;
 import com.talenty.mapper.TypeValuesMapper;
 import com.talenty.repository.TypeValuesRepository;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,18 @@ public class TypeValuesService {
         }
 
         return result;
+    }
+
+    public String delete(TypeValues typeValues) {
+        String type = typeValues.getType();
+        TypeValuesDocument typeValuesDocument = typeValuesRepository.deleteByType(type);
+        if (typeValuesDocument == null) {
+            throw new NoSuchTypeException();
+        }
+        return type;
+    }
+
+    public TypeValuesDocument editValues(TypeValues typeValues) {
+        return null;
     }
 }

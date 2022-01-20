@@ -5,10 +5,7 @@ import com.talenty.domain.mongo.TypeValuesDocument;
 import com.talenty.service.TypeValuesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/type_values")
@@ -31,4 +28,15 @@ public class TypeValuesController {
         return ResponseEntity.ok(typeValuesService.getTypesWithValues());
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteType(@RequestBody final TypeValues typeValues) {
+        String type = typeValuesService.delete(typeValues);
+        return ResponseEntity.ok("Type Deleted");
+    }
+
+    @PostMapping("/edit_type")
+    public ResponseEntity<?> editValues(@RequestBody final TypeValues typeValues) {
+        TypeValuesDocument editValues = typeValuesService.editValues(typeValues);
+        return ResponseEntity.ok("Type Edited");
+    }
 }

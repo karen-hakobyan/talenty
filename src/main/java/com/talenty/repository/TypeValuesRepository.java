@@ -14,4 +14,6 @@ public interface TypeValuesRepository extends MongoRepository<TypeValuesDocument
     @Query(value = "{}", fields = "{type : 1, _id : 0}")
     List<TypeValuesDocument> getTypes();
 
+    TypeValuesDocument deleteByType(String type);
+
 }
