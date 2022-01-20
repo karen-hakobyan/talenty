@@ -23,19 +23,32 @@
 let modal = document.getElementById("modal");
 let modalContent = document.getElementById("modal_content");
 
+
 // List
-let types_list = JSON.parse(httpGet("http://localhost:7800/admin/get_dropdown_lists"))
-if(!types_list) {
-    types_list = {}
+let types_list = []
+
+updateTypeList()
+
+function updateTypeList() {
+    types_list = JSON.parse(httpGet("http://localhost:7800/type_values/get_all"))
+    if (!types_list) {
+        types_list = []
+    }
+    return types_list
 }
 
+// Value editing modal
 function openEditModal(index) {
-    if (!types_list[index]) return
-
     modalContent.innerHTML = "<span class=\"close\" onclick=\"closeModal()\">&times;</span>"
 
     modalContent.innerHTML += "<button>Add new type</button></br>"
     modalContent.innerHTML += "</hr>"
+
+    if (!types_list[index].values) {
+        modalContent.innerHTML += "<p>No values</p>"
+        showModal()
+        return
+    }
 
     for (let value of types_list[index].values) {
         console.log(value)
@@ -43,32 +56,52 @@ function openEditModal(index) {
         modalContent.innerHTML += "<button>remove</button>"
         modalContent.innerHTML += "<hr/>"
     }
-
     showModal()
 }
 
+// Type adding modal
 function openNewTypeModal() {
     modalContent.innerHTML = "<span class=\"close\" onclick=\"closeModal()\">&times;</span>"
-    modalContent.innerHTML += "<input type='text' placeholder='Input type name'>"
-    modalContent.innerHTML += "<input type='button' onclick='saveNewType()'>"
+    modalContent.innerHTML += "<input id='addNewTypeInput' type='text' placeholder='Input type name'>"
+    modalContent.innerHTML += "<input type='button' value='Add' onclick='saveNewType(document.getElementById(`addNewTypeInput`).value)'>"
     showModal()
 }
 
-function saveNewType() {
-    httpPost("http://localhost:7800/type_values/save", {type: "test2"})
+// Saving new type
+function saveNewType(type) {
+    type = type.replaceAll(" ", "")
+
+    if (!type) {
+        alert("Input valid type name")
+        return;
+    }
+
+    for (let type_obj of types_list) {
+        if (type_obj.type === type) {
+            alert("Inputted type already exists")
+            return;
+        }
+    }
+
+    httpPost("http://localhost:7800/type_values/save", {type: type}, () => location.reload())
+    updateTypeList()
     closeModal()
 }
 
+// Close current opened modal
 function closeModal() {
     modal.style.display = "none";
     enableScroll()
 }
 
+// Open simple modal
 function showModal() {
     modal.style.display = "block";
     disableScroll()
 }
 
+
+// GET request
 function httpGet(url) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
@@ -76,7 +109,8 @@ function httpGet(url) {
     return xmlHttp.responseText;
 }
 
-function httpPost(url, body) {
+// POST request
+function httpPost(url, body, onReadyFunc) {
     let data = new FormData();
     for (let key of Object.keys(body)) {
         data.append(key, body[key])
@@ -90,7 +124,8 @@ function httpPost(url, body) {
 
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            console.log(xmlHttp.responseText)
+            updateTypeList()
+            onReadyFunc()
             return xmlHttp.responseText
         }
     }
@@ -98,6 +133,7 @@ function httpPost(url, body) {
     xmlHttp.send(JSON.stringify(body));
 }
 
+// Logout event
 function logout() {
     console.log("123")
     alert("logout logic will be soon!")
