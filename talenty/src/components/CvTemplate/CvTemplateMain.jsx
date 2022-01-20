@@ -11,17 +11,31 @@ import { StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import hrExData from "../../helpers/ajabsandal";
 import { globalDataSetter } from "../../request/get";
+import {
+  localStorageGetter,
+  localStorageSetter,
+} from "../../helpers/localStorage";
+import { TEMPLAT_DATA } from "../../constants/localStorage";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
 
-  // todo think about architecture about get request do seperation between get and post and also in the future add local storage data managment to not lose
   useEffect(() => {
-    globalDataSetter({
-      stateSetter: setData,
-      urlKey: "getTemplates",
-      errorAction: () => setData(hrExData),
-    });
+    if (data) {
+      localStorageSetter(TEMPLAT_DATA, data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    let storageExistingData = localStorageGetter(TEMPLAT_DATA);
+
+    storageExistingData
+      ? setData(storageExistingData)
+      : globalDataSetter({
+          stateSetter: setData,
+          urlKey: "getTemplates",
+          errorAction: () => setData(hrExData),
+        });
   }, []);
 
   if (!data) {
