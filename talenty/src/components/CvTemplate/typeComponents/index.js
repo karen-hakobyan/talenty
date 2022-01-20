@@ -13,7 +13,7 @@ import SectionGenerator from "./section";
 import SpecialNameGenerator from "./specialName";
 
 const typeComponents = {
-    text: SpecialNameGenerator,
+    special_name: SpecialNameGenerator,
     address: AddressGenerator,
     city: CityGenerator,
     country: CountryGenerator,

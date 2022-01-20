@@ -79,7 +79,7 @@ export default function Body({ dialogData }) {
 
 function onSave({ dialogData, dispatch, templateData }) {
   const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
-    if (value._id === dialogData._id) {
+    if (value._id === dialogData.id) {
       return dialogData;
     } else {
       return value;
