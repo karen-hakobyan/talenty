@@ -39,7 +39,7 @@ function TemplateItem({ item, setData }) {
         </IconButton>
         <IconButton
           onClick={() => {
-            onDelete(setData, item._id);
+            onDelete(setData, item.id);
           }}
           disabled={!item.metadata.deletable}
           sx={
