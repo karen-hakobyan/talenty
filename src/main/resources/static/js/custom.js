@@ -53,6 +53,7 @@ function openEditModal(index) {
     for (let value of types_list[index].values) {
         console.log(value)
         modalContent.innerHTML += "<p>" + value + "</p>"
+        modalContent.innerHTML += "<button>edit</button>"
         modalContent.innerHTML += "<button>remove</button>"
         modalContent.innerHTML += "<hr/>"
     }
@@ -65,6 +66,22 @@ function openNewTypeModal() {
     modalContent.innerHTML += "<input id='addNewTypeInput' type='text' placeholder='Input type name'>"
     modalContent.innerHTML += "<input type='button' value='Add' onclick='saveNewType(document.getElementById(`addNewTypeInput`).value)'>"
     showModal()
+}
+
+// Delete type confirm modal
+function openDeleteTypeModal(index) {
+    modalContent.innerHTML = "<span class=\"close\" onclick=\"closeModal()\">&times;</span>"
+    modalContent.innerHTML += "<h2>Delete " + types_list[index].type + " ?</h2>"
+    modalContent.innerHTML +=
+        "<div> " +
+        "<button onclick='deleteType(" + index + ")'>Delete</button> " +
+        "<button onclick='closeModal()'>Cancel</button>" +
+        " </div>"
+    showModal()
+}
+
+function deleteType(index) {
+    httpPost("http://localhost:7800/type_values/delete", {type: types_list[index].type}, () => location.reload())
 }
 
 // Saving new type
@@ -86,6 +103,17 @@ function saveNewType(type) {
     httpPost("http://localhost:7800/type_values/save", {type: type}, () => location.reload())
     updateTypeList()
     closeModal()
+}
+
+// Delete type
+function requestForDeleteType(index) {
+    if (!types_list[index]) {
+        alert("No such type")
+        return
+    }
+
+    openDeleteTypeModal(index)
+
 }
 
 // Close current opened modal
@@ -137,4 +165,9 @@ function httpPost(url, body, onReadyFunc) {
 function logout() {
     console.log("123")
     alert("logout logic will be soon!")
+}
+
+
+function editValues() {
+    httpPost("http://localhost:7800/type_values/edit_values", {type: 'gender', values: ['MALE', 'Female']}, () => location.reload())
 }
