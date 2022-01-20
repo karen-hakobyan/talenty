@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    var mainApp = {
+    let mainApp = {
         main_fun: function () {
             $(window).bind("load resize", function () {
                 if ($(this).width() < 768) {
@@ -19,21 +19,17 @@
     });
 }(jQuery));
 
-function logout() {
-    console.log("123")
-    alert("logout logic will be soon!")
-}
-
+// Elements
 let modal = document.getElementById("modal");
 let modalContent = document.getElementById("modal_content");
 
-let types_list = httpGet("http://localhost:7800/admin/get_dropdown_lists")
-types_list = JSON.parse(types_list)
+// List
+let types_list = JSON.parse(httpGet("http://localhost:7800/admin/get_dropdown_lists"))
+if(!types_list) {
+    types_list = {}
+}
 
 function openEditModal(index) {
-    console.log(index)
-    console.log(types_list)
-
     if (!types_list[index]) return
 
     modalContent.innerHTML = "<span class=\"close\" onclick=\"closeModal()\">&times;</span>"
@@ -73,47 +69,6 @@ function showModal() {
     disableScroll()
 }
 
-//for scrolling
-let keys = {37: 1, 38: 1, 39: 1, 40: 1};
-
-function preventDefault(e) {
-    e.preventDefault();
-}
-
-function preventDefaultForScrollKeys(e) {
-    if (keys[e.keyCode]) {
-        preventDefault(e);
-        return false;
-    }
-}
-
-let supportsPassive = false;
-try {
-    window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-        get: function () {
-            supportsPassive = true;
-        }
-    }));
-} catch (e) {
-}
-
-let wheelOpt = supportsPassive ? {passive: false} : false;
-let wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-
-function disableScroll() {
-    window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-    window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
-function enableScroll() {
-    window.removeEventListener('DOMMouseScroll', preventDefault, false);
-    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-    window.removeEventListener('touchmove', preventDefault, wheelOpt);
-    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
 function httpGet(url) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
@@ -121,9 +76,7 @@ function httpGet(url) {
     return xmlHttp.responseText;
 }
 
-
 function httpPost(url, body) {
-
     let data = new FormData();
     for (let key of Object.keys(body)) {
         data.append(key, body[key])
@@ -143,4 +96,9 @@ function httpPost(url, body) {
     }
 
     xmlHttp.send(JSON.stringify(body));
+}
+
+function logout() {
+    console.log("123")
+    alert("logout logic will be soon!")
 }
