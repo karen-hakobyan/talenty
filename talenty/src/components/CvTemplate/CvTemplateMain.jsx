@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Container, IconButton, Typography } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
@@ -10,24 +9,19 @@ import {
 import { Box } from "@mui/system";
 import { StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
-import { GET_TEMPLATES } from "../../constants/requests";
 import hrExData from "../../helpers/ajabsandal";
+import { globalDataSetter } from "../../request/get";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
 
+  // todo think about architecture about get request do seperation between get and post and also in the future add local storage data managment to not lose
   useEffect(() => {
-    axios
-      .get(GET_TEMPLATES)
-      .then((res) => {
-        console.log(res);
-        const { data } = res;
-        setData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setData(hrExData);
-      });
+    globalDataSetter({
+      stateSetter: setData,
+      urlKey: "getTemplates",
+      errorAction: () => setData(hrExData),
+    });
   }, []);
 
   if (!data) {
