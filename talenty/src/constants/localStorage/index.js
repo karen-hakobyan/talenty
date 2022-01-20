@@ -1,0 +1,1 @@
+export const TEMPLAT_DATA = "templateData";
