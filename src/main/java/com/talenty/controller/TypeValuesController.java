@@ -34,7 +34,7 @@ public class TypeValuesController {
         return ResponseEntity.ok("Type Deleted");
     }
 
-    @PostMapping("/edit_type")
+    @PostMapping("/edit_values")
     public ResponseEntity<?> editValues(@RequestBody final TypeValues typeValues) {
         TypeValuesDocument editValues = typeValuesService.editValues(typeValues);
         return ResponseEntity.ok("Type Edited");

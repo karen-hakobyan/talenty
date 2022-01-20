@@ -1,5 +1,6 @@
 package com.talenty.repository;
 
+import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.mongo.TypeValuesDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -15,5 +16,7 @@ public interface TypeValuesRepository extends MongoRepository<TypeValuesDocument
     List<TypeValuesDocument> getTypes();
 
     TypeValuesDocument deleteByType(String type);
+
+    TypeValuesDocument findByType(String type);
 
 }

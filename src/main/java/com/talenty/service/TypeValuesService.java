@@ -48,6 +48,11 @@ public class TypeValuesService {
     }
 
     public TypeValuesDocument editValues(TypeValues typeValues) {
-        return null;
+        String type = typeValues.getType();
+        TypeValuesDocument typeValuesDocument = typeValuesRepository.findByType(type);
+        String id = typeValuesDocument.getId();
+        TypeValuesDocument newTypeValuesDocument = TypeValuesMapper.instance.dtoToDocument(typeValues);
+        newTypeValuesDocument.setId(id);
+        return typeValuesRepository.save(newTypeValuesDocument);
     }
 }
