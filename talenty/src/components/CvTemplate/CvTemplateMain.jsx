@@ -73,7 +73,7 @@ function CvTemplateMain() {
         </Typography>
       </Box>
       {data.fields.map((item) => (
-        <TemplateItem key={item._id} item={item} setData={setData} />
+        <TemplateItem key={item.id} item={item} setData={setData} />
       ))}
       <Box sx={StyledBtns}>
         <IconButton
