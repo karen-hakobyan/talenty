@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, IconButton, Typography } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
@@ -16,16 +17,29 @@ import {
   localStorageSetter,
 } from "../../helpers/localStorage";
 import { TEMPLAT_DATA } from "../../constants/localStorage";
+import { setGlobalDataViaKey } from "../../store/globalData/slice";
+import { selectGlobalDataViaKey } from "../../store/globalData/selector";
+import { UPDATED_TEMPLATE_DATA } from "../../constants/redux/globalData";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
+  const updatedTemplateData = useSelector(
+    selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
+  );
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (updatedTemplateData) {
+      setData(updatedTemplateData);
+    }
+  }, [updatedTemplateData]);
+  // update local storage whenever data changed and also redux
   useEffect(() => {
     if (data) {
       localStorageSetter(TEMPLAT_DATA, data);
+      dispatch(setGlobalDataViaKey({ key: TEMPLAT_DATA, value: data }));
     }
-  }, [data]);
-
+  }, [data, dispatch]);
   useEffect(() => {
     let storageExistingData = localStorageGetter(TEMPLAT_DATA);
 
