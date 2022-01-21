@@ -10,16 +10,16 @@ import {
 import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
-import {
-  TEMPLATE_DATA,
-  UPDATED_TEMPLATE_DATA,
-} from "../../../../constants/redux/globalData";
-import { setGlobalDataViaKey } from "../../../../store/globalData/slice";
+import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
+import { onDelete } from "../../../../helpers/dialog";
+import { selectDialogData } from "../../../../store/dialogs/selector";
 
 export default function SpecialNameGenerator({ data }) {
   console.log(data);
   const dispatch = useDispatch();
+  const dialogData = useSelector(selectDialogData);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
+
   return (
     <>
       <SubSection
@@ -43,7 +43,12 @@ export default function SpecialNameGenerator({ data }) {
             <IconButton
               sx={{ ...TEMPLATE_ITEM_BUTTON_DISABLED }}
               onClick={() => {
-                onDelete({ dispatch, id: data._id, data: templateData });
+                onDelete({
+                  dispatch,
+                  id: data.id,
+                  data: templateData,
+                  dialogData,
+                });
               }}
             >
               <DeleteIconSVG />
@@ -54,19 +59,4 @@ export default function SpecialNameGenerator({ data }) {
       />
     </>
   );
-}
-
-function onDelete({ dispatch, id, data }) {
-  console.log("mtav");
-  let result = JSON.parse(JSON.stringify(data), (key, value) => {
-    if (value.fields) {
-      return value.fields.filter((field) => field._id !== id);
-    }
-    return value;
-  });
-  if (result) {
-    dispatch(
-      setGlobalDataViaKey({ key: UPDATED_TEMPLATE_DATA, value: result })
-    );
-  }
 }
