@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, IconButton, Typography } from "@mui/material";
+import { Container, Dialog, IconButton, Typography } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,
@@ -24,10 +24,12 @@ import {
   TEMPLATE_BUTTON_CREATE,
 } from "../../shared/styles";
 import { compareObjects } from "../../helpers/compareTwoData";
+import AddSection from "../dialogs/addSection";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
   const [unchangeData, setUnchangedData] = useState(null);
+  const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
   const updatedTemplateData = useSelector(
     selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
   );
@@ -69,6 +71,19 @@ function CvTemplateMain() {
 
   return (
     <Container>
+      <Dialog
+        open={addSectionDialogIsOpen}
+        maxWidth={false}
+        onClose={() => {
+          setAddSectionDialogIsOpen(false);
+        }}
+      >
+        <AddSection
+          setIsOpen={setAddSectionDialogIsOpen}
+          setTemplateData={setData}
+          templateData={data}
+        />
+      </Dialog>
       <Box sx={{ display: "flex", mt: 5 }}>
         <ListSVG />
         <Typography
@@ -84,10 +99,15 @@ function CvTemplateMain() {
         </Typography>
       </Box>
       {data.fields.map((item) => (
-        <TemplateItem key={item.id} item={item} setData={setData} />
+        <TemplateItem key={item.name} item={item} setData={setData} />
       ))}
       <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}>
-        <IconButton sx={TEMPLATE_BUTTON_ADD}>
+        <IconButton
+          sx={TEMPLATE_BUTTON_ADD}
+          onClick={() => {
+            setAddSectionDialogIsOpen(true);
+          }}
+        >
           <AddSectionIconSVG />
           Add section
         </IconButton>
