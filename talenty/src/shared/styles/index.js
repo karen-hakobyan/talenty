@@ -34,6 +34,30 @@ const FIELD_CHECKBOX_CONTAINER = {
 };
 const TEMPLATE_INPUT = { width: "421px" };
 const DISABLED_INPUT = { background: "#F5F5F5" };
+const TEMPLATE_BUTTON_ADD = {
+    display: "flex",
+    width: "179px",
+    height: "34px",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "9px",
+    fontSize: "14px",
+    borderRadius: "6px",
+    border: "1px solid #ECECEC",
+    cursor: "pointer",
+};
+const TEMPLATE_BUTTON_CREATE = {
+    ...TEMPLATE_BUTTON_ADD,
+    color: "#FFF",
+    background: "#8C0DF0",
+    "&:hover": {
+        background: "#8C0DF0",
+    },
+    "&.Mui-disabled": {
+        background: "#9F9F9F",
+        color: "#FFF",
+    },
+};
 export {
     TEMPLATE_ITEM_BUTTON,
     TEMPLATE_ITEM_BUTTON_DISABLED,
@@ -41,4 +65,6 @@ export {
     FIELD_CHECKBOX_CONTAINER,
     TEMPLATE_INPUT,
     DISABLED_INPUT,
+    TEMPLATE_BUTTON_ADD,
+    TEMPLATE_BUTTON_CREATE,
 };

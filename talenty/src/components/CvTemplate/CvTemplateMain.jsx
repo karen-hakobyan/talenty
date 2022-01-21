@@ -4,11 +4,10 @@ import { Container, IconButton, Typography } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,
+  CreateCVTemplateSVG,
   ListSVG,
-  CreateCV,
 } from "../../assets/icons/createTemplate";
 import { Box } from "@mui/system";
-import { StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
 import hrExData from "../../helpers/ajabsandal";
 import { globalDataSetter } from "../../request/get";
@@ -20,9 +19,15 @@ import { TEMPLAT_DATA } from "../../constants/localStorage";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
 import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { UPDATED_TEMPLATE_DATA } from "../../constants/redux/globalData";
+import {
+  TEMPLATE_BUTTON_ADD,
+  TEMPLATE_BUTTON_CREATE,
+} from "../../shared/styles";
+import { compareObjects } from "../../helpers/compareTwoData";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
+  const [unchangeData, setUnchangedData] = useState(null);
   const updatedTemplateData = useSelector(
     selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
   );
@@ -36,6 +41,12 @@ function CvTemplateMain() {
   // update local storage whenever data changed and also redux
   useEffect(() => {
     if (data) {
+      setUnchangedData((prev) => {
+        if (!prev) {
+          return data;
+        }
+        return prev;
+      });
       localStorageSetter(TEMPLAT_DATA, data);
       dispatch(setGlobalDataViaKey({ key: TEMPLAT_DATA, value: data }));
     }
@@ -75,25 +86,17 @@ function CvTemplateMain() {
       {data.fields.map((item) => (
         <TemplateItem key={item.id} item={item} setData={setData} />
       ))}
-      <Box sx={StyledBtns}>
-        <IconButton
-          sx={{
-            display: "flex",
-            width: "179px",
-            height: "34px",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "9px",
-            fontSize: "14px",
-            borderRadius: "6px",
-            border: "1px solid #ECECEC",
-          }}
-        >
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}>
+        <IconButton sx={TEMPLATE_BUTTON_ADD}>
           <AddSectionIconSVG />
           Add section
         </IconButton>
-        <IconButton>
-          <CreateCV />
+        <IconButton
+          sx={TEMPLATE_BUTTON_CREATE}
+          disabled={compareObjects(data, unchangeData)}
+        >
+          <CreateCVTemplateSVG />
+          Create CV
         </IconButton>
       </Box>
     </Container>
