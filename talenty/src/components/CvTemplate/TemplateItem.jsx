@@ -14,7 +14,7 @@ function onDelete(setData, id) {
   setData((prevState) => {
     return {
       ...prevState,
-      fields: prevState.fields.filter((el) => el._id !== id),
+      fields: prevState.fields.filter((el) => el.id !== id),
     };
   });
 }
