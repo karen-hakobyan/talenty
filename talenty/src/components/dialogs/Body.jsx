@@ -14,7 +14,6 @@ import typeComponents from "../CvTemplate/typeComponents";
 export default function Body({ dialogData }) {
   const dispatch = useDispatch();
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
-
   if (!dialogData) {
     return null;
   }
@@ -79,7 +78,7 @@ export default function Body({ dialogData }) {
 
 function onSave({ dialogData, dispatch, templateData }) {
   const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
-    if (value._id === dialogData.id) {
+    if (value.id === dialogData.id) {
       return dialogData;
     } else {
       return value;

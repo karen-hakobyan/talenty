@@ -21,14 +21,6 @@ export const ListItemStyle = {
     img: { "&:last-child": { ml: 2 }, cursor: "pointer", mb: 1.5 },
 };
 
-export const StyledBtns = {
-    mt: 3,
-    display: "flex",
-    justifyContent: "flex-end",
-    img: { "&:last-child": { ml: 2 }, cursor: "pointer" },
-    mb: "2%",
-};
-
 export const StyledNames = {
     display: "flex",
     flexDirection: "column",
