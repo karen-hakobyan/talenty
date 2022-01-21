@@ -5,7 +5,7 @@ import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 import {
   DISABLED_INPUT,
   TEMPLATE_INPUT,
-  TEMPLATE_ITEM_BUTTON_DISABLED,
+  TEMPLATE_ITEM_BUTTON,
 } from "../../../../shared/styles";
 import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
@@ -41,15 +41,15 @@ export default function SpecialNameGenerator({ data }) {
         buttonComponent={
           data.metadata.deletable ? (
             <IconButton
-              sx={{ ...TEMPLATE_ITEM_BUTTON_DISABLED }}
-              onClick={() => {
+              sx={TEMPLATE_ITEM_BUTTON}
+              onClick={() =>
                 onDelete({
                   dispatch,
                   id: data.id,
                   data: templateData,
                   dialogData,
-                });
-              }}
+                })
+              }
             >
               <DeleteIconSVG />
               Delete

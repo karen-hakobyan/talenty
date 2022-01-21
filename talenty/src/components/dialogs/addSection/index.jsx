@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
-import { ADD_TEMPLATE_SECTION, INPUT_LABEL } from "../../../shared/styles";
+import {
+  ADD_TEMPLATE_SECTION,
+  DIALOG_ADD_SECTION_CONTAINER,
+  DIALOG_TITLE_CONTAINER,
+  INPUT_LABEL,
+} from "../../../shared/styles";
 
 export default function AddSection({
   setIsOpen,
@@ -10,29 +15,8 @@ export default function AddSection({
   const [value, setValue] = useState("");
 
   return (
-    <Box
-      sx={{
-        height: "292px",
-        width: "569px",
-        paddingTop: "24px",
-        paddingRight: "24px",
-        paddingLeft: "24px",
-      }}
-    >
-      <Box
-        sx={{
-          fontSize: "18px",
-          lineHeight: "18px",
-          fontWeight: 600,
-          color: "#4C494F",
-          fontFamily: "Proxima Nova",
-          borderBottom: "2px solid #D2D2D2",
-          paddingBottom: "20px",
-          marginBottom: "36px",
-        }}
-      >
-        Add section
-      </Box>
+    <Box sx={DIALOG_ADD_SECTION_CONTAINER}>
+      <Box sx={DIALOG_TITLE_CONTAINER}>Add section</Box>
       <Box sx={INPUT_LABEL}>Section name</Box>
       <TextField
         sx={{ mb: 6 }}

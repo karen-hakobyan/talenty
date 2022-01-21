@@ -1,0 +1,1 @@
+export const specialNameType = "special_name";

@@ -79,8 +79,33 @@ const ADD_TEMPLATE_SECTION = {
     lineHeight: "22px",
     background: "#8C0DF0",
 };
+const DIALOG_TITLE_CONTAINER = {
+    fontSize: "18px",
+    lineHeight: "18px",
+    fontWeight: 600,
+    color: "#4C494F",
+    fontFamily: "Proxima Nova",
+    borderBottom: "2px solid #D2D2D2",
+    paddingBottom: "20px",
+    marginBottom: "36px",
+};
+const DIALOG_MAIN_CONTAINER = {
+    width: "950px",
+    padding: "36px 24px",
+};
+
+const DIALOG_ADD_SECTION_CONTAINER = {
+    height: "292px",
+    width: "569px",
+    paddingTop: "24px",
+    paddingRight: "24px",
+    paddingLeft: "24px",
+};
 export {
+    DIALOG_TITLE_CONTAINER,
+    DIALOG_MAIN_CONTAINER,
     TEMPLATE_ITEM_BUTTON,
+    DIALOG_ADD_SECTION_CONTAINER,
     TEMPLATE_ITEM_BUTTON_DISABLED,
     INPUT_LABEL,
     FIELD_CHECKBOX_CONTAINER,

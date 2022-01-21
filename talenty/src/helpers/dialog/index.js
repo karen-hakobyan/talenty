@@ -7,3 +7,8 @@ export function onDelete({ dispatch, id, dialogData }) {
     };
     dispatch(setDialogData(updatedDialogData));
 }
+export function isDisabled({ templateData, value }) {
+    return (
+        templateData.fields.some((el) => el.name === value) || value.length === 0
+    );
+}
