@@ -37,6 +37,12 @@ public class TypeValuesController {
     @PostMapping("/edit_values")
     public ResponseEntity<?> editValues(@RequestBody final TypeValues typeValues) {
         TypeValuesDocument editValues = typeValuesService.editValues(typeValues);
+        return ResponseEntity.ok("Edited");
+    }
+
+    @PostMapping("edit_type")
+    public ResponseEntity<?> editType(@RequestBody final TypeValues[] typeValues) {
+        typeValuesService.editType(typeValues);
         return ResponseEntity.ok("Type Edited");
     }
 }
