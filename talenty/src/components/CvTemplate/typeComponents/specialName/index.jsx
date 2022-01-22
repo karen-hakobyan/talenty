@@ -11,11 +11,10 @@ import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
 import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
-import { onDelete } from "../../../../helpers/dialog";
+import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
 import { selectDialogData } from "../../../../store/dialogs/selector";
 
 export default function SpecialNameGenerator({ data }) {
-  console.log(data);
   const dispatch = useDispatch();
   const dialogData = useSelector(selectDialogData);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
@@ -34,6 +33,9 @@ export default function SpecialNameGenerator({ data }) {
         }
         checkboxComponent={
           <Checkbox
+            onChange={() => {
+              editCheckboxState({ dispatch, dialogData, name: data.name });
+            }}
             checked={data.metadata.required}
             disabled={!data.metadata.required_editable}
           />
@@ -45,7 +47,7 @@ export default function SpecialNameGenerator({ data }) {
               onClick={() =>
                 onDelete({
                   dispatch,
-                  id: data.id,
+                  name: data.name,
                   data: templateData,
                   dialogData,
                 })
