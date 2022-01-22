@@ -7,6 +7,7 @@
 
     <!-- Import css styles -->
     <link rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="../static/css/loader.css" th:href="@{/css/loader.css}"/>
     <link rel="stylesheet" href="../static/css/font-awesome.css" th:href="@{/css/font-awesome.css}"/>
     <link rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
@@ -62,6 +63,9 @@
             <div>
                 <ul th:each="type_obj, i : ${types_list} ">
                     <h2 th:text="${type_obj.type}"></h2>
+                    <input th:attr="onclick='openEditTypeName(\'' + ${i.index}+  '\');'"
+                           type="Button"
+                           value="Edit name"/>
                     <input th:attr="onclick='openEditModal(\'' + ${i.index}+  '\');'"
                            type="button"
                            value="edit value list"/>
@@ -81,6 +85,12 @@
     </div>
 </div>
 
+<div id="smaller_modal" class="modal">
+    <div id="smaller_modal_content" class="modal-content-smaller">
+        <span class="close" onclick="closeSmallerModal()">&times;</span>
+    </div>
+</div>
+
 <!-- Footer -->
 <div class="footer">
     <div class="row">
@@ -93,6 +103,7 @@
 
 <!-- Import scripts -->
 <script type="text/javascript" src="../static/js/system.js" th:src="@{/js/system.js}"></script>
+<script type="text/javascript" src="../static/js/loader.js" th:src="@{/js/loader.js}"></script>
 <script type="text/javascript" src="../static/js/requests.js" th:src="@{/js/requests.js}"></script>
 <script type="text/javascript" src="../static/js/modal.js" th:src="@{/js/modal.js}"></script>
 <script type="text/javascript" src="../static/js/typeValues.js" th:src="@{/js/typeValues.js}"></script>
