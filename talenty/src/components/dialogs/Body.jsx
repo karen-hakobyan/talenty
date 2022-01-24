@@ -18,7 +18,6 @@ import typeComponents from "../CvTemplate/typeComponents";
 import AddField from "./addField";
 
 export default function Body({ dialogData }) {
-  console.log(dialogData);
   const dispatch = useDispatch();
   const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
@@ -82,7 +81,7 @@ export default function Body({ dialogData }) {
 
 function onSave({ dialogData, dispatch, templateData }) {
   const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
-    if (!value.id) {
+    if (!value?.id) {
       return value;
     }
     if (value.id === dialogData.id) {
