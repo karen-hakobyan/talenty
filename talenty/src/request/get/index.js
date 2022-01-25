@@ -10,7 +10,6 @@ export const globalDataSetter = ({
     urlKey,
     errorAction = () => {},
 }) => {
-    console.log(getUrls[urlKey]);
     axios
         .get(getUrls[urlKey])
         .then((res) => {
