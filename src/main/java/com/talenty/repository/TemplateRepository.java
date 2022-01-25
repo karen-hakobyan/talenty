@@ -10,5 +10,4 @@ public interface TemplateRepository extends MongoRepository<TemplateDocument, St
 
     @Query("{ 'system' : true}")
     TemplateDocument findSystemTemplate();
-
 }

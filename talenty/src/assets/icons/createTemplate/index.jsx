@@ -11,7 +11,6 @@ import { ReactComponent as DeleteIconSVG } from "./delete.svg";
 import { ReactComponent as CheckIconSVG } from "./check.svg";
 import { ReactComponent as SelectIconSVG } from "./selectIcon.svg";
 import { ReactComponent as AddFieldSVG } from "./addField.svg";
-import { ReactComponent as CreateCVTemplateSVG } from "./createTemplate.svg";
 
 export {
   EditSVG,
@@ -27,5 +26,4 @@ export {
   CheckIconSVG,
   SelectIconSVG,
   AddFieldSVG,
-  CreateCVTemplateSVG,
 };

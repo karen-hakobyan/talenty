@@ -25,7 +25,6 @@ const INPUT_LABEL = {
     lineHeight: "24px",
     fontSize: "16px",
     marginBottom: "10px",
-    fontFamily: "Proxima Nova",
 };
 
 const FIELD_CHECKBOX_CONTAINER = {
@@ -35,83 +34,11 @@ const FIELD_CHECKBOX_CONTAINER = {
 };
 const TEMPLATE_INPUT = { width: "421px" };
 const DISABLED_INPUT = { background: "#F5F5F5" };
-const TEMPLATE_BUTTON_ADD = {
-    display: "flex",
-    width: "179px",
-    height: "34px",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "9px",
-    fontSize: "14px",
-    borderRadius: "6px",
-    border: "1px solid #ECECEC",
-    cursor: "pointer",
-};
-const TEMPLATE_BUTTON_CREATE = {
-    ...TEMPLATE_BUTTON_ADD,
-    color: "#FFF",
-    background: "#8C0DF0",
-    "&:hover": {
-        background: "#8C0DF0",
-    },
-    "&.Mui-disabled": {
-        background: "#9F9F9F",
-        color: "#FFF",
-    },
-};
-const ADD_TEMPLATE_SECTION = {
-    height: "34px",
-    width: "179px",
-    color: "#FFFFFF",
-    "&:hover": {
-        background: "#8C0DF0",
-    },
-    "&.Mui-disabled": {
-        color: "#EFEFEF",
-        background: "#9F9F9F",
-        "&:hover": {
-            background: "#9F9F9F",
-        },
-    },
-    fontSize: "14px",
-    fontWeight: 400,
-    fontFamily: "Proxima Nova",
-    lineHeight: "22px",
-    background: "#8C0DF0",
-};
-const DIALOG_TITLE_CONTAINER = {
-    fontSize: "18px",
-    lineHeight: "18px",
-    fontWeight: 600,
-    color: "#4C494F",
-    fontFamily: "Proxima Nova",
-    borderBottom: "2px solid #D2D2D2",
-    paddingBottom: "20px",
-    marginBottom: "36px",
-};
-const DIALOG_MAIN_CONTAINER = {
-    width: "950px",
-    padding: "36px 24px",
-};
-
-const DIALOG_ADD_SECTION_CONTAINER = {
-    height: "292px",
-    width: "569px",
-    paddingTop: "24px",
-    paddingRight: "24px",
-    paddingLeft: "24px",
-};
 export {
-    DIALOG_TITLE_CONTAINER,
-    DIALOG_MAIN_CONTAINER,
     TEMPLATE_ITEM_BUTTON,
-    DIALOG_ADD_SECTION_CONTAINER,
     TEMPLATE_ITEM_BUTTON_DISABLED,
     INPUT_LABEL,
     FIELD_CHECKBOX_CONTAINER,
     TEMPLATE_INPUT,
     DISABLED_INPUT,
-    TEMPLATE_BUTTON_ADD,
-    TEMPLATE_BUTTON_CREATE,
-    ADD_TEMPLATE_SECTION,
 };
