@@ -2,7 +2,7 @@ import { IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
-import { onDelete } from "../../../../helpers/dialog";
+import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
 import { TEMPLATE_ITEM_BUTTON } from "../../../../shared/styles";
 import { selectDialogData } from "../../../../store/dialogs/selector";
 import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
@@ -36,7 +36,15 @@ export default function GenderGenerator({ data }) {
           </IconButton>
         ) : null
       }
-      checkboxComponent={<Checkbox />}
+      checkboxComponent={
+        <Checkbox
+          onChange={() => {
+            editCheckboxState({ dispatch, dialogData, name: data.name });
+          }}
+          checked={data.metadata.required}
+          disabled={!data.metadata.required_editable}
+        />
+      }
       inputComponent={<Select disabled />}
     />
   );
