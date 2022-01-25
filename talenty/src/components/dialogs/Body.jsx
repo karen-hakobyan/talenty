@@ -16,11 +16,17 @@ import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
 import typeComponents from "../CvTemplate/typeComponents";
 import AddField from "./addField";
+import Attention from "./attention";
 
-export default function Body({ dialogData }) {
+export default function Body({
+  dialogData,
+  attentionIsOpen,
+  setAttentionIsOpen,
+}) {
   const dispatch = useDispatch();
   const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
+
   if (!dialogData) {
     return null;
   }
@@ -33,6 +39,10 @@ export default function Body({ dialogData }) {
       >
         <AddField dialogData={dialogData} setIsOpen={setAddFieldIsOpen} />
       </Dialog>
+      <Dialog open={attentionIsOpen} onClose={() => setAttentionIsOpen(false)}>
+        <Attention {...{ setAttentionIsOpen }} />
+      </Dialog>
+
       <Box sx={DIALOG_TITLE_CONTAINER}>{dialogData.name}</Box>
       <Box sx={{ display: "grid", gridTemplateColumns: "auto", gap: "24px" }}>
         {dialogData.fields.map((field) => {
