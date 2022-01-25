@@ -1,33 +1,68 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Container, IconButton, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Container, Dialog, IconButton, Typography } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,
+  CreateCVTemplateSVG,
   ListSVG,
-  CreateCV,
 } from "../../assets/icons/createTemplate";
 import { Box } from "@mui/system";
-import { StyledBtns } from "./CVTemplateStyle";
 import TemplateItem from "./TemplateItem";
-import { GET_TEMPLATES } from "../../constants/requests";
 import hrExData from "../../helpers/ajabsandal";
+import { globalDataSetter } from "../../request/get";
+import {
+  localStorageGetter,
+  localStorageSetter,
+} from "../../helpers/localStorage";
+import { TEMPLAT_DATA } from "../../constants/localStorage";
+import { setGlobalDataViaKey } from "../../store/globalData/slice";
+import { selectGlobalDataViaKey } from "../../store/globalData/selector";
+import { UPDATED_TEMPLATE_DATA } from "../../constants/redux/globalData";
+import {
+  TEMPLATE_BUTTON_ADD,
+  TEMPLATE_BUTTON_CREATE,
+} from "../../shared/styles";
+import { compareObjects } from "../../helpers/compareTwoData";
+import AddSection from "../dialogs/addSection";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
+  const [unchangeData, setUnchangedData] = useState(null);
+  const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
+  const updatedTemplateData = useSelector(
+    selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(GET_TEMPLATES)
-      .then((res) => {
-        console.log(res);
-        const { data } = res;
-        setData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setData(hrExData);
+    if (updatedTemplateData) {
+      setData(updatedTemplateData);
+    }
+  }, [updatedTemplateData]);
+  // update local storage whenever data changed and also redux
+  useEffect(() => {
+    if (data) {
+      setUnchangedData((prev) => {
+        if (!prev) {
+          return data;
+        }
+        return prev;
       });
+      localStorageSetter(TEMPLAT_DATA, data);
+      dispatch(setGlobalDataViaKey({ key: TEMPLAT_DATA, value: data }));
+    }
+  }, [data, dispatch]);
+  useEffect(() => {
+    let storageExistingData = localStorageGetter(TEMPLAT_DATA);
+
+    storageExistingData
+      ? setData(storageExistingData)
+      : globalDataSetter({
+          stateSetter: setData,
+          urlKey: "getTemplates",
+          errorAction: () => setData(hrExData),
+        });
   }, []);
 
   if (!data) {
@@ -36,6 +71,19 @@ function CvTemplateMain() {
 
   return (
     <Container>
+      <Dialog
+        open={addSectionDialogIsOpen}
+        maxWidth={false}
+        onClose={() => {
+          setAddSectionDialogIsOpen(false);
+        }}
+      >
+        <AddSection
+          setIsOpen={setAddSectionDialogIsOpen}
+          setTemplateData={setData}
+          templateData={data}
+        />
+      </Dialog>
       <Box sx={{ display: "flex", mt: 5 }}>
         <ListSVG />
         <Typography
@@ -51,27 +99,24 @@ function CvTemplateMain() {
         </Typography>
       </Box>
       {data.fields.map((item) => (
-        <TemplateItem key={item._id} item={item} setData={setData} />
+        <TemplateItem key={item.name} item={item} setData={setData} />
       ))}
-      <Box sx={StyledBtns}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}>
         <IconButton
-          sx={{
-            display: "flex",
-            width: "179px",
-            height: "34px",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "9px",
-            fontSize: "14px",
-            borderRadius: "6px",
-            border: "1px solid #ECECEC",
+          sx={TEMPLATE_BUTTON_ADD}
+          onClick={() => {
+            setAddSectionDialogIsOpen(true);
           }}
         >
           <AddSectionIconSVG />
           Add section
         </IconButton>
-        <IconButton>
-          <CreateCV />
+        <IconButton
+          sx={TEMPLATE_BUTTON_CREATE}
+          disabled={compareObjects(data, unchangeData)}
+        >
+          <CreateCVTemplateSVG />
+          Create CV
         </IconButton>
       </Box>
     </Container>

@@ -14,13 +14,13 @@ function onDelete(setData, id) {
   setData((prevState) => {
     return {
       ...prevState,
-      fields: prevState.fields.filter((el) => el._id !== id),
+      fields: prevState.fields.filter((el) => el.id !== id),
     };
   });
 }
 
 function TemplateItem({ item, setData }) {
-  console.log(item);
+  console.log("render");
   const dispatch = useDispatch();
   const onEdit = useCallback(
     (item) => {
@@ -40,7 +40,7 @@ function TemplateItem({ item, setData }) {
         </IconButton>
         <IconButton
           onClick={() => {
-            onDelete(setData, item._id);
+            onDelete(setData, item.id);
           }}
           disabled={!item.metadata.deletable}
           sx={
