@@ -7,7 +7,7 @@ function httpGet(url) {
 }
 
 // POST request
-function httpPost(url, body, onReadyFunc) {
+function httpPost(url, body, callback) {
     let data = new FormData();
     for (let key of Object.keys(body)) {
         data.append(key, body[key])
@@ -22,7 +22,7 @@ function httpPost(url, body, onReadyFunc) {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             updateTypeList()
-            onReadyFunc()
+            callback()
             return xmlHttp.responseText
         }
     }

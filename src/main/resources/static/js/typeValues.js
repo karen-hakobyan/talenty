@@ -72,11 +72,9 @@ function requestForDeleteValue(typeIndex, valueIndex) {
     editValues(typeIndex, types_list[typeIndex].values)
 }
 
-function deleteType(index) {
+function deleteType(typeIndex) {
     Loader.openWithDisabledScrolling()
-    httpPost("http://localhost:7800/type_values/delete", {type: types_list[index].type}, () => {
-        location.reload();
-    })
+    httpPost("http://localhost:7800/type_values/delete", {type: types_list[typeIndex].type}, () => location.reload())
 }
 
 function requestForEditValueName(typeIndex, valueIndex, newValueName) {
@@ -97,7 +95,6 @@ function requestForEditTypeName(typeIndex, newTypeName) {
         return
     }
     editTypeName(currentTypeName, newTypeName)
-
 }
 
 function editValues(index, values) {
@@ -105,7 +102,6 @@ function editValues(index, values) {
         type: types_list[index].type,
         values: values
     }, () => {
-        // location.reload()
         closeModal()
         openEditModal(index)
     })

@@ -45,4 +45,5 @@ public class TypeValuesController {
         typeValuesService.editType(typeValues);
         return ResponseEntity.ok("Type Edited");
     }
+
 }
