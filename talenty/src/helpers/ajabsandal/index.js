@@ -16,7 +16,7 @@ let hrExData = {
                     id: ObjectId(),
                     name: "First name",
                     metadata: {
-                        type: "text",
+                        type: "special_name",
                         maxLength: 20,
                         editable: false,
                         required_editable: false,
@@ -28,7 +28,7 @@ let hrExData = {
                     id: ObjectId(),
                     name: "Last name",
                     metadata: {
-                        type: "text",
+                        type: "special_name",
                         maxLength: 20,
                         editable: false,
                         required_editable: false,

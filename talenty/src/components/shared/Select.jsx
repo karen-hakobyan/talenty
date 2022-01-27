@@ -17,12 +17,14 @@ const labelStyle = {
   lineHeight: "24px",
 };
 
-const Select = ({ sx = {}, disabled, ...restProps }) => {
+const Select = ({ sx = {}, disabled, placeHolder, ...restProps }) => {
   return (
     <FormControl>
-      <InputLabel sx={labelStyle}>Choose the gender</InputLabel>
+      <InputLabel sx={labelStyle}>
+        {placeHolder || "Choose the gender"}
+      </InputLabel>
       <MuiSelect
-        sx={style}
+        sx={{ ...style, ...sx }}
         IconComponent={SelectIconSVG}
         disabled={disabled}
         {...restProps}
