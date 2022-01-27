@@ -46,10 +46,11 @@ export default function Body({
       <Box sx={DIALOG_TITLE_CONTAINER}>{dialogData.name}</Box>
       <Box sx={{ display: "grid", gridTemplateColumns: "auto", gap: "24px" }}>
         {dialogData.fields.map((field) => {
-          let TempComponent = memo(typeComponents[field.metadata.type]);
+          let TempComponent = typeComponents[field.metadata.type];
           if (!TempComponent) {
             return <h1>they have changed again some type</h1>;
           }
+          TempComponent = memo(TempComponent);
           return <TempComponent data={field} key={field.name} />;
         })}
 

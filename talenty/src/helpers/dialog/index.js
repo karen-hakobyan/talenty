@@ -18,7 +18,6 @@ export function editCheckboxState({ dispatch, dialogData, name: initialName }) {
         ...dialogData,
         fields: dialogData.fields.map((field) => {
             const { name, metadata } = field;
-            console.log(name);
             if (name === initialName) {
                 return {
                     ...field,
@@ -28,5 +27,21 @@ export function editCheckboxState({ dispatch, dialogData, name: initialName }) {
             return field;
         }),
     };
+    dispatch(setDialogData(updatedDialogData));
+}
+
+export function editCheckboxLink({ dialogData, id, dispatch }) {
+    const dialogDataJSON = JSON.stringify({...dialogData });
+
+    const updatedDialogData = JSON.parse(dialogDataJSON, (key, value) => {
+        if (value.id === id) {
+            return {
+                ...value,
+                metadata: {...value.metadata, required: !value.metadata.required },
+            };
+        } else {
+            return value;
+        }
+    });
     dispatch(setDialogData(updatedDialogData));
 }

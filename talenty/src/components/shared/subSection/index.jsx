@@ -7,10 +7,11 @@ const SubSection = ({
   inputComponent,
   checkboxComponent,
   buttonComponent,
+  sx,
 }) => {
   return (
-    <Box>
-      <Box sx={INPUT_LABEL}>{label}</Box>
+    <Box sx={sx}>
+      {label && <Box sx={INPUT_LABEL}>{label}</Box>}
       <Box sx={MAIN_CONTAINER}>
         <Box sx={SUB_CONTAINER}>
           <Box>{inputComponent}</Box>

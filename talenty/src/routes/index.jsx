@@ -8,8 +8,10 @@ import {
 import ForgotPassword from "../components/sign/ForgotPassword.jsx";
 import SignIn from "../components/sign/SignIn.jsx";
 import CvTemplateMain from "../components/CvTemplate/CvTemplateMain";
+import { useState } from "react";
 
 const RoutesMain = () => {
+  const [isCompany] = useState(null);
   return (
     <Routes>
       <Route path="/" element={<CvTemplateMain />} />
@@ -19,7 +21,7 @@ const RoutesMain = () => {
       />
       <Route
         path={`${SIGN_UP_ROUTE}-user`}
-        element={<SignUp isCompany={false} />}
+        element={<SignUp isCompany={isCompany} />}
       />
 
       <Route path={SIGN_IN_ROUTE} element={<SignIn />} />

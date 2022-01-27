@@ -5,12 +5,10 @@ import DateGenerator from "./date";
 import { DescriptionGenerator } from "./description";
 import EmailGenerator from "./email";
 import GenderGenerator from "./gender";
-import LicenseGenerator from "./license";
-import MilitaryGenerator from "./military";
 import PhoneGenerator from "./phoneNumber";
 import PhotoGenerator from "./photo";
-import SectionGenerator from "./section";
 import SpecialNameGenerator from "./specialName";
+import SectionGenerator from "./section/index.jsx";
 
 const typeComponents = {
     special_name: SpecialNameGenerator,
@@ -20,8 +18,8 @@ const typeComponents = {
     date: DateGenerator,
     email: EmailGenerator,
     gender: GenderGenerator,
-    driving_license: LicenseGenerator,
-    military_id: MilitaryGenerator,
+    driving_license: PhotoGenerator,
+    militaryid: PhotoGenerator,
     add_photo: PhotoGenerator,
     section: SectionGenerator,
     phone_number: PhoneGenerator,
