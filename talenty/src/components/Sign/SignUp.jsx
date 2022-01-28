@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Checkbox, FormControl, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { MAIN_PURPLE, TEXT } from "../../constants/colors";
@@ -22,8 +21,6 @@ export default function SignUp({ isCompany }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  let { pathname } = useLocation();
-  pathname = pathname.split("-").slice(-1)[0];
   const fieldLabels = [
     {
       name: "Company name",
@@ -164,7 +161,7 @@ export default function SignUp({ isCompany }) {
         <img
           src={
             require(`../../assets/icons/signImages/${
-              pathname === "user" ? "user" : "company"
+              isCompany ? "company" : "user"
             }.webp`).default
           }
           alt="sign up"
