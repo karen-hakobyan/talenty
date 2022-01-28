@@ -4,6 +4,8 @@ const initialState = {
     isOpen: false,
     actions: {},
     data: null,
+    dialogType: null,
+    isCompany: false,
 };
 
 export const dialogSlice = createSlice({
@@ -22,6 +24,12 @@ export const dialogSlice = createSlice({
         setDialogData: (state, { payload }) => {
             state.data = payload;
         },
+        setIsCompany: (state, { payload }) => {
+            state.isCompany = payload;
+        },
+        setDialogType: (state, { payload }) => {
+            state.dialogType = payload;
+        },
     },
 });
 
@@ -30,6 +38,8 @@ export const {
     setInitialState,
     setDialogIsOpen,
     setDialogData,
+    setDialogType,
+    setIsCompany,
 } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

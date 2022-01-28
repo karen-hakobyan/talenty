@@ -19,7 +19,7 @@ const typeComponents = {
     email: EmailGenerator,
     gender: GenderGenerator,
     driving_license: PhotoGenerator,
-    militaryid: PhotoGenerator,
+    military_id: PhotoGenerator,
     add_photo: PhotoGenerator,
     section: SectionGenerator,
     phone_number: PhoneGenerator,
