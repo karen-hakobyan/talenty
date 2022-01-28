@@ -187,7 +187,6 @@ function SignIn() {
     <>
       <ImgContainer>
         <Logo>
-          {/* <img src={logo} alt="logo" /> */}
           <TalentyLogo />
         </Logo>
 
@@ -253,8 +252,6 @@ function SignIn() {
           <MuiContainedBtn onClick={onSubmit} disabled={disabled}>
             Sign in
           </MuiContainedBtn>
-
-          {/* <AuthButton text="Sign in" /> */}
 
           <SignUp>
             {"Dont you have an account?"}

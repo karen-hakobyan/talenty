@@ -1,29 +1,28 @@
+import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import SignUp from "../components/sign/SignUp.jsx";
 import {
   FORGOT_PASSWORD_ROUTE,
   SIGN_IN_ROUTE,
   SIGN_UP_ROUTE,
+  TEMPLATE,
 } from "../constants/routes";
 import ForgotPassword from "../components/sign/ForgotPassword.jsx";
 import SignIn from "../components/sign/SignIn.jsx";
 import CvTemplateMain from "../components/CvTemplate/CvTemplateMain";
-import { useState } from "react";
+import LandingPage from "../components/landingPage";
+import { selectIsCompany } from "../store/dialogs/selector.js";
 
 const RoutesMain = () => {
-  const [isCompany] = useState(null);
+  const isCompany = useSelector(selectIsCompany);
   return (
     <Routes>
-      <Route path="/" element={<CvTemplateMain />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path={TEMPLATE} element={<CvTemplateMain />} />
       <Route
-        path={`${SIGN_UP_ROUTE}-company`}
-        element={<SignUp isCompany={true} />}
+        path={`${SIGN_UP_ROUTE}`}
+        element={<SignUp {...{ isCompany }} />}
       />
-      <Route
-        path={`${SIGN_UP_ROUTE}-user`}
-        element={<SignUp isCompany={isCompany} />}
-      />
-
       <Route path={SIGN_IN_ROUTE} element={<SignIn />} />
       <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword />} />
     </Routes>
