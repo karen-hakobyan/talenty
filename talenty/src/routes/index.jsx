@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import SignUp from "../components/sign/SignUp.jsx";
+import SignUp from "../components/Sign/SignUp.jsx";
 import {
   FORGOT_PASSWORD_ROUTE,
   SIGN_IN_ROUTE,
   SIGN_UP_ROUTE,
 } from "../constants/routes";
-import ForgotPassword from "../components/sign/ForgotPassword.jsx";
-import SignIn from "../components/sign/SignIn.jsx";
+import ForgotPassword from "../components/Sign/ForgotPassword.jsx";
+import SignIn from "../components/Sign/SignIn.jsx";
 import CvTemplateMain from "../components/CvTemplate/CvTemplateMain";
 import { useState } from "react";
 
