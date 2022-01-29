@@ -8,7 +8,11 @@ import {
   TEMPLATE_ITEM_BUTTON_DISABLED,
 } from "../../shared/styles";
 import { ACTION_WRAPPER } from "./style";
-import { setDialogData, setDialogIsOpen } from "../../store/dialogs/slice";
+import {
+  setDialogData,
+  setDialogIsOpen,
+  setDialogType,
+} from "../../store/dialogs/slice";
 
 function onDelete(setData, id) {
   setData((prevState) => {
@@ -26,6 +30,7 @@ function TemplateItem({ item, setData }) {
     (item) => {
       dispatch(setDialogData(item));
       dispatch(setDialogIsOpen(true));
+      dispatch(setDialogType("body"));
     },
     [dispatch]
   );

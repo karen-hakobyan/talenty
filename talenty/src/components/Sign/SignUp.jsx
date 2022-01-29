@@ -1,8 +1,13 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Checkbox, FormControl, Typography } from "@mui/material";
+import { Button, Checkbox, FormControl, Typography } from "@mui/material";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 import { Box } from "@mui/system";
 import { MAIN_PURPLE, TEXT } from "../../constants/colors";
+import {
+  POST_SIGN_UP_HR,
+  POST_SIGN_UP_JOB_SEEKER,
+} from "../../constants/requests";
 import {
   StyledContainer,
   H1,
@@ -11,84 +16,18 @@ import {
   StyledBGImage,
   MainStyledSpan,
 } from "./signUp";
+import { useMemo } from "react";
+import { FIELDS, FIELDS_COMPANY } from "./helper";
 import SignUpField from "./SignUpField";
-import MuiContainedBtn from "../../shared/MuiContainedBtn";
+import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 
 export default function SignUp({ isCompany }) {
   const [terms, setTerms] = useState(false);
-  const [companyName, setCompanyName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  let { pathname } = useLocation();
-  pathname = pathname.split("-").slice(-1)[0];
-  const fieldLabels = [
-    {
-      name: "Company name",
-      value: companyName,
-      inputName: "companyName",
-      onChange: setCompanyName,
-    },
-    {
-      name: "First name",
-      value: firstName,
-      inputName: "firstName",
-      onChange: setFirstName,
-    },
-    {
-      name: "Last name",
-      value: lastName,
-      inputName: "lastName",
-      onChange: setLastName,
-    },
-    {
-      name: "Email",
-      value: email,
-      inputName: "email",
-      onChange: setEmail,
-    },
-    {
-      name: "Password",
-      value: password,
-      inputName: "password",
-      onChange: setPassword,
-      isPass: true,
-    },
-    {
-      name: "Confirm password",
-      value: confirmPassword,
-      inputName: "confirmPassword",
-      onChange: setConfirmPassword,
-      isPass: true,
-    },
-  ];
-  // const onSubmit = () => {
-  //   const data = fieldLabels.reduce((accum, item) => {
-  //     accum[item.inputName] = item.value;
-  //     return accum;
-  //   }, {});
-  //   if (pathname === "user") {
-  //     delete data.companyName;
-  //   }
-
-  //   if (!terms) {
-  //     setAlertMsg("Check the Terms & Privacy policy");
-  //   } else if (isCompany && !companyNameValid(companyName)) {
-  //     setAlertMsg("Incorrect company name type");
-  //   } else if (!nameValid(firstName) || !nameValid(lastName)) {
-  //     setAlertMsg("Incorrect name or surname type");
-  //   } else if (!emailValid(email)) {
-  //     setAlertMsg("Incorrect email type");
-  //   } else if (!password || password !== confirmPassword) {
-  //     setAlertMsg("Passwords didn't mutch");
-  //   } else if (!passValid(password)) {
-  //     setAlertMsg({
-  //       part1: "Your password is weak!!! Should has",
-  //       part2: "8 characters, 1 uppercase, 1 special character, 1 number",
-  //     });
-  //   } else {
+  const fields = useMemo(
+    () => (isCompany ? FIELDS_COMPANY : FIELDS),
+    [isCompany]
+  );
+  const { register, handleSubmit } = useForm();
   //     axios
   //       .post(POST_SIGN_UP, {
   //         ...data,
@@ -102,11 +41,17 @@ export default function SignUp({ isCompany }) {
   //       });
   //   }
   // };
-
   return (
     <StyledContainer>
       <StyledDiv>
         <FormControl
+          onSubmit={handleSubmit((data) => {
+            let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
+            axios.post(path, data).then((res) => {
+              console.log(res);
+            });
+            console.log(data);
+          })}
           sx={{
             ...style,
           }}
@@ -115,15 +60,18 @@ export default function SignUp({ isCompany }) {
           component="form"
         >
           <H1>Create Account</H1>
-          {!isCompany
-            ? fieldLabels
-                .filter((item) => item.inputName !== "companyName")
-                .map((label, index) => (
-                  <SignUpField key={label + index} label={label} />
-                ))
-            : fieldLabels.map((label, index) => (
-                <SignUpField key={label + index} label={label} />
-              ))}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "22px" }}>
+            {fields.map((el) => {
+              let { name: value, isPassword, key: objKey } = el;
+              return (
+                <SignUpField
+                  {...{ isPassword, register, value, objKey }}
+                  key={objKey}
+                />
+              );
+            })}
+          </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -157,14 +105,20 @@ export default function SignUp({ isCompany }) {
               onClick={() => setTerms((prev) => !prev)}
             />
           </Box>
-          <MuiContainedBtn bgColor={MAIN_PURPLE}>Sign up</MuiContainedBtn>
+          <Button
+            type="submit"
+            sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px" }}
+            style={{ textDecoration: "none" }}
+          >
+            Sign up
+          </Button>
         </FormControl>
       </StyledDiv>
       <StyledBGImage>
         <img
           src={
             require(`../../assets/icons/signImages/${
-              pathname === "user" ? "user" : "company"
+              isCompany ? "company" : "user"
             }.webp`).default
           }
           alt="sign up"

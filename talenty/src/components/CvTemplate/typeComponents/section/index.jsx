@@ -12,7 +12,6 @@ import { TEMPLATE_ITEM_BUTTON } from "../../../../shared/styles";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 
 export default function SectionGenerator({ data }) {
-  console.log(data);
   const dispatch = useDispatch();
   const dialogData = useSelector(selectDialogData);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));

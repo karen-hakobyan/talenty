@@ -1,13 +1,17 @@
 import { Dialog } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectDialogData,
   selectDialogIsOpen,
+  selectDialogType,
 } from "../../store/dialogs/selector";
-import Body from "./Body";
+import { setDialogIsOpen } from "../../store/dialogs/slice";
+import { dialogTypes } from "./type";
 
 export default function Dialogs() {
+  const dispatch = useDispatch();
+  const dialogType = useSelector(selectDialogType);
   const isDialogOpen = useSelector(selectDialogIsOpen);
   const dialogData = useSelector(selectDialogData);
   const [attentionIsOpen, setAttentionIsOpen] = useState(false);
@@ -16,23 +20,26 @@ export default function Dialogs() {
     attentionIsOpen && setAttentionIsOpen(false);
     return null;
   }
+  if (!dialogType) {
+    return null;
+  }
+
+  const TempComponent = dialogTypes[dialogType];
 
   return (
     <Dialog
       open={true}
-      onClose={() => {
-        setAttentionIsOpen(true);
-      }}
+      onClose={
+        dialogType === "body"
+          ? () => {
+              setAttentionIsOpen(true);
+            }
+          : () => dispatch(setDialogIsOpen(false))
+      }
       maxWidth={false}
       sx={{ borderRadius: "16px" }}
     >
-      <Body
-        dialogData={dialogData}
-        {...{
-          attentionIsOpen,
-          setAttentionIsOpen,
-        }}
-      />
+      <TempComponent {...{ dialogData, setAttentionIsOpen, attentionIsOpen }} />
     </Dialog>
   );
 }

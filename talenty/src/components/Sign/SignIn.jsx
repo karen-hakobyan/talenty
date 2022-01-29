@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/system";
-import { TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { TalentyLogo } from "../../assets/sign";
 import TalentyAuth from "../../assets/icons/signImages/company.webp";
 import "../../fonts/index.css";
@@ -12,13 +12,15 @@ import {
   PLACEHOLDER_GRAY,
   SR_TROPAZ,
 } from "../../constants/colors";
-import { FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
+import { FORGOT_PASSWORD_ROUTE } from "../../constants/routes";
 import {
   emailValid,
   passValid,
 } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
 
 const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
@@ -164,6 +166,7 @@ function SignIn() {
   const [errPassword, setErrPassword] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const onHandleChangeCheked = () => setCheked(!cheked);
+  const dispatch = useDispatch();
   const onSubmit = () => {
     //TODO change this url
     axios
@@ -187,7 +190,6 @@ function SignIn() {
     <>
       <ImgContainer>
         <Logo>
-          {/* <img src={logo} alt="logo" /> */}
           <TalentyLogo />
         </Logo>
 
@@ -254,13 +256,22 @@ function SignIn() {
             Sign in
           </MuiContainedBtn>
 
-          {/* <AuthButton text="Sign in" /> */}
-
           <SignUp>
-            {"Dont you have an account?"}
-            <Link to={SIGN_UP_ROUTE}>
-              <span>{"Sign up"}</span>
-            </Link>
+            {"Dont you have an account? "}
+            <Box
+              sx={{
+                display: "inline-block",
+                cursor: "pointer",
+                fontSize: "16px",
+                color: "#8C0DF0",
+              }}
+              onClick={() => {
+                dispatch(setDialogType("setIsCompany"));
+                dispatch(setDialogIsOpen(true));
+              }}
+            >
+              Sign up
+            </Box>
           </SignUp>
         </Form>
       </ImgContainer>
