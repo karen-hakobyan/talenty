@@ -158,8 +158,12 @@ public class ValidationChecker {
                 break;
             }
 
+            case "professional_skill":
+                throw new InvalidProfessionalSkillTypeException();
+            case "personal_skill":
+                throw new InvalidPersonalSkillTypeException();
             case "salary_type":
-                break;
+                throw new InvalidSalaryTypeException();
             case "gender":
                 throw new InvalidGenderTypeException();
 
