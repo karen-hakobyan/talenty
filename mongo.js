@@ -552,7 +552,7 @@ let systemTemplate = {
                             _id: ObjectId(),
                             name: "Skill",
                             metadata: {
-                                type: "text",
+                                type: "professional_skill",
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
@@ -641,7 +641,7 @@ let systemTemplate = {
                             _id: ObjectId(),
                             name: "Skill",
                             metadata: {
-                                type: "text",
+                                type: "personal_skill",
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
@@ -1235,16 +1235,16 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Professional skills",
                     metadata: {
-                        type: "professional_skills",
+                        type: "professional_skill",
                         deletable: false,
                         required: false
                     }
                 },
                 {
                     _id: ObjectId(),
-                    name: "Soft skills",
+                    name: "Personal skills",
                     metadata: {
-                        type: "soft_skills",
+                        type: "personal_skill",
                         deletable: false,
                         required: false
                     }
