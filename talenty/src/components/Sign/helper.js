@@ -1,10 +1,10 @@
 export const FIELDS = [{
         name: "First name",
-        key: "firstname",
+        key: "firstName",
     },
     {
         name: "Last name",
-        key: "lastname",
+        key: "lastName",
     },
     {
         name: "Email",
@@ -18,7 +18,10 @@ export const FIELDS = [{
     {
         name: "Confirm password",
         isPassword: true,
-        key: "confirmPassowrd",
+        key: "confirmPassword",
     },
 ];
-export const FIELDS_COMPANY = [{ name: "Company name", ...FIELDS }];
+export const FIELDS_COMPANY = [
+    { name: "Company name", key: "companyName" },
+    ...FIELDS,
+];
