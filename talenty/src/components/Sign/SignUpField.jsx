@@ -1,50 +1,23 @@
-import { Box } from "@mui/system";
-import "../../fonts/index.css";
-import { TEXT } from "../../constants/colors";
-import { StyledSpan, CssTextField } from "./signUp";
+import { Box, TextField } from "@mui/material";
+import React from "react";
 
-const SignUpFields = ({ label }) => {
-  return (
-    <>
-      <StyledSpan>{label.name}</StyledSpan>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        {label.isPass ? (
-          <>
-            <CssTextField
-              placeholder={label.name}
-              value={label.value}
-              onChange={(e) => label.onChange(e.target.value)}
-              sx={{ color: TEXT, paddingTop: 1 }}
-              type="password"
-              size="small"
-              // error={err}
-              // helperText={err && label.errMsg}
-              // onBlur={() =>
-              //   label.valid(label.value) ? setErr(false) : setErr(true)
-              // }
-            />
-            {/* <Checkbox
-              sx={{
-                "& .MuiSvgIcon-root": {
-                  fontSize: 28,
-                  color: MAIN_PURPLE,
-                },
-              }}
-              checked={show}
-              onClick={() => setShow((prev) => !prev)}
-            /> */}
-          </>
-        ) : (
-          <CssTextField
-            placeholder={label.name}
-            value={label.value}
-            onChange={(e) => label.onChange(e.target.value)}
-            size="small"
-          />
-        )}
+const SignUpField = React.forwardRef(
+  ({ register, value, isPassword, objKey }, ref) => {
+    return (
+      <Box
+        sx={{ display: "flex", gap: "10px", flexDirection: "column" }}
+        {...{ ref }}
+      >
+        <Box>{value}</Box>
+        <TextField
+          {...(isPassword ? { type: "password" } : {})}
+          sx={{ width: "466px" }}
+          {...register(objKey)}
+          placeholder={value}
+        />
       </Box>
-    </>
-  );
-};
+    );
+  }
+);
 
-export default SignUpFields;
+export default SignUpField;
