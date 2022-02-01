@@ -5,7 +5,7 @@ import {
   FORGOT_PASSWORD_ROUTE,
   SIGN_IN_ROUTE,
   SIGN_UP_ROUTE,
-  TEMPLATE,
+  TEMPLATE_ROUTE,
 } from "../constants/routes";
 import ForgotPassword from "../components/sign/ForgotPassword.jsx";
 import SignIn from "../components/sign/SignIn.jsx";
@@ -18,7 +18,7 @@ const RoutesMain = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path={TEMPLATE} element={<CvTemplateMain />} />
+      <Route path={TEMPLATE_ROUTE} element={<CvTemplateMain />} />
       <Route
         path={`${SIGN_UP_ROUTE}`}
         element={<SignUp {...{ isCompany }} />}

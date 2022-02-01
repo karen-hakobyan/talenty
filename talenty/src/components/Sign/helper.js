@@ -48,7 +48,7 @@ export const FIELDS = (watch) => [{
                 message: "Password should contain min 8, max 12 characters",
             },
             pattern: {
-                value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8}/,
                 message: "Password should contain one uppercase and symbol",
             },
         },
