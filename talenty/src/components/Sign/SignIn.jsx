@@ -21,7 +21,7 @@ const ImgContainer = styled("div")(({ theme }) => ({
   backgroundImage: `url(${TalentyAuth})`,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right",
-  backgroundSize: "100%",
+  backgroundSize: "42%",
   width: "100%",
 }));
 
