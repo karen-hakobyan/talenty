@@ -14,7 +14,7 @@ import {
 import { setDialogIsOpen } from "../../store/dialogs/slice";
 import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
-import typeComponents from "../CvTemplate/typeComponents";
+import typeComponents from "../cvTemplate/typeComponents";
 import AddField from "./addField";
 import Attention from "./attention";
 
