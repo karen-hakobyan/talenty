@@ -103,6 +103,15 @@ public class ValidationChecker {
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
         final String submittedValue = (String) submittedField.getMetadata().get("submitted_value");
         final String type = (String) parentField.getMetadata().get("type");
+
+        final Map<String, Object> parentMetadata = parentField.getMetadata();
+        if (parentMetadata.containsKey("values")) {
+            final List<String> values = (List<String>) parentMetadata.get("values");
+            if(values.contains(submittedValue)) {
+                return true;
+            }
+        }
+
         switch (type) {
 
             case "phone_number": {
@@ -149,11 +158,14 @@ public class ValidationChecker {
                 break;
             }
 
+            case "professional_skill":
+                throw new InvalidProfessionalSkillTypeException();
+            case "personal_skill":
+                throw new InvalidPersonalSkillTypeException();
             case "salary_type":
-            case "gender": {
-                System.out.println("admin check");
-                break;
-            }
+                throw new InvalidSalaryTypeException();
+            case "gender":
+                throw new InvalidGenderTypeException();
 
             case "city":
             case "special_name": {

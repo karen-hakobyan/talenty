@@ -7,7 +7,6 @@ import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.SubmittedTemplateRepository;
-import com.talenty.repository.TemplateRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +18,15 @@ import java.util.Optional;
 public class SubmittedTemplateService {
 
     private final SubmittedTemplateRepository submittedTemplateRepository;
-    private final TemplateRepository templateRepository;
+    private final TemplateService templateService;
 
-    public SubmittedTemplateService(SubmittedTemplateRepository submittedTemplateRepository, TemplateRepository templateRepository) {
+    public SubmittedTemplateService(final SubmittedTemplateRepository submittedTemplateRepository, final TemplateService templateService) {
         this.submittedTemplateRepository = submittedTemplateRepository;
-        this.templateRepository = templateRepository;
+        this.templateService = templateService;
     }
 
     public SubmittedTemplateDocument saveSubmittedTemplate(final Template template) {
-        final Optional<TemplateDocument> parentTemplateOptional = templateRepository.findById(template.getId());
+        final Optional<TemplateDocument> parentTemplateOptional = templateService.getTemplateById(template.getId());
 
         if (parentTemplateOptional.isEmpty()) {
             final String cause = String.format("Cause: No template with ID: %s", template.getId());
