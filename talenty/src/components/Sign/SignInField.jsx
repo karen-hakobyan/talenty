@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, TextField } from "@mui/material";
+import { MAIN_PURPLE } from "../../constants/colors";
 
 const SignInField = React.forwardRef(
   (
@@ -36,7 +37,14 @@ const SignInField = React.forwardRef(
         </Box>
         <TextField
           {...(isPassword ? { type: "password" } : {})}
-          sx={{ width: "466px", height: "40px" }}
+          sx={{
+            width: "466px",
+            height: "40px",
+            ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+              {
+                borderColor: MAIN_PURPLE,
+              },
+          }}
           {...register(objKey, error || {})}
           placeholder={label}
           error={!!errors?.[objKey]}

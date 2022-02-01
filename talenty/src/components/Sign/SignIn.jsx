@@ -14,6 +14,7 @@ import { FORGOT_PASSWORD_ROUTE } from "../../constants/routes";
 import { LOGIN } from "../../constants/requests";
 import { useDispatch } from "react-redux";
 import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
+import { MAIN_PURPLE } from "../../constants/colors";
 
 const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
@@ -113,11 +114,13 @@ function SignIn() {
                     checkedIcon={
                       <Box
                         sx={{
-                          border: "2px solid black",
-                          width: "22px",
                           height: "22px",
+                          width: "22px",
+                          textAlign: "center",
+                          color: "white",
                           borderRadius: "50%",
-                          background: "#8C0DF0",
+                          border: `2px solid ${MAIN_PURPLE}`,
+                          background: `radial-gradient(circle at center, ${MAIN_PURPLE} 55%, transparent 0%)`,
                         }}
                       />
                     }
