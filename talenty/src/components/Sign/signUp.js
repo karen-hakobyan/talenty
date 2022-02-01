@@ -48,6 +48,7 @@ export const StyledBGImage = styled("div")({
         minHeight: "23.75rem",
         maxWidth: "35rem",
     },
+    position: "relative",
 });
 
 export const StyledSpan = styled("span")({

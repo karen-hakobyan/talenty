@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Box } from "@mui/system";
-import { MAIN_PURPLE, TEXT } from "../../constants/colors";
 import {
   POST_SIGN_UP_HR,
   POST_SIGN_UP_JOB_SEEKER,
@@ -23,11 +22,12 @@ import {
   StyledBGImage,
   MainStyledSpan,
 } from "./signUp";
-import { useMemo } from "react";
 import { FIELDS, FIELDS_COMPANY } from "./helper";
 import SignUpField from "./SignUpField";
-import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
+import { GLOBAL_TEXT, TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import { SIGN_IN_ROUTE } from "../../constants/routes";
+import {   BOTTOM_ITEMS,    CHECKBOX_CONTAINER,  CHECKBOX_STYLE,   DIALOG_TEXT,  } from "./style";
+import { TalentyLogo } from "../../assets/sign";
 
 export default function SignUp({ isCompany }) {
   const navigate = useNavigate();
@@ -63,33 +63,16 @@ export default function SignUp({ isCompany }) {
           }}
         >
           <Box
-            sx={{
-              width: "580px",
-              height: "290px",
-              paddingBottom: "31px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              paddingTop: "84px",
-              alignItems: "center",
-            }}
+            sx={CHECKBOX_CONTAINER}
           >
             <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-              }}
+              sx={BOTTOM_ITEMS}
             >
               {dialogInfo?.text?.map((text) => {
                 return (
                   <Box
                     key={text}
-                    sx={{
-                      textAlign: "center",
-                      fontSize: "16px",
-                      lineHeight: "26px",
-                      fontFamily: "Proxima Nova",
-                    }}
+                    sx={DIALOG_TEXT}
                   >
                     {text}
                   </Box>
@@ -142,7 +125,7 @@ export default function SignUp({ isCompany }) {
           component="form"
         >
           <H1>Create Account</H1>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "22px" }}>
+          <Box sx={{ ...BOTTOM_ITEMS, gap: "22px" }}>
             {fields.map((el) => {
               let { name: value, isPassword, key: objKey, error } = el;
               return (
@@ -155,20 +138,12 @@ export default function SignUp({ isCompany }) {
           </Box>
 
           <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              span: { p: 0 },
-              mb: 2,
-            }}
+            sx={CHECKBOX_CONTAINER}
           >
             <Typography
               variant="body1"
               sx={{
-                fontStyle: "normal",
-                fontWeight: "normal",
-                fontSize: 14,
-                color: TEXT,
+                ...GLOBAL_TEXT,
                 mt: 3,
                 width: "100%",
               }}
@@ -179,9 +154,7 @@ export default function SignUp({ isCompany }) {
               emails
             </Typography>
             <Checkbox
-              sx={{
-                "& .MuiSvgIcon-root": { fontSize: 28, color: MAIN_PURPLE },
-              }}
+              sx={CHECKBOX_STYLE}
               required={true}
               checked={terms}
               onClick={() => setTerms((prev) => !prev)}
@@ -189,8 +162,7 @@ export default function SignUp({ isCompany }) {
           </Box>
           <Button
             type="submit"
-            sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px" }}
-            style={{ textDecoration: "none" }}
+            sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px",...{ textTransform: "none" } }}
           >
             Sign up
           </Button>
@@ -205,6 +177,17 @@ export default function SignUp({ isCompany }) {
           }
           alt="sign up"
         />
+        <Box
+        sx={{
+          position: "absolute",
+          top:43,
+          right:60,
+          cursor:"pointer"
+        }}
+        onClick={()=>navigate("/")}
+        >
+          <TalentyLogo/>
+        </Box>
       </StyledBGImage>
     </StyledContainer>
   );
