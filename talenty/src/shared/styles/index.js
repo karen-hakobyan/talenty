@@ -1,3 +1,5 @@
+import { TEXT } from "../../constants/colors";
+
 const TEMPLATE_ITEM_BUTTON = {
     display: "flex",
     gap: 1,
@@ -101,7 +103,14 @@ const DIALOG_ADD_SECTION_CONTAINER = {
     paddingRight: "24px",
     paddingLeft: "24px",
 };
+const GLOBAL_TEXT = {
+    fontStyle: "normal",
+    fontWeight: "normal",
+    fontSize: 14,
+    color: TEXTS,
+}
 export {
+    GLOBAL_TEXT,
     DIALOG_TITLE_CONTAINER,
     DIALOG_MAIN_CONTAINER,
     TEMPLATE_ITEM_BUTTON,

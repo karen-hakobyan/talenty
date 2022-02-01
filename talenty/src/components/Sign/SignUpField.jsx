@@ -12,7 +12,11 @@ const SignUpField = React.forwardRef(
         <Box>{value}</Box>
         <TextField
           {...(isPassword ? { type: "password" } : {})}
-          sx={{ width: "466px" }}
+          sx={{ width: "466px",
+          ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline" :{
+            borderColor: 'yellow',
+        }
+        }}
           {...register(objKey, error)}
           placeholder={value}
           error={!!errors?.[objKey]}
