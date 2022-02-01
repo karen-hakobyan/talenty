@@ -107,7 +107,7 @@ const GLOBAL_TEXT = {
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 14,
-    color: TEXTS,
+    color: TEXT,
 }
 export {
     GLOBAL_TEXT,
