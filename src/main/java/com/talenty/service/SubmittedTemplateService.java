@@ -89,7 +89,6 @@ public class SubmittedTemplateService {
                 cleanUpSubmittedTemplateFields(tempSubmittedField.getFields(), tempParentField.getFields());
             }
         }
-        //TODO other logical validations like (country, city)
     }
 
 }
