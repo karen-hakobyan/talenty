@@ -160,6 +160,21 @@ function SignIn() {
                 </Box>
               </Box>
               <Button
+                // onClick={handleSubmit((data) => {
+                //   axios
+                //     .post(LOGIN, data)
+                //     .then((response) => {
+                //       setDialogInfo({ open: true, text: "Welcome" });
+                //       console.log(response);
+                //     })
+                //     .catch((err) => {
+                //       console.log({ ...err });
+                //       setDialogInfo({
+                //         open: true,
+                //         text: "Please, check your email or password once again. The email or password is incorrect.",
+                //       });
+                //     });
+                // })}
                 onClick={handleSubmit(request({ axios, setDialogInfo }))}
                 sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px" }}
                 style={{ textTransform: "none" }}

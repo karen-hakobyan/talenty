@@ -1,10 +1,10 @@
 package com.talenty.jwt;
 
-import com.talenty.domain.mongo.HrDocument;
-import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.UserDocument;
+import com.talenty.exceptions.InvalidJWTTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -26,8 +26,15 @@ public class JWTService {
     }
 
     public Jws<Claims> parse(final String token) {
-        final JwtParser build = Jwts.parser().setSigningKey(KEY);
+        final JwtParser build = Jwts.parserBuilder().setSigningKey(KEY).build();
         return build.parseClaimsJws(token);
+    }
+
+    public String validateToken(final String jwtToken) {
+        if (jwtToken == null || !jwtToken.startsWith("Bearer ")) {
+            return null;
+        }
+        return jwtToken.substring(7);
     }
 
 }
