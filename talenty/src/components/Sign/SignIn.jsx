@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { styled } from "@mui/system";
@@ -6,15 +7,14 @@ import { TalentyLogo } from "../../assets/sign";
 import TalentyAuth from "../../assets/icons/signImages/company.webp";
 import "../../fonts/index.css";
 import { Box, Button, Checkbox, Dialog, FormControl } from "@mui/material";
-import { FIELD } from "./signInHelper";
+import { FIELD, request } from "./signInHelper";
 import SignInField from "./SignInField";
 import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import { useState } from "react";
 import { FORGOT_PASSWORD_ROUTE } from "../../constants/routes";
-import { LOGIN } from "../../constants/requests";
 import { useDispatch } from "react-redux";
 import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
 import { MAIN_PURPLE } from "../../constants/colors";
+import { ENTER_KEY } from "../../constants/keyCodes";
 
 const ImgContainer = styled("div")(({ theme }) => ({
   height: "100vh",
@@ -46,6 +46,7 @@ function SignIn() {
   const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   return (
     <>
       <Dialog
@@ -84,6 +85,11 @@ function SignIn() {
               {FIELD.map(({ objKey, label, isPassword, error }) => {
                 return (
                   <SignInField
+                    onKeyDown={(event) => {
+                      if (event.keyCode === ENTER_KEY) {
+                        handleSubmit(request({ axios, setDialogInfo }))();
+                      }
+                    }}
                     key={objKey}
                     {...{ objKey, label, isPassword, register, errors, error }}
                   />
@@ -154,21 +160,7 @@ function SignIn() {
                 </Box>
               </Box>
               <Button
-                onClick={handleSubmit((data) => {
-                  axios
-                    .post(LOGIN, data)
-                    .then((response) => {
-                      setDialogInfo({ open: true, text: "Welcome" });
-                      console.log(response);
-                    })
-                    .catch((err) => {
-                      console.log({ ...err });
-                      setDialogInfo({
-                        open: true,
-                        text: "Please, check your email or password once again. The email or password is incorrect.",
-                      });
-                    });
-                })}
+                onClick={handleSubmit(request({ axios, setDialogInfo }))}
                 sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px" }}
                 style={{ textTransform: "none" }}
               >

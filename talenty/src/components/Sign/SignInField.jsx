@@ -11,6 +11,7 @@ const SignInField = React.forwardRef(
       isPassword,
       error,
       errors, // use form hook errors
+      ...restProps
     },
     ref
   ) => {
@@ -49,6 +50,7 @@ const SignInField = React.forwardRef(
           placeholder={label}
           error={!!errors?.[objKey]}
           helperText={errors[objKey] ? errors[objKey].message : ""}
+          {...restProps}
         />
       </Box>
     );
