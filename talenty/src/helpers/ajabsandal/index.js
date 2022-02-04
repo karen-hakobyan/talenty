@@ -283,7 +283,7 @@ let hrExData = {
                     id: ObjectId(),
                     name: "Military ID",
                     metadata: {
-                        type: "militaryid",
+                        type: "military_id",
                         editable: false,
                         required_editable: true,
                         deletable: true,

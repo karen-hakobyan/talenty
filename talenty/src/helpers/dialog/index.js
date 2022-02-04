@@ -3,7 +3,16 @@ import { setDialogData } from "../../store/dialogs/slice";
 export function onDelete({ dispatch, name, dialogData }) {
     const updatedDialogData = {
         ...dialogData,
-        fields: dialogData.fields.filter((el) => el.name !== name),
+        fields: dialogData.fields.map((el) => {
+            if(el.name === name) {
+                return {
+                    ...el,
+                    metadata: {...el.metadata, status: 'deleted'},
+                    // status could be changed
+                }
+            }
+            return el
+        }),
     };
     dispatch(setDialogData(updatedDialogData));
 }
