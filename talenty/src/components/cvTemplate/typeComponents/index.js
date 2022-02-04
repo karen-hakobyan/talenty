@@ -8,7 +8,7 @@ import GenderGenerator from "./gender";
 import PhoneGenerator from "./phoneNumber";
 import PhotoGenerator from "./photo";
 import SpecialNameGenerator from "./specialName";
-import SectionGenerator from "./section/index.js";
+import SectionGenerator from "./section";
 
 const typeComponents = {
     special_name: SpecialNameGenerator,

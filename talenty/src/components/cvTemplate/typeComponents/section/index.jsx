@@ -3,7 +3,7 @@ import SubSection from "../../../shared/subSection";
 import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
 import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
 import { selectDialogData } from "../../../../store/dialogs/selector";
-import SUBSECTION_TYPES from ".";
+import SUBSECTION_TYPES from "./helper.js";
 import { memo } from "react";
 import { Checkbox } from "../../../shared/Checkbox";
 import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
