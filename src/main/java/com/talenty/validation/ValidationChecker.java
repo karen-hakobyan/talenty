@@ -3,6 +3,7 @@ package com.talenty.validation;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
+import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.*;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
@@ -107,7 +108,7 @@ public class ValidationChecker {
         final Map<String, Object> parentMetadata = parentField.getMetadata();
         if (parentMetadata.containsKey("values")) {
             final List<String> values = (List<String>) parentMetadata.get("values");
-            if(values.contains(submittedValue)) {
+            if (values.contains(submittedValue)) {
                 return true;
             }
         }
@@ -263,6 +264,58 @@ public class ValidationChecker {
         if (!COUNTRIES.contains(country))
             throw new InvalidCountryException();
         return true;
+    }
+
+    public static void asserTemplateSectionsNamesAreUnique(final TemplateDocument template) {
+        final Set<String> nameSet = new HashSet<>();
+
+        final List<FieldDocument> fields = template.getFields();
+        for (final FieldDocument field : fields) {
+            nameSet.add(field.getName().replaceAll(" ", ""));
+        }
+
+        if (nameSet.size() != fields.size())
+            throw new DuplicateSectionNameException();
+    }
+
+    public static void assertTemplateSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
+        final String status = section.getMetadata().get("template.section.type.status").toString();
+
+        if (status == null) {
+            //TODO sovorakan fielderi check
+            return;
+        }
+
+        switch (status) {
+            case "new":
+                assertNewSectionIsValid(section);
+                break;
+            case "deleted":
+                assertDeletedSectionIsValid(section, parentTemplate);
+                break;
+        }
+
+    }
+
+    private static void assertEditedSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
+
+    }
+
+    private static void assertDeletedSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
+        for (final FieldDocument parentSection : parentTemplate.getFields()) {
+            if (Objects.equals(parentSection.getId(), section.getId())) {
+                if(parentSection.getMetadata().containsKey("deletable")) {
+                    if((boolean) parentSection.getMetadata().get("deletable")) {
+                        return;
+                    }
+                }
+            }
+        }
+        throw new InvalidSectionException();
+    }
+
+    private static void assertNewSectionIsValid(final FieldDocument section) {
+        // TODO new section check (fields types check, only type input)
     }
 
 }
