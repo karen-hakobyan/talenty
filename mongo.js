@@ -318,7 +318,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Education and Training section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -430,7 +430,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Work Experience section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -542,7 +542,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Professional skill section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -631,7 +631,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Personal skill section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -720,7 +720,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Language section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -817,7 +817,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Interest and Hobby section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -852,7 +852,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Project/Product section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -952,7 +952,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Article section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
@@ -976,7 +976,7 @@ let systemTemplate = {
                     _id: ObjectId(),
                     name: "Book section",
                     metadata: {
-                        type: "section",
+                        type: "section_container",
                         editable: false,
                         deletable: false,
                         required: false
