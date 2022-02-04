@@ -30,6 +30,7 @@ export default function Body({
   if (!dialogData) {
     return null;
   }
+  
   return (
     <Box sx={DIALOG_MAIN_CONTAINER}>
       <Dialog
@@ -46,11 +47,16 @@ export default function Body({
       <Box sx={DIALOG_TITLE_CONTAINER}>{dialogData.name}</Box>
       <Box sx={{ display: "grid", gridTemplateColumns: "auto", gap: "24px" }}>
         {dialogData.fields.map((field) => {
+          // if status deleted show nothing
+          if(field.metadata.status === 'deleted') {
+            return null
+          }
           let TempComponent = typeComponents[field.metadata.type];
           if (!TempComponent) {
             return <h1>they have changed again some type</h1>;
           }
-          TempComponent = memo(TempComponent);
+          TempComponent = memo(TempComponent)
+
           return <TempComponent data={field} key={field.name} />;
         })}
 

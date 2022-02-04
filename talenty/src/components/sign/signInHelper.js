@@ -22,13 +22,14 @@ export const FIELD = [{
 ];
 
 export const request =
-    ({ axios, setDialogInfo }) =>
+    ({ axios, setDialogInfo, isChecked, navigate, route }) =>
     (data) => {
         axios
             .post(LOGIN, data)
             .then((response) => {
                 setDialogInfo({ open: true, text: "Welcome" });
-                console.log(response);
+                storageSetter(isChecked, response.data.jwtToken);
+                navigate(route);
             })
             .catch((err) => {
                 console.log({...err });
@@ -39,6 +40,10 @@ export const request =
             });
     };
 
-export const submittion = ({ handleSubmit, setDialogInfo }) => {
-    console.log("mtav");
-};
+function storageSetter(isChecked, data) {
+    if (isChecked) {
+        localStorage.setItem("jwt", data);
+    } else {
+        sessionStorage.setItem("jwt", data);
+    }
+}
