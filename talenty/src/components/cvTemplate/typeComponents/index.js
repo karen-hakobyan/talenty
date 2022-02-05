@@ -9,6 +9,7 @@ import PhoneGenerator from "./phoneNumber";
 import PhotoGenerator from "./photo";
 import SpecialNameGenerator from "./specialName";
 import SectionGenerator from "./section";
+import SectionContainer from "./section_container";
 
 const typeComponents = {
     special_name: SpecialNameGenerator,
@@ -24,6 +25,8 @@ const typeComponents = {
     section: SectionGenerator,
     phone_number: PhoneGenerator,
     description: DescriptionGenerator,
+    section_container: SectionContainer,
+    text: SpecialNameGenerator,
 };
 
 export default typeComponents;

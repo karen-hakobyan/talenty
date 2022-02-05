@@ -14,7 +14,7 @@ import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
 import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
 import { selectDialogData } from "../../../../store/dialogs/selector";
 
-export default function SpecialNameGenerator({ data }) {
+export default function SpecialNameGenerator({ data, isSectionContainer }) {
   const dispatch = useDispatch();
   const dialogData = useSelector(selectDialogData);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
@@ -34,7 +34,12 @@ export default function SpecialNameGenerator({ data }) {
         checkboxComponent={
           <Checkbox
             onChange={() => {
-              editCheckboxState({ dispatch, dialogData, name: data.name });
+              editCheckboxState({
+                dispatch,
+                dialogData,
+                name: data.name,
+                isSectionContainer,
+              });
             }}
             checked={data.metadata.required}
             disabled={!data.metadata.required_editable}
@@ -50,6 +55,7 @@ export default function SpecialNameGenerator({ data }) {
                   name: data.name,
                   data: templateData,
                   dialogData,
+                  isSectionContainer,
                 })
               }
             >
