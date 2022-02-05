@@ -29,3 +29,33 @@ export const CHECKBOX_CONTAINER = {
 export const CHECKBOX_STYLE = {
     "& .MuiSvgIcon-root": { fontSize: 28, color: MAIN_PURPLE },
 }
+
+export const butonStyleGenerator = (isCompany, isCompanyState) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "50%",
+    height: "100%",
+    fontFamily: "Proxima Nova",
+    fontStyle: "normal",
+    fontWeight: "normal",
+    fontSize: "16px",
+    lineHeight: "24px",
+    cursor: "pointer",
+    borderRadius: "4px",
+    background: isCompanyState ? (isCompany ? MAIN_PURPLE : 'transparent') : (!isCompany ? MAIN_PURPLE : 'transparent'),
+    color: isCompanyState ? (isCompany ? '#FFF' : MAIN_PURPLE) : (!isCompany ? '#FFF' : MAIN_PURPLE),
+    transition: "all, 0.5s",
+    "&:hover": {
+        background: isCompanyState ? (isCompany ? "#7204c9" : 'transparent') : (!isCompany ? "#7204c9" : 'transparent'),
+        transition: "all, 0.5s",
+    }
+})
+export const BUTON_STYLE = {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "466px",
+    height: "40px",
+    border: `1px solid ${MAIN_PURPLE}`,
+    borderRadius: "4px",
+}
