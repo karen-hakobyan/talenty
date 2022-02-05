@@ -16,27 +16,26 @@ import {
   POST_SIGN_UP_HR,
   POST_SIGN_UP_JOB_SEEKER,
 } from "../../constants/requests";
-import {
-  StyledContainer,
-  StyledDiv,
-  style,
-  MainStyledSpan,
-} from "./signUp";
+import { StyledContainer, StyledDiv, style, MainStyledSpan } from "./signUp";
 import { changeButtonInformation, FIELDS, FIELDS_COMPANY } from "./helper";
 import SignUpField from "./SignUpField";
 import { GLOBAL_TEXT, TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import { SIGN_IN_ROUTE } from "../../constants/routes";
-import {   BOTTOM_ITEMS, butonStyleGenerator,    BUTON_STYLE,    CHECKBOX_CONTAINER,  CHECKBOX_STYLE,   DIALOG_TEXT } from "./style";
+import {
+  BOTTOM_ITEMS,
+  butonStyleGenerator,
+  BUTON_STYLE,
+  CHECKBOX_CONTAINER,
+  CHECKBOX_STYLE,
+  DIALOG_TEXT,
+} from "./style";
 import { checkNavigation } from "../../helpers/actions";
-
-
-
 
 export default function SignUp() {
   const navigate = useNavigate();
   const [terms, setTerms] = useState(false);
   const [dialogInfo, setDialogInfo] = useState(false);
-  const [isCompany, setIsCompany] = useState(true)
+  const [isCompany, setIsCompany] = useState(true);
   const {
     register,
     handleSubmit,
@@ -54,7 +53,6 @@ export default function SignUp() {
     () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),
     [isCompany, watch]
   );
-
 
   return (
     <StyledContainer>
@@ -97,91 +95,90 @@ export default function SignUp() {
           </Box>
         </Dialog>
         <BackgroundImage img={isCompany}>
-        <FormControl
-          onSubmit={handleSubmit((data) => {
-            let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
-            axios
-              .post(path, data)
-              .then((res) => {
-                setDialogInfo({
-                  text: [
-                    "Congratulations!!!",
-                    "To confirm your registration, please check your email and confirm it within 2 days.",
-                  ],
-                  ok: true,
+          <FormControl
+            onSubmit={handleSubmit((data) => {
+              let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
+              axios
+                .post(path, data)
+                .then((res) => {
+                  setDialogInfo({
+                    text: [
+                      "Congratulations!!!",
+                      "To confirm your registration, please check your email and confirm it within 2 days.",
+                    ],
+                    ok: true,
+                  });
+                })
+                .catch((err) => {
+                  console.log({ ...err });
+                  setDialogInfo({
+                    text: ["Registration failed.", "Please trye later"],
+                    ok: false,
+                  });
                 });
-              })
-              .catch((err) => {
-                console.log({ ...err });
-                setDialogInfo({
-                  text: ["Registration failed.", "Please trye later"],
-                  ok: false,
-                });
-              });
-            console.log(data);
-          })}
-          sx={{
-            ...style,
-          }}
-          required
-          autoComplete="off"
-          component="form"
-        >
-          <Box sx={{ ...BOTTOM_ITEMS, gap: "22px" }}>
-            <Box sx={BUTON_STYLE}>
-                {changeButtonInformation.map(({text,isCompanyState})=>(
-                  <Box 
-                   key={text}
-                    sx={butonStyleGenerator(isCompany,isCompanyState)}
-                  onClick={() => setIsCompany(isCompanyState ? true : false)}
-                  >{text}</Box>
-                ))}
-            </Box>
-            {fields.map((el) => {
-              let { name: value, isPassword, key: objKey, error } = el;
-              return (
-                <SignUpField
-                  {...{ isPassword, register, value, objKey, errors, error }}
-                  key={objKey}
-                />
-              );
+              console.log(data);
             })}
-          </Box>
+            sx={style}
+            required
+            autoComplete="off"
+            component="form"
+          >
+            <Box sx={{ ...BOTTOM_ITEMS, gap: "22px" }}>
+              <Box sx={BUTON_STYLE}>
+                {changeButtonInformation.map(({ text, isCompanyState }) => (
+                  <Box
+                    key={text}
+                    sx={butonStyleGenerator(isCompany, isCompanyState)}
+                    onClick={() => setIsCompany(isCompanyState ? true : false)}
+                  >
+                    {text}
+                  </Box>
+                ))}
+              </Box>
+              {fields.map((el) => {
+                let { name: value, isPassword, key: objKey, error } = el;
+                return (
+                  <SignUpField
+                    {...{ isPassword, register, value, objKey, errors, error }}
+                    key={objKey}
+                  />
+                );
+              })}
+            </Box>
 
-          <Box sx={CHECKBOX_CONTAINER}>
-            <Typography
-              variant="body1"
+            <Box sx={CHECKBOX_CONTAINER}>
+              <Typography
+                variant="body1"
+                sx={{
+                  ...GLOBAL_TEXT,
+                  mt: 3,
+                  width: "100%",
+                }}
+              >
+                By creating an account, I agree to Talenty’s{" "}
+                <MainStyledSpan>Terms of use</MainStyledSpan> and{" "}
+                <MainStyledSpan>Privacy policy</MainStyledSpan> and to receive
+                emails
+              </Typography>
+              <Checkbox
+                sx={CHECKBOX_STYLE}
+                required={true}
+                checked={terms}
+                onClick={() => setTerms((prev) => !prev)}
+              />
+            </Box>
+            <Button
+              type="submit"
               sx={{
-                ...GLOBAL_TEXT,
-                mt: 3,
-                width: "100%",
+                ...TEMPLATE_BUTTON_CREATE,
+                width: "466px",
+                ...{ textTransform: "none" },
               }}
             >
-              By creating an account, I agree to Talenty’s{" "}
-              <MainStyledSpan>Terms of use</MainStyledSpan> and{" "}
-              <MainStyledSpan>Privacy policy</MainStyledSpan> and to receive
-              emails
-            </Typography>
-            <Checkbox
-              sx={CHECKBOX_STYLE}
-              required={true}
-              checked={terms}
-              onClick={() => setTerms((prev) => !prev)}
-            />
-          </Box>
-          <Button
-            type="submit"
-            sx={{
-              ...TEMPLATE_BUTTON_CREATE,
-              width: "466px",
-              ...{ textTransform: "none" },
-            }}
-          >
-            Sign up
-          </Button>
-        </FormControl>
+              Sign up
+            </Button>
+          </FormControl>
         </BackgroundImage>
-        
       </StyledDiv>
     </StyledContainer>
   );

@@ -38,8 +38,6 @@ export default function Dialogs() {
     return null;
   }
 
-  // const TempComponent = dialogTypes[dialogType];
-
   return (
     <Dialog
       open={true}
