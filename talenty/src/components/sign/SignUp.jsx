@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 import {
   Button,
   Checkbox,
@@ -7,38 +9,34 @@ import {
   FormControl,
   Typography,
 } from "@mui/material";
-import axios from "axios";
-import { useForm } from "react-hook-form";
+
 import { Box } from "@mui/system";
+import BackgroundImage from "./BackgroundImage";
 import {
   POST_SIGN_UP_HR,
   POST_SIGN_UP_JOB_SEEKER,
 } from "../../constants/requests";
 import {
   StyledContainer,
-  H1,
   StyledDiv,
   style,
-  StyledBGImage,
   MainStyledSpan,
 } from "./signUp";
-import { FIELDS, FIELDS_COMPANY } from "./helper";
+import { changeButtonInformation, FIELDS, FIELDS_COMPANY } from "./helper";
 import SignUpField from "./SignUpField";
 import { GLOBAL_TEXT, TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import { SIGN_IN_ROUTE } from "../../constants/routes";
-import {
-  BOTTOM_ITEMS,
-  CHECKBOX_CONTAINER,
-  CHECKBOX_STYLE,
-  DIALOG_TEXT,
-} from "./style";
-import { TalentyLogo } from "../../assets/sign";
+import {   BOTTOM_ITEMS, butonStyleGenerator,    BUTON_STYLE,    CHECKBOX_CONTAINER,  CHECKBOX_STYLE,   DIALOG_TEXT } from "./style";
 import { checkNavigation } from "../../helpers/actions";
 
-export default function SignUp({ isCompany }) {
+
+
+
+export default function SignUp() {
   const navigate = useNavigate();
   const [terms, setTerms] = useState(false);
   const [dialogInfo, setDialogInfo] = useState(false);
+  const [isCompany, setIsCompany] = useState(true)
   const {
     register,
     handleSubmit,
@@ -56,6 +54,7 @@ export default function SignUp({ isCompany }) {
     () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),
     [isCompany, watch]
   );
+
 
   return (
     <StyledContainer>
@@ -97,6 +96,7 @@ export default function SignUp({ isCompany }) {
             </Button>
           </Box>
         </Dialog>
+        <BackgroundImage img={isCompany}>
         <FormControl
           onSubmit={handleSubmit((data) => {
             let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
@@ -127,8 +127,16 @@ export default function SignUp({ isCompany }) {
           autoComplete="off"
           component="form"
         >
-          <H1>Create Account</H1>
           <Box sx={{ ...BOTTOM_ITEMS, gap: "22px" }}>
+            <Box sx={BUTON_STYLE}>
+                {changeButtonInformation.map(({text,isCompanyState})=>(
+                  <Box 
+                   key={text}
+                    sx={butonStyleGenerator(isCompany,isCompanyState)}
+                  onClick={() => setIsCompany(isCompanyState ? true : false)}
+                  >{text}</Box>
+                ))}
+            </Box>
             {fields.map((el) => {
               let { name: value, isPassword, key: objKey, error } = el;
               return (
@@ -172,28 +180,9 @@ export default function SignUp({ isCompany }) {
             Sign up
           </Button>
         </FormControl>
+        </BackgroundImage>
+        
       </StyledDiv>
-      <StyledBGImage>
-        <img
-          src={
-            require(`../../assets/icons/signImages/${
-              isCompany ? "company" : "user"
-            }.webp`).default
-          }
-          alt="sign up"
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            top: 43,
-            right: 60,
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/")}
-        >
-          <TalentyLogo />
-        </Box>
-      </StyledBGImage>
     </StyledContainer>
   );
 }

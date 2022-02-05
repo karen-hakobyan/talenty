@@ -4,7 +4,6 @@ import axios from "axios";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { TalentyLogo } from "../../assets/sign";
-import TalentyAuth from "../../assets/icons/signImages/company.webp";
 import "../../fonts/index.css";
 import { Box, Button, Checkbox, Dialog, FormControl } from "@mui/material";
 import { FIELD, request } from "./signInHelper";
@@ -14,17 +13,9 @@ import { DASHBOARD_ROUTE, FORGOT_PASSWORD_ROUTE } from "../../constants/routes";
 import { useDispatch } from "react-redux";
 import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
 import { MAIN_PURPLE } from "../../constants/colors";
+import BackgroundImage from "./BackgroundImage";
 import { ENTER_KEY } from "../../constants/keyCodes";
 import { checkNavigation } from "../../helpers/actions";
-
-const ImgContainer = styled("div")(({ theme }) => ({
-  height: "100vh",
-  backgroundImage: `url(${TalentyAuth})`,
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "right",
-  backgroundSize: "42%",
-  width: "100%",
-}));
 
 const Logo = styled("div")(({ theme }) => ({
   display: "flex",
@@ -62,8 +53,8 @@ function SignIn() {
       >
         {dialogInfo?.text}
       </Dialog>
-      <ImgContainer>
-        <Logo>
+      <BackgroundImage>
+      <Logo>
           <TalentyLogo />
         </Logo>
         <Box sx={{ paddingLeft: "154px" }}>
@@ -221,7 +212,8 @@ function SignIn() {
             </Box>
           </FormControl>
         </Box>
-      </ImgContainer>
+      </BackgroundImage>
+      
     </>
   );
 }

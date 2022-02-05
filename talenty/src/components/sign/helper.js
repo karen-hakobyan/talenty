@@ -76,3 +76,4 @@ export const FIELDS_COMPANY = (watch) => [{
     },
     ...FIELDS(watch),
 ];
+export const changeButtonInformation = [{ text: "Sign up as a company", isCompanyState: true }, { text: "Sign up as a jobseeker", isCompanyState: false }]
