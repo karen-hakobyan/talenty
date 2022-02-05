@@ -4,8 +4,10 @@ import com.talenty.domain.dto.Template;
 import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.TemplateDocument;
+import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.TemplateRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,17 +38,43 @@ public class TemplateService {
         final TemplateDocument templateDocument = templateDocumentOptional.get();
 
         final List<TypeValues> adminDefinedTypeValues = typeValuesService.getTypesWithValues();
-        modifyFields(templateDocument.getFields(), adminDefinedTypeValues);
+        addValuesToFieldsFromAdmin(templateDocument.getFields(), adminDefinedTypeValues);
 
         return Optional.of(templateDocument);
     }
 
-    private void modifyFields(final List<FieldDocument> fields, final List<TypeValues> typeValues) {
-        for (final FieldDocument field : fields) {
 
+    public Template createNewTemplate(final Template template) {
+        final Optional<TemplateDocument> parentTemplateOptional = getTemplateById(template.getId());
+
+        if (parentTemplateOptional.isEmpty()) {
+            final String cause = String.format("Cause: No template with ID : %s", template.getId());
+            System.out.println(cause);
+            throw new NoSuchTemplateException(cause);
+        }
+
+        final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
+        final TemplateDocument parentTemplate = parentTemplateOptional.get();
+
+        assertNewTemplateIsValid(newTemplate, parentTemplate);
+
+        return null;
+    }
+
+    private void assertNewTemplateIsValid(final TemplateDocument newTemplate, final TemplateDocument parentTemplate) {
+        ValidationChecker.asserTemplateSectionsNamesAreUnique(newTemplate);
+
+        for (final FieldDocument section : newTemplate.getFields()) {
+            ValidationChecker.assertTemplateSectionIsValid(section, parentTemplate);
+        }
+
+    }
+
+    private void addValuesToFieldsFromAdmin(final List<FieldDocument> fields, final List<TypeValues> typeValues) {
+        for (final FieldDocument field : fields) {
             final List<FieldDocument> fieldFields = field.getFields();
             if (fieldFields != null) { //section
-                modifyFields(fieldFields, typeValues);
+                addValuesToFieldsFromAdmin(fieldFields, typeValues);
             } else { //field
                 final Map<String, Object> metadata = field.getMetadata();
                 if (metadata == null) {
