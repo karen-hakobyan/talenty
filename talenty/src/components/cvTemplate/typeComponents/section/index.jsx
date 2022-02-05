@@ -3,7 +3,7 @@ import SubSection from "../../../shared/subSection";
 import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
 import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
 import { selectDialogData } from "../../../../store/dialogs/selector";
-import SUBSECTION_TYPES from ".";
+import SUBSECTION_TYPES from "./helper.js";
 import { memo } from "react";
 import { Checkbox } from "../../../shared/Checkbox";
 import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
@@ -11,7 +11,7 @@ import { Box, IconButton } from "@mui/material";
 import { TEMPLATE_ITEM_BUTTON } from "../../../../shared/styles";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 
-export default function SectionGenerator({ data }) {
+export default function SectionGenerator({ data, isSectionContainer }) {
   const dispatch = useDispatch();
   const dialogData = useSelector(selectDialogData);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
@@ -35,15 +35,20 @@ export default function SectionGenerator({ data }) {
               return null;
             }
 
-            return <TempComponent data={field} key={data.id} />;
+            return <TempComponent data={field} key={field.id} />;
           })}
         </Box>
       }
       checkboxComponent={
-        data.fields.length === 2 ? (
+        [2, 3].includes(data.fields.length) ? (
           <Checkbox
             onChange={() => {
-              editCheckboxState({ dispatch, dialogData, name: data.name });
+              editCheckboxState({
+                dispatch,
+                dialogData,
+                name: data.name,
+                isSectionContainer,
+              });
             }}
             checked={data.metadata.required}
             disabled={!data.metadata.required_editable}
@@ -60,6 +65,7 @@ export default function SectionGenerator({ data }) {
                 name: data.name,
                 data: templateData,
                 dialogData,
+                isSectionContainer,
               })
             }
           >

@@ -1,5 +1,5 @@
 import { Dialog } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectDialogData,
@@ -16,6 +16,20 @@ export default function Dialogs() {
   const dialogData = useSelector(selectDialogData);
   const [attentionIsOpen, setAttentionIsOpen] = useState(false);
 
+  const tempComponentInfo = useMemo(() => {
+    return dialogType
+      ? dialogTypes[dialogType]({
+          dialogData,
+          setAttentionIsOpen,
+          attentionIsOpen,
+        })
+      : { component: () => {} };
+  }, [dialogType, attentionIsOpen, dialogData]);
+
+  const TempComponent = useMemo(() => {
+    return tempComponentInfo.component;
+  }, [tempComponentInfo]);
+
   if (!isDialogOpen) {
     attentionIsOpen && setAttentionIsOpen(false);
     return null;
@@ -24,7 +38,7 @@ export default function Dialogs() {
     return null;
   }
 
-  const TempComponent = dialogTypes[dialogType];
+  // const TempComponent = dialogTypes[dialogType];
 
   return (
     <Dialog
@@ -39,7 +53,7 @@ export default function Dialogs() {
       maxWidth={false}
       sx={{ borderRadius: "16px" }}
     >
-      <TempComponent {...{ dialogData, setAttentionIsOpen, attentionIsOpen }} />
+      <TempComponent {...tempComponentInfo.props} />
     </Dialog>
   );
 }

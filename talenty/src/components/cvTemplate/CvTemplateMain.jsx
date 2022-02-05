@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Dialog, IconButton, Typography } from "@mui/material";
+import { Container, Dialog, IconButton, Typography, Box } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,
   CreateCVTemplateSVG,
   ListSVG,
 } from "../../assets/icons/createTemplate";
-import { Box } from "@mui/system";
 import TemplateItem from "./TemplateItem";
 import hrExData from "../../helpers/ajabsandal";
 import { globalDataSetter } from "../../request/get";
@@ -25,14 +25,19 @@ import {
 } from "../../shared/styles";
 import { compareObjects } from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
+import { checkUserExistence } from "../../helpers/actions";
 
 function CvTemplateMain() {
   const [data, setData] = useState(null);
   const [unchangeData, setUnchangedData] = useState(null);
   const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
+  const navigate = useNavigate();
   const updatedTemplateData = useSelector(
     selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
   );
+  useEffect(() => {
+    checkUserExistence(navigate);
+  }, [navigate]);
   const dispatch = useDispatch();
 
   useEffect(() => {

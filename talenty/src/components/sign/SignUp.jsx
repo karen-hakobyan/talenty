@@ -1,4 +1,4 @@
-import { useState,useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -26,7 +26,8 @@ import { changeButtonInformation, FIELDS, FIELDS_COMPANY } from "./helper";
 import SignUpField from "./SignUpField";
 import { GLOBAL_TEXT, TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import { SIGN_IN_ROUTE } from "../../constants/routes";
-import {   BOTTOM_ITEMS,    butonStyleGenerator,    BUTON_STYLE,    CHECKBOX_CONTAINER,  CHECKBOX_STYLE,   DIALOG_TEXT,   } from "./style";
+import {   BOTTOM_ITEMS, butonStyleGenerator,    BUTON_STYLE,    CHECKBOX_CONTAINER,  CHECKBOX_STYLE,   DIALOG_TEXT } from "./style";
+import { checkNavigation } from "../../helpers/actions";
 
 
 
@@ -45,6 +46,10 @@ export default function SignUp() {
     mode: "onChange",
     shouldFocusError: false,
   });
+  useEffect(() => {
+    checkNavigation(navigate);
+  }, [navigate]);
+
   const fields = useMemo(
     () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),
     [isCompany, watch]
@@ -66,18 +71,11 @@ export default function SignUp() {
             }
           }}
         >
-          <Box
-            sx={CHECKBOX_CONTAINER}
-          >
-            <Box
-              sx={BOTTOM_ITEMS}
-            >
+          <Box sx={CHECKBOX_CONTAINER}>
+            <Box sx={BOTTOM_ITEMS}>
               {dialogInfo?.text?.map((text) => {
                 return (
-                  <Box
-                    key={text}
-                    sx={DIALOG_TEXT}
-                  >
+                  <Box key={text} sx={DIALOG_TEXT}>
                     {text}
                   </Box>
                 );
@@ -150,9 +148,7 @@ export default function SignUp() {
             })}
           </Box>
 
-          <Box
-            sx={CHECKBOX_CONTAINER}
-          >
+          <Box sx={CHECKBOX_CONTAINER}>
             <Typography
               variant="body1"
               sx={{
@@ -175,7 +171,11 @@ export default function SignUp() {
           </Box>
           <Button
             type="submit"
-            sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px",...{ textTransform: "none" } }}
+            sx={{
+              ...TEMPLATE_BUTTON_CREATE,
+              width: "466px",
+              ...{ textTransform: "none" },
+            }}
           >
             Sign up
           </Button>
@@ -183,7 +183,6 @@ export default function SignUp() {
         </BackgroundImage>
         
       </StyledDiv>
-      
     </StyledContainer>
   );
 }

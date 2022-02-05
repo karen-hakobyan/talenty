@@ -21,7 +21,7 @@ public class TemplateController {
     }
 
     @GetMapping("/system")
-    public ResponseEntity<?> getSystemTemplate() {
+    public ResponseEntity<Template> getSystemTemplate() {
         final Template systemTemplate = templateService.getSystemTemplate();
         return ResponseEntity.ok(systemTemplate);
     }
@@ -30,6 +30,12 @@ public class TemplateController {
     public ResponseEntity<?> saveSubmittedTemplate(@RequestBody final Template template) {
         submittedTemplateService.saveSubmittedTemplate(template);
         return ResponseEntity.ok("saved_submitted_template");
+    }
+
+    @PostMapping("/create_new_template")
+    public ResponseEntity<?> createNewTemplate(@RequestBody final Template template) {
+        final Template createdTemplate = templateService.createNewTemplate(template);
+        return ResponseEntity.ok("created_new_template");
     }
 
 }
