@@ -20,17 +20,13 @@ import {
   SECOND_HEADER,
 } from "./style";
 import LandingImage from "../../assets/landing/landing.png";
-import { SIGN_IN_ROUTE } from "../../constants/routes";
-import { useDispatch } from "react-redux";
-import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
+import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
 import { useEffect } from "react";
 import { checkNavigation } from "../../helpers/actions";
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  // navigate dashboard page if signed in
   useEffect(() => {
     checkNavigation(navigate);
   }, [navigate]);
@@ -68,10 +64,7 @@ export default function LandingPage() {
           <Button
             style={{ textTransform: "none" }}
             sx={PRIMARY_BUTTON}
-            onClick={() => {
-              dispatch(setDialogIsOpen(true));
-              dispatch(setDialogType("setIsCompany"));
-            }}
+            onClick={() => navigate(SIGN_UP_ROUTE)}
           >
             Sign up
           </Button>
