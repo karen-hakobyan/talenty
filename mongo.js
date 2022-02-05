@@ -332,7 +332,7 @@ let systemTemplate = {
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: false
                             }
                         },
@@ -343,7 +343,7 @@ let systemTemplate = {
                                 type: "text",
                                 maxLength: 100,
                                 editable: false,
-                                required_editable: false,
+                                required_editable: true,
                                 deletable: true,
                                 required: false
                             }
@@ -355,7 +355,7 @@ let systemTemplate = {
                                 type: "text",
                                 maxLength: 100,
                                 editable: false,
-                                required_editable: false,
+                                required_editable: true,
                                 deletable: true,
                                 required: false
                             }
@@ -366,7 +366,7 @@ let systemTemplate = {
                             metadata: {
                                 type: "section",
                                 editable: false,
-                                required_editable: false,
+                                required_editable: true,
                                 deletable: true,
                                 required: false
                             },
@@ -408,7 +408,7 @@ let systemTemplate = {
                                 type: "description",
                                 maxLength: 1000,
                                 editable: false,
-                                required_editable: false,
+                                required_editable: true,
                                 deletable: true,
                                 required: false
                             }
@@ -444,7 +444,7 @@ let systemTemplate = {
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: true
                             }
                         },
@@ -478,7 +478,7 @@ let systemTemplate = {
                             metadata: {
                                 type: "section",
                                 editable: false,
-                                required_editable: false,
+                                required_editable: true,
                                 deletable: true,
                                 required: false
                             },
@@ -556,7 +556,7 @@ let systemTemplate = {
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: true
                             }
                         },
@@ -568,7 +568,7 @@ let systemTemplate = {
                                 selected_values: "only_one", //only_one, multiple
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: false
                             },
                             fields: [
@@ -645,7 +645,7 @@ let systemTemplate = {
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: true
                             }
                         },
@@ -657,7 +657,7 @@ let systemTemplate = {
                                 selected_values: "only_one",
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: false
                             },
                             fields: [
@@ -734,7 +734,7 @@ let systemTemplate = {
                                 maxLength: 20,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: true
                             }
                         },
@@ -746,7 +746,7 @@ let systemTemplate = {
                                 selected_values: "only_one",
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: false
                             },
                             fields: [
@@ -797,7 +797,7 @@ let systemTemplate = {
                         maxLength: 1000,
                         editable: false,
                         required_editable: true,
-                        deletable: true,
+                        deletable: false,
                         required: false
                     }
                 }
@@ -831,7 +831,7 @@ let systemTemplate = {
                                 maxLength: 1000,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: false
                             }
                         }
@@ -866,7 +866,7 @@ let systemTemplate = {
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: true
                             }
                         },
@@ -900,7 +900,7 @@ let systemTemplate = {
                             metadata: {
                                 type: "section",
                                 editable: false,
-                                required_editable: false,
+                                required_editable: true,
                                 deletable: true,
                                 required: false
                             },
@@ -966,7 +966,7 @@ let systemTemplate = {
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,
-                                deletable: true,
+                                deletable: false,
                                 required: true
                             }
                         }
@@ -1015,7 +1015,7 @@ let systemTemplate = {
                         maxLength: 1000,
                         editable: false,
                         required_editable: true,
-                        deletable: true,
+                        deletable: false,
                         required: false
                     }
                 }
@@ -1226,7 +1226,7 @@ let jobAnnouncement = {
             name: "Skills",
             metadata: {
                 type: "section",
-                deletable: false,
+                deletable: true,
                 editable: true,
                 display: "fold"
             },
