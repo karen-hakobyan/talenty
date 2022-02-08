@@ -1,6 +1,7 @@
-import React from "react";
-import { Box, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Box, IconButton, TextField } from "@mui/material";
 import { MAIN_PURPLE } from "../../constants/colors";
+import { ShowPasswordClose, ShowPasswordOpen } from "../../assets/sign";
 
 const SignInField = React.forwardRef(
   (
@@ -15,8 +16,11 @@ const SignInField = React.forwardRef(
     },
     ref
   ) => {
+    const [showPass, setShowPass]=useState(false)
+    
     return (
       <Box
+      
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -37,10 +41,13 @@ const SignInField = React.forwardRef(
           {label}
         </Box>
         <TextField
+          InputProps={{sx:{height: "40px"},endAdornment: isPassword? 
+          <IconButton onClick={()=>setShowPass(!showPass)}>
+            {showPass? <ShowPasswordOpen/>: <ShowPasswordClose/> }
+          </IconButton>:null}}
           {...(isPassword ? { type: "password" } : {})}
           sx={{
             width: "466px",
-            height: "40px",
             ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
               {
                 borderColor: MAIN_PURPLE,
