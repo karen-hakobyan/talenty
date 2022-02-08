@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, IconButton, TextField } from "@mui/material";
 import { MAIN_PURPLE } from "../../constants/colors";
-import { ShowPasswordClose, ShowPasswordOpen } from "../../assets/sign";
-
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 const SignInField = React.forwardRef(
   (
     {
@@ -43,9 +43,9 @@ const SignInField = React.forwardRef(
         <TextField
           InputProps={{sx:{height: "40px"},endAdornment: isPassword? 
           <IconButton onClick={()=>setShowPass(!showPass)}>
-            {showPass? <ShowPasswordOpen/>: <ShowPasswordClose/> }
+            {showPass? <VisibilityOutlinedIcon color="#4C494F" fontSize="small" />: <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small"/>}
           </IconButton>:null}}
-          {...(isPassword ? { type: "password" } : {})}
+          {...(isPassword && !showPass ? { type: "password" } : {})}
           sx={{
             width: "466px",
             ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
