@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import typeComponents from "..";
 
 export default function SectionContainer({ data }) {
+
   if (!data) {
     return null;
   }

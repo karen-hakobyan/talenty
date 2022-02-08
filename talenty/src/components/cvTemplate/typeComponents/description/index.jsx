@@ -1,22 +1,16 @@
 import { IconButton, TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
-import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
 import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
 import {
   DISABLED_INPUT,
   TEMPLATE_INPUT,
   TEMPLATE_ITEM_BUTTON,
 } from "../../../../shared/styles";
-import { selectDialogData } from "../../../../store/dialogs/selector";
-import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
+
 import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 
-export function DescriptionGenerator({ data, isSectionContainer }) {
-  const dispatch = useDispatch();
-  const dialogData = useSelector(selectDialogData);
-  const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
+export function DescriptionGenerator({ data, isSectionContainer,dispatch, dialogData, templateData }) {
 
   return (
     <SubSection

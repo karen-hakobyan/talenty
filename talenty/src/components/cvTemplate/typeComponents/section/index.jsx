@@ -1,8 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
 import SubSection from "../../../shared/subSection";
-import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
-import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
-import { selectDialogData } from "../../../../store/dialogs/selector";
 import SUBSECTION_TYPES from "./helper.js";
 import { memo } from "react";
 import { Checkbox } from "../../../shared/Checkbox";
@@ -11,10 +7,7 @@ import { Box, IconButton } from "@mui/material";
 import { TEMPLATE_ITEM_BUTTON } from "../../../../shared/styles";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 
-export default function SectionGenerator({ data, isSectionContainer }) {
-  const dispatch = useDispatch();
-  const dialogData = useSelector(selectDialogData);
-  const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
+export default function SectionGenerator({ data, isSectionContainer,dispatch, dialogData, templateData }) {
 
   return (
     <SubSection
