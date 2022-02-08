@@ -16,11 +16,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     checkNavigation(navigate, LANDING_PAGE_ROUTE);
-    let dataInfo = JSON.parse(atob(getJwt().split(".")[1]));
-    dispatch(setGlobalDataViaKey({ key: USER_INFO, value: dataInfo }));
+    // let dataInfo = getJwt() ? JSON.parse(atob(getJwt()?.split(".")[1])) : false;
+    // if (dataInfo) {
+    //   dispatch(setGlobalDataViaKey({ key: USER_INFO, value: dataInfo }));
+    // }
+    // TODO orient with above comment
   }, [navigate, dispatch]);
 
-  console.log(userInfo);
   return (
     <Box>
       {/* header */}

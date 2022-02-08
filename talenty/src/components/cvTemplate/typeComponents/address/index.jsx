@@ -26,6 +26,7 @@ export default function AddressGenerator({ data }) {
           disabled
           placeholder={data.name}
           sx={{ ...TEMPLATE_INPUT, ...DISABLED_INPUT }}
+          InputProps={{ sx: { height: "40px" } }}
         />
       }
       checkboxComponent={

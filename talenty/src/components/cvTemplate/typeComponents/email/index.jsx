@@ -26,6 +26,7 @@ export default function EmailGenerator({ data }) {
           disabled
           placeholder="Your email"
           sx={{ ...TEMPLATE_INPUT, ...DISABLED_INPUT }}
+          InputProps={{ sx: { height: "40px" } }}
         />
       }
       checkboxComponent={

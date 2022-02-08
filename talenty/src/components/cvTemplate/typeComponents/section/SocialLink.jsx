@@ -19,7 +19,7 @@ export default function SocialLink({ data }) {
       <Checkbox
         checked={data.metadata.required}
         onChange={() => {
-          editCheckboxLink({ dispatch, id: data.id, dialogData });
+          editCheckboxLink({ dispatch, id: data._id, dialogData });
         }}
       />
     </Box>

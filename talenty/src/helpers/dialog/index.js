@@ -73,7 +73,7 @@ export function editCheckboxLink({ dialogData, id, dispatch }) {
   const dialogDataJSON = JSON.stringify({ ...dialogData });
 
   const updatedDialogData = JSON.parse(dialogDataJSON, (key, value) => {
-    if (value.id === id) {
+    if (value._id === id) {
       return {
         ...value,
         metadata: { ...value.metadata, required: !value.metadata.required },

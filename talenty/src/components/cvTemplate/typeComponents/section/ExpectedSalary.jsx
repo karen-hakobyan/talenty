@@ -8,6 +8,7 @@ export default function ExpectedSalary({ data }) {
       disabled
       variant="outlined"
       sx={{ ...TEMPLATE_INPUT, ...DISABLED_INPUT, width: "321px" }}
+      InputProps={{ sx: { height: "40px" } }}
     />
   );
 }
