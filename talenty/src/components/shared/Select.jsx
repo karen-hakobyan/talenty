@@ -13,18 +13,18 @@ const labelStyle = {
   fontWeight: 400,
   fontSize: "16px",
   color: "#BFBFBF",
-  "&.Mui-focused": { display: "none" },
   lineHeight: "24px",
+  height: "40px",
 };
 
 const Select = ({ sx = {}, disabled, placeHolder, ...restProps }) => {
   return (
-    <FormControl>
+    <FormControl size="small">
       <InputLabel sx={labelStyle}>
         {placeHolder || "Choose the gender"}
       </InputLabel>
       <MuiSelect
-        sx={{ ...style, ...sx }}
+        sx={{ ...style, ...sx, height: "40px" }}
         IconComponent={SelectIconSVG}
         disabled={disabled}
         {...restProps}

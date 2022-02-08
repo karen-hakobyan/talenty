@@ -30,6 +30,7 @@ export default function DateGenerator({
           disabled={disabledInput}
           placeholder="DD/MM/YYYY"
           sx={{ ...TEMPLATE_INPUT, ...(disabledInput ? DISABLED_INPUT : {}) }}
+          InputProps={{ sx: { height: "40px" } }}
         />
       }
       checkboxComponent={

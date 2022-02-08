@@ -26,6 +26,7 @@ export default function CityGenerator({ data }) {
           disabled
           variant="outlined"
           sx={{ ...TEMPLATE_INPUT, ...DISABLED_INPUT }}
+          InputProps={{ sx: { height: "40px" } }}
         />
       }
       checkboxComponent={

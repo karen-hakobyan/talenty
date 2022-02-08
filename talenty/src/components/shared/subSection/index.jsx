@@ -6,6 +6,7 @@ const SubSection = ({
   label,
   inputComponent,
   checkboxComponent,
+  bottomComponent,
   buttonComponent,
   sx,
 }) => {
@@ -13,9 +14,12 @@ const SubSection = ({
     <Box sx={sx}>
       {label && <Box sx={INPUT_LABEL}>{label}</Box>}
       <Box sx={MAIN_CONTAINER}>
-        <Box sx={SUB_CONTAINER}>
-          <Box>{inputComponent}</Box>
-          {checkboxComponent}
+        <Box>
+          <Box sx={SUB_CONTAINER}>
+            <Box>{inputComponent}</Box>
+            {checkboxComponent}
+          </Box>
+          {bottomComponent}
         </Box>
         {buttonComponent}
       </Box>
