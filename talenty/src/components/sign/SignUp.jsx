@@ -28,6 +28,7 @@ import {
   CHECKBOX_CONTAINER,
   CHECKBOX_STYLE,
   DIALOG_TEXT,
+  FLEX_CONTAINER,
 } from "./style";
 import { checkNavigation } from "../../helpers/actions";
 
@@ -40,6 +41,7 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
     watch,
   } = useForm({
     mode: "onChange",
@@ -69,7 +71,7 @@ export default function SignUp() {
             }
           }}
         >
-          <Box sx={CHECKBOX_CONTAINER}>
+          <Box sx={FLEX_CONTAINER}>
             <Box sx={BOTTOM_ITEMS}>
               {dialogInfo?.text?.map((text) => {
                 return (
@@ -80,6 +82,7 @@ export default function SignUp() {
               })}
             </Box>
             <Button
+              style={{textTransform: "none",}}
               sx={{ ...TEMPLATE_BUTTON_CREATE, width: "176px" }}
               onClick={() => {
                 if (dialogInfo.ok) {
@@ -116,7 +119,6 @@ export default function SignUp() {
                     ok: false,
                   });
                 });
-              console.log(data);
             })}
             sx={style}
             required
@@ -129,7 +131,10 @@ export default function SignUp() {
                   <Box
                     key={text}
                     sx={butonStyleGenerator(isCompany, isCompanyState)}
-                    onClick={() => setIsCompany(isCompanyState ? true : false)}
+                    onClick={() => {
+                      setIsCompany(isCompanyState ? true : false)
+                      reset()
+                    }}
                   >
                     {text}
                   </Box>

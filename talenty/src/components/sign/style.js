@@ -1,6 +1,6 @@
 import { MAIN_PURPLE } from "../../constants/colors";
 
-export const flexContainer = {
+export const FLEX_CONTAINER = {
     width: "580px",
     height: "290px",
     paddingBottom: "31px",
@@ -11,6 +11,7 @@ export const flexContainer = {
     alignItems: "center",
 };
 export const BOTTOM_ITEMS = {
+
     display: "flex",
     flexDirection: "column",
 };
