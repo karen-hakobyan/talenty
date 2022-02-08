@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { styled } from "@mui/system";
+import { Box, styled } from "@mui/system";
 import { TextField, Typography } from "@mui/material";
-import { TalentyLogo } from "../../assets/sign";
-import TalentyAuth from "../../assets/icons/signImages/user.webp";
 import "../../fonts//index.css";
 import {
   MAIN_PURPLE,
@@ -14,21 +12,9 @@ import {
 import { emailValid } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertMessage from "./AlertMessage";
+import BackgroundImage from "./BackgroundImage";
 
-const Logo = styled("div")(({ theme }) => ({
-  display: "flex",
-  justifyContent: "end",
-  marginBottom: 146,
-  paddingTop: 46,
-  marginRight: 60,
-}));
-const ImgContainer = styled("div")(({ theme }) => ({
-  height: "100vh",
-  backgroundImage: `url(${TalentyAuth})`,
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "right",
-  backgroundSize: "42%",
-}));
+
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
   fontFamily: "Proxima Nova",
@@ -81,8 +67,10 @@ const CssTextField = styled(TextField)({
   marginBottom: 20,
 });
 const ContentContainer = styled("div")(({ tehem }) => ({
+
   maxWidth: 466,
   marginLeft: "154px",
+  
 }));
 
 function ForgotPassword() {
@@ -108,11 +96,13 @@ function ForgotPassword() {
 
   return (
     <>
-      <ImgContainer>
-        <Logo>
-          <TalentyLogo />
-        </Logo>
-
+      
+        <BackgroundImage>
+          <Box sx={{
+            display:"flex",
+            alignItems:"center",
+            height:"100%",
+          }}>
         <ContentContainer>
           <Title variant="h1" component="div">
             Forgot password?
@@ -150,8 +140,10 @@ function ForgotPassword() {
           </MuiContainedBtn>
           {open && <AlertMessage handleClose={setOpen} open={open} />}
         </ContentContainer>
-      </ImgContainer>
-    </>
+        </Box>
+        </BackgroundImage>
+
+      </>
   );
 }
 
