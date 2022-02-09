@@ -7,8 +7,13 @@ import { Box, IconButton } from "@mui/material";
 import { TEMPLATE_ITEM_BUTTON } from "../../../../shared/styles";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 
-export default function SectionGenerator({ data, isSectionContainer,dispatch, dialogData, templateData }) {
-
+export default function SectionGenerator({
+  data,
+  isSectionContainer,
+  dispatch,
+  dialogData,
+  templateData,
+}) {
   return (
     <SubSection
       label={data.name}
@@ -28,7 +33,14 @@ export default function SectionGenerator({ data, isSectionContainer,dispatch, di
               return null;
             }
 
-            return <TempComponent data={field} key={field.id} />;
+            return (
+              <TempComponent
+                data={field}
+                key={field.id}
+                isSectionContainer
+                {...{ dispatch, dialogData }}
+              />
+            );
           })}
         </Box>
       }

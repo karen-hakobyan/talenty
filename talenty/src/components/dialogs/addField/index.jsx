@@ -43,24 +43,37 @@ export default function AddField({ dialogData, setIsOpen }) {
   );
 }
 
+const addFieldParamsGenerator = (value) => ({
+  id: null,
+  name: value,
+  metadata: {
+    type: specialNameType,
+    required_editable: true,
+    editable: false,
+    required: false,
+    deletable: true,
+    maxLength: 20,
+  },
+});
+
 function onAdd({ dispatch, dialogData, value }) {
-  const result = {
-    ...dialogData,
-    fields: [
-      ...dialogData.fields,
-      {
-        id: null,
-        name: value,
-        metadata: {
-          type: specialNameType,
-          required_editable: true,
-          editable: false,
-          required: false,
-          deletable: true,
-          maxLength: 20,
-        },
-      },
-    ],
-  };
+  const result =
+    dialogData.fields[0]?.metadata.type === "section_container"
+      ? {
+          ...dialogData,
+          fields: [
+            {
+              ...dialogData.fields[0],
+              fields: [
+                ...dialogData.fields[0].fields,
+                addFieldParamsGenerator(value),
+              ],
+            },
+          ],
+        }
+      : {
+          ...dialogData,
+          fields: [...dialogData.fields, addFieldParamsGenerator(value)],
+        };
   dispatch(setDialogData(result));
 }
