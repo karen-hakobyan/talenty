@@ -19,9 +19,10 @@ export default function AddSection({
       <Box sx={DIALOG_TITLE_CONTAINER}>Add section</Box>
       <Box sx={INPUT_LABEL}>Section name</Box>
       <TextField
-        sx={{ mb: 6 }}
+        sx={{ mb: 6, width: "100%" }}
         onChange={(e) => setValue(e.target.value)}
         value={value}
+        InputProps={{ sx: { height: "40px" } }}
       />
       <Box
         sx={{
