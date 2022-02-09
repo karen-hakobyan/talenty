@@ -41,9 +41,12 @@ export function onDelete({ dispatch, name, dialogData, isSectionContainer }) {
   dispatch(setDialogData(updatedDialogData));
 }
 export function isDisabled({ templateData, value }) {
-  return (
-    templateData.fields.some((el) => el.name === value) || value.length === 0
-  );
+  // check when you should compare with fields or with first element of fields
+  const result =
+    templateData.fields[0]?.metadata.type === "section_container"
+      ? templateData.fields[0]
+      : templateData;
+  return result.fields.some((el) => el.name === value) || value.length === 0;
 }
 
 export function editCheckboxState({
