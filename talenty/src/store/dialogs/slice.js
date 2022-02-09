@@ -20,7 +20,11 @@ export const dialogSlice = createSlice({
       state.actions = action.payload;
     },
     setDialogInitialState: (state) => {
-      state = initialState;
+      state.data = null;
+      state.isOpen = false;
+      state.actions = {};
+      state.dialogType = null;
+      state.initialData = null;
     },
     setDialogData: (state, { payload }) => {
       state.data = payload;
