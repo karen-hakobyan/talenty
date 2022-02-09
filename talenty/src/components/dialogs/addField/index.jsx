@@ -7,6 +7,7 @@ import {
   ADD_TEMPLATE_SECTION,
   DIALOG_ADD_SECTION_CONTAINER,
   DIALOG_TITLE_CONTAINER,
+  INPUT_LABEL,
 } from "../../../shared/styles";
 import { setDialogData } from "../../../store/dialogs/slice";
 
@@ -16,11 +17,15 @@ export default function AddField({ dialogData, setIsOpen }) {
   return (
     <Box sx={DIALOG_ADD_SECTION_CONTAINER}>
       <Box sx={DIALOG_TITLE_CONTAINER}>Add field</Box>
+      <Box sx={INPUT_LABEL}>Field name</Box>
       <TextField
+        placeholder="Add field name"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        sx={{ mb: 6 }}
+        sx={{ mb: 6, width: "100%" }}
+        InputProps={{ sx: { height: "40px" } }}
       />
+
       <Box
         sx={{
           display: "flex",

@@ -15,11 +15,11 @@ import {
   setDialogType,
 } from "../../store/dialogs/slice";
 
-function onDelete(setData, id) {
+function onDelete(setData, name) {
   setData((prevState) => {
     return {
       ...prevState,
-      fields: prevState.fields.filter((el) => el.id !== id),
+      fields: prevState.fields.filter((el) => el.name !== name),
     };
   });
 }
@@ -46,7 +46,7 @@ function TemplateItem({ item, setData }) {
         </IconButton>
         <IconButton
           onClick={() => {
-            onDelete(setData, item.id);
+            onDelete(setData, item.name);
           }}
           disabled={!item.metadata.deletable}
           sx={
