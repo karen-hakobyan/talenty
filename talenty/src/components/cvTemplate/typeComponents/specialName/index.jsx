@@ -10,8 +10,13 @@ import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
 
-export default function SpecialNameGenerator({ data, isSectionContainer, dispatch, dialogData, templateData }) {
-  
+export default function SpecialNameGenerator({
+  data,
+  isSectionContainer,
+  dispatch,
+  dialogData,
+  templateData,
+}) {
   return (
     <>
       <SubSection

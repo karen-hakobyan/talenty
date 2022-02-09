@@ -4,8 +4,7 @@ import { editCheckboxLink } from "../../../../helpers/dialog/index.js";
 import { Checkbox } from "../../../shared/Checkbox.jsx";
 import SOCIAL_LINK_ICONS from "./socialLinkIcons.js";
 
-export default function SocialLink({ data,dispatch, dialogData }) {
-  
+export default function SocialLink({ data, dispatch, dialogData }) {
   let Icon = SOCIAL_LINK_ICONS[data.name];
   if (Icon) {
     Icon = memo(Icon);
@@ -16,7 +15,7 @@ export default function SocialLink({ data,dispatch, dialogData }) {
       <Checkbox
         checked={data.metadata.required}
         onChange={() => {
-          editCheckboxLink({ dispatch, id: data._id, dialogData });
+          editCheckboxLink({ dispatch, id: data.id, dialogData });
         }}
       />
     </Box>

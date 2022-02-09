@@ -57,7 +57,13 @@ export default function Body({
           }
           TempComponent = memo(TempComponent);
 
-          return <TempComponent data={field} key={field.name} {...{dialogData, dispatch, templateData}}/>;
+          return (
+            <TempComponent
+              data={field}
+              key={field.name}
+              {...{ dialogData, dispatch, templateData }}
+            />
+          );
         })}
 
         {/* section adding part */}
@@ -87,6 +93,7 @@ export default function Body({
               },
               background: "#8C0DF0",
             }}
+            style={{ textTransform: "none" }}
           >
             Save
           </Button>

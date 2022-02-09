@@ -564,7 +564,7 @@ let systemTemplate = {
               _id: ObjectId(),
               name: "Evaluate bar",
               metadata: {
-                type: "section",
+                type: "evaluate_bar",
                 selected_values: "only_one", //only_one, multiple
                 editable: false,
                 required_editable: true,
@@ -653,7 +653,7 @@ let systemTemplate = {
               _id: ObjectId(),
               name: "Evaluate bar",
               metadata: {
-                type: "section",
+                type: "evaluate_bar",
                 selected_values: "only_one",
                 editable: false,
                 required_editable: true,
