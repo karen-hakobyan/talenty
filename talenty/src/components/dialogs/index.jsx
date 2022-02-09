@@ -3,10 +3,12 @@ import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectDialogData,
+  selectDialogInitialData,
   selectDialogIsOpen,
   selectDialogType,
 } from "../../store/dialogs/selector";
-import { setDialogIsOpen } from "../../store/dialogs/slice";
+import { setDialogInitialState } from "../../store/dialogs/slice";
+import isDialogDataInitial from "./helper";
 import { dialogTypes } from "./type";
 
 export default function Dialogs() {
@@ -14,6 +16,7 @@ export default function Dialogs() {
   const dialogType = useSelector(selectDialogType);
   const isDialogOpen = useSelector(selectDialogIsOpen);
   const dialogData = useSelector(selectDialogData);
+  const dialogInitialData = useSelector(selectDialogInitialData);
   const [attentionIsOpen, setAttentionIsOpen] = useState(false);
 
   const tempComponentInfo = useMemo(() => {
@@ -22,9 +25,10 @@ export default function Dialogs() {
           dialogData,
           setAttentionIsOpen,
           attentionIsOpen,
+          dialogInitialData,
         })
       : { component: () => {} };
-  }, [dialogType, attentionIsOpen, dialogData]);
+  }, [dialogType, attentionIsOpen, dialogData, dialogInitialData]);
 
   const TempComponent = useMemo(() => {
     return tempComponentInfo.component;
@@ -44,9 +48,13 @@ export default function Dialogs() {
       onClose={
         dialogType === "body"
           ? () => {
-              setAttentionIsOpen(true);
+              if (isDialogDataInitial(dialogData, dialogInitialData)) {
+                dispatch(setDialogInitialState());
+              } else {
+                setAttentionIsOpen(true);
+              }
             }
-          : () => dispatch(setDialogIsOpen(false))
+          : () => dispatch(setDialogInitialState())
       }
       maxWidth={false}
       sx={{ borderRadius: "16px" }}

@@ -10,6 +10,7 @@ import {
 import { ACTION_WRAPPER } from "./style";
 import {
   setDialogData,
+  setDialogInitialData,
   setDialogIsOpen,
   setDialogType,
 } from "../../store/dialogs/slice";
@@ -30,6 +31,7 @@ function TemplateItem({ item, setData }) {
       dispatch(setDialogData(item));
       dispatch(setDialogIsOpen(true));
       dispatch(setDialogType("body"));
+      dispatch(setDialogInitialData(item));
     },
     [dispatch]
   );

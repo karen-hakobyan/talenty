@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { memo } from "react";
-import { editCheckboxLink } from "../../../../helpers/dialog/index.js";
+import { editLinkCheckboxState } from "../../../../helpers/dialog/index.js";
 import { Checkbox } from "../../../shared/Checkbox.jsx";
 import SOCIAL_LINK_ICONS from "./socialLinkIcons.js";
 
@@ -15,7 +15,7 @@ export default function SocialLink({ data, dispatch, dialogData }) {
       <Checkbox
         checked={data.metadata.required}
         onChange={() => {
-          editCheckboxLink({ dispatch, id: data.id, dialogData });
+          editLinkCheckboxState({ dispatch, id: data.id, dialogData });
         }}
       />
     </Box>
