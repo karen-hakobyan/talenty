@@ -87,6 +87,7 @@ export default function Body({
               },
               background: "#8C0DF0",
             }}
+            style={{ textTransform: "none" }}
           >
             Save
           </Button>
@@ -98,10 +99,10 @@ export default function Body({
 
 function onSave({ dialogData, dispatch, templateData }) {
   const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
-    if (!value?.id) {
+    if (!value?._id) {
       return value;
     }
-    if (value.id === dialogData.id) {
+    if (value._id === dialogData._id) {
       return dialogData;
     } else {
       return value;
