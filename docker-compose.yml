@@ -12,10 +12,10 @@ services:
     container_name: talenty-backend
     ports:
       - "7800:7800"
-  # frontend:
-  #   build: talenty
-  #   container_name: talenty-frontend
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     BACKEND_URL: http://localhost:7800
+  frontend:
+    build: talenty
+    container_name: talenty-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      BACKEND_URL: http://localhost:7800

@@ -57,7 +57,13 @@ export default function Body({
           }
           TempComponent = memo(TempComponent);
 
-          return <TempComponent data={field} key={field.name} {...{dialogData, dispatch, templateData}}/>;
+          return (
+            <TempComponent
+              data={field}
+              key={field.name}
+              {...{ dialogData, dispatch, templateData }}
+            />
+          );
         })}
 
         {/* section adding part */}
@@ -99,10 +105,10 @@ export default function Body({
 
 function onSave({ dialogData, dispatch, templateData }) {
   const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
-    if (!value?._id) {
+    if (!value?.id) {
       return value;
     }
-    if (value._id === dialogData._id) {
+    if (value.id === dialogData.id) {
       return dialogData;
     } else {
       return value;

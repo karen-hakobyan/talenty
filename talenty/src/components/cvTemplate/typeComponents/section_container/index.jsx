@@ -2,8 +2,12 @@ import { memo } from "react";
 import { Box } from "@mui/material";
 import typeComponents from "..";
 
-export default function SectionContainer({ data }) {
-
+export default function SectionContainer({
+  data,
+  dialogData,
+  templateData,
+  dispatch,
+}) {
   if (!data) {
     return null;
   }
@@ -19,7 +23,12 @@ export default function SectionContainer({ data }) {
         }
         TempComponent = memo(TempComponent);
         return (
-          <TempComponent data={field} key={field.name} isSectionContainer />
+          <TempComponent
+            data={field}
+            key={field.name}
+            isSectionContainer
+            {...{ dialogData, templateData, dispatch }}
+          />
         );
       })}
     </Box>

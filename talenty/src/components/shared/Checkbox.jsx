@@ -26,7 +26,7 @@ const Checkbox = ({ sx = {}, disabled, checked, ...restProps }) => {
             : {}),
         },
         "&.Mui-checked": !disabled ? { color: "#8C0DF0", border: "none" } : {},
-        "&.Mui-disabled": { background: "#F5F5F5" },
+        ...(checked ? {} : { "&.Mui-disabled": { background: "#F5F5F5" } }),
         ...sx,
       }}
       {...restProps}

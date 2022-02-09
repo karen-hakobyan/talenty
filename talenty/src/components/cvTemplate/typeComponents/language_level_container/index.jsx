@@ -4,9 +4,12 @@ import { DISABLED_INPUT } from "../../../../shared/styles";
 import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 
-export default function LanguageLevelGenerator({ data, isSectionContainer ,dispatch, dialogData}) {
-  
-
+export default function LanguageLevelGenerator({
+  data,
+  isSectionContainer,
+  dispatch,
+  dialogData,
+}) {
   return (
     <SubSection
       label={data.name}
@@ -29,7 +32,7 @@ export default function LanguageLevelGenerator({ data, isSectionContainer ,dispa
           {data.fields.map((el) => {
             return (
               <Button
-                key={el._id}
+                key={el.id}
                 sx={{ width: "133px", ...DISABLED_INPUT, height: "40px" }}
                 style={{ textTransform: "none" }}
                 disabled
