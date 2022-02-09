@@ -72,7 +72,7 @@ export function editCheckboxState({
   dispatch(setDialogData(updatedDialogData));
 }
 
-export function editCheckboxLink({ dialogData, id, dispatch }) {
+export function editLinkCheckboxState({ dialogData, id, dispatch }) {
   const dialogDataJSON = JSON.stringify({ ...dialogData });
 
   const updatedDialogData = JSON.parse(dialogDataJSON, (key, value) => {

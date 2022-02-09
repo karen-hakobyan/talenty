@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { TEMPLATE_ITEM_BUTTON } from "../../../shared/styles";
-import { setDialogIsOpen } from "../../../store/dialogs/slice";
+import { setDialogInitialState } from "../../../store/dialogs/slice";
 
 export default function Attention({ setAttentionIsOpen }) {
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ export default function Attention({ setAttentionIsOpen }) {
             },
             background: "#8C0DF0",
           }}
-          onClick={() => dispatch(setDialogIsOpen(false))}
+          onClick={() => dispatch(setDialogInitialState())}
         >
           Ok
         </Button>
