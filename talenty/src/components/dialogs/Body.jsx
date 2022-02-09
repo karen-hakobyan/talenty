@@ -57,7 +57,7 @@ export default function Body({
           }
           TempComponent = memo(TempComponent);
 
-          return <TempComponent data={field} key={field.name} />;
+          return <TempComponent data={field} key={field.name} {...{dialogData, dispatch, templateData}}/>;
         })}
 
         {/* section adding part */}

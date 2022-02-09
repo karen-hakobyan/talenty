@@ -1,16 +1,11 @@
-import { Box, Button, TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
+import { Box, Button } from "@mui/material";
 import { editCheckboxState } from "../../../../helpers/dialog";
 import { DISABLED_INPUT } from "../../../../shared/styles";
-import { selectDialogData } from "../../../../store/dialogs/selector";
-import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
 import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 
-export default function LanguageLevelGenerator({ data, isSectionContainer }) {
-  const dispatch = useDispatch();
-  const dialogData = useSelector(selectDialogData);
+export default function LanguageLevelGenerator({ data, isSectionContainer ,dispatch, dialogData}) {
+  
 
   return (
     <SubSection

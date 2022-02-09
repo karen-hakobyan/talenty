@@ -1,5 +1,4 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { IconButton, TextField } from "@mui/material";
 import { DeleteIconSVG } from "../../../../assets/icons/createTemplate";
 import {
@@ -9,16 +8,10 @@ import {
 } from "../../../../shared/styles";
 import { Checkbox } from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
-import { selectGlobalDataViaKey } from "../../../../store/globalData/selector";
-import { TEMPLATE_DATA } from "../../../../constants/redux/globalData";
 import { editCheckboxState, onDelete } from "../../../../helpers/dialog";
-import { selectDialogData } from "../../../../store/dialogs/selector";
 
-export default function SpecialNameGenerator({ data, isSectionContainer }) {
-  const dispatch = useDispatch();
-  const dialogData = useSelector(selectDialogData);
-  const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
-
+export default function SpecialNameGenerator({ data, isSectionContainer, dispatch, dialogData, templateData }) {
+  
   return (
     <>
       <SubSection
