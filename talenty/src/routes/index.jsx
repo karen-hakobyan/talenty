@@ -20,8 +20,10 @@ const RoutesMain = () => {
   const isCompany = useSelector(selectIsCompany);
   return (
     <Routes>
+      <Route>
+        <Route path={`${DASHBOARD_ROUTE}/*`} element={<Dashboard />} />
+      </Route>
       <Route path={LANDING_PAGE_ROUTE} element={<LandingPage />} />
-      <Route path={DASHBOARD_ROUTE} element={<Dashboard />} />
       <Route path={TEMPLATE_ROUTE} element={<CvTemplateMain />} />
       <Route
         path={`${SIGN_UP_ROUTE}`}

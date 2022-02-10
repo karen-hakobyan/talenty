@@ -25,6 +25,7 @@ function onDelete(setData, name) {
 }
 
 function TemplateItem({ item, setData }) {
+  console.log("render");
   const dispatch = useDispatch();
   const onEdit = useCallback(
     (item) => {

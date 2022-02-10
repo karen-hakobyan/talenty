@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Dialog, IconButton, Typography, Box } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  IconButton,
+  Typography,
+  Box,
+  TextField,
+} from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,
   CreateCVTemplateSVG,
   ListSVG,
+  TemplateNamePenSVG,
 } from "../../assets/icons/createTemplate";
 import TemplateItem from "./TemplateItem";
 import hrExData from "../../helpers/ajabsandal";
@@ -15,7 +23,10 @@ import {
   localStorageGetter,
   localStorageSetter,
 } from "../../helpers/localStorage";
-import { TEMPLAT_DATA } from "../../constants/localStorage";
+import {
+  TEMPLATE_INITIAL_DATA,
+  TEMPLAT_DATA,
+} from "../../constants/localStorage";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
 import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { UPDATED_TEMPLATE_DATA } from "../../constants/redux/globalData";
@@ -26,15 +37,21 @@ import {
 import { compareObjects } from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
 import { checkUserExistence } from "../../helpers/actions";
+import { ENTER_KEY } from "../../constants/keyCodes";
 
 function CvTemplateMain() {
+  const [title, setTitle] = useState("");
   const [data, setData] = useState(null);
+  const [isTemplateNameText, setIsTemplateNameText] = useState(true);
   const [unchangeData, setUnchangedData] = useState(null);
   const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
   const navigate = useNavigate();
   const updatedTemplateData = useSelector(
     selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
   );
+  useEffect(() => {
+    setTitle(data?.name || "");
+  }, [data]);
   useEffect(() => {
     checkUserExistence(navigate);
   }, [navigate]);
@@ -48,12 +65,8 @@ function CvTemplateMain() {
   // update local storage whenever data changed and also redux
   useEffect(() => {
     if (data) {
-      setUnchangedData((prev) => {
-        if (!prev) {
-          return data;
-        }
-        return prev;
-      });
+      let unchangedData = localStorageGetter(TEMPLATE_INITIAL_DATA);
+      setUnchangedData(unchangedData);
       localStorageSetter(TEMPLAT_DATA, data);
       dispatch(setGlobalDataViaKey({ key: TEMPLAT_DATA, value: data }));
     }
@@ -64,7 +77,10 @@ function CvTemplateMain() {
     storageExistingData
       ? setData(storageExistingData)
       : globalDataSetter({
-          stateSetter: setData,
+          stateSetter: (data) => {
+            setData(data);
+            localStorageSetter(TEMPLATE_INITIAL_DATA, data);
+          },
           urlKey: "getTemplates",
           errorAction: () => setData(hrExData),
         });
@@ -102,6 +118,46 @@ function CvTemplateMain() {
         >
           Create CV Template
         </Typography>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          borderBottom: "2px solid #D2D2D2",
+          display: "flex",
+          marginTop: "52px",
+          paddingBottom: "14px",
+          alignItems: "center",
+          gap: "14px",
+        }}
+      >
+        <TemplateNamePenSVG
+          onClick={() => {
+            setIsTemplateNameText(false);
+          }}
+          style={{ cursor: isTemplateNameText ? "pointer" : "default" }}
+        />
+        {isTemplateNameText ? (
+          <Box>{data.name}</Box>
+        ) : (
+          <TextField
+            value={title}
+            sx={{ width: "100%" }}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+            onBlur={() => {
+              setIsTemplateNameText(true);
+              setData((prev) => ({ ...prev, name: title }));
+            }}
+            InputProps={{ sx: { height: "40px" } }}
+            onKeyDown={(event) => {
+              if (event.key === ENTER_KEY) {
+                setIsTemplateNameText(true);
+                setData((prev) => ({ ...prev, name: title }));
+              }
+            }}
+          />
+        )}
       </Box>
       {data.fields.map((item) => (
         <TemplateItem key={item.name} item={item} setData={setData} />

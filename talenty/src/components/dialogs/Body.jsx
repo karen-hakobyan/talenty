@@ -1,7 +1,11 @@
-import { Box, Button, Dialog, IconButton } from "@mui/material";
+import { Box, Button, Dialog, IconButton, TextField } from "@mui/material";
+import { useEffect } from "react";
 import { memo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AddFieldSVG } from "../../assets/icons/createTemplate";
+import {
+  AddFieldSVG,
+  TemplateNamePenSVG,
+} from "../../assets/icons/createTemplate";
 import {
   TEMPLATE_DATA,
   UPDATED_TEMPLATE_DATA,
@@ -11,7 +15,7 @@ import {
   DIALOG_TITLE_CONTAINER,
   TEMPLATE_ITEM_BUTTON,
 } from "../../shared/styles";
-import { setDialogIsOpen } from "../../store/dialogs/slice";
+import { setDialogData, setDialogIsOpen } from "../../store/dialogs/slice";
 import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
 import typeComponents from "../cvTemplate/typeComponents";
@@ -24,8 +28,13 @@ export default function Body({
   setAttentionIsOpen,
 }) {
   const dispatch = useDispatch();
+  const [title, setTitle] = useState(dialogData?.name);
   const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
   const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
+  const [isTitleText, setIsTitleText] = useState(true);
+  useEffect(() => {
+    setTitle(dialogData?.name);
+  }, [dialogData]);
 
   if (!dialogData) {
     return null;
@@ -44,7 +53,38 @@ export default function Body({
         <Attention {...{ setAttentionIsOpen }} />
       </Dialog>
 
-      <Box sx={DIALOG_TITLE_CONTAINER}>{dialogData.name}</Box>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "14px",
+          alignItems: "center",
+          borderBottom: "2px solid #D2D2D2",
+          paddingBottom: "20px",
+          marginBottom: "36px",
+          justifyContent: "space-between",
+        }}
+      >
+        {isTitleText ? (
+          <Box sx={DIALOG_TITLE_CONTAINER}>{dialogData.name}</Box>
+        ) : (
+          <TextField
+            sx={{ width: "100%" }}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onBlur={() => {
+              setIsTitleText(true);
+              dispatch(setDialogData({ ...dialogData, name: title }));
+            }}
+          />
+        )}
+        <TemplateNamePenSVG
+          onClick={() => setIsTitleText(false)}
+          style={{
+            cursor: isTitleText ? "pointer" : "default",
+          }}
+        />
+      </Box>
+
       <Box sx={{ display: "grid", gridTemplateColumns: "auto", gap: "24px" }}>
         {dialogData.fields.map((field) => {
           // if status deleted show nothing

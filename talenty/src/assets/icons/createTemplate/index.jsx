@@ -21,6 +21,7 @@ import { ReactComponent as BehanceIconSVG } from "./behance.svg";
 import { ReactComponent as DribbbleIconSVG } from "./dribbble.svg";
 import { ReactComponent as GithabIconSVG } from "./githab.svg";
 import { ReactComponent as OtherIconSVG } from "./otherLinks.svg";
+import { ReactComponent as TemplateNamePenSVG } from "./templatePen.svg";
 
 export {
   EditSVG,
@@ -46,4 +47,5 @@ export {
   AddFieldSVG,
   CreateCVTemplateSVG,
   FacebookIconSVG,
+  TemplateNamePenSVG,
 };
