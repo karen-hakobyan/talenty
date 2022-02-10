@@ -99,6 +99,9 @@ const DIALOG_TITLE_CONTAINER = {
   fontWeight: 600,
   color: "#4C494F",
   fontFamily: "Proxima Nova",
+  borderBottom: "2px solid #D2D2D2",
+  paddingBottom: "20px",
+  marginBottom: "36px",
 };
 const DIALOG_MAIN_CONTAINER = {
   width: "950px",
