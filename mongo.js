@@ -742,7 +742,7 @@ let systemTemplate = {
               _id: ObjectId(),
               name: "Evaluate bar",
               metadata: {
-                type: "section",
+                type: "language_level_container",
                 selected_values: "only_one",
                 editable: false,
                 required_editable: true,
