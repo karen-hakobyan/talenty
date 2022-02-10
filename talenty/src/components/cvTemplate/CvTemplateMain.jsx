@@ -137,11 +137,11 @@ function CvTemplateMain() {
           style={{ cursor: isTemplateNameText ? "pointer" : "default" }}
         />
         {isTemplateNameText ? (
-          <Box>{data.name}</Box>
+          <Box sx={{height: '40px'}}>{data.name}</Box>
         ) : (
           <TextField
             value={title}
-            sx={{ width: "100%" }}
+            fullWidth
             onChange={(e) => {
               setTitle(e.target.value);
             }}
