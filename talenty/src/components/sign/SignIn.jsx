@@ -54,7 +54,7 @@ function SignIn() {
         {dialogInfo?.text}
       </Dialog>
       <BackgroundImage>
-      <Logo>
+        <Logo>
           <TalentyLogo />
         </Logo>
         <Box sx={{ paddingLeft: "154px" }}>
@@ -83,7 +83,7 @@ function SignIn() {
                 return (
                   <SignInField
                     onKeyDown={(event) => {
-                      if (event.keyCode === ENTER_KEY) {
+                      if (event.key === ENTER_KEY) {
                         handleSubmit(
                           request({
                             axios,
@@ -213,7 +213,6 @@ function SignIn() {
           </FormControl>
         </Box>
       </BackgroundImage>
-      
     </>
   );
 }
