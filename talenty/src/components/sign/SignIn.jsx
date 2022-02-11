@@ -9,9 +9,7 @@ import { Box, Button, Checkbox, Dialog, FormControl } from "@mui/material";
 import { FIELD, request } from "./signInHelper";
 import SignInField from "./SignInField";
 import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import { DASHBOARD_ROUTE, FORGOT_PASSWORD_ROUTE } from "../../constants/routes";
-import { useDispatch } from "react-redux";
-import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
+import { DASHBOARD_ROUTE, FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
 import { MAIN_PURPLE } from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import { ENTER_KEY } from "../../constants/keyCodes";
@@ -36,7 +34,6 @@ function SignIn() {
   });
   const [dialogInfo, setDialogInfo] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // if jwt exist navigate dashboard
@@ -54,7 +51,7 @@ function SignIn() {
         {dialogInfo?.text}
       </Dialog>
       <BackgroundImage>
-        <Logo>
+      <Logo>
           <TalentyLogo />
         </Logo>
         <Box sx={{ paddingLeft: "154px" }}>
@@ -83,7 +80,7 @@ function SignIn() {
                 return (
                   <SignInField
                     onKeyDown={(event) => {
-                      if (event.key === ENTER_KEY) {
+                      if (event.keyCode === ENTER_KEY) {
                         handleSubmit(
                           request({
                             axios,
@@ -194,8 +191,7 @@ function SignIn() {
                 Dont you have an account?
                 <Box
                   onClick={() => {
-                    dispatch(setDialogIsOpen(true));
-                    dispatch(setDialogType("setIsCompany"));
+                    navigate(SIGN_UP_ROUTE)
                   }}
                   sx={{
                     cursor: "pointer",
@@ -213,6 +209,7 @@ function SignIn() {
           </FormControl>
         </Box>
       </BackgroundImage>
+      
     </>
   );
 }
