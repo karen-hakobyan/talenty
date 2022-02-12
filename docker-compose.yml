@@ -18,4 +18,4 @@ services:
     ports:
       - "3000:3000"
     environment:
-      BACKEND_URL: http://localhost:7800
+      BACKEND_URL: https://api.talenty.duckdns.org
