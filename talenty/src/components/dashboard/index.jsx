@@ -9,6 +9,7 @@ import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
 import Header from "./Header";
 import { getJwt } from "./helper";
+import Navigation from "./Navigation";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function Dashboard() {
       <Header />
       {/* body */}
       <Box sx={{ display: "flex" }}>
-        <Box>navigation</Box>
+        <Navigation maxWidth={282} minWidth={82} />
         <Box>
           <Routes>
             <Route path="/" element={<h1>andranik</h1>} />
