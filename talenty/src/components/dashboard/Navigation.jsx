@@ -24,7 +24,7 @@ export default function Navigation({ maxWidth, minWidth }) {
     if (!isNavOpen) {
       setIsTextShown(isNavOpen);
     } else {
-      setTimeout(() => setIsTextShown(isNavOpen), 0.3 * 1000);
+      setTimeout(() => setIsTextShown(isNavOpen), 0.5 * 1000);
     }
   }, [isNavOpen]);
 

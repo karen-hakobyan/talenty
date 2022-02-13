@@ -7,6 +7,7 @@ import { LANDING_PAGE_ROUTE } from "../../constants/routes";
 import { checkNavigation } from "../../helpers/actions";
 import { selectGlobalDataViaKey } from "../../store/globalData/selector";
 import { setGlobalDataViaKey } from "../../store/globalData/slice";
+import CvTemplateMain from "../cvTemplate/CvTemplateMain";
 import Header from "./Header";
 import { getJwt } from "./helper";
 import Navigation from "./Navigation";
@@ -36,12 +37,10 @@ export default function Dashboard() {
       {/* body */}
       <Box sx={{ display: "flex" }}>
         <Navigation maxWidth={282} minWidth={82} />
-        <Box>
-          <Routes>
-            <Route path="/" element={<h1>andranik</h1>} />
-            <Route path="andrey" element={<h1>andrey</h1>} />
-          </Routes>
-        </Box>
+        <Routes>
+          <Route path="/" element={<h1>Talenty!!!</h1>} />
+          <Route path="template" element={<CvTemplateMain />} />
+        </Routes>
       </Box>
     </Box>
   );
