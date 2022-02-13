@@ -4,6 +4,7 @@ package com.talenty.email;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -12,8 +13,12 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class EmailSender {
 
-    private static final String CONFIRMATION_URL = "http://localhost:7800/confirm?token=%token%";
-    private static final String RESET_PASSWORD_URL = "http://localhost:7800/reset/password?token=%token%";
+    //    @Value("REACT_APP_BACKEND_URL")
+    private static final String BACKEND_URL = "https://api.talenty.duckdns.org";
+    private static final String CONFIRM_TOKEN_PART = "/confirm?token=%token%";
+    private static final String RESET_PASSWORD_TOKEN_PART = "/reset/password?token=%token%";
+    private static String CONFIRMATION_URL;
+    private static String RESET_PASSWORD_URL;
     private final JavaMailSender emailSender;
 
     public EmailSender(final JavaMailSender emailSender) {
@@ -50,7 +55,7 @@ public class EmailSender {
                     "</head>\n" +
                     "<body>\n" +
                     "\n" +
-                    "<form action=\""+RESET_PASSWORD_URL.replace("%token%", token)+"\" method=\"post\" name=\"EmailForm\" enctype=\"application/x-www-form-urlencoded\">\n" +
+                    "<form action=\"" + RESET_PASSWORD_URL.replace("%token%", token) + "\" method=\"post\" name=\"EmailForm\" enctype=\"application/x-www-form-urlencoded\">\n" +
                     "    New password:\n" +
                     "    <br>\n" +
                     "    <label>\n" +
@@ -73,6 +78,15 @@ public class EmailSender {
         } catch (final MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    @PostConstruct
+    private void init() {
+        CONFIRMATION_URL = (BACKEND_URL == null ? "http://localhost:7800" : BACKEND_URL) + CONFIRM_TOKEN_PART;
+        RESET_PASSWORD_URL = (BACKEND_URL == null ? "http://localhost:7800" : BACKEND_URL) + RESET_PASSWORD_TOKEN_PART;
+        System.out.println("BACKEND_URL: " + BACKEND_URL);
+        System.out.println("EMAIL_CONFIRMATION_URL: " + CONFIRMATION_URL);
+        System.out.println("EMAIL_PASSWORD_RESET_URL: " + RESET_PASSWORD_URL);
     }
 
 }
