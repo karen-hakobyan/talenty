@@ -18,7 +18,7 @@ export const getJwt = () => {
 
 export const WIDTH_TRANSITION = "0.5";
 
-let genId = () => Math.random().toString();
+export let genId = () => Math.random().toString();
 
 export let navItemsGenerator = [
   {

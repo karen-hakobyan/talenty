@@ -9,7 +9,11 @@ import { Box, Button, Checkbox, Dialog, FormControl } from "@mui/material";
 import { FIELD, request } from "./signInHelper";
 import SignInField from "./SignInField";
 import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import { DASHBOARD_ROUTE, FORGOT_PASSWORD_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
+import {
+  DASHBOARD_ROUTE,
+  FORGOT_PASSWORD_ROUTE,
+  SIGN_UP_ROUTE,
+} from "../../constants/routes";
 import { MAIN_PURPLE } from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import { ENTER_KEY } from "../../constants/keyCodes";
@@ -51,7 +55,7 @@ function SignIn() {
         {dialogInfo?.text}
       </Dialog>
       <BackgroundImage>
-      <Logo>
+        <Logo>
           <TalentyLogo />
         </Logo>
         <Box sx={{ paddingLeft: "154px" }}>
@@ -85,6 +89,7 @@ function SignIn() {
                           request({
                             axios,
                             setDialogInfo,
+                            isChecked,
                             navigate,
                             route: DASHBOARD_ROUTE,
                           })
@@ -191,7 +196,7 @@ function SignIn() {
                 Dont you have an account?
                 <Box
                   onClick={() => {
-                    navigate(SIGN_UP_ROUTE)
+                    navigate(SIGN_UP_ROUTE);
                   }}
                   sx={{
                     cursor: "pointer",
@@ -209,7 +214,6 @@ function SignIn() {
           </FormControl>
         </Box>
       </BackgroundImage>
-      
     </>
   );
 }
