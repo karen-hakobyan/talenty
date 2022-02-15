@@ -23,22 +23,21 @@ export const FIELD = [
 ];
 
 export const request =
-  ({ axios, setDialogInfo, isChecked, navigate, route }) =>
-  (data) => {
-    axios
-      .post(LOGIN, data)
-      .then((response) => {
-        let jwt = response.data.jwtToken;
-        storageSetter(isChecked, jwt);
-        navigate(route);
-      })
-      .catch((err) => {
-        console.log({ ...err });
-        setDialogInfo({
-          open: true,
-          text: "Please, check your email or password once again. The email or password is incorrect.",
-        });
+  ({ axios, setDialogInfo, isChecked, navigate, route, setUserInfo }) =>
+  async (data) => {
+    const credentials = await axios.post(LOGIN, data).catch((err) => {
+      console.log({ ...err });
+      setDialogInfo({
+        open: true,
+        text: "Please, check your email or password once again. The email or password is incorrect.",
       });
+    });
+    if (credentials) {
+      let jwt = credentials.data.jwtToken;
+      storageSetter(isChecked, jwt);
+      setUserInfo(JSON.parse(atob(jwt.split(".")[1])));
+      navigate(route);
+    }
   };
 
 function storageSetter(isChecked, data) {

@@ -14,10 +14,11 @@ import { selectIsCompany } from "../store/dialogs/selector.js";
 import { HR_ROLE } from "../constants/role.js";
 import { HR_ROUTES } from "./helper.js";
 import { parseJWt } from "../helpers/jwt.js";
+import { useState } from "react";
 
 const RoutesMain = () => {
   const isCompany = useSelector(selectIsCompany);
-  const userInfo = parseJWt();
+  let [userInfo, setUserInfo] = useState(parseJWt());
 
   return (
     <Routes>
@@ -28,7 +29,7 @@ const RoutesMain = () => {
         path={`${SIGN_UP_ROUTE}`}
         element={<SignUp {...{ isCompany }} />}
       />
-      <Route path={SIGN_IN_ROUTE} element={<SignIn />} />
+      <Route path={SIGN_IN_ROUTE} element={<SignIn {...{ setUserInfo }} />} />
       <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword />} />
       <Route path={LANDING_PAGE_ROUTE} element={<LandingPage />} />
     </Routes>

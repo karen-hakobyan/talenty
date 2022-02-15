@@ -16,7 +16,6 @@ import {
 } from "../../constants/routes";
 import { MAIN_PURPLE } from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
-import { ENTER_KEY } from "../../constants/keyCodes";
 import { checkNavigation } from "../../helpers/actions";
 
 const Logo = styled("div")(({ theme }) => ({
@@ -27,15 +26,13 @@ const Logo = styled("div")(({ theme }) => ({
   marginRight: 60,
 }));
 
-function SignIn() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+function SignIn({ setUserInfo }) {
+  const { register, handleSubmit, formState } = useForm({
     mode: "onChange",
     shouldFocusError: false,
   });
+  const { errors } = formState;
+
   const [dialogInfo, setDialogInfo] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
@@ -83,19 +80,6 @@ function SignIn() {
               {FIELD.map(({ objKey, label, isPassword, error }) => {
                 return (
                   <SignInField
-                    onKeyDown={(event) => {
-                      if (event.keyCode === ENTER_KEY) {
-                        handleSubmit(
-                          request({
-                            axios,
-                            setDialogInfo,
-                            isChecked,
-                            navigate,
-                            route: DASHBOARD_ROUTE,
-                          })
-                        )();
-                      }
-                    }}
                     key={objKey}
                     {...{ objKey, label, isPassword, register, errors, error }}
                   />
@@ -166,15 +150,18 @@ function SignIn() {
                 </Box>
               </Box>
               <Button
-                onClick={handleSubmit(
-                  request({
+                onClick={() => {
+                  let reqFunc = request({
                     axios,
                     setDialogInfo,
                     isChecked,
                     navigate,
                     route: DASHBOARD_ROUTE,
-                  })
-                )}
+                    setUserInfo,
+                    formState,
+                  });
+                  handleSubmit(reqFunc)();
+                }}
                 sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px" }}
                 style={{ textTransform: "none" }}
               >
