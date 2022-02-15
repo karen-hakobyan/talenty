@@ -13,7 +13,7 @@ import { emailValid } from "../../helpers/validation/fieldValidations";
 import MuiContainedBtn from "../../shared/MuiContainedBtn";
 import AlertMessage from "./AlertMessage";
 import BackgroundImage from "./BackgroundImage";
-
+import { useForm } from "react-hook-form";
 
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
@@ -67,10 +67,8 @@ const CssTextField = styled(TextField)({
   marginBottom: 20,
 });
 const ContentContainer = styled("div")(({ tehem }) => ({
-
   maxWidth: 466,
   marginLeft: "154px",
-  
 }));
 
 function ForgotPassword() {
@@ -78,6 +76,11 @@ function ForgotPassword() {
   const [errEmail, setErrEmail] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [open, setOpen] = useState(false);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   //TODO change this url
   const onSubmit = () => {
@@ -96,54 +99,54 @@ function ForgotPassword() {
 
   return (
     <>
-      
-        <BackgroundImage>
-          <Box sx={{
-            display:"flex",
-            alignItems:"center",
-            height:"100%",
-          }}>
-        <ContentContainer>
-          <Title variant="h1" component="div">
-            Forgot password?
-          </Title>
-          <Text
-            variant="subtitle1"
-            component="div"
-            sx={{
-              fontFamily: "Proxima Nova",
-              fontStyle: "normal",
-              fontWeight: "normal",
-            }}
-          >
-            Enter your email address below and we’ll send an
-            <br /> email with a link to update your password.
-          </Text>
+      <BackgroundImage>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+          }}
+        >
+          <ContentContainer>
+            <Title variant="h1" component="div">
+              Forgot password?
+            </Title>
+            <Text
+              variant="subtitle1"
+              component="div"
+              sx={{
+                fontFamily: "Proxima Nova",
+                fontStyle: "normal",
+                fontWeight: "normal",
+              }}
+            >
+              Enter your email address below and we’ll send an
+              <br /> email with a link to update your password.
+            </Text>
 
-          <H5>Email</H5>
+            <H5>Email</H5>
 
-          <CssTextField
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
-            type="email"
-            size="small"
-            error={errEmail}
-            helperText={errEmail ? "Your email is incorrect" : null}
-            onBlur={() =>
-              emailValid(email) ? setErrEmail() : setErrEmail(true)
-            }
-          />
-          <MuiContainedBtn disabled={false} onClick={onSubmit}>
-            Submit
-          </MuiContainedBtn>
-          {open && <AlertMessage handleClose={setOpen} open={open} />}
-        </ContentContainer>
+            <CssTextField
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
+              type="email"
+              size="small"
+              error={errEmail}
+              helperText={errEmail ? "Your email is incorrect" : null}
+              onBlur={() =>
+                emailValid(email) ? setErrEmail() : setErrEmail(true)
+              }
+            />
+            <MuiContainedBtn disabled={false} onClick={onSubmit}>
+              Submit
+            </MuiContainedBtn>
+            {open && <AlertMessage handleClose={setOpen} open={open} />}
+          </ContentContainer>
         </Box>
-        </BackgroundImage>
-
-      </>
+      </BackgroundImage>
+    </>
   );
 }
 

@@ -9,13 +9,16 @@ import { Box, Button, Checkbox, Dialog, FormControl } from "@mui/material";
 import { FIELD, request } from "./signInHelper";
 import SignInField from "./SignInField";
 import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import { DASHBOARD_ROUTE, FORGOT_PASSWORD_ROUTE } from "../../constants/routes";
-import { useDispatch } from "react-redux";
-import { setDialogIsOpen, setDialogType } from "../../store/dialogs/slice";
+import {
+  DASHBOARD_ROUTE,
+  FORGOT_PASSWORD_ROUTE,
+  HOME_PAGE_ROUTE,
+  SIGN_UP_ROUTE,
+} from "../../constants/routes";
 import { MAIN_PURPLE } from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
-import { ENTER_KEY } from "../../constants/keyCodes";
 import { checkNavigation } from "../../helpers/actions";
+import { HR_ROLE, JOBSEEKER_ROLE } from "../../constants/role";
 
 const Logo = styled("div")(({ theme }) => ({
   display: "flex",
@@ -25,18 +28,15 @@ const Logo = styled("div")(({ theme }) => ({
   marginRight: 60,
 }));
 
-function SignIn() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+function SignIn({ setUserInfo }) {
+  const { register, handleSubmit, formState } = useForm({
     mode: "onChange",
     shouldFocusError: false,
   });
+  const { errors } = formState;
+
   const [dialogInfo, setDialogInfo] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // if jwt exist navigate dashboard
@@ -82,18 +82,6 @@ function SignIn() {
               {FIELD.map(({ objKey, label, isPassword, error }) => {
                 return (
                   <SignInField
-                    onKeyDown={(event) => {
-                      if (event.key === ENTER_KEY) {
-                        handleSubmit(
-                          request({
-                            axios,
-                            setDialogInfo,
-                            navigate,
-                            route: DASHBOARD_ROUTE,
-                          })
-                        )();
-                      }
-                    }}
                     key={objKey}
                     {...{ objKey, label, isPassword, register, errors, error }}
                   />
@@ -164,15 +152,21 @@ function SignIn() {
                 </Box>
               </Box>
               <Button
-                onClick={handleSubmit(
-                  request({
+                onClick={() => {
+                  let reqFunc = request({
                     axios,
                     setDialogInfo,
                     isChecked,
                     navigate,
-                    route: DASHBOARD_ROUTE,
-                  })
-                )}
+                    route: {
+                      [HR_ROLE]: DASHBOARD_ROUTE,
+                      [JOBSEEKER_ROLE]: HOME_PAGE_ROUTE,
+                    },
+                    setUserInfo,
+                    formState,
+                  });
+                  handleSubmit(reqFunc)();
+                }}
                 sx={{ ...TEMPLATE_BUTTON_CREATE, width: "466px" }}
                 style={{ textTransform: "none" }}
               >
@@ -194,8 +188,7 @@ function SignIn() {
                 Dont you have an account?
                 <Box
                   onClick={() => {
-                    dispatch(setDialogIsOpen(true));
-                    dispatch(setDialogType("setIsCompany"));
+                    navigate(SIGN_UP_ROUTE);
                   }}
                   sx={{
                     cursor: "pointer",

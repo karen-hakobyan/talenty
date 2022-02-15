@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {  styled } from "@mui/system";
-import {
-  Container,
-  Dialog,
-  IconButton,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Dialog, IconButton, Typography, Box, TextField } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,
@@ -115,7 +109,7 @@ function CvTemplateMain() {
   
 
   return (
-    <Container>
+    <Box sx={{ width: "100%", pr: "24px", pl: "24px", pb: "24px" }}>
       <Dialog
         open={addSectionDialogIsOpen}
         maxWidth={false}
@@ -129,7 +123,7 @@ function CvTemplateMain() {
           templateData={data}
         />
       </Dialog>
-      <Box sx={{ display: "flex", mt: 5 }}>
+      <Box sx={{ display: "flex", paddingTop: "24px" }}>
         <ListSVG />
         <Typography
           sx={{
@@ -168,6 +162,7 @@ function CvTemplateMain() {
             placeholder={placeholderInput}
             value={title}
             disabled={isTemplateNameText?true:false}
+
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -205,7 +200,7 @@ function CvTemplateMain() {
           Create CV
         </IconButton>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

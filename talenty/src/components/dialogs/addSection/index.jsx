@@ -4,7 +4,10 @@ import {
   ADD_TEMPLATE_SECTION,
   DIALOG_ADD_SECTION_CONTAINER,
   DIALOG_TITLE_CONTAINER,
+  FLEX_CONTAINER,
   INPUT_LABEL,
+  TEXT_FIELD,
+  LINE
 } from "../../../shared/styles";
 
 export default function AddSection({
@@ -15,15 +18,21 @@ export default function AddSection({
   const [value, setValue] = useState("");
 
   return (
-    <Box sx={DIALOG_ADD_SECTION_CONTAINER}>
+    <Box sx={{...DIALOG_ADD_SECTION_CONTAINER,...FLEX_CONTAINER}}>
+      <Box>
       <Box sx={DIALOG_TITLE_CONTAINER}>Add section</Box>
+      <Box sx={LINE} />
+      </Box>
+      <Box>
       <Box sx={INPUT_LABEL}>Section name</Box>
       <TextField
-        sx={{ mb: 6, width: "100%" }}
+        fullWidth
+        sx={{ mb: 6, width: "100%", ...TEXT_FIELD }}
+        InputProps={{sx:{height:"40px"}}}
         onChange={(e) => setValue(e.target.value)}
         value={value}
-        InputProps={{ sx: { height: "40px" } }}
       />
+      </Box>
       <Box
         sx={{
           display: "flex",

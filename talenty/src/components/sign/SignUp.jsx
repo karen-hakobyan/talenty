@@ -151,12 +151,16 @@ export default function SignUp() {
             </Box>
 
             <Box sx={CHECKBOX_CONTAINER}>
+              <Box sx={{
+                display:"flex",
+                gap:"53px"
+                }}>
+                  <Box sx={{width:385}}>
               <Typography
                 variant="body1"
                 sx={{
                   ...GLOBAL_TEXT,
                   mt: 3,
-                  width: "100%",
                 }}
               >
                 By creating an account, I agree to Talenty’s{" "}
@@ -164,12 +168,16 @@ export default function SignUp() {
                 <MainStyledSpan>Privacy policy</MainStyledSpan> and to receive
                 emails
               </Typography>
+              </Box>
+              
               <Checkbox
                 sx={CHECKBOX_STYLE}
                 required={true}
                 checked={terms}
                 onClick={() => setTerms((prev) => !prev)}
               />
+              
+              </Box>
             </Box>
             <Button
               type="submit"
