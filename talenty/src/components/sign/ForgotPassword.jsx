@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, styled } from "@mui/system";
-import { TextField, Typography } from "@mui/material";
+import { Button, FormControl, Typography } from "@mui/material";
 import "../../fonts//index.css";
 import {
-  MAIN_PURPLE,
   NIGHT_RIDER,
-  PLACEHOLDER_GRAY,
   TEXT,
 } from "../../constants/colors";
-import { emailValid } from "../../helpers/validation/fieldValidations";
-import MuiContainedBtn from "../../shared/MuiContainedBtn";
-import AlertMessage from "./AlertMessage";
 import BackgroundImage from "./BackgroundImage";
 import { useForm } from "react-hook-form";
+import { FIELD_EMAIL } from "./helper";
+import SignUpField from "./SignUpField";
+import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
@@ -36,43 +34,16 @@ const Text = styled(Typography)(({ theme }) => ({
   lineHeight: "22px",
   color: TEXT,
 }));
-const H5 = styled("h5")(({ theme }) => ({
-  fontFamily: "Proxima Nova",
-  fontStyle: "normal",
-  fontWeight: "normal",
-  fontSize: "16px",
-  lineHeight: "24px",
-  color: TEXT,
-  marginLeft: 3,
-  marginBottom: 5,
-  marginTop: 36,
-}));
-const CssTextField = styled(TextField)({
-  "& .MuiOutlinedInput-root": {
-    "&.Mui-focused fieldset": {
-      borderColor: MAIN_PURPLE,
-      paddingBottom: 1,
-    },
-  },
-  "&::placeholder": {
-    color: PLACEHOLDER_GRAY,
-  },
-  fontFamily: "Proxima Nova",
-  fontStyle: "normal",
-  fontWeight: "normal",
-  fontSize: "16px",
-  color: TEXT,
-  paddingTop: 1,
-  width: "100%",
-  marginBottom: 20,
-});
+
+
 const ContentContainer = styled("div")(({ tehem }) => ({
   maxWidth: 466,
   marginLeft: "154px",
 }));
 
+
+
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
   const [errEmail, setErrEmail] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [open, setOpen] = useState(false);
@@ -81,14 +52,17 @@ function ForgotPassword() {
     register,
     formState: { errors },
   } = useForm();
+  const field = FIELD_EMAIL  
+  console.log(errors
+    );
 
   //TODO change this url
-  const onSubmit = () => {
-    axios
-      .get(`http://localhost:7800/reset/password?email=${email}`)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+  // const onSubmit = () => {
+  //   axios
+  //     .get(`http://localhost:7800/reset/password?email=${email}`)
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // };
 
   useEffect(() => {
     if (!errEmail) {
@@ -123,26 +97,39 @@ function ForgotPassword() {
               Enter your email address below and we’ll send an
               <br /> email with a link to update your password.
             </Text>
+            <FormControl 
+              sx={{mt:"36px"}}
+              onSubmit={handleSubmit((data)=>{
+                console.log(data)
+              })}
+              >
+               <Box>
+                 {field.map((el) => {
+                   let { name: value, isPassword, key: objKey, error } = el;
+                   return (
+                      <SignUpField
+                         {...{ isPassword, register, value, objKey, errors, error }}
+                         key={objKey}
+                       />
+                );
+              })}
+               </Box>
+               <Button
+              type="submit"
+              onClick={handleSubmit(data=>{
+                console.log(data)
+              })}
+              sx={{
+                ...TEMPLATE_BUTTON_CREATE,
+                mt:"26px",
+                width: "466px",
+                ...{ textTransform: "none" },
+              }}
+            >
+              Sign up
+            </Button>
 
-            <H5>Email</H5>
-
-            <CssTextField
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              sx={{ color: TEXT, paddingTop: 1, maxWidth: "466px" }}
-              type="email"
-              size="small"
-              error={errEmail}
-              helperText={errEmail ? "Your email is incorrect" : null}
-              onBlur={() =>
-                emailValid(email) ? setErrEmail() : setErrEmail(true)
-              }
-            />
-            <MuiContainedBtn disabled={false} onClick={onSubmit}>
-              Submit
-            </MuiContainedBtn>
-            {open && <AlertMessage handleClose={setOpen} open={open} />}
+            </FormControl>
           </ContentContainer>
         </Box>
       </BackgroundImage>

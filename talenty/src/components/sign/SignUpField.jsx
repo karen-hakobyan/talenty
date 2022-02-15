@@ -3,6 +3,7 @@ import { Box, IconButton,  TextField } from "@mui/material";
 import { MAIN_PURPLE } from "../../constants/colors";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import { INPUT_LABEL } from "../../shared/styles";
 
 const SignUpField = React.forwardRef(
   ({ register, value, isPassword, objKey, errors, error }, ref) => {
@@ -13,7 +14,12 @@ const SignUpField = React.forwardRef(
         sx={{ display: "flex", gap: "10px", flexDirection: "column" }}
         {...{ ref }}
       >
-        <Box>{value}</Box>
+        <Box sx={{ fontFamily: "Proxima Nova",
+            fontSize: "16px",
+            fontWeight: "400px",
+            lineHeight: "24px",
+            letterSpacing: "0em",
+          }}>{value}</Box>
         <TextField
           {...(isPassword && !showPass ? { type: "password" } : {})}
           InputProps={{sx:{ height: '40px'}, endAdornment: isPassword? 

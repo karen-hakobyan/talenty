@@ -16,7 +16,7 @@ import {
   POST_SIGN_UP_HR,
   POST_SIGN_UP_JOB_SEEKER,
 } from "../../constants/requests";
-import { StyledContainer, StyledDiv, style, MainStyledSpan } from "./signUp";
+import { style, MainStyledSpan } from "./signUp";
 import { changeButtonInformation, FIELDS, FIELDS_COMPANY } from "./helper";
 import SignUpField from "./SignUpField";
 import { GLOBAL_TEXT, TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
@@ -100,6 +100,7 @@ export default function SignUp() {
           <FormControl
             onSubmit={handleSubmit((data) => {
               let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
+              console.log(data);
               axios
                 .post(path, data)
                 .then((res) => {

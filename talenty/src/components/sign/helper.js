@@ -76,4 +76,17 @@ export const FIELDS_COMPANY = (watch) => [{
     },
     ...FIELDS(watch),
 ];
+
+export const FIELD_EMAIL = [{
+    name: "Email",
+    key: "email",
+    error: {
+        required: "This field is required",
+        pattern: {
+            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: "The email is invalid",
+        },
+    },
+}];
+
 export const changeButtonInformation = [{ text: "Sign up as a company", isCompanyState: true }, { text: "Sign up as a jobseeker", isCompanyState: false }]

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {  styled } from "@mui/system";
-import { Dialog, IconButton, Typography, Box, TextField } from "@mui/material";
+import { Dialog, IconButton, Typography, Box,  } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
   AddSectionIconSVG,

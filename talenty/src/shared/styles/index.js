@@ -105,6 +105,7 @@ const DIALOG_TITLE_CONTAINER = {
     color: "#4C494F",
     fontFamily: "Proxima Nova",
 };
+
 const DIALOG_MAIN_CONTAINER = {
     width: "950px",
     padding: "36px 24px",
