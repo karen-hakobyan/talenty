@@ -35,8 +35,9 @@ export const request =
     if (credentials) {
       let jwt = credentials.data.jwtToken;
       storageSetter(isChecked, jwt);
-      setUserInfo(JSON.parse(atob(jwt.split(".")[1])));
-      navigate(route);
+      let userInfo = JSON.parse(atob(jwt.split(".")[1]));
+      setUserInfo(userInfo);
+      navigate(route[userInfo.role]);
     }
   };
 
