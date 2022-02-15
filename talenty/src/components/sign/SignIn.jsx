@@ -12,11 +12,13 @@ import { TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import {
   DASHBOARD_ROUTE,
   FORGOT_PASSWORD_ROUTE,
+  HOME_PAGE_ROUTE,
   SIGN_UP_ROUTE,
 } from "../../constants/routes";
 import { MAIN_PURPLE } from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import { checkNavigation } from "../../helpers/actions";
+import { HR_ROLE, JOBSEEKER_ROLE } from "../../constants/role";
 
 const Logo = styled("div")(({ theme }) => ({
   display: "flex",
@@ -156,7 +158,10 @@ function SignIn({ setUserInfo }) {
                     setDialogInfo,
                     isChecked,
                     navigate,
-                    route: DASHBOARD_ROUTE,
+                    route: {
+                      [HR_ROLE]: DASHBOARD_ROUTE,
+                      [JOBSEEKER_ROLE]: HOME_PAGE_ROUTE,
+                    },
                     setUserInfo,
                     formState,
                   });
