@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import {  styled } from "@mui/system";
 import {
   Container,
   Dialog,
   IconButton,
   Typography,
   Box,
-  TextField,
 } from "@mui/material";
 import { PINK } from "../../constants/colors";
 import {
@@ -37,7 +37,29 @@ import {
 import { compareObjects } from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
 import { checkUserExistence } from "../../helpers/actions";
+
 import { ENTER_KEY } from "../../constants/keyCodes";
+import { useRef } from "react";
+
+
+const CustomInput=styled("input")(({theme})=>({
+  width:"100%",
+  outline:"none",
+  border:"none",
+  fontFamily: "Proxima Nova",
+  fontStyle: "normal",
+  fontWeight: 600,
+  fontSize: "18px",
+  "&:disabled":{
+    backgroundColor:"transparent"
+  },
+  "&::placeholder":{
+    color:"#4C494F"
+
+  }
+}))
+
+const placeholderInput = "System Template"
 
 function CvTemplateMain() {
   const [title, setTitle] = useState("");
@@ -45,6 +67,8 @@ function CvTemplateMain() {
   const [isTemplateNameText, setIsTemplateNameText] = useState(true);
   const [unchangeData, setUnchangedData] = useState(null);
   const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
+  const customInput = useRef(null)
+  
   const navigate = useNavigate();
   const updatedTemplateData = useSelector(
     selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
@@ -73,7 +97,6 @@ function CvTemplateMain() {
   }, [data, dispatch]);
   useEffect(() => {
     let storageExistingData = localStorageGetter(TEMPLAT_DATA);
-
     storageExistingData
       ? setData(storageExistingData)
       : globalDataSetter({
@@ -89,6 +112,7 @@ function CvTemplateMain() {
   if (!data) {
     return null;
   }
+  
 
   return (
     <Container>
@@ -133,15 +157,17 @@ function CvTemplateMain() {
         <TemplateNamePenSVG
           onClick={() => {
             setIsTemplateNameText(false);
+            setData((prev) => ({ ...prev, name: "" }));
+            setTimeout(()=>customInput.current.focus())
+            
           }}
           style={{ cursor: isTemplateNameText ? "pointer" : "default" }}
         />
-        {isTemplateNameText ? (
-          <Box>{data.name}</Box>
-        ) : (
-          <TextField
+        <CustomInput
+            ref={customInput}
+            placeholder={placeholderInput}
             value={title}
-            sx={{ width: "100%" }}
+            disabled={isTemplateNameText?true:false}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -149,7 +175,6 @@ function CvTemplateMain() {
               setIsTemplateNameText(true);
               setData((prev) => ({ ...prev, name: title }));
             }}
-            InputProps={{ sx: { height: "40px" } }}
             onKeyDown={(event) => {
               if (event.key === ENTER_KEY) {
                 setIsTemplateNameText(true);
@@ -157,7 +182,7 @@ function CvTemplateMain() {
               }
             }}
           />
-        )}
+        
       </Box>
       {data.fields.map((item) => (
         <TemplateItem key={item.name} item={item} setData={setData} />

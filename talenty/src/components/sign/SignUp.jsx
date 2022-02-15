@@ -57,8 +57,7 @@ export default function SignUp() {
   );
 
   return (
-    <StyledContainer>
-      <StyledDiv>
+    <Box>
         <Dialog
           open={!!dialogInfo}
           maxWidth={false}
@@ -184,7 +183,7 @@ export default function SignUp() {
             </Button>
           </FormControl>
         </BackgroundImage>
-      </StyledDiv>
-    </StyledContainer>
+        </Box>
+    
   );
 }

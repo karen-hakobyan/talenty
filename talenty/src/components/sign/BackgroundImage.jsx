@@ -18,14 +18,14 @@ function BackgroundImage({children,img}){
        </Box>
         
         <Box sx={{img: {
-        height: "100%",
+        height: 754,
         widht: "auto",
         minHeight: "23.75rem",
         maxWidth: "35rem",
         },
         position: "relative",}
         }>
-            <img src={img? TalentyAuth: TalentyAuth2} alt="Talenty" />
+            <img  src={img? TalentyAuth: TalentyAuth2} alt="Talenty" />
             <Box sx={{
           position: "absolute",
           top:43,
