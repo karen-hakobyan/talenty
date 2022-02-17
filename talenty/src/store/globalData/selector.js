@@ -4,4 +4,4 @@ const selectGlobalDataViaKey = (key) => {
     };
 };
 
-export { selectGlobalDataViaKey };
+export {selectGlobalDataViaKey};

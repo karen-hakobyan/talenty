@@ -1,20 +1,20 @@
 export const FIELDS = (watch) => [{
-        name: "First name",
-        key: "firstName",
-        error: {
-            required: "This field is required",
-            maxLength: { value: 50, message: "max length should be 50." },
-            pattern: {
-                value: /^[A-Z]/,
-                message: "First letter should be uppercase",
-            },
+    name: "First name",
+    key: "firstName",
+    error: {
+        required: "This field is required",
+        maxLength: {value: 50, message: "max length should be 50."},
+        pattern: {
+            value: /^[A-Z]/,
+            message: "First letter should be uppercase",
         },
     },
+},
     {
         name: "Last name",
         key: "lastName",
         error: {
-            maxLength: { value: 50, message: "max length should be 50." },
+            maxLength: {value: 50, message: "max length should be 50."},
             required: "This field is required",
             pattern: {
                 value: /^[A-Z]/,
@@ -68,13 +68,13 @@ export const FIELDS = (watch) => [{
 ];
 
 export const FIELDS_COMPANY = (watch) => [{
-        name: "Company name",
-        key: "companyName",
-        error: {
-            required: "This field is required",
-            maxLength: { value: 100, message: "Max length for company name is 100" },
-        },
+    name: "Company name",
+    key: "companyName",
+    error: {
+        required: "This field is required",
+        maxLength: {value: 100, message: "Max length for company name is 100"},
     },
+},
     ...FIELDS(watch),
 ];
 
@@ -90,4 +90,7 @@ export const FIELD_EMAIL = [{
     },
 }];
 
-export const changeButtonInformation = [{ text: "Sign up as a company", isCompanyState: true }, { text: "Sign up as a jobseeker", isCompanyState: false }]
+export const changeButtonInformation = [{
+    text: "Sign up as a company",
+    isCompanyState: true
+}, {text: "Sign up as a jobseeker", isCompanyState: false}]

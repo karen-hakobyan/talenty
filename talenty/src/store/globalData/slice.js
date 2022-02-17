@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {};
 
@@ -6,8 +6,8 @@ export const globalDataSlice = createSlice({
     name: "globalData",
     initialState,
     reducers: {
-        setGlobalDataViaKey: (state, { payload }) => {
-            const { key, value } = payload;
+        setGlobalDataViaKey: (state, {payload}) => {
+            const {key, value} = payload;
             state[key] = value;
         },
         setInitialState: (state) => {
@@ -16,6 +16,6 @@ export const globalDataSlice = createSlice({
     },
 });
 
-export const { setInitialState, setGlobalDataViaKey } = globalDataSlice.actions;
+export const {setInitialState, setGlobalDataViaKey} = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

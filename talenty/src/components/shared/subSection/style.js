@@ -1,4 +1,4 @@
-const SUB_CONTAINER = { display: "flex", gap: "24px", alignItems: "center" };
+const SUB_CONTAINER = {display: "flex", gap: "24px", alignItems: "center"};
 
 const MAIN_CONTAINER = {
     display: "flex",
@@ -6,4 +6,4 @@ const MAIN_CONTAINER = {
     alignItems: "center",
 };
 
-export { MAIN_CONTAINER, SUB_CONTAINER };
+export {MAIN_CONTAINER, SUB_CONTAINER};

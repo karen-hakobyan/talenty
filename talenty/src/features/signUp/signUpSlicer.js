@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = [{
-        name: "Company name",
-        value: "",
-        inputName: "companyName",
-    },
+    name: "Company name",
+    value: "",
+    inputName: "companyName",
+},
     {
         name: "First name",
         value: "",
@@ -36,12 +36,12 @@ export const signUpSlice = createSlice({
     name: "signUp",
     initialState,
     reducers: {
-        onChangeAction: (state, { payload: { inputName, value } }) => {
+        onChangeAction: (state, {payload: {inputName, value}}) => {
             const editedInput = state.find((item) => item.inputName === inputName);
             editedInput.value = value;
         },
     },
 });
 
-export const { onChangeAction } = signUpSlice.actions;
+export const {onChangeAction} = signUpSlice.actions;
 export default signUpSlice.reducer;

@@ -2,7 +2,7 @@ import AddressGenerator from "./address";
 import CityGenerator from "./city";
 import CountryGenerator from "./country";
 import DateGenerator from "./date";
-import { DescriptionGenerator } from "./description";
+import {DescriptionGenerator} from "./description";
 import EmailGenerator from "./email";
 import GenderGenerator from "./gender";
 import PhoneGenerator from "./phoneNumber";

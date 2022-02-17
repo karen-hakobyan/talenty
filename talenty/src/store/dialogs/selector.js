@@ -5,9 +5,9 @@ const selectIsCompany = (state) => state.dialogs.isCompany;
 const selectDialogInitialData = (state) => state.dialogs.initialData;
 
 export {
-  selectDialogIsOpen,
-  selectDialogData,
-  selectDialogType,
-  selectIsCompany,
-  selectDialogInitialData,
+    selectDialogIsOpen,
+    selectDialogData,
+    selectDialogType,
+    selectIsCompany,
+    selectDialogInitialData,
 };

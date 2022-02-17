@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     isLoading: false,
@@ -7,7 +7,7 @@ const initialState = {
 export const isLoading = createSlice({
     name: "isLoading",
     initialState,
-    setIsLoading: (state, { payload }) => {
+    setIsLoading: (state, {payload}) => {
         state.isLoading = payload
     }
 })
