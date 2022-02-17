@@ -24,9 +24,6 @@ export const StyledDiv = styled(Box)({
     width: "100%",
     mardinTop: 10,
     fontFamily: "Proxima Nova",
-    p: {
-        fontFamily: "Proxima Nova",
-    },
 });
 export const MainStyledSpan = styled("span")({
     color: MAIN_PURPLE,
@@ -71,3 +68,5 @@ export const CssTextField = styled(TextField)({
     paddingTop: 1,
     width: "100%",
 });
+
+export const someObj = {name: 'tsaturyan', surname: 'andranik'}

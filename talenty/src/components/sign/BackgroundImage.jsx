@@ -19,7 +19,7 @@ function BackgroundImage({children, img}) {
 
         <Box sx={{
             img: {
-                height: "100%",
+                height: 754,
                 widht: "auto",
                 minHeight: "23.75rem",
                 maxWidth: "35rem",

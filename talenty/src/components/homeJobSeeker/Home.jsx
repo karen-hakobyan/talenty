@@ -2,7 +2,6 @@ import {Box, Button, Switch} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {DefaultUserIcon} from "../../assets/icons/jobseeker";
 import {CREATE_CV} from "../../constants/routes";
-import SharedTemplateHeader from "../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON} from "../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE} from "./style";
@@ -77,12 +76,8 @@ export default function Home() {
                     </Box>
                 </MainBox>
 
-                <MainBox isRegardingJobs>
-                    <SharedTemplateHeader title={"My Job applications"}/>
-                </MainBox>
-                <MainBox isRegardingJobs>
-                    <SharedTemplateHeader title={"Latest jobs"}/>
-                </MainBox>
+                <MainBox isRegardingJobs/>
+                <MainBox isRegardingJobs/>
             </Box>
         </Box>
     );

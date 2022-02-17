@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {Dialog, IconButton, Typography, Box, TextField} from "@mui/material";
+import {styled} from "@mui/system";
+import {Dialog, IconButton, Typography, Box,} from "@mui/material";
 import {PINK} from "../../constants/colors";
 import {
     AddSectionIconSVG,
@@ -30,7 +31,29 @@ import {
 import {compareObjects} from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
 import {checkUserExistence} from "../../helpers/actions";
+
 import {ENTER_KEY} from "../../constants/keyCodes";
+import {useRef} from "react";
+
+
+const CustomInput = styled("input")(() => ({
+    width: "100%",
+    outline: "none",
+    border: "none",
+    fontFamily: "Proxima Nova",
+    fontStyle: "normal",
+    fontWeight: 600,
+    fontSize: "18px",
+    "&:disabled": {
+        backgroundColor: "transparent"
+    },
+    "&::placeholder": {
+        color: "#4C494F"
+
+    }
+}))
+
+const placeholderInput = "System Template"
 
 function CvTemplateMain() {
     const [title, setTitle] = useState("");
@@ -38,6 +61,8 @@ function CvTemplateMain() {
     const [isTemplateNameText, setIsTemplateNameText] = useState(true);
     const [unchangeData, setUnchangedData] = useState(null);
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
+    const customInput = useRef(null)
+
     const navigate = useNavigate();
     const updatedTemplateData = useSelector(
         selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
@@ -66,7 +91,6 @@ function CvTemplateMain() {
     }, [data, dispatch]);
     useEffect(() => {
         let storageExistingData = localStorageGetter(TEMPLAT_DATA);
-
         storageExistingData
             ? setData(storageExistingData)
             : globalDataSetter({
@@ -82,6 +106,7 @@ function CvTemplateMain() {
     if (!data) {
         return null;
     }
+
 
     return (
         <Box sx={{width: "100%", pr: "24px", pl: "24px", pb: "24px"}}>
@@ -126,31 +151,33 @@ function CvTemplateMain() {
                 <TemplateNamePenSVG
                     onClick={() => {
                         setIsTemplateNameText(false);
+                        setData((prev) => ({...prev, name: ""}));
+                        setTimeout(() => customInput.current.focus())
+
                     }}
                     style={{cursor: isTemplateNameText ? "pointer" : "default"}}
                 />
-                {isTemplateNameText ? (
-                    <Box sx={{height: "40px"}}>{data.name}</Box>
-                ) : (
-                    <TextField
-                        value={title}
-                        fullWidth
-                        onChange={(e) => {
-                            setTitle(e.target.value);
-                        }}
-                        onBlur={() => {
+                <CustomInput
+                    ref={customInput}
+                    placeholder={placeholderInput}
+                    value={title}
+                    disabled={!!isTemplateNameText}
+
+                    onChange={(e) => {
+                        setTitle(e.target.value);
+                    }}
+                    onBlur={() => {
+                        setIsTemplateNameText(true);
+                        setData((prev) => ({...prev, name: title}));
+                    }}
+                    onKeyDown={(event) => {
+                        if (event.key === ENTER_KEY) {
                             setIsTemplateNameText(true);
                             setData((prev) => ({...prev, name: title}));
-                        }}
-                        InputProps={{sx: {height: "40px"}}}
-                        onKeyDown={(event) => {
-                            if (event.key === ENTER_KEY) {
-                                setIsTemplateNameText(true);
-                                setData((prev) => ({...prev, name: title}));
-                            }
-                        }}
-                    />
-                )}
+                        }
+                    }}
+                />
+
             </Box>
             {data.fields.map((item) => (
                 <TemplateItem key={item.name} item={item} setData={setData}/>

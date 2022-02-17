@@ -19,8 +19,9 @@ import {MAIN_PURPLE} from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import {checkNavigation} from "../../helpers/actions";
 import {HR_ROLE, JOBSEEKER_ROLE} from "../../constants/role";
+import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
 
-const Logo = styled("div")(({theme}) => ({
+const Logo = styled("div")(() => ({
     display: "flex",
     justifyContent: "end",
     marginBottom: 146,
@@ -51,7 +52,17 @@ function SignIn({setUserInfo}) {
                 open={!!dialogInfo?.open}
                 onClose={() => setDialogInfo(false)}
             >
-                {dialogInfo?.text}
+                <Box sx={FLEX_CONTAINER}>
+                    <Box sx={{...DIALOG_TEXT}}>{dialogInfo?.text}</Box>
+                    <Button sx={{
+                        ...TEMPLATE_BUTTON_CREATE, width: "176px"
+                    }}
+                            onClick={() => setDialogInfo(false)}
+                    >
+                        Ok
+                    </Button>
+                </Box>
+
             </Dialog>
             <BackgroundImage>
                 <Logo>
@@ -167,8 +178,7 @@ function SignIn({setUserInfo}) {
                                     });
                                     handleSubmit(reqFunc)();
                                 }}
-                                sx={{...TEMPLATE_BUTTON_CREATE, width: "466px"}}
-                                style={{textTransform: "none"}}
+                                sx={{...TEMPLATE_BUTTON_CREATE, width: "466px", textTransform: "none"}}
                             >
                                 Sign in
                             </Button>

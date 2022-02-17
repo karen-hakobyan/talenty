@@ -58,6 +58,7 @@ export const FIELDS = (watch) => [{
         isPassword: true,
         key: "confirmPassword",
         error: {
+            required: "The field is Required",
             validate: (value) => {
                 let pass = watch("password");
                 return value === pass || "Passwords are not same";
@@ -76,6 +77,19 @@ export const FIELDS_COMPANY = (watch) => [{
 },
     ...FIELDS(watch),
 ];
+
+export const FIELD_EMAIL = [{
+    name: "Email",
+    key: "email",
+    error: {
+        required: "This field is required",
+        pattern: {
+            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: "The email is invalid",
+        },
+    },
+}];
+
 export const changeButtonInformation = [{
     text: "Sign up as a company",
     isCompanyState: true

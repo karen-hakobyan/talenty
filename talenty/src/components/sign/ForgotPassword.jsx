@@ -1,21 +1,23 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import {Box, styled} from "@mui/system";
-import {TextField, Typography} from "@mui/material";
+import {Button, Dialog, FormControl, Typography} from "@mui/material";
 import "../../fonts//index.css";
 import {
-    MAIN_PURPLE,
     NIGHT_RIDER,
-    PLACEHOLDER_GRAY,
     TEXT,
 } from "../../constants/colors";
-import {emailValid} from "../../helpers/validation/fieldValidations";
-import MuiContainedBtn from "../../shared/MuiContainedBtn";
-import AlertMessage from "./AlertMessage";
 import BackgroundImage from "./BackgroundImage";
 import {useForm} from "react-hook-form";
+import {FIELD_EMAIL} from "./helper";
+import SignUpField from "./SignUpField";
+import {TEMPLATE_BUTTON_CREATE} from "../../shared/styles";
+import {getForgotPassword} from "../../constants/requests";
+import {useNavigate} from "react-router-dom";
+import {SIGN_IN_ROUTE} from "../../constants/routes";
+import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
 
-const Title = styled(Typography)(({theme}) => ({
+const Title = styled(Typography)(() => ({
     maxWidth: 317,
     fontFamily: "Proxima Nova",
     fontStyle: "normal",
@@ -27,7 +29,7 @@ const Title = styled(Typography)(({theme}) => ({
     color: NIGHT_RIDER,
 }));
 
-const Text = styled(Typography)(({theme}) => ({
+const Text = styled(Typography)(() => ({
     width: "100%",
     fontFamily: "Proxima Nova",
     fontStyle: "normal",
@@ -36,116 +38,115 @@ const Text = styled(Typography)(({theme}) => ({
     lineHeight: "22px",
     color: TEXT,
 }));
-const H5 = styled("h5")(({theme}) => ({
-    fontFamily: "Proxima Nova",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "16px",
-    lineHeight: "24px",
-    color: TEXT,
-    marginLeft: 3,
-    marginBottom: 5,
-    marginTop: 36,
-}));
-const CssTextField = styled(TextField)({
-    "& .MuiOutlinedInput-root": {
-        "&.Mui-focused fieldset": {
-            borderColor: MAIN_PURPLE,
-            paddingBottom: 1,
-        },
-    },
-    "&::placeholder": {
-        color: PLACEHOLDER_GRAY,
-    },
-    fontFamily: "Proxima Nova",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "16px",
-    color: TEXT,
-    paddingTop: 1,
-    width: "100%",
-    marginBottom: 20,
-});
-const ContentContainer = styled("div")(({tehem}) => ({
+
+
+const ContentContainer = styled("div")(() => ({
     maxWidth: 466,
     marginLeft: "154px",
 }));
 
+const dialogMesseng = "Try again "
+
+
 function ForgotPassword() {
-    const [email, setEmail] = useState("");
-    const [errEmail, setErrEmail] = useState(false);
-    const [disabled, setDisabled] = useState(true);
     const [open, setOpen] = useState(false);
     const {
         handleSubmit,
         register,
         formState: {errors},
-    } = useForm();
+    } = useForm({
+        mode: "onChange",
+        shouldFocusError: false,
+    });
+    const navigate = useNavigate()
+    console.log(open)
 
-    //TODO change this url
-    const onSubmit = () => {
-        axios
-            .get(`http://localhost:7800/reset/password?email=${email}`)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-    };
-
-    useEffect(() => {
-        if (!errEmail) {
-            return setDisabled(false);
-        }
-        return setDisabled(true);
-    }, [disabled, errEmail]);
 
     return (
         <>
-            <BackgroundImage>
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        height: "100%",
-                    }}
-                >
-                    <ContentContainer>
-                        <Title variant="h1" component="div">
-                            Forgot password?
-                        </Title>
-                        <Text
-                            variant="subtitle1"
-                            component="div"
-                            sx={{
-                                fontFamily: "Proxima Nova",
-                                fontStyle: "normal",
-                                fontWeight: "normal",
-                            }}
+            <Box>
+                <Dialog
+                    open={!!open}
+                    onClose={() => setOpen(false)}
+                    maxWidth={false}>
+                    <Box sx={FLEX_CONTAINER}>
+                        <Box sx={{...DIALOG_TEXT, color: "#000"}}>Try again</Box>
+                        <Button sx={{
+                            ...TEMPLATE_BUTTON_CREATE, width: "176px"
+                        }}
+                                onClick={() => setOpen(false)}
                         >
-                            Enter your email address below and we’ll send an
-                            <br/> email with a link to update your password.
-                        </Text>
+                            Ok
+                        </Button>
+                    </Box>
+                </Dialog>
 
-                        <H5>Email</H5>
+                <BackgroundImage>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            height: "100%",
+                        }}
+                    >
+                        <ContentContainer>
+                            <Title variant="h1" component="div">
+                                Forgot password?
+                            </Title>
+                            <Text
+                                variant="subtitle1"
+                                component="div"
+                                sx={{
+                                    fontFamily: "Proxima Nova",
+                                    fontStyle: "normal",
+                                    fontWeight: "normal",
+                                }}
+                            >
+                                Enter your email address below and we’ll send an
+                                <br/> email with a link to update your password.
+                            </Text>
+                            <FormControl
+                                sx={{mt: "36px"}}
+                            >
+                                <Box>
+                                    {FIELD_EMAIL.map((el) => {
+                                        let {name: value, isPassword, key: objKey, error} = el;
+                                        return (
+                                            <SignUpField
+                                                {...{isPassword, register, value, objKey, errors, error}}
+                                                key={objKey}
+                                            />
+                                        );
+                                    })}
+                                </Box>
+                                <Button
+                                    type="submit"
+                                    onClick={() => {
+                                        handleSubmit(data => {
+                                            axios.get(getForgotPassword(data.email))
+                                                .then(() => navigate(SIGN_IN_ROUTE))
+                                                .catch((e) => {
+                                                    console.log(e)
+                                                    setOpen(dialogMesseng)
+                                                });
+                                        })()
+                                    }}
+                                    sx={{
+                                        ...TEMPLATE_BUTTON_CREATE,
+                                        mt: "26px",
+                                        width: "466px",
+                                        ...{textTransform: "none"},
+                                    }}
 
-                        <CssTextField
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            sx={{color: TEXT, paddingTop: 1, maxWidth: "466px"}}
-                            type="email"
-                            size="small"
-                            error={errEmail}
-                            helperText={errEmail ? "Your email is incorrect" : null}
-                            onBlur={() =>
-                                emailValid(email) ? setErrEmail() : setErrEmail(true)
-                            }
-                        />
-                        <MuiContainedBtn disabled={false} onClick={onSubmit}>
-                            Submit
-                        </MuiContainedBtn>
-                        {open && <AlertMessage handleClose={setOpen} open={open}/>}
-                    </ContentContainer>
-                </Box>
-            </BackgroundImage>
+                                >
+                                    Sign up
+                                </Button>
+
+                            </FormControl>
+                        </ContentContainer>
+                    </Box>
+                </BackgroundImage>
+            </Box>
         </>
     );
 }
