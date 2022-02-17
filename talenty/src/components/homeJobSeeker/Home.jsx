@@ -1,3 +1,4 @@
+
 import { Box, Button, Switch } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { DefaultUserIcon } from "../../assets/icons/jobseeker";
