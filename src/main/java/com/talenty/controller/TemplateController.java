@@ -1,11 +1,16 @@
 package com.talenty.controller;
 
 import com.talenty.domain.dto.Template;
+import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.service.SubmittedTemplateService;
 import com.talenty.service.TemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/templates")
@@ -33,9 +38,19 @@ public class TemplateController {
     }
 
     @PostMapping("/create_new_template")
+//        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createNewTemplate(@RequestBody final Template template) {
         final Template createdTemplate = templateService.createNewTemplate(template);
         return ResponseEntity.ok("created_new_template");
+    }
+
+    @GetMapping("/template")
+//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> getTemplateById(@RequestParam final String id) {
+        final TemplateDocument templateById = templateService.getTemplateById(id);
+        return ResponseEntity.ok(templateById);
     }
 
 }

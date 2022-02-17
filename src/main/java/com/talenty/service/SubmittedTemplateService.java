@@ -26,16 +26,9 @@ public class SubmittedTemplateService {
     }
 
     public SubmittedTemplateDocument saveSubmittedTemplate(final Template template) {
-        final Optional<TemplateDocument> parentTemplateOptional = templateService.getTemplateById(template.getId());
-
-        if (parentTemplateOptional.isEmpty()) {
-            final String cause = String.format("Cause: No template with ID: %s", template.getId());
-            System.out.println(cause);
-            throw new NoSuchTemplateException(cause);
-        }
+        final TemplateDocument parentTemplate = templateService.getTemplateById(template.getId());
 
         final TemplateDocument submittedTemplate = TemplateMapper.instance.dtoToTemplate(template);
-        final TemplateDocument parentTemplate = parentTemplateOptional.get();
         cleanUpSubmittedTemplateFields(submittedTemplate.getFields(), parentTemplate.getFields());
 
         final SubmittedTemplateDocument cleanedUpSubmittedTemplate = TemplateMapper.instance.templateTopSubmittedTemplate(submittedTemplate);
@@ -47,7 +40,7 @@ public class SubmittedTemplateService {
 
     private void cleanUpSubmittedTemplateFields(final List<FieldDocument> submittedFields, final List<FieldDocument> parentFields) {
         if (submittedFields.size() != parentFields.size()) {
-            throw new NoSuchTemplateException("Cause: Section size miss match!");
+            throw new NoSuchTemplateException();
         }
         for (int i = 0; i < parentFields.size(); i++) {
             final FieldDocument tempSubmittedField = submittedFields.get(i);
@@ -60,7 +53,7 @@ public class SubmittedTemplateService {
                         tempParentField
                 );
                 System.out.println(cause);
-                throw new NoSuchTemplateException(cause);
+                throw new NoSuchTemplateException();
             }
 
             if (tempSubmittedField.getFields() == null && tempParentField.getFields() == null) {
@@ -75,7 +68,7 @@ public class SubmittedTemplateService {
                                 tempSubmittedField
                         );
                         System.out.println(cause);
-                        throw new NoSuchTemplateException(cause);
+                        throw new NoSuchTemplateException();
                     }
                 }
 
