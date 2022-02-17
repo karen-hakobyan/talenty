@@ -27,37 +27,28 @@ public class TemplateService {
 
     public Template getSystemTemplate() {
         final TemplateDocument systemTemplate = templateRepository.findSystemTemplateId();
-        return TemplateMapper.instance.documentToDto(getTemplateById(systemTemplate.getId()).get());
+        return TemplateMapper.instance.documentToDto(getTemplateById(systemTemplate.getId()));
     }
 
-    public Optional<TemplateDocument> getTemplateById(final String id) {
+    public TemplateDocument getTemplateById(final String id) {
         final Optional<TemplateDocument> templateDocumentOptional = templateRepository.findById(id);
         if (templateDocumentOptional.isEmpty()) {
-            return Optional.empty();
+            System.out.printf("Template with id: %s is not found\n", id);
+            throw new NoSuchTemplateException();
         }
         final TemplateDocument templateDocument = templateDocumentOptional.get();
 
         final List<TypeValues> adminDefinedTypeValues = typeValuesService.getTypesWithValues();
         addValuesToFieldsFromAdmin(templateDocument.getFields(), adminDefinedTypeValues);
 
-        return Optional.of(templateDocument);
+        return templateDocument;
     }
 
 
     public Template createNewTemplate(final Template template) {
-        final Optional<TemplateDocument> parentTemplateOptional = getTemplateById(template.getId());
-
-        if (parentTemplateOptional.isEmpty()) {
-            final String cause = String.format("Cause: No template with ID : %s", template.getId());
-            System.out.println(cause);
-            throw new NoSuchTemplateException(cause);
-        }
-
+        final TemplateDocument parentTemplate = getTemplateById(template.getId());
         final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
-        final TemplateDocument parentTemplate = parentTemplateOptional.get();
-
         assertNewTemplateIsValid(newTemplate, parentTemplate);
-
         return null;
     }
 
