@@ -58,6 +58,7 @@ export const FIELDS = (watch) => [{
         isPassword: true,
         key: "confirmPassword",
         error: {
+            required: "The field is Required",
             validate: (value) => {
                 let pass = watch("password");
                 return value === pass || "Passwords are not same";

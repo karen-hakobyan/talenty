@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import { Box } from "@mui/system";
 
 export default function Home() {

@@ -3,7 +3,6 @@ import { Box, IconButton,  TextField } from "@mui/material";
 import { MAIN_PURPLE } from "../../constants/colors";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import { INPUT_LABEL } from "../../shared/styles";
 
 const SignUpField = React.forwardRef(
   ({ register, value, isPassword, objKey, errors, error }, ref) => {
