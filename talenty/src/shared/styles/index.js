@@ -84,6 +84,7 @@ const HOME_PRIMARY_BUTTON = {
   fontWeight: 400,
   fontFamily: "Proxima Nova",
   lineHeight: "22px",
+  width: "179px",
 };
 const ADD_TEMPLATE_SECTION = {
   height: "34px",
