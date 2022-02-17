@@ -1,28 +1,30 @@
 package com.talenty.service;
 
 import com.talenty.domain.dto.Template;
-import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.TemplateRepository;
+import com.talenty.logical_executors.AdminValuesMergeExecutor;
+import com.talenty.logical_executors.CleanUpMetadataExecutor;
+import com.talenty.logical_executors.LogicExecutor;
 import com.talenty.validation.ValidationChecker;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class TemplateService {
 
     private final TemplateRepository templateRepository;
-    private final TypeValuesService typeValuesService;
+    private final ApplicationContext applicationContext;
 
-    public TemplateService(final TemplateRepository templateRepository, final TypeValuesService typeValuesService) {
+    public TemplateService(final TemplateRepository templateRepository, final ApplicationContext applicationContext) {
         this.templateRepository = templateRepository;
-        this.typeValuesService = typeValuesService;
+        this.applicationContext = applicationContext;
     }
 
     public Template getSystemTemplate() {
@@ -38,8 +40,11 @@ public class TemplateService {
         }
         final TemplateDocument templateDocument = templateDocumentOptional.get();
 
-        final List<TypeValues> adminDefinedTypeValues = typeValuesService.getTypesWithValues();
-        addValuesToFieldsFromAdmin(templateDocument.getFields(), adminDefinedTypeValues);
+        executeLogicOnTemplate(
+                templateDocument.getFields(),
+                applicationContext.getBean(AdminValuesMergeExecutor.class),
+                applicationContext.getBean(CleanUpMetadataExecutor.class)
+        );
 
         return templateDocument;
     }
@@ -54,29 +59,23 @@ public class TemplateService {
 
     private void assertNewTemplateIsValid(final TemplateDocument newTemplate, final TemplateDocument parentTemplate) {
         ValidationChecker.asserTemplateSectionsNamesAreUnique(newTemplate);
-
         for (final FieldDocument section : newTemplate.getFields()) {
             ValidationChecker.assertTemplateSectionIsValid(section, parentTemplate);
         }
-
     }
 
-    private void addValuesToFieldsFromAdmin(final List<FieldDocument> fields, final List<TypeValues> typeValues) {
+    private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
         for (final FieldDocument field : fields) {
             final List<FieldDocument> fieldFields = field.getFields();
-            if (fieldFields != null) { //section
-                addValuesToFieldsFromAdmin(fieldFields, typeValues);
-            } else { //field
-                final Map<String, Object> metadata = field.getMetadata();
-                if (metadata == null) {
-                    continue;
-                }
-                for (final TypeValues typeValue : typeValues) {
-                    if (typeValue.getType().equals(metadata.get("type"))) {
-                        metadata.put("values", typeValue.getValues());
-                    }
-                }
+
+            for (final LogicExecutor logicExecutor : logicExecutors) {
+                logicExecutor.execute(field);
             }
+
+            if (fieldFields != null) {
+                executeLogicOnTemplate(fieldFields, logicExecutors);
+            }
+
         }
     }
 
