@@ -47,12 +47,11 @@ public class SubmittedTemplateService {
             final FieldDocument tempParentField = parentFields.get(i);
 
             if (!tempParentField.getId().equals(tempSubmittedField.getId())) {
-                final String cause = String.format(
+                System.out.printf(
                         "Cause: Field ID miss match. Current Field: %s, Current Parent's Field: %s",
                         tempSubmittedField,
                         tempParentField
                 );
-                System.out.println(cause);
                 throw new NoSuchTemplateException();
             }
 
@@ -63,11 +62,10 @@ public class SubmittedTemplateService {
                 if (tempParentFieldMetadata.containsKey("required")) {
                     if ((boolean) tempParentFieldMetadata.get("required")
                             && !tempSubmittedFieldMetadata.containsKey("submitted_value")) {
-                        final String cause = String.format(
+                        System.out.printf(
                                 "Cause: Required field doesn't submitted! Field: %s ",
                                 tempSubmittedField
                         );
-                        System.out.println(cause);
                         throw new NoSuchTemplateException();
                     }
                 }
@@ -75,7 +73,6 @@ public class SubmittedTemplateService {
                 if (tempSubmittedFieldMetadata.containsKey("submitted_value")) {
                     ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedField, tempParentField);
                 }
-
 
             } else if (tempSubmittedField.getFields() != null && tempParentField.getFields() != null) {
                 ValidationChecker.assertSectionIsValid(tempSubmittedField);
