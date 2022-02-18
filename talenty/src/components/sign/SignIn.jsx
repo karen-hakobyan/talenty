@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import {useForm} from "react-hook-form";
-import axios from "axios";
+import Registration from '../../store/auth/Registration'
 import {styled} from "@mui/system";
 import {useNavigate} from "react-router-dom";
 import {TalentyLogo} from "../../assets/sign";
@@ -20,6 +21,7 @@ import BackgroundImage from "./BackgroundImage";
 import {checkNavigation} from "../../helpers/actions";
 import {HR_ROLE, JOBSEEKER_ROLE} from "../../constants/role";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
+import {instance} from "../../constants/requests";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -35,7 +37,7 @@ function SignIn({setUserInfo}) {
         shouldFocusError: false,
     });
     const {errors} = formState;
-
+    const dispatch = useDispatch()
     const [dialogInfo, setDialogInfo] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
@@ -165,7 +167,7 @@ function SignIn({setUserInfo}) {
                             <Button
                                 onClick={() => {
                                     let reqFunc = request({
-                                        axios,
+                                        axios: instance,
                                         setDialogInfo,
                                         isChecked,
                                         navigate,
@@ -177,6 +179,7 @@ function SignIn({setUserInfo}) {
                                         formState,
                                     });
                                     handleSubmit(reqFunc)();
+                                    dispatch(Registration({email: 'andtsatur1296@gmail.com', password: 'Andranik804.'}))
                                 }}
                                 sx={{...TEMPLATE_BUTTON_CREATE, width: "466px", textTransform: "none"}}
                             >
