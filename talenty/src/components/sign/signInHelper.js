@@ -1,4 +1,3 @@
-import {LOGIN} from "../../constants/requests";
 
 export const FIELD = [
     {
@@ -21,30 +20,3 @@ export const FIELD = [
         },
     },
 ];
-
-export const request =
-    ({axios, setDialogInfo, isChecked, navigate, route, setUserInfo}) =>
-        async (data) => {
-            const credentials = await axios.post(LOGIN, data).catch((err) => {
-                console.log({...err});
-                setDialogInfo({
-                    open: true,
-                    text: "Please, check your email or password once again. The email or password is incorrect.",
-                });
-            });
-            if (credentials) {
-                let jwt = credentials.data.jwtToken;
-                storageSetter(isChecked, jwt);
-                let userInfo = JSON.parse(atob(jwt.split(".")[1]));
-                setUserInfo(userInfo);
-                navigate(route[userInfo.role]);
-            }
-        };
-
-function storageSetter(isChecked, data) {
-    if (isChecked) {
-        localStorage.setItem("jwt", data);
-    } else {
-        sessionStorage.setItem("jwt", data);
-    }
-}

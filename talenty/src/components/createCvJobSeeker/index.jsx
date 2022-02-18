@@ -22,7 +22,7 @@ import UserCVBody from "./UserCVBody";
 
 export default function CreateCvJobSeeker() {
     let [data, setData] = useState(null);
-    const [unchangeData, setUnchangedData] = useState(null);
+    const [, setUnchangedData] = useState(null);
     const dispatch = useDispatch();
     const [exactPage, setExactPage] = useState(1);
     const updatedTemplateData = useSelector(

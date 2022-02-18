@@ -1,5 +1,4 @@
-import axios from "axios";
-import {GET_TEMPLATES} from "../../constants/requests";
+import {GET_TEMPLATES, instance} from "../../constants/requests";
 
 export const getUrls = {
     getTemplates: GET_TEMPLATES,
@@ -11,7 +10,7 @@ export const globalDataSetter = ({
                                      errorAction = () => {
                                      },
                                  }) => {
-    axios
+    instance
         .get(getUrls[urlKey])
         .then((res) => {
             stateSetter(res.data);

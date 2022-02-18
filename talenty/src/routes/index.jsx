@@ -10,34 +10,26 @@ import {
 import ForgotPassword from "../components/sign/ForgotPassword.jsx";
 import SignIn from "../components/sign/SignIn.jsx";
 import LandingPage from "../components/landingPage";
-import {selectIsCompany} from "../store/dialogs/selector.js";
-import {HR_ROLE, JOBSEEKER_ROLE} from "../constants/role.js";
-import {DEFAULT_ROUTES, HR_ROUTES, JOBSEEKER_ROUTES} from "./helper.js";
-import {parseJWt} from "../helpers/jwt.js";
-import {useState} from "react";
+import {HR_ROUTES, JOBSEEKER_ROUTES} from "./helper.js";
 import NotFoundRoute from "../components/notMatchRoute/index.jsx";
+import {selectAuthIsCompany} from "../store/auth/selector";
 
 const RoutesMain = () => {
-    const isCompany = useSelector(selectIsCompany);
-    let [userInfo, setUserInfo] = useState(parseJWt());
+    let isCompany = useSelector(selectAuthIsCompany)
 
     return (
         <Routes>
-            {userInfo?.role === HR_ROLE
+            {isCompany === true
                 ? HR_ROUTES.map((el) => <Route {...el} />)
                 : null}
-            {userInfo?.role === JOBSEEKER_ROLE
+            {isCompany === false
                 ? JOBSEEKER_ROUTES.map((el) => <Route {...el} />)
                 : null}
-            {DEFAULT_ROUTES.map((el) => (
-                <Route {...el} />
-            ))}
             <Route
                 path={`${SIGN_UP_ROUTE}`}
                 element={<SignUp {...{isCompany}} />}
             />
-
-            <Route path={SIGN_IN_ROUTE} element={<SignIn {...{setUserInfo}} />}/>
+            <Route path={SIGN_IN_ROUTE} element={<SignIn />}/>
             <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword/>}/>
             <Route path={LANDING_PAGE_ROUTE} element={<LandingPage/>}/>
             <Route path="*" element={<NotFoundRoute/>}/>

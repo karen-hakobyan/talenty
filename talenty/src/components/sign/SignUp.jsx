@@ -1,6 +1,5 @@
 import {useState, useMemo, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import {useForm} from "react-hook-form";
 import {
     Button,
@@ -13,6 +12,7 @@ import {
 import {Box} from "@mui/system";
 import BackgroundImage from "./BackgroundImage";
 import {
+    instance,
     POST_SIGN_UP_HR,
     POST_SIGN_UP_JOB_SEEKER,
 } from "../../constants/requests";
@@ -101,7 +101,7 @@ export default function SignUp() {
                     onSubmit={handleSubmit((data) => {
                         let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
                         console.log(data);
-                        axios
+                        instance
                             .post(path, data)
                             .then(() => {
                                 setDialogInfo({
