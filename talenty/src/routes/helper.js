@@ -2,7 +2,7 @@ import CreateCvJobSeeker from "../components/createCvJobSeeker";
 import Dashboard from "../components/dashboard";
 import {genId} from "../components/dashboard/helper";
 import HomeJobSeeker from "../components/homeJobSeeker";
-import RoleNotFoundRoute from "../components/notMatchRoute/RoleNotFoundRoute";
+
 import {
     CREATE_CV,
     DASHBOARD_ROUTE,
@@ -29,8 +29,3 @@ export let JOBSEEKER_ROUTES = [
         key: genId(),
     },
 ];
-
-export let DEFAULT_ROUTES = [...JOBSEEKER_ROUTES, ...HR_ROUTES].map((el) => ({
-    ...el,
-    element: <RoleNotFoundRoute/>,
-}));

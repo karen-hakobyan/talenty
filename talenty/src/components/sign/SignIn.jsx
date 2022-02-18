@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import Registration from '../../store/auth/Registration'
 import {styled} from "@mui/system";
@@ -7,21 +7,18 @@ import {useNavigate} from "react-router-dom";
 import {TalentyLogo} from "../../assets/sign";
 import "../../fonts/index.css";
 import {Box, Button, Checkbox, Dialog, FormControl} from "@mui/material";
-import {FIELD, request} from "./signInHelper";
+import {FIELD} from "./signInHelper";
 import SignInField from "./SignInField";
 import {TEMPLATE_BUTTON_CREATE} from "../../shared/styles";
 import {
     DASHBOARD_ROUTE,
-    FORGOT_PASSWORD_ROUTE,
-    HOME_PAGE_ROUTE,
+    FORGOT_PASSWORD_ROUTE, HOME_PAGE_ROUTE,
     SIGN_UP_ROUTE,
 } from "../../constants/routes";
 import {MAIN_PURPLE} from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
-import {checkNavigation} from "../../helpers/actions";
-import {HR_ROLE, JOBSEEKER_ROLE} from "../../constants/role";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
-import {instance} from "../../constants/requests";
+import {selectAuthIsCompany, selectAuthJwt} from "../../store/auth/selector";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -31,7 +28,7 @@ const Logo = styled("div")(() => ({
     marginRight: 60,
 }));
 
-function SignIn({setUserInfo}) {
+function SignIn() {
     const {register, handleSubmit, formState} = useForm({
         mode: "onChange",
         shouldFocusError: false,
@@ -41,11 +38,15 @@ function SignIn({setUserInfo}) {
     const [dialogInfo, setDialogInfo] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
-
+    const jwt = useSelector(selectAuthJwt)
+    const isCompany = useSelector(selectAuthIsCompany)
+    console.log(jwt)
     // if jwt exist navigate dashboard
     useEffect(() => {
-        checkNavigation(navigate);
-    }, [navigate]);
+        if(jwt) {
+            navigate(isCompany ? DASHBOARD_ROUTE: HOME_PAGE_ROUTE)
+        }
+    }, [jwt, isCompany, navigate]);
 
     return (
         <>
@@ -166,20 +167,9 @@ function SignIn({setUserInfo}) {
                             </Box>
                             <Button
                                 onClick={() => {
-                                    let reqFunc = request({
-                                        axios: instance,
-                                        setDialogInfo,
-                                        isChecked,
-                                        navigate,
-                                        route: {
-                                            [HR_ROLE]: DASHBOARD_ROUTE,
-                                            [JOBSEEKER_ROLE]: HOME_PAGE_ROUTE,
-                                        },
-                                        setUserInfo,
-                                        formState,
-                                    });
-                                    handleSubmit(reqFunc)();
-                                    dispatch(Registration({email: 'andtsatur1296@gmail.com', password: 'Andranik804.'}))
+                                    handleSubmit((data) => {
+                                        dispatch(Registration(data))
+                                    })()
                                 }}
                                 sx={{...TEMPLATE_BUTTON_CREATE, width: "466px", textTransform: "none"}}
                             >

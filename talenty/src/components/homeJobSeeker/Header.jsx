@@ -1,14 +1,20 @@
-import {Box} from "@mui/material";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {Box, IconButton, Menu, MenuItem} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 import {HOME_PAGE_ROUTE} from "../../constants/routes";
 import {LOGO} from "../landingPage/style";
 import {SUB_ROUTES_GENERATOR} from "./helper";
 import {CONTAINER_HEADER} from "./style";
+import {ArrowDown, UserExPhoto} from "../../assets/icons/jobseeker";
+import {setAuthInitialState} from "../../store/auth/slice";
+import {useDispatch} from "react-redux";
 
 export default function Header() {
+    const [anchorEl, setAnchorEl] = useState(null)
+    const isMenuOpen = Boolean(anchorEl)
     const navigate = useNavigate();
-    const location = useLocation();
-    console.log(location);
+    const dispatch = useDispatch()
+
     return (
         <Box sx={CONTAINER_HEADER}>
             <Box sx={LOGO}>Talenty.</Box>
@@ -34,6 +40,15 @@ export default function Header() {
                         </Box>
                     );
                 })}
+            </Box>
+            <Menu anchorEl={anchorEl} onClose={() => setAnchorEl(null)} open={isMenuOpen}>
+                <MenuItem onClick={() => dispatch(setAuthInitialState(navigate))}>Sign out</MenuItem>
+            </Menu>
+            <Box sx={{display: 'flex', flex: 1, justifyContent: 'flex-end', alignItems: 'center'}}>
+                <UserExPhoto/>
+                <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{cursor: 'pointer'}}>
+                    <ArrowDown/>
+                </IconButton>
             </Box>
         </Box>
     );

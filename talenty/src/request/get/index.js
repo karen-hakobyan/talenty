@@ -1,4 +1,3 @@
-import axios from "axios";
 import {GET_TEMPLATES, instance} from "../../constants/requests";
 
 export const getUrls = {
