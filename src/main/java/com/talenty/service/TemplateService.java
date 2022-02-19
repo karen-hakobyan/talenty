@@ -52,19 +52,16 @@ public class TemplateService {
         return templateDocument;
     }
 
-
     public Template createNewTemplate(final Template template) {
         final TemplateDocument parentTemplate = getTemplateById(template.getId());
         final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
-        assertNewTemplateIsValid(newTemplate, parentTemplate);
-        return null;
-    }
 
-    private void assertNewTemplateIsValid(final TemplateDocument newTemplate, final TemplateDocument parentTemplate) {
-        ValidationChecker.asserTemplateSectionsNamesAreUnique(newTemplate);
-        for (final FieldDocument section : newTemplate.getFields()) {
-            ValidationChecker.assertTemplateSectionIsValid(section, parentTemplate);
-        }
+        ValidationChecker.assertTemplateSectionsNamesAreUnique(newTemplate);
+        ValidationChecker.assertTemplateIsValid(newTemplate.getFields(), parentTemplate);
+
+        newTemplate.setId(null);
+        final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
+        return TemplateMapper.instance.documentToDto(savedNewTemplate);
     }
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
