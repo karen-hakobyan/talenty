@@ -141,7 +141,7 @@ function ForgotPassword() {
               }}
 
             >
-              Sign up
+              Submit
             </Button>
 
             </FormControl>
