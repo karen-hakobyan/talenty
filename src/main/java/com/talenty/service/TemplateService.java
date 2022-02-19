@@ -13,6 +13,7 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,18 +66,11 @@ public class TemplateService {
     }
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
-        for (final FieldDocument field : fields) {
+        fields.forEach(field -> {
             final List<FieldDocument> fieldFields = field.getFields();
-
-            for (final LogicExecutor logicExecutor : logicExecutors) {
-                logicExecutor.execute(field);
-            }
-
-            if (fieldFields != null) {
-                executeLogicOnTemplate(fieldFields, logicExecutors);
-            }
-
-        }
+            Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
+            if (fieldFields != null) executeLogicOnTemplate(fieldFields, logicExecutors);
+        });
     }
 
 }

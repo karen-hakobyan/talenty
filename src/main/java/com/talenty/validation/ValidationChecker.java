@@ -80,7 +80,7 @@ public class ValidationChecker {
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
-    public static boolean assertSectionIsValid(final FieldDocument section) {
+    public static boolean assertSubmittedSectionIsValid(final FieldDocument section) {
         final Map<String, Object> sectionMetadata = section.getMetadata();
         if (sectionMetadata.containsKey("selected_values") && sectionMetadata.get("selected_values").equals("only_one")) {
             int temp = 0;

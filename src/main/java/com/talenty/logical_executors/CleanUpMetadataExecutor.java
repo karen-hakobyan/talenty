@@ -17,10 +17,10 @@ public class CleanUpMetadataExecutor implements LogicExecutor {
     private final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     @Override
-    public void execute(final FieldDocument field) {
+    public void execute(final FieldDocument... fields) {
         for (final GrantedAuthority authority : authentication.getAuthorities()) {
             if ("ROLE_JOB_SEEKER".equals(authority.getAuthority())) {
-                final Map<String, Object> metadata = field.getMetadata();
+                final Map<String, Object> metadata = fields[0].getMetadata();
                 for (final String removableField : REMOVABLE_FIELDS) {
                     metadata.remove(removableField);
                 }
