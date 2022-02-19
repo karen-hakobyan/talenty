@@ -39,7 +39,7 @@ export default function AddressGenerator({data, dispatch, dialogData, templateDa
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                name: data.name,
+                                item: data,
                                 data: templateData,
                                 dialogData,
                             })

@@ -62,11 +62,11 @@ function onAdd({setTemplateData, value}) {
             fields: [
                 ...prev.fields,
                 {
-                    id: null,
                     name: value,
                     fields: [],
                     metadata: {
                         type: "section",
+                        status: 'NEW',
                         deletable: true,
                     },
                 },

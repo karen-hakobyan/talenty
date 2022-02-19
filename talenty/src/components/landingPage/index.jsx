@@ -20,13 +20,21 @@ import {
     SECOND_HEADER,
 } from "./style";
 import LandingImage from "../../assets/landing/landing.png";
-import {SIGN_IN_ROUTE, SIGN_UP_ROUTE} from "../../constants/routes";
+import {DASHBOARD_ROUTE, HOME_PAGE_ROUTE, SIGN_IN_ROUTE, SIGN_UP_ROUTE} from "../../constants/routes";
 import {useEffect} from "react";
 import {useSelector} from "react-redux";
+import {selectAuthIsCompany, selectAuthUserInfo} from "../../store/auth/selector";
 
 export default function LandingPage() {
     const navigate = useNavigate();
-    const userInfo = useSelector()
+    const userInfo = useSelector(selectAuthUserInfo)
+    const isCompany = useSelector(selectAuthIsCompany)
+
+    useEffect(() => {
+        if(userInfo) {
+            navigate(navigate(isCompany ? DASHBOARD_ROUTE: HOME_PAGE_ROUTE))
+        }
+    }, [isCompany, userInfo, navigate])
     return (
         <Box>
             <Box sx={MAIN_CONTAINER_NAV}>

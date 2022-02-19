@@ -17,6 +17,7 @@ import {setDialogData} from "../../../store/dialogs/slice";
 export default function AddField({dialogData, setIsOpen}) {
     const dispatch = useDispatch();
     const [value, setValue] = useState("");
+
     return (
         <Box sx={{...DIALOG_ADD_SECTION_CONTAINER, ...FLEX_CONTAINER}}>
             <Box>
@@ -56,7 +57,6 @@ export default function AddField({dialogData, setIsOpen}) {
 }
 
 const addFieldParamsGenerator = (value) => ({
-    id: null,
     name: value,
     metadata: {
         type: specialNameType,
@@ -65,6 +65,7 @@ const addFieldParamsGenerator = (value) => ({
         required: false,
         deletable: true,
         maxLength: 20,
+        status: 'NEW',
     },
 });
 

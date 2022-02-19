@@ -1,1 +1,1 @@
-export const specialNameType = "add_field";
+export const specialNameType = "simple_input";

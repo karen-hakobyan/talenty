@@ -34,7 +34,7 @@ const typeComponents = {
     personal_skill: SpecialNameGenerator,
     language_level_container: LanguageLevelGenerator,
     url: SpecialNameGenerator,
-    add_field: DescriptionGenerator
+    simple_input: DescriptionGenerator,
 };
 
 export default typeComponents;

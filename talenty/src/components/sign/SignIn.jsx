@@ -40,8 +40,6 @@ function SignIn() {
     const navigate = useNavigate();
     const jwt = useSelector(selectAuthJwt)
     const isCompany = useSelector(selectAuthIsCompany)
-    console.log(jwt)
-    // if jwt exist navigate dashboard
     useEffect(() => {
         if(jwt) {
             navigate(isCompany ? DASHBOARD_ROUTE: HOME_PAGE_ROUTE)

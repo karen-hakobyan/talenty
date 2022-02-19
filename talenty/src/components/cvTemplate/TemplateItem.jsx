@@ -15,17 +15,19 @@ import {
     setDialogType,
 } from "../../store/dialogs/slice";
 
-function onDelete(setData, name) {
+function onDelete(setData, item) {
     setData((prevState) => {
         return {
             ...prevState,
-            fields: prevState.fields.filter((el) => el.name !== name),
+            fields: item.id ? prevState.fields.map(el => el.name === item.name ? {
+                ...el,
+                metadata: {...el.metadata, status: 'DELETED'}
+            } : el) : prevState.fields.filter(el => el.name !== item.name)
         };
     });
 }
 
 function TemplateItem({item, setData}) {
-    console.log("render");
     const dispatch = useDispatch();
     const onEdit = useCallback(
         (item) => {
@@ -47,7 +49,7 @@ function TemplateItem({item, setData}) {
                 </IconButton>
                 <IconButton
                     onClick={() => {
-                        onDelete(setData, item.name);
+                        onDelete(setData, item);
                     }}
                     disabled={!item.metadata.deletable}
                     sx={
