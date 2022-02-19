@@ -22,14 +22,11 @@ import {
 import LandingImage from "../../assets/landing/landing.png";
 import {SIGN_IN_ROUTE, SIGN_UP_ROUTE} from "../../constants/routes";
 import {useEffect} from "react";
-import {checkNavigation} from "../../helpers/actions";
+import {useSelector} from "react-redux";
 
 export default function LandingPage() {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        checkNavigation(navigate);
-    }, [navigate]);
+    const userInfo = useSelector()
     return (
         <Box>
             <Box sx={MAIN_CONTAINER_NAV}>

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
-import Registration from '../../store/auth/Registration'
+import Login from '../../store/auth/Login'
 import {styled} from "@mui/system";
 import {useNavigate} from "react-router-dom";
 import {TalentyLogo} from "../../assets/sign";
@@ -168,7 +168,7 @@ function SignIn() {
                             <Button
                                 onClick={() => {
                                     handleSubmit((data) => {
-                                        dispatch(Registration(data))
+                                        dispatch(Login(data))
                                     })()
                                 }}
                                 sx={{...TEMPLATE_BUTTON_CREATE, width: "466px", textTransform: "none"}}

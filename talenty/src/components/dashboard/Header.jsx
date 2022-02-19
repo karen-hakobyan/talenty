@@ -1,10 +1,20 @@
-import {Box, Button} from "@mui/material";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {Box, Button, IconButton, Menu, MenuItem} from "@mui/material";
 import {NotificationSVG} from "../../assets/icons/personalInfo";
 import {PINK_BUTTON} from "../../shared/styles";
 import {LOGO} from "../landingPage/style";
 import {CONTAINER_HEADER} from "./style";
+import {ArrowDown, UserExPhoto} from "../../assets/icons/jobseeker";
+import {setAuthInitialState} from "../../store/auth/slice";
 
 export default function Header() {
+    const [anchorEl, setAnchorEl] = useState(null)
+    const isMenuOpen = Boolean(anchorEl)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     return (
         <Box sx={CONTAINER_HEADER}>
             <Box sx={LOGO}>Talenty.</Box>
@@ -20,7 +30,16 @@ export default function Header() {
                 <Box sx={{pr: "16px", borderRight: "1px solid #D7D7D7"}}>
                     <NotificationSVG/>
                 </Box>
+                <Box sx={{display: 'flex', alignItems: 'center'}}>
+                    <UserExPhoto/>
+                    <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{cursor: 'pointer'}}>
+                        <ArrowDown />
+                    </IconButton>
+                </Box>
             </Box>
+            <Menu onClose={() => setAnchorEl(null)} anchorEl={anchorEl} open={isMenuOpen}>
+                <MenuItem onClick={() => dispatch(setAuthInitialState(navigate))}>Sign out</MenuItem>
+            </Menu>
         </Box>
     );
 }
