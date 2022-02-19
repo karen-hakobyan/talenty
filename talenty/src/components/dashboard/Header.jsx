@@ -7,7 +7,7 @@ import {PINK_BUTTON} from "../../shared/styles";
 import {LOGO} from "../landingPage/style";
 import {CONTAINER_HEADER} from "./style";
 import {ArrowDown, UserExPhoto} from "../../assets/icons/jobseeker";
-import {setAuthInitialState} from "../../store/auth/slice";
+import {setAuthInitialState} from "../../store/auth/authSlice";
 
 export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null)

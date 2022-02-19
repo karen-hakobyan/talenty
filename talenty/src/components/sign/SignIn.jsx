@@ -166,7 +166,7 @@ function SignIn() {
                             <Button
                                 onClick={() => {
                                     handleSubmit((data) => {
-                                        dispatch(Login(data))
+                                        dispatch(Login({data, isChecked}))
                                     })()
                                 }}
                                 sx={{...TEMPLATE_BUTTON_CREATE, width: "466px", textTransform: "none"}}

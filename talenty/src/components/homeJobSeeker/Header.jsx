@@ -6,7 +6,7 @@ import {LOGO} from "../landingPage/style";
 import {SUB_ROUTES_GENERATOR} from "./helper";
 import {CONTAINER_HEADER} from "./style";
 import {ArrowDown, UserExPhoto} from "../../assets/icons/jobseeker";
-import {setAuthInitialState} from "../../store/auth/slice";
+import {setAuthInitialState} from "../../store/auth/authSlice";
 import {useDispatch} from "react-redux";
 
 export default function Header() {
