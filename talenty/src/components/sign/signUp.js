@@ -1,6 +1,6 @@
-import { styled, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import { HEADER_TEXT, MAIN_PURPLE, TEXT } from "../../constants/colors";
+import {styled, TextField} from "@mui/material";
+import {Box} from "@mui/system";
+import {HEADER_TEXT, MAIN_PURPLE, TEXT} from "../../constants/colors";
 
 export const StyledContainer = styled(Box)({
     p: 0,
@@ -69,4 +69,4 @@ export const CssTextField = styled(TextField)({
     width: "100%",
 });
 
-export const someObj = { name: 'tsaturyan', surname: 'andranik' }
+export const someObj = {name: 'tsaturyan', surname: 'andranik'}

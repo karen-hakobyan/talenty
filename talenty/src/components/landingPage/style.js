@@ -1,4 +1,4 @@
-import { TEMPLATE_ITEM_BUTTON } from "../../shared/styles";
+import {TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
 
 export const NAVIGATION = {
     paddingLeft: "as",

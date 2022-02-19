@@ -1,5 +1,5 @@
-import { Checkbox, styled } from "@mui/material";
-import { MAIN_PURPLE } from "../../constants/colors";
+import {Checkbox, styled} from "@mui/material";
+import {MAIN_PURPLE} from "../../constants/colors";
 
 export const ListStyle = {
     width: "100%",
@@ -18,7 +18,7 @@ export const ListItemStyle = {
     pb: 0,
     mt: 3,
     mb: 2.5,
-    img: { "&:last-child": { ml: 2 }, cursor: "pointer", mb: 1.5 },
+    img: {"&:last-child": {ml: 2}, cursor: "pointer", mb: 1.5},
 };
 
 export const StyledNames = {

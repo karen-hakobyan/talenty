@@ -1,1 +1,1 @@
-let obj = { name: "andranik" };
+let obj = {name: "andranik"};
