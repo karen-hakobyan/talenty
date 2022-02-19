@@ -57,6 +57,7 @@ export default function Body({
                     TempComponent = memo(TempComponent);
 
                     return (
+                        field.metadata.status !== 'DELETED' &&
                         <TempComponent
                             data={field}
                             key={field.name}

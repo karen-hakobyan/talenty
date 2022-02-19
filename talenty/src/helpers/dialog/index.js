@@ -4,12 +4,13 @@ const deleteMapper = (name) => (el) => {
     if (el.name === name) {
         return {
             ...el,
-            metadata: {...el.metadata, status: "deleted"},
-            // status could be changed
+            metadata: {...el.metadata, status: "DELETED"},
         };
     }
     return el;
 };
+
+const deleteFilterer = (name) => (el) => el.name !== name
 
 const editMapper = (initialName) => (field) => {
     const {name, metadata} = field;
@@ -22,7 +23,7 @@ const editMapper = (initialName) => (field) => {
     return field;
 };
 
-export function onDelete({dispatch, name, dialogData, isSectionContainer}) {
+export function onDelete({dispatch, item, dialogData, isSectionContainer}) {
     // console.log(dialogData);
     const updatedDialogData = isSectionContainer
         ? {
@@ -30,19 +31,18 @@ export function onDelete({dispatch, name, dialogData, isSectionContainer}) {
             fields: [
                 {
                     ...dialogData.fields[0],
-                    fields: dialogData.fields[0].fields.map(deleteMapper(name)),
+                    fields: item.id ? dialogData.fields[0].fields.map(deleteMapper(item.name)) : dialogData.fields[0].fields.filter(deleteFilterer(item.name)),
                 },
             ],
         }
         : {
             ...dialogData,
-            fields: dialogData.fields.map(deleteMapper(name)),
+            fields: item.id ? dialogData.fields.map(deleteMapper(item.name)) : dialogData.fields.filter(deleteFilterer(item.name)),
         };
     dispatch(setDialogData(updatedDialogData));
 }
 
 export function isDisabled({templateData, value}) {
-    // check when you should compare with fields or with first element of fields
     const result =
         templateData.fields[0]?.metadata.type === "section_container"
             ? templateData.fields[0]

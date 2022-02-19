@@ -30,11 +30,10 @@ import {
 } from "../../shared/styles";
 import {compareObjects} from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
-import {checkUserExistence} from "../../helpers/actions";
-
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {useRef} from "react";
-
+import {selectAuthUserInfo} from "../../store/auth/selector";
+import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 const CustomInput = styled("input")(() => ({
     width: "100%",
@@ -58,22 +57,26 @@ const placeholderInput = "System Template"
 function CvTemplateMain() {
     const [title, setTitle] = useState("");
     const [data, setData] = useState(null);
+    const userInfo = useSelector(selectAuthUserInfo)
     const [isTemplateNameText, setIsTemplateNameText] = useState(true);
     const [unchangeData, setUnchangedData] = useState(null);
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const customInput = useRef(null)
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        if(userInfo === null) {
+            navigate(LANDING_PAGE_ROUTE)
+        }
+    },[navigate, userInfo])
+
     const updatedTemplateData = useSelector(
         selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
     );
     useEffect(() => {
         setTitle(data?.name || "");
     }, [data]);
-    useEffect(() => {
-        checkUserExistence(navigate);
-    }, [navigate]);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (updatedTemplateData) {
@@ -106,7 +109,6 @@ function CvTemplateMain() {
     if (!data) {
         return null;
     }
-
 
     return (
         <Box sx={{width: "100%", pr: "24px", pl: "24px", pb: "24px"}}>
@@ -180,7 +182,7 @@ function CvTemplateMain() {
 
             </Box>
             {data.fields.map((item) => (
-                <TemplateItem key={item.name} item={item} setData={setData}/>
+                item.metadata.status !== "DELETED" && <TemplateItem key={item.name} item={item} setData={setData} />
             ))}
             <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px"}}>
                 <IconButton

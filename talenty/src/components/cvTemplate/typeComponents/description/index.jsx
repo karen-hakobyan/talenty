@@ -46,7 +46,7 @@ export function DescriptionGenerator({data, isSectionContainer, dispatch, dialog
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                name: data.name,
+                                item: data,
                                 data: templateData,
                                 dialogData,
                                 isSectionContainer,

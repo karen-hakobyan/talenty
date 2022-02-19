@@ -19,7 +19,7 @@ export default function CountryGenerator({data, dispatch, dialogData, templateDa
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                name: data.name,
+                                name: data,
                                 data: templateData,
                                 dialogData,
                             })

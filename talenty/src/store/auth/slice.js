@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import Registration from "./Registration";
+import Login from "./Login";
 import {HR_ROLE} from "../../constants/role";
 import {SIGN_IN_ROUTE} from "../../constants/routes";
 
@@ -31,18 +31,20 @@ const authSlice = createSlice({
 
     },
     extraReducers: {
-        [Registration.fulfilled]: (state, {payload: { jwtToken: jwt }}) => {
+        [Login.fulfilled]: (state, {payload: { jwtToken: jwt }}) => {
             state.jwt = jwt
             const userInfo = JSON.parse(atob(jwt.split(".")[1]))
             state.userInfo = userInfo
             state.isCompany = userInfo.role === HR_ROLE
             state.loading = false
         },
-        [Registration.pending]: (state) => {
+        [Login.pending]: (state) => {
+            console.log('pending')
             state.loading = true
         },
-        [Registration.rejected]: (state) => {
+        [Login.rejected]: (state, {payload}) => {
             state.loading = false
+            console.log(payload)
         }
     }
 })

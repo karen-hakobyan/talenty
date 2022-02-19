@@ -1,13 +1,23 @@
+import {useEffect} from "react";
 import {Box} from "@mui/material";
-import { useSelector} from "react-redux";
-import {Route, Routes} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import CvTemplateMain from "../cvTemplate/CvTemplateMain";
 import Header from "./Header";
 import Navigation from "./Navigation";
-import {selectAuthJwt} from "../../store/auth/selector";
+import {selectAuthJwt, selectAuthUserInfo} from "../../store/auth/selector";
+import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 export default function Dashboard() {
     const jwt = useSelector(selectAuthJwt)
+    const userInfo = useSelector(selectAuthUserInfo)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (userInfo === null) {
+            navigate(LANDING_PAGE_ROUTE)
+        }
+    }, [userInfo, navigate])
     if (!jwt) {
         return null;
     }
