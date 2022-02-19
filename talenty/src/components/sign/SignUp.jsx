@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect} from "react";
+import {useState, useMemo} from "react";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {
@@ -30,7 +30,6 @@ import {
     DIALOG_TEXT,
     FLEX_CONTAINER,
 } from "./style";
-import {checkNavigation} from "../../helpers/actions";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -47,9 +46,6 @@ export default function SignUp() {
         mode: "onChange",
         shouldFocusError: false,
     });
-    useEffect(() => {
-        checkNavigation(navigate);
-    }, [navigate]);
 
     const fields = useMemo(
         () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),

@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import Login from "./Login";
 import {HR_ROLE} from "../../constants/role";
-import {SIGN_IN_ROUTE} from "../../constants/routes";
+import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 const initialState = {
     jwt: null,
@@ -26,9 +26,10 @@ const authSlice = createSlice({
             for (let key in initialState) {
                 state[key] = initialState[key]
             }
-            navigate(SIGN_IN_ROUTE)
+            localStorage.clear()
+            sessionStorage.clear()
+            navigate && navigate(LANDING_PAGE_ROUTE)
         },
-
     },
     extraReducers: {
         [Login.fulfilled]: (state, {payload: { jwtToken: jwt }}) => {
