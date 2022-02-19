@@ -1,5 +1,7 @@
 package com.talenty.config;
 
+import com.talenty.domain.dto.user.AuthenticatedUser;
+import com.talenty.domain.mongo.UserDocument;
 import com.talenty.jwt.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -37,11 +39,23 @@ public class JwtAuthorizationFilter implements Filter {
         final Jws<Claims> tokenClaims = jwtService.parse(token);
         final Claims body = tokenClaims.getBody();
 
-        final String userId = body.getId();
+        final String id = body.get("id").toString();
+        final String firstName = body.get("firstName").toString();
+        final String lastName = body.get("lastName").toString();
+        final String email = body.get("email").toString();
         final String role = body.get("role").toString();
+        final Boolean isVerifiedAccount = (Boolean) body.get("verifiedAccount");
+
+        final AuthenticatedUser authenticatedUser = new AuthenticatedUser();
+        authenticatedUser.setId(id);
+        authenticatedUser.setFirstName(firstName);
+        authenticatedUser.setLastName(lastName);
+        authenticatedUser.setEmail(email);
+        authenticatedUser.setRole(role);
+        authenticatedUser.setVerifiedAccount(isVerifiedAccount);
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
-                userId, null, Collections.singleton(new SimpleGrantedAuthority(role))
+                id, authenticatedUser, Collections.singleton(new SimpleGrantedAuthority(role))
         ));
 
         filterChain.doFilter(request, response);

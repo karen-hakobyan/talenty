@@ -4,6 +4,7 @@ import com.talenty.domain.dto.Template;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
+import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.TemplateRepository;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
@@ -43,6 +44,7 @@ public class TemplateService {
 
         executeLogicOnTemplate(
                 templateDocument.getFields(),
+                applicationContext.getBean(FieldsAutoCompleteExecutor.class),
                 applicationContext.getBean(AdminValuesMergeExecutor.class),
                 applicationContext.getBean(CleanUpMetadataExecutor.class)
         );

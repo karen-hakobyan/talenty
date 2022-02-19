@@ -20,8 +20,11 @@ public class JWTService {
     public String generate(final UserDocument user) {
         return Jwts.builder()
                 .claim("id", user.getId())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
                 .claim("email", user.getEmail())
                 .claim("role", user.getRole())
+                .claim("verifiedAccount", user.isVerifiedAccount())
                 .signWith(KEY).compact();
     }
 
