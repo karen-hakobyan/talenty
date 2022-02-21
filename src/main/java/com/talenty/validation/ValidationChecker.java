@@ -8,6 +8,7 @@ import com.talenty.exceptions.*;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.lookups.v1.PhoneNumber;
+import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -80,7 +81,7 @@ public class ValidationChecker {
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
-    public static boolean assertSectionIsValid(final FieldDocument section) {
+    public static boolean assertSubmittedSectionIsValid(final FieldDocument section) {
         final Map<String, Object> sectionMetadata = section.getMetadata();
         if (sectionMetadata.containsKey("selected_values") && sectionMetadata.get("selected_values").equals("only_one")) {
             int temp = 0;
@@ -266,7 +267,7 @@ public class ValidationChecker {
         return true;
     }
 
-    public static void asserTemplateSectionsNamesAreUnique(final TemplateDocument template) {
+    public static void assertTemplateSectionsNamesAreUnique(final TemplateDocument template) {
         final Set<String> nameSet = new HashSet<>();
 
         final List<FieldDocument> fields = template.getFields();
@@ -278,26 +279,52 @@ public class ValidationChecker {
             throw new DuplicateSectionNameException();
     }
 
-    public static void assertTemplateSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
-        final String status = section.getMetadata().get("template.section.type.status").toString();
+    public static void assertTemplateIsValid(final List<FieldDocument> newFields, final TemplateDocument parentTemplate) {
+        for (int i = 0; i < newFields.size(); i++) {
+            FieldDocument tempNewField = newFields.get(i);
+            final Map<String, Object> newFieldMetadata = tempNewField.getMetadata();
+            final boolean isSection = tempNewField.getFields() != null;
 
-        if (status == null) {
-            //TODO sovorakan fielderi check
-            return;
+            final String status = (String) newFieldMetadata.get("status");
+
+            if (status != null) {
+                switch (status) {
+                    case "NEW": {
+                        assertNewFieldIsValid(tempNewField);
+                        break;
+                    }
+
+                    case "DELETED": {
+                        assertDeletedFieldIsValid(tempNewField, parentTemplate.getFields());
+                        newFields.remove(i);
+                        break;
+                    }
+                }
+            }
+            if (isSection) {
+                ValidationChecker.assertTemplateIsValid(tempNewField.getFields(), parentTemplate);
+            }
         }
-
-        switch (status) {
-            case "new":
-                assertNewSectionIsValid(section);
-                break;
-            case "deleted":
-                assertDeletedSectionIsValid(section, parentTemplate);
-                break;
-        }
-
     }
 
-    private static void assertEditedSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
+    private static void assertDeletedFieldIsValid(FieldDocument newField, final List<FieldDocument> parentTemplate) {
+        for (final FieldDocument tempParentField : parentTemplate) {
+            if (!tempParentField.getMetadata().containsKey("type"))
+                throw new InvalidFieldException();
+
+            if (Objects.equals(tempParentField.getId(), newField.getId())) {
+                if (!tempParentField.getMetadata().containsKey("deletable"))
+                    throw new InvalidFieldException();
+
+                if (!((Boolean) tempParentField.getMetadata().get("deletable")))
+                    throw new InvalidFieldException();
+            }
+
+            if (Objects.equals(tempParentField.getMetadata().get("type"), "section")) {
+                assertDeletedFieldIsValid(newField, tempParentField.getFields());
+            }
+
+        }
 
     }
 
@@ -314,8 +341,25 @@ public class ValidationChecker {
         throw new InvalidSectionException();
     }
 
-    private static void assertNewSectionIsValid(final FieldDocument section) {
-        // TODO new section check (fields types check, only type input)
+    // Considering both, field and section validation
+    private static void assertNewFieldIsValid(final FieldDocument newField) {
+        if(newField.getMetadata().get("type").equals("section") && newField.getFields() == null) {
+            System.out.println("Section can't be empty (at least one field is required)");
+            throw new InvalidSectionException();
+        }
+
+        if (newField.getFields() != null) {
+            newField.setId(String.valueOf(new ObjectId()));
+            return;
+        }
+
+        if (!newField.getMetadata().containsKey("type"))
+            throw new InvalidFieldException();
+
+        if (!Objects.equals(newField.getMetadata().get("type"), "simple_input"))
+            throw new InvalidFieldException();
+
+        newField.setId(String.valueOf(new ObjectId()));
     }
 
 }

@@ -1,4 +1,4 @@
-export const selectAuthLoading = state => state.auth.isLoading
+export const selectAuthLoading = state => state.auth.loading
 
 export const selectAuthJwt = (state) => state.auth.jwt
 

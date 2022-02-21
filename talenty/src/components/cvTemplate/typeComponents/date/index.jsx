@@ -45,7 +45,7 @@ export default function DateGenerator({
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                name: data.name,
+                                item: data,
                                 data: templateData,
                                 dialogData,
                             })

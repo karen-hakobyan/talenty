@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/system";
+import axios from 'axios'
 import {Dialog, IconButton, Typography, Box,} from "@mui/material";
 import {PINK} from "../../constants/colors";
 import {
@@ -30,11 +31,10 @@ import {
 } from "../../shared/styles";
 import {compareObjects} from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
-import {checkUserExistence} from "../../helpers/actions";
-
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {useRef} from "react";
-
+import {selectAuthJwt, selectAuthUserInfo} from "../../store/auth/selector";
+import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 const CustomInput = styled("input")(() => ({
     width: "100%",
@@ -58,22 +58,26 @@ const placeholderInput = "System Template"
 function CvTemplateMain() {
     const [title, setTitle] = useState("");
     const [data, setData] = useState(null);
+    const userInfo = useSelector(selectAuthUserInfo)
+    const jwt = useSelector(selectAuthJwt)
     const [isTemplateNameText, setIsTemplateNameText] = useState(true);
     const [unchangeData, setUnchangedData] = useState(null);
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
-    const customInput = useRef(null)
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const customInput = useRef(null)
+    useEffect(() => {
+        if(userInfo === null) {
+            navigate(LANDING_PAGE_ROUTE)
+        }
+    },[navigate, userInfo])
+
     const updatedTemplateData = useSelector(
         selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
     );
     useEffect(() => {
         setTitle(data?.name || "");
     }, [data]);
-    useEffect(() => {
-        checkUserExistence(navigate);
-    }, [navigate]);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (updatedTemplateData) {
@@ -106,7 +110,6 @@ function CvTemplateMain() {
     if (!data) {
         return null;
     }
-
 
     return (
         <Box sx={{width: "100%", pr: "24px", pl: "24px", pb: "24px"}}>
@@ -180,7 +183,7 @@ function CvTemplateMain() {
 
             </Box>
             {data.fields.map((item) => (
-                <TemplateItem key={item.name} item={item} setData={setData}/>
+                item.metadata.status !== "DELETED" && <TemplateItem key={item.name} item={item} setData={setData} />
             ))}
             <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px"}}>
                 <IconButton
@@ -194,7 +197,14 @@ function CvTemplateMain() {
                 </IconButton>
                 <IconButton
                     sx={TEMPLATE_BUTTON_CREATE}
-                    disabled={compareObjects(data, unchangeData)}
+                    // disabled={compareObjects(data, unchangeData)}
+                    // onClick={() => axios.post('http://localhost:7800/templates/create_new_template', data, {
+                    //     headers: {
+                    //         'Authorization': `Bearer ${jwt}`,
+                    //     }
+                    // }).then(response => {
+                    //     console.log(response)
+                    // })}
                 >
                     <CreateCVTemplateSVG/>
                     Create CV

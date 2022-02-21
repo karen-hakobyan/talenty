@@ -4,6 +4,7 @@ import com.talenty.domain.dto.Template;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
+import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.TemplateRepository;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
@@ -13,6 +14,7 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +44,7 @@ public class TemplateService {
 
         executeLogicOnTemplate(
                 templateDocument.getFields(),
+                applicationContext.getBean(FieldsAutoCompleteExecutor.class),
                 applicationContext.getBean(AdminValuesMergeExecutor.class),
                 applicationContext.getBean(CleanUpMetadataExecutor.class)
         );
@@ -49,34 +52,24 @@ public class TemplateService {
         return templateDocument;
     }
 
-
     public Template createNewTemplate(final Template template) {
         final TemplateDocument parentTemplate = getTemplateById(template.getId());
         final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
-        assertNewTemplateIsValid(newTemplate, parentTemplate);
-        return null;
-    }
 
-    private void assertNewTemplateIsValid(final TemplateDocument newTemplate, final TemplateDocument parentTemplate) {
-        ValidationChecker.asserTemplateSectionsNamesAreUnique(newTemplate);
-        for (final FieldDocument section : newTemplate.getFields()) {
-            ValidationChecker.assertTemplateSectionIsValid(section, parentTemplate);
-        }
+        ValidationChecker.assertTemplateSectionsNamesAreUnique(newTemplate);
+        ValidationChecker.assertTemplateIsValid(newTemplate.getFields(), parentTemplate);
+
+        newTemplate.setId(null);
+        final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
+        return TemplateMapper.instance.documentToDto(savedNewTemplate);
     }
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
-        for (final FieldDocument field : fields) {
+        fields.forEach(field -> {
             final List<FieldDocument> fieldFields = field.getFields();
-
-            for (final LogicExecutor logicExecutor : logicExecutors) {
-                logicExecutor.execute(field);
-            }
-
-            if (fieldFields != null) {
-                executeLogicOnTemplate(fieldFields, logicExecutors);
-            }
-
-        }
+            Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
+            if (fieldFields != null) executeLogicOnTemplate(fieldFields, logicExecutors);
+        });
     }
 
 }

@@ -12,26 +12,27 @@ import SignIn from "../components/sign/SignIn.jsx";
 import LandingPage from "../components/landingPage";
 import {HR_ROUTES, JOBSEEKER_ROUTES} from "./helper.js";
 import NotFoundRoute from "../components/notMatchRoute/index.jsx";
-import {selectAuthIsCompany} from "../store/auth/selector";
+import {selectAuthIsCompany, selectAuthUserInfo} from "../store/auth/selector";
 
 const RoutesMain = () => {
     let isCompany = useSelector(selectAuthIsCompany)
+    let userInfo = useSelector(selectAuthUserInfo)
 
     return (
         <Routes>
-            {isCompany === true
+            {isCompany === true && userInfo
                 ? HR_ROUTES.map((el) => <Route {...el} />)
                 : null}
-            {isCompany === false
+            {isCompany === false && userInfo
                 ? JOBSEEKER_ROUTES.map((el) => <Route {...el} />)
                 : null}
-            <Route
+            {!userInfo && <Route
                 path={`${SIGN_UP_ROUTE}`}
                 element={<SignUp {...{isCompany}} />}
-            />
-            <Route path={SIGN_IN_ROUTE} element={<SignIn />}/>
-            <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword/>}/>
-            <Route path={LANDING_PAGE_ROUTE} element={<LandingPage/>}/>
+            />}
+            {!userInfo && <Route path={SIGN_IN_ROUTE} element={<SignIn />}/>}
+            {!userInfo && <Route path={FORGOT_PASSWORD_ROUTE} element={<ForgotPassword/>}/>}
+            {!userInfo && <Route path={LANDING_PAGE_ROUTE} element={<LandingPage/>}/>}
             <Route path="*" element={<NotFoundRoute/>}/>
         </Routes>
     );

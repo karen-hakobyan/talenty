@@ -52,7 +52,7 @@ export default function Dialogs() {
             maxWidth={false}
             sx={{borderRadius: "16px"}}
         >
-            {isAuthLoading ? 'loading' : <TempComponent {...tempComponentInfo.props} />}
+            {isAuthLoading ? 'loading...' : <TempComponent {...tempComponentInfo.props} />}
         </Dialog>
     );
 }

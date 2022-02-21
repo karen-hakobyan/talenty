@@ -3,7 +3,7 @@ import signUpReducer from "../features/signUp/signUpSlicer";
 import dialogReducer from "../store/dialogs/slice";
 import globalDataReducer from "../store/globalData/slice";
 import isLoading from "./loader/slice"
-import auth from './auth/slice'
+import auth from './auth/authSlice'
 
 const rootReducer = combineReducers({
     signUp: signUpReducer,

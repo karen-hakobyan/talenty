@@ -67,7 +67,7 @@ export default function SectionGenerator({
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                name: data.name,
+                                item: data,
                                 data: templateData,
                                 dialogData,
                                 isSectionContainer,
