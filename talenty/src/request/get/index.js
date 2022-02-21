@@ -1,18 +1,16 @@
-import {GET_TEMPLATES, instance} from "../../constants/requests";
-import {includes} from "core-js/internals/array-includes";
-import {getJwt} from "../../components/dashboard/helper";
+import { GET_TEMPLATES, instance } from "../../constants/requests";
+import { getJwt } from "../../components/dashboard/helper";
 
 export const getUrls = {
     getTemplates: GET_TEMPLATES,
 };
 
 export const globalDataSetter = ({
-                                     stateSetter,
-                                     urlKey,
-                                     errorAction = () => {
-                                     },
-                                 }) => {
-    instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+    stateSetter,
+    urlKey,
+    errorAction = () => {},
+}) => {
+    instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
     instance
         .get(getUrls[urlKey])
         .then((res) => {

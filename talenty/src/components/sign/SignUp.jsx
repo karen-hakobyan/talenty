@@ -1,4 +1,5 @@
 import {useState, useMemo} from "react";
+import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {
@@ -11,11 +12,7 @@ import {
 
 import {Box} from "@mui/system";
 import BackgroundImage from "./BackgroundImage";
-import {
-    instance,
-    POST_SIGN_UP_HR,
-    POST_SIGN_UP_JOB_SEEKER,
-} from "../../constants/requests";
+
 import {style, MainStyledSpan} from "./signUp";
 import {changeButtonInformation, FIELDS, FIELDS_COMPANY} from "./helper";
 import SignUpField from "./SignUpField";
@@ -30,11 +27,14 @@ import {
     DIALOG_TEXT,
     FLEX_CONTAINER,
 } from "./style";
+import Registration from "../../store/auth/Registration";
+import { selectAuthModalInfo } from "../../store/auth/selector";
+import { setAuthModalInfo } from "../../store/auth/authSlice";
 
 export default function SignUp() {
     const navigate = useNavigate();
     const [terms, setTerms] = useState(false);
-    const [dialogInfo, setDialogInfo] = useState(false);
+    const dialogInfo = useSelector(selectAuthModalInfo)
     const [isCompany, setIsCompany] = useState(true);
     const {
         register,
@@ -46,11 +46,13 @@ export default function SignUp() {
         mode: "onChange",
         shouldFocusError: false,
     });
+    const dispatch = useDispatch()
 
     const fields = useMemo(
         () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),
         [isCompany, watch]
     );
+
 
     return (
         <Box>
@@ -60,15 +62,15 @@ export default function SignUp() {
                 onClose={() => {
                     if (dialogInfo.ok) {
                         navigate(SIGN_IN_ROUTE);
-                        setDialogInfo(false);
+                        dispatch(setAuthModalInfo(null))
                     } else {
-                        setDialogInfo(false);
+                        dispatch(setAuthModalInfo(null))
                     }
                 }}
             >
                 <Box sx={FLEX_CONTAINER}>
                     <Box sx={BOTTOM_ITEMS}>
-                        {dialogInfo?.text?.map((text) => {
+                        {dialogInfo?.message?.map((text) => {
                             return (
                                 <Box key={text} sx={DIALOG_TEXT}>
                                     {text}
@@ -82,9 +84,9 @@ export default function SignUp() {
                         onClick={() => {
                             if (dialogInfo.ok) {
                                 navigate(SIGN_IN_ROUTE);
-                                setDialogInfo(false);
+                                dispatch(setAuthModalInfo(null))
                             } else {
-                                setDialogInfo(false);
+                                dispatch(setAuthModalInfo(null))
                             }
                         }}
                     >
@@ -94,27 +96,8 @@ export default function SignUp() {
             </Dialog>
             <BackgroundImage img={isCompany}>
                 <FormControl
-                    onSubmit={handleSubmit((data) => {
-                        let path = isCompany ? POST_SIGN_UP_HR : POST_SIGN_UP_JOB_SEEKER;
-                        console.log(data);
-                        instance
-                            .post(path, data)
-                            .then(() => {
-                                setDialogInfo({
-                                    text: [
-                                        "Congratulations!!!",
-                                        "To confirm your registration, please check your email and confirm it within 2 days.",
-                                    ],
-                                    ok: true,
-                                });
-                            })
-                            .catch((err) => {
-                                console.log({...err});
-                                setDialogInfo({
-                                    text: ["Registration failed.", "Please trye later"],
-                                    ok: false,
-                                });
-                            });
+                    onSubmit={handleSubmit(data => {
+                        dispatch(Registration({data, isCompany}))
                     })}
                     sx={style}
                     required
