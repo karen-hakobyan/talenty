@@ -1,3 +1,5 @@
+import { COMET, TEXT } from "../../constants/colors";
+
 export const CONTAINER_HEADER = {
     height: "74px",
     display: "flex",
@@ -41,3 +43,19 @@ export const SWITCH = {
         },
     },
 };
+
+export const USER_NAME = {
+    fontFamily: "Proxima Nova",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "22px",
+    lineFeight: "22px",
+    color: TEXT
+}
+
+export const USER_EMAIL = {
+    fontFamily: "Proxima Nova",
+    fontSize: "16px",
+    lineHeight: "19px",
+    color: COMET
+}

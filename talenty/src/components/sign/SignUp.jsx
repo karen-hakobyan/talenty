@@ -34,8 +34,9 @@ import { setAuthModalInfo } from "../../store/auth/authSlice";
 export default function SignUp() {
     const navigate = useNavigate();
     const [terms, setTerms] = useState(false);
-    const dialogInfo = useSelector(selectAuthModalInfo)
     const [isCompany, setIsCompany] = useState(true);
+    const dialogInfo = useSelector(selectAuthModalInfo)  
+    const dispatch = useDispatch()
     const {
         register,
         handleSubmit,
@@ -46,7 +47,7 @@ export default function SignUp() {
         mode: "onChange",
         shouldFocusError: false,
     });
-    const dispatch = useDispatch()
+    
 
     const fields = useMemo(
         () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),

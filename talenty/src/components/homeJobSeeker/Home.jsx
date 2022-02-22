@@ -1,13 +1,18 @@
-import {Box, Button, Switch} from "@mui/material";
+
+import { useSelector } from "react-redux";
+import { selectAuthUserInfo } from "../../store/auth/selector";
 import {useNavigate} from "react-router-dom";
-import {DefaultUserIcon} from "../../assets/icons/jobseeker";
+import {Box, Button, Switch} from "@mui/material";
+import {DefaultUserIcon, UserExPhoto} from "../../assets/icons/jobseeker";
 import {CREATE_CV} from "../../constants/routes";
 import {HOME_PRIMARY_BUTTON} from "../../shared/styles";
 import MainBox from "./MainBox";
-import {SWITCH, SWITCH_TITLE} from "./style";
+import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
 
 export default function Home() {
     const navigate = useNavigate();
+    const {email ,firstName,lastName} = useSelector(selectAuthUserInfo)
+    
     return (
         <Box sx={{pt: "52px", pl: "60px", pr: "60px"}}>
             <Box sx={{display: "flex", gap: "20px"}}>
@@ -39,13 +44,13 @@ export default function Home() {
                                     alignItems: "center",
                                 }}
                             >
-                                <DefaultUserIcon/>
+                                <UserExPhoto/>
                             </Box>
                             <Box
                                 sx={{display: "flex", flexDirection: "column", gap: "12px"}}
                             >
-                                <Box>John Smith</Box>
-                                <Box> John Smith -i mail</Box>
+                                <Box sx={{...USER_NAME}}>{firstName} {lastName}</Box>
+                                <Box sx={{...USER_EMAIL}}>{email}</Box>
                             </Box>
                         </Box>
                         <Box sx={{mt: "50px"}}>input</Box>
