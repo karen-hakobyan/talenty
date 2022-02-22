@@ -18,7 +18,8 @@ import {
 import {MAIN_PURPLE} from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
-import {selectAuthIsCompany, selectAuthJwt} from "../../store/auth/selector";
+import {selectAuthIsCompany, selectAuthJwt, selectAuthModalInfo} from "../../store/auth/selector";
+import { setAuthModalInfo } from "../../store/auth/authSlice";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -34,12 +35,13 @@ function SignIn() {
         shouldFocusError: false,
     });
     const {errors} = formState;
-    const dispatch = useDispatch()
-    const [dialogInfo, setDialogInfo] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
-    const navigate = useNavigate();
+    const dialogInfo = useSelector(selectAuthModalInfo)  
     const jwt = useSelector(selectAuthJwt)
     const isCompany = useSelector(selectAuthIsCompany)
+    const dispatch = useDispatch()
+    const [isChecked, setIsChecked] = useState(false);
+    const navigate = useNavigate();
+    
     useEffect(() => {
         if(jwt) {
             navigate(isCompany ? DASHBOARD_ROUTE: HOME_PAGE_ROUTE)
@@ -50,15 +52,15 @@ function SignIn() {
         <>
             <Dialog
                 maxWidth={false}
-                open={!!dialogInfo?.open}
-                onClose={() => setDialogInfo(false)}
+                open={!!dialogInfo}
+                onClose={() => dispatch(setAuthModalInfo(null))}
             >
                 <Box sx={FLEX_CONTAINER}>
-                    <Box sx={{...DIALOG_TEXT}}>{dialogInfo?.text}</Box>
+                    <Box sx={{...DIALOG_TEXT}}>{dialogInfo}</Box>
                     <Button sx={{
                         ...TEMPLATE_BUTTON_CREATE, width: "176px"
                     }}
-                            onClick={() => setDialogInfo(false)}
+                            onClick={() => dispatch(setAuthModalInfo(null))}
                     >
                         Ok
                     </Button>

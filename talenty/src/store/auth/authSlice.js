@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Login from "./Login";
 import { HR_ROLE } from "../../constants/role";
-import { LANDING_PAGE_ROUTE } from "../../constants/routes";
 import Registration from "./Registration";
 import { errorMessage } from "../../helpers/errorMessage";
 
@@ -11,6 +10,7 @@ const initialState = {
     isCompany: null,
     loading: false,
     modalInfo: null,
+    signOut: false,
 }
 const authSlice = createSlice({
     name: 'auth',
@@ -25,17 +25,19 @@ const authSlice = createSlice({
         setJwt: (state, { payload }) => {
             state.jwt = payload
         },
-        setAuthInitialState: (state, { payload: navigate }) => {
+        setAuthInitialState: (state) => {
             for (let key in initialState) {
                 state[key] = initialState[key]
             }
             localStorage.clear()
             sessionStorage.clear()
-            navigate && navigate(LANDING_PAGE_ROUTE)
         },
         setAuthModalInfo: (state, { payload }) => {
             state.modalInfo = payload
         },
+        setAuthSignOut: (state, { payload }) => {
+            state.signOut = payload
+        }
     },
     extraReducers: {
         [Login.fulfilled]: (state, { payload: { jwtToken: jwt } }) => {
@@ -49,10 +51,11 @@ const authSlice = createSlice({
             console.log('pending')
             state.loading = true
         },
-        [Login.rejected]: (state, { payload }) => {
+        [Login.rejected]: (state) => {
+            state.modalInfo = 'Your email or password is incorrect, please try again.'
             state.loading = false
         },
-        [Registration.fulfilled]: (state, { payload }) => {
+        [Registration.fulfilled]: (state) => {
             state.loading = false
             state.modalInfo = {
                 ok: true,
@@ -77,4 +80,4 @@ const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-export const { setAuthInitialState, setAuthModalInfo } = authSlice.actions
+export const { setAuthInitialState, setAuthModalInfo, setAuthSignOut } = authSlice.actions

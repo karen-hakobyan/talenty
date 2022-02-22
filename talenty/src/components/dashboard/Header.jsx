@@ -1,19 +1,17 @@
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {Box, Button, IconButton, Menu, MenuItem} from "@mui/material";
 import {NotificationSVG} from "../../assets/icons/personalInfo";
 import {PINK_BUTTON} from "../../shared/styles";
 import {LOGO} from "../landingPage/style";
 import {CONTAINER_HEADER} from "./style";
-import {ArrowDown, UserExPhoto} from "../../assets/icons/jobseeker";
+import {ArrowDown, DefaultUserIcon, UserExPhoto} from "../../assets/icons/jobseeker";
 import {setAuthInitialState} from "../../store/auth/authSlice";
 
 export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null)
     const isMenuOpen = Boolean(anchorEl)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     return (
         <Box sx={CONTAINER_HEADER}>
@@ -31,14 +29,14 @@ export default function Header() {
                     <NotificationSVG/>
                 </Box>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
-                    <UserExPhoto/>
+                    <DefaultUserIcon/>
                     <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{cursor: 'pointer'}}>
                         <ArrowDown />
                     </IconButton>
                 </Box>
             </Box>
             <Menu onClose={() => setAnchorEl(null)} anchorEl={anchorEl} open={isMenuOpen}>
-                <MenuItem onClick={() => dispatch(setAuthInitialState(navigate))}>Sign out</MenuItem>
+                <MenuItem onClick={() => dispatch(setAuthInitialState())}>Sign out</MenuItem>
             </Menu>
         </Box>
     );
