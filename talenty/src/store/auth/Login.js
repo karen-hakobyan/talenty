@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {instance, LOGIN} from "../../constants/requests";
 
 const Login = createAsyncThunk(
-    'auth/Registration',
+    'auth/Login',
     async (payload, thunkAPI) => {
         try {
             let response = await instance.post(LOGIN, payload?.data)
