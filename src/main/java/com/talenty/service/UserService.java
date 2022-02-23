@@ -48,7 +48,7 @@ public class UserService {
         }
 
         final UserDocument user = userOptional.get();
-        if(!user.isVerifiedAccount()) {
+        if (!user.isVerifiedAccount()) {
             emailSender.sendConfirmation(user.getEmail(), tokenService.generate(user));
             throw new AccountIsNotVerifiedException();
         }
@@ -57,18 +57,15 @@ public class UserService {
     }
 
     public void confirm(final String token) {
-        final Optional<TokenDocument> tokenOptional = tokenService.findByValue(token);
-        if (tokenOptional.isEmpty()) {
-            throw new TokenNotFoundException("Token: " + token + " does not exist!");
-        }
-
-        final Optional<UserDocument> userOptional = userRepository.findById(tokenOptional.get().getUserId());
+        final TokenDocument tokenOptional = tokenService.findByValue(token);
+        final Optional<UserDocument> userOptional = userRepository.findById(tokenOptional.getUserId());
         if (userOptional.isEmpty()) {
             return;
         }
 
         final UserDocument user = userOptional.get();
         user.setVerifiedAccount(true);
+        tokenService.expireToken(tokenOptional);
 
         userRepository.save(user);
     }

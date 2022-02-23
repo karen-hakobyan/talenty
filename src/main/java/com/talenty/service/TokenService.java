@@ -2,6 +2,7 @@ package com.talenty.service;
 
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
+import com.talenty.exceptions.TokenNotFoundException;
 import com.talenty.repository.TokenRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,17 @@ public class TokenService {
         return token;
     }
 
-    public Optional<TokenDocument> findByValue(final String token) {
-        return tokenRepository.findByValue(token);
+    public TokenDocument findByValue(final String token) {
+        final Optional<TokenDocument> byValue = tokenRepository.findByValue(token);
+        if(byValue.isEmpty()) {
+            throw new TokenNotFoundException("");
+        }
+        return byValue.get();
+    }
+
+    public void expireToken(final TokenDocument token) {
+        token.setExpired(true);
+        tokenRepository.save(token);
     }
 
 }

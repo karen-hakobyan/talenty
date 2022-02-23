@@ -16,10 +16,12 @@ public class TokenDocument {
     @Indexed(unique = true)
     private String value;
     private String userId;
+    private Boolean expired;
 
     public TokenDocument(final String value, final String userId) {
         this.value = value;
         this.userId = userId;
+        this.expired = false;
     }
 
 }
