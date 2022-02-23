@@ -73,14 +73,14 @@ public class TemplateService {
         final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
 
         final HrDocument currentHr = getCurrentHr();
-
-        final List<String> templatesList = currentHr.getTemplatesList();
-        templatesList.add(savedNewTemplate.getId());
-        currentHr.setTemplatesList(templatesList);
-
-        final HrDocument savedHr = hrRepository.save(currentHr);
+        currentHr.addTemplate(savedNewTemplate.getId());
+        hrRepository.save(currentHr);
 
         return TemplateMapper.instance.documentToDto(savedNewTemplate);
+    }
+
+    public List<String> getAllTemplatesIds() {
+        return getCurrentHr().getTemplatesList();
     }
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
@@ -91,22 +91,14 @@ public class TemplateService {
         });
     }
 
-    public List<String> getAllTemplatesIds() {
-
-        final HrDocument currentHr = getCurrentHr();
-
-        return currentHr.getTemplatesList();
-    }
-
     private HrDocument getCurrentHr() {
         final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
 
         final String currentHrId = authenticatedUser.getId();
         final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);
 
-        if (currentHr.isEmpty()) {
+        if (currentHr.isEmpty())
             throw new UserNotFoundException();
-        }
 
         return currentHr.get();
     }

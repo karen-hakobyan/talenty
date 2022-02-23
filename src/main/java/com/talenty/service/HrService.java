@@ -64,18 +64,13 @@ public class HrService {
         hr.setCompanyId(savedCompany.getId());
         hr.setRole("ROLE_HR_ADMIN");
         hr.setPassword(passwordEncoder.encode(hr.getPassword()));
-
-        final List<String> templatesList = new ArrayList<>();
-        templatesList.add(templateRepository.findSystemTemplateId().getId());
-
-        hr.setTemplatesList(templatesList);
+        hr.addTemplate(templateRepository.findSystemTemplateId().getId());
 
         final HrDocument savedHr = hrRepository.save(hr);
 
         final String token = UUID.randomUUID().toString();
         tokenRepository.save(new TokenDocument(token, savedHr.getId()));
         emailSender.sendConfirmation(request.getEmail(), token);
-
 
         return HrMapper.instance.documentToRegisterResponse(savedHr);
     }
