@@ -48,19 +48,15 @@ public class ResetController {
         ValidationChecker.assertPasswordIsValid(details.getPassword());
         ValidationChecker.assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
 
-        final Optional<TokenDocument> tokenOptional = tokenService.findByValue(token);
-
-        if (tokenOptional.isEmpty()) {
-            throw new TokenNotFoundException("Token: " + token + " does not exist!");
-        }
-
-        final Optional<UserDocument> userOptional = userService.finById(tokenOptional.get().getUserId());
+        final TokenDocument tokenDocument = tokenService.findByValue(token);
+        final Optional<UserDocument> userOptional = userService.finById(tokenDocument.getUserId());
 
         if(userOptional.isEmpty()) {
             throw new UserNotFoundException();
         }
 
         userService.resetPassword(userOptional.get(), details);
+        tokenService.expireToken(tokenDocument);
 
         return ResponseEntity.ok("Password updated!");
     }
