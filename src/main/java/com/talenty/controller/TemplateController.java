@@ -6,11 +6,9 @@ import com.talenty.service.SubmittedTemplateService;
 import com.talenty.service.TemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/templates")
@@ -51,6 +49,14 @@ public class TemplateController {
     public ResponseEntity<?> getTemplateById(@RequestParam final String id) {
         final TemplateDocument templateById = templateService.getTemplateById(id);
         return ResponseEntity.ok(templateById);
+    }
+
+    @GetMapping("/all")
+    //    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> getAllTemplatesIds() {
+        final List<String> allTemplatesIds = templateService.getAllTemplatesIds();
+        return ResponseEntity.ok(allTemplatesIds);
     }
 
 }
