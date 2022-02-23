@@ -8,6 +8,7 @@ import Phone from "./Phone";
 import Country from "./Country";
 import SectionContainer from "./SectionContainer";
 import Section from "./sectionContainerTypes/Section";
+import Description from "./sectionContainerTypes/Description";
 
 const typeComponents = {
     special_name: SpecialName,
@@ -22,7 +23,7 @@ const typeComponents = {
     add_photo: () => null,
     section: () => null,
     phone_number: Phone,
-    description: () => null,
+    description: Description,
     section_container: SectionContainer,
     text: () => null,
     professional_skill: () => null,
@@ -36,5 +37,10 @@ export const sectionContainerTypes = {
     text: SpecialName,
     section: Section,
 }
+
+export const TYPES_TAKES_WHOLE_ROW = [
+    'section_container',
+    'description',
+]
 
 export default typeComponents

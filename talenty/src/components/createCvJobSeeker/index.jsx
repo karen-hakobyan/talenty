@@ -6,7 +6,6 @@ import {
     TEMPLATE_INITIAL_DATA,
     TEMPLAT_DATA,
 } from "../../constants/localStorage";
-import {UPDATED_TEMPLATE_DATA} from "../../constants/redux/globalData";
 import {
     localStorageGetter,
     localStorageSetter,
@@ -15,8 +14,7 @@ import {globalDataSetter} from "../../request/get";
 import Button from "../../shared/components/Button";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../shared/styles";
-import {selectGlobalDataViaKey} from "../../store/globalData/selector";
-import {setGlobalDataViaKey} from "../../store/globalData/slice";
+import {setExactPage, setGlobalDataViaKey, setNextPage, setPrevPage} from "../../store/globalData/slice";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 
@@ -24,17 +22,13 @@ export default function CreateCvJobSeeker() {
     let [data, setData] = useState(null);
     const [, setUnchangedData] = useState(null);
     const dispatch = useDispatch();
-    const [exactPage, setExactPage] = useState(1);
-    const updatedTemplateData = useSelector(
-        selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
-    );
-    console.log(data);
+    const exactPage = useSelector((state) => state.globalData.exactPage)
 
     useEffect(() => {
-        if (updatedTemplateData) {
-            setData(updatedTemplateData);
+        if(!exactPage) {
+            dispatch(setExactPage(1))
         }
-    }, [updatedTemplateData]);
+    },[dispatch])
     // update local storage whenever data changed and also redux
     useEffect(() => {
         if (data) {
@@ -83,7 +77,7 @@ export default function CreateCvJobSeeker() {
                 {exactPage !== 1 ? (
                     <Button
                         sx={HOME_PRIMARY_BUTTON}
-                        onClick={() => setExactPage((prev) => --prev)}
+                        onClick={() => dispatch(setPrevPage())}
                     >
                         <ArrowBack/>
                         Back
@@ -102,7 +96,7 @@ export default function CreateCvJobSeeker() {
                         <Button
                             sx={HOME_PRIMARY_BUTTON}
                             onClick={() => {
-                                setExactPage((prev) => ++prev);
+                                dispatch(setNextPage())
                             }}
                         >
                             Next

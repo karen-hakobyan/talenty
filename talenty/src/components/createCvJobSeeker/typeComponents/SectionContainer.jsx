@@ -3,7 +3,6 @@ import {sectionContainerTypes} from "./sectionContainerTypes/types";
 import {memo} from "react";
 
 export default function SectionContainer({data}) {
-    console.log({sectionContainer: data})
     return <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)',rowGap: '38px'}}>
         {data.fields.map((el, index) => {
             let TempComponent = sectionContainerTypes[el.metadata.type]

@@ -1,12 +1,8 @@
 import {Box, Grid} from "@mui/material";
 import {memo} from "react";
-import {useDispatch} from "react-redux";
-import typeComponents from "./typeComponents/typeComponents";
+import typeComponents, {TYPES_TAKES_WHOLE_ROW} from "./typeComponents/typeComponents";
 
 export default function UserCVBody({data}) {
-    const dispatch = useDispatch()
-    console.log(data);
-
     if (!data) {
         return null;
     }
@@ -19,11 +15,10 @@ export default function UserCVBody({data}) {
                 return null
             }
             TempComponent = memo(TempComponent)
-            console.log(el)
             return (
                 <Box sx={{
                     width: '100%',
-                    ...(el.metadata.type === 'section_container' ? {
+                    ...(TYPES_TAKES_WHOLE_ROW.includes(el.metadata.type) ? {
                         gridColumnStart: 1,
                         gridColumnEnd: 3
                     } : {display: 'flex', justifyContent: index % 2 !== 0 ? 'flex-end' : 'flex-start'})
