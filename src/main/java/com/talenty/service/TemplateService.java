@@ -30,8 +30,11 @@ public class TemplateService {
     }
 
     public Template getSystemTemplate() {
-        final TemplateDocument systemTemplate = templateRepository.findSystemTemplateId();
-        return TemplateMapper.instance.documentToDto(getTemplateById(systemTemplate.getId()));
+        return TemplateMapper.instance.documentToDto(getTemplateById(getSystemTemplateId()));
+    }
+
+    public String getSystemTemplateId() {
+        return templateRepository.findSystemTemplateId().getId();
     }
 
     public TemplateDocument getTemplateById(final String id) {
