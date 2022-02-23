@@ -16,5 +16,6 @@ import java.util.List;
 public class HrDocument extends UserDocument {
 
     private String companyId;
+    private List<String> templatesList;
 
 }

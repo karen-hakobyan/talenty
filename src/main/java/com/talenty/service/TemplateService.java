@@ -1,17 +1,22 @@
 package com.talenty.service;
 
 import com.talenty.domain.dto.Template;
+import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.mongo.FieldDocument;
+import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
-import com.talenty.mapper.TemplateMapper;
-import com.talenty.repository.TemplateRepository;
+import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.CleanUpMetadataExecutor;
+import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.logical_executors.LogicExecutor;
+import com.talenty.mapper.TemplateMapper;
+import com.talenty.repository.HrRepository;
+import com.talenty.repository.TemplateRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -23,10 +28,12 @@ public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final ApplicationContext applicationContext;
+    private final HrRepository hrRepository;
 
-    public TemplateService(final TemplateRepository templateRepository, final ApplicationContext applicationContext) {
+    public TemplateService(final TemplateRepository templateRepository, final ApplicationContext applicationContext, final HrRepository hrRepository) {
         this.templateRepository = templateRepository;
         this.applicationContext = applicationContext;
+        this.hrRepository = hrRepository;
     }
 
     public Template getSystemTemplate() {
@@ -64,6 +71,15 @@ public class TemplateService {
 
         newTemplate.setId(null);
         final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
+
+        final HrDocument currentHr = getCurrentHr();
+
+        final List<String> templatesList = currentHr.getTemplatesList();
+        templatesList.add(savedNewTemplate.getId());
+        currentHr.setTemplatesList(templatesList);
+
+        final HrDocument savedHr = hrRepository.save(currentHr);
+
         return TemplateMapper.instance.documentToDto(savedNewTemplate);
     }
 
@@ -73,6 +89,26 @@ public class TemplateService {
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
             if (fieldFields != null) executeLogicOnTemplate(fieldFields, logicExecutors);
         });
+    }
+
+    public List<String> getAllTemplatesIds() {
+
+        final HrDocument currentHr = getCurrentHr();
+
+        return currentHr.getTemplatesList();
+    }
+
+    private HrDocument getCurrentHr() {
+        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+
+        final String currentHrId = authenticatedUser.getId();
+        final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);
+
+        if (currentHr.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        return currentHr.get();
     }
 
 }

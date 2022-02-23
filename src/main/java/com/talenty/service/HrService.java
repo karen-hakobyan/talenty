@@ -10,14 +10,13 @@ import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.mapper.HrMapper;
-import com.talenty.repository.CompanyRepository;
-import com.talenty.repository.HrRepository;
-import com.talenty.repository.TokenRepository;
-import com.talenty.repository.UserRepository;
+import com.talenty.repository.*;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,14 +29,22 @@ public class HrService {
     private final TokenRepository tokenRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
+    private final TemplateRepository templateRepository;
 
-    public HrService(final UserRepository userRepository, final CompanyRepository companyRepository, final HrRepository hrRepository, final TokenRepository tokenRepository, final EmailSender emailSender, final PasswordEncoder passwordEncoder) {
+    public HrService(final UserRepository userRepository,
+                     final CompanyRepository companyRepository,
+                     final HrRepository hrRepository,
+                     final TokenRepository tokenRepository,
+                     final EmailSender emailSender,
+                     final PasswordEncoder passwordEncoder,
+                     final TemplateRepository templateRepository) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
         this.tokenRepository = tokenRepository;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
+        this.templateRepository = templateRepository;
     }
 
     public HrRegisterResponseDetails register(final HrRegisterRequestDetails request) {
@@ -58,11 +65,17 @@ public class HrService {
         hr.setRole("ROLE_HR_ADMIN");
         hr.setPassword(passwordEncoder.encode(hr.getPassword()));
 
+        final List<String> templatesList = new ArrayList<>();
+        templatesList.add(templateRepository.findSystemTemplateId().getId());
+
+        hr.setTemplatesList(templatesList);
+
         final HrDocument savedHr = hrRepository.save(hr);
 
         final String token = UUID.randomUUID().toString();
         tokenRepository.save(new TokenDocument(token, savedHr.getId()));
         emailSender.sendConfirmation(request.getEmail(), token);
+
 
         return HrMapper.instance.documentToRegisterResponse(savedHr);
     }
