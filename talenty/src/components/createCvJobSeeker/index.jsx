@@ -25,10 +25,10 @@ export default function CreateCvJobSeeker() {
     const exactPage = useSelector((state) => state.globalData.exactPage)
 
     useEffect(() => {
-        if(!exactPage) {
+        if (!exactPage) {
             dispatch(setExactPage(1))
         }
-    },[dispatch])
+    }, [dispatch])
     // update local storage whenever data changed and also redux
     useEffect(() => {
         if (data) {
@@ -56,52 +56,52 @@ export default function CreateCvJobSeeker() {
         return null;
     }
     return (
-        <Box sx={{pt: "44px", pl: "52px", pr: "52px"}}>
-            <Box sx={{display: "flex", flexDirection: "column", gap: "46px"}}>
-                <Box>{data?.name}</Box>
-                <Pagination pagesCount={data?.fields.length || 0} {...{exactPage}} />
-            </Box>
+        <Box sx={{pt: "44px", pl: "52px", pr: "52px", minHeight: '100vh'}}>
+            <Pagination pagesCount={data?.fields.length || 0} {...{exactPage}} />
             {/* body */}
-            <Box
-                sx={{
-                    mt: "44px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "42px",
-                }}
-            >
-                <SharedTemplateHeader title={data?.fields[exactPage - 1]?.name}/>
-                <UserCVBody data={data?.fields[exactPage - 1]}/>
-            </Box>
-            <Box sx={{display: "flex", pt: "44px"}}>
-                {exactPage !== 1 ? (
-                    <Button
-                        sx={HOME_PRIMARY_BUTTON}
-                        onClick={() => dispatch(setPrevPage())}
-                    >
-                        <ArrowBack/>
-                        Back
-                    </Button>
-                ) : null}
+            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 'calc(100vh - 130px)'}}>
                 <Box
                     sx={{
+                        mt: "44px",
                         display: "flex",
-                        justifyContent: "flex-end",
-                        flex: 1,
-                        gap: "12px",
+                        flexDirection: "column",
+                        gap: "42px",
                     }}
                 >
-                    <Button sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}>Add</Button>
-                    {data?.fields && data.fields.length !== exactPage && (
+                    <SharedTemplateHeader title={data?.fields[exactPage - 1]?.name}/>
+                    <UserCVBody data={data?.fields[exactPage - 1]}/>
+                </Box>
+                {/* actions bellow*/}
+                <Box sx={{display: "flex", pt: '44px', pb: '40px'}}>
+                    {exactPage !== 1 ? (
                         <Button
                             sx={HOME_PRIMARY_BUTTON}
-                            onClick={() => {
-                                dispatch(setNextPage())
-                            }}
+                            onClick={() => dispatch(setPrevPage())}
                         >
-                            Next
+                            <ArrowBack/>
+                            Back
                         </Button>
-                    )}
+                    ) : null}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            flex: 1,
+                            gap: "12px",
+                        }}
+                    >
+                        {data?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' && <Button sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}>Add</Button>}
+                        {data?.fields && data.fields.length !== exactPage && (
+                            <Button
+                                sx={HOME_PRIMARY_BUTTON}
+                                onClick={() => {
+                                    dispatch(setNextPage())
+                                }}
+                            >
+                                Next
+                            </Button>
+                        )}
+                    </Box>
                 </Box>
             </Box>
         </Box>
