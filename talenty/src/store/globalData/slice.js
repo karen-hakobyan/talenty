@@ -1,6 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+    exactPage: 1,
+};
 
 export const globalDataSlice = createSlice({
     name: "globalData",
@@ -13,9 +15,18 @@ export const globalDataSlice = createSlice({
         setInitialState: (state) => {
             state = initialState;
         },
+        setNextPage: (state) => {
+            state.exactPage = state.exactPage + 1
+        },
+        setPrevPage: (state) => {
+            state.exactPage = state.exactPage - 1
+        },
+        setExactPage: (state, {payload}) => {
+            state.exactPage = payload
+        }
     },
 });
 
-export const {setInitialState, setGlobalDataViaKey} = globalDataSlice.actions;
+export const {setInitialState, setGlobalDataViaKey,setNextPage,setPrevPage, setExactPage} = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;
