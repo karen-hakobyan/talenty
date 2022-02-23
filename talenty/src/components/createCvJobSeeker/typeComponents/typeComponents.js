@@ -6,6 +6,8 @@ import City from "./City";
 import Address from "./Address";
 import Phone from "./Phone";
 import Country from "./Country";
+import SectionContainer from "./SectionContainer";
+import Section from "./sectionContainerTypes/Section";
 
 const typeComponents = {
     special_name: SpecialName,
@@ -21,7 +23,7 @@ const typeComponents = {
     section: () => null,
     phone_number: Phone,
     description: () => null,
-    section_container: () => null,
+    section_container: SectionContainer,
     text: () => null,
     professional_skill: () => null,
     evaluate_bar: () => null,
@@ -29,5 +31,10 @@ const typeComponents = {
     language_level_container: () => null,
     url: () => null,
 };
+
+export const sectionContainerTypes = {
+    text: SpecialName,
+    section: Section,
+}
 
 export default typeComponents
