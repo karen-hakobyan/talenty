@@ -5,7 +5,7 @@ import TalentyAuth2 from "../../assets/icons/signImages/user.webp"
 import {TalentyLogo} from "../../assets/sign";
 
 function BackgroundImage({children, img}) {
-    const navigate = useNavigate;
+    const navigate = useNavigate();
     return (<Box sx={{
         display: "flex",
         justifyContent: "space-between"

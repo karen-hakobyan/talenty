@@ -3,6 +3,7 @@ import Login from "./Login";
 import { HR_ROLE } from "../../constants/role";
 import Registration from "./Registration";
 import { errorMessage } from "../../helpers/errorMessage";
+import ResetPassword from "./ResetPassword";
 
 const initialState = {
     jwt: null,
@@ -72,9 +73,23 @@ const authSlice = createSlice({
                 message: ["Registration failed.", errorMessage[payload.response.data.message]],
             }
         },
-        [Registration.pending]: (state, ) => {
+        [Registration.pending]: (state) => {
+            console.log("pending");
             state.loading = true
+        },
+        [ResetPassword.pending]: (state) => {
+            console.log("pending");
+            state.loading = true
+        },
+        [ResetPassword.fulfilled]: (state, { payload }) => {
+            state.loading = false
 
+            console.log("fulfilled");
+        },
+        [ResetPassword.rejected]: (state) => {
+            console.log("rejected");
+            state.loading = false
+            state.modalInfo = "Try again"
         },
     }
 })

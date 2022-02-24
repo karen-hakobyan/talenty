@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { selectAuthUserInfo } from "../../store/auth/selector";
 import {useNavigate} from "react-router-dom";
 import {Box, Button, Switch} from "@mui/material";
-import {DefaultUserIcon, UserExPhoto} from "../../assets/icons/jobseeker";
+import {DefaultUserIcon} from "../../assets/icons/jobseeker";
 import {CREATE_CV} from "../../constants/routes";
 import {HOME_PRIMARY_BUTTON} from "../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
+import { MAIN_PURPLE } from "../../constants/colors";
 
 export default function Home() {
     const navigate = useNavigate();
@@ -35,16 +36,16 @@ export default function Home() {
                         >
                             <Box
                                 sx={{
-                                    background: "#C4C4C4",
-                                    width: "60px",
-                                    height: "60px",
+                                    background: MAIN_PURPLE,
+                                    width: "78px",
+                                    height: "78px",
                                     borderRadius: "50%",
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                 }}
                             >
-                                <UserExPhoto/>
+                                <DefaultUserIcon/>
                             </Box>
                             <Box
                                 sx={{display: "flex", flexDirection: "column", gap: "12px"}}
