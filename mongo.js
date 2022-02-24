@@ -577,7 +577,7 @@ let systemTemplate = {
                   name: "0%",
                   metadata: {
                     type: "percentage",
-                    value: "20%",
+                    value: "0%",
                   },
                 },
                 {
@@ -674,7 +674,7 @@ let systemTemplate = {
                   name: "0%",
                   metadata: {
                     type: "percentage",
-                    value: "20%",
+                    value: "0%",
                   },
                 },
                 {
