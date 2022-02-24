@@ -43,7 +43,7 @@ public class ResetController {
         return ResponseEntity.ok("Check you email!");
     }
 
-    @PostMapping(path = "/password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(path = "/password")
     public ResponseEntity<?> resetPassword(@RequestParam final String token, final ResetPasswordDetails details) {
         ValidationChecker.assertPasswordIsValid(details.getPassword());
         ValidationChecker.assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());

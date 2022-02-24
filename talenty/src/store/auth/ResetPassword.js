@@ -6,7 +6,7 @@ const ResetPassword = createAsyncThunk('auth/ResetPassword', async(payload, thun
     try {
         response = await instance.get(getForgotPassword(payload))
     } catch (err) {
-        return thunkAPI.rejectWithValue({})
+        return thunkAPI.rejectWithValue({ err })
     }
     return response.data
 })

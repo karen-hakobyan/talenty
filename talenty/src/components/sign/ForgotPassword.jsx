@@ -123,8 +123,7 @@ function ForgotPassword() {
               })}
                </Box>
                <Button
-              type="submit"
-             
+               onClick={() => {dispatch()}}
               sx={{
                 ...TEMPLATE_BUTTON_CREATE,
                 mt:"26px",

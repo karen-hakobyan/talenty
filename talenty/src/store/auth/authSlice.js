@@ -78,18 +78,18 @@ const authSlice = createSlice({
             state.loading = true
         },
         [ResetPassword.pending]: (state) => {
-            console.log("pending");
             state.loading = true
+
         },
         [ResetPassword.fulfilled]: (state, { payload }) => {
             state.loading = false
-
+            state.modalInfo = "Check your email"
             console.log("fulfilled");
         },
-        [ResetPassword.rejected]: (state) => {
+        [ResetPassword.rejected]: (state, { payload }) => {
             console.log("rejected");
             state.loading = false
-            state.modalInfo = "Try again"
+            state.modalInfo = errorMessage[payload.response.data.message]
         },
     }
 })
