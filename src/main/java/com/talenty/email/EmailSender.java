@@ -16,7 +16,7 @@ public class EmailSender {
     //    @Value("REACT_APP_BACKEND_URL")
     private static final String BACKEND_URL = "https://api.talenty.duckdns.org";
     private static final String CONFIRM_TOKEN_PART = "/confirm?token=%token%";
-    private static final String RESET_PASSWORD_TOKEN_PART = "/reset/password?token=%token%";
+    private static final String RESET_PASSWORD_TOKEN_PART = "/forget-password?token=%token%";
     private static String CONFIRMATION_URL;
     private static String RESET_PASSWORD_URL;
     private final JavaMailSender emailSender;
@@ -49,29 +49,12 @@ public class EmailSender {
             final MimeMessage message = emailSender.createMimeMessage();
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("This is the Subject Line!");
-            message.setContent("<html lang=\"en\">\n" +
-                    "<head>\n" +
-                    "    <title>A</title>\n" +
-                    "</head>\n" +
-                    "<body>\n" +
-                    "\n" +
-                    "<form action=\"" + RESET_PASSWORD_URL.replace("%token%", token) + "\" method=\"post\" name=\"EmailForm\" enctype=\"application/x-www-form-urlencoded\">\n" +
-                    "    New password:\n" +
-                    "    <br>\n" +
-                    "    <label>\n" +
-                    "        <input type=\"password\" name=\"password\" id=\"password\" >\n" +
-                    "    </label>\n" +
-                    "    <br><br>\n" +
-                    "    Confirm password:\n" +
-                    "    <br>\n" +
-                    "    <label>\n" +
-                    "        <input type=\"password\" name=\"confirmPassword\" id=\"confirmPassword\">\n" +
-                    "    </label>\n" +
-                    "    <br><br>\n" +
-                    "    <input type=\"submit\" value=\"Submit\">\n" +
-                    "</form>\n" +
-                    "\n" +
-                    "</body>\n" +
+            message.setContent("<html>\n" +
+                    "    <head>\n" +
+                    "    </head>\n" +
+                    "    <body>\n" +
+                    "    Just click on <a href=\"" + RESET_PASSWORD_URL.replace("%token%", token) + "\">reset</a> to change your password!\n" +
+                    "    </body>\n" +
                     "</html>", "text/html");
             emailSender.send(message);
             System.out.println("Confirmation message to: " + to + " has been sent with token: " + token);
