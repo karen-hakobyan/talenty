@@ -5,7 +5,7 @@ import {NotificationSVG} from "../../assets/icons/personalInfo";
 import {PINK_BUTTON} from "../../shared/styles";
 import {LOGO} from "../landingPage/style";
 import {CONTAINER_HEADER} from "./style";
-import {ArrowDown, DefaultUserIcon, UserExPhoto} from "../../assets/icons/jobseeker";
+import {ArrowDown, DefaultUserIcon} from "../../assets/icons/jobseeker";
 import {setAuthInitialState} from "../../store/auth/authSlice";
 
 export default function Header() {

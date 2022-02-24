@@ -1,6 +1,8 @@
-import React, { useState} from "react";
+import React, { useState, useMemo} from "react";
 import axios from "axios";
+import {useDispatch, useSelector} from 'react-redux'
 import { Box, styled } from "@mui/system";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, Dialog, FormControl, Typography } from "@mui/material";
 import "../../fonts//index.css";
 import {
@@ -14,9 +16,11 @@ import { FIELD_EMAIL, FIELD_RESET_PASSWORD } from "./helper";
 import SignUpField from "./SignUpField";
 import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import { getForgotPassword } from "../../constants/requests";
-import { useNavigate } from "react-router-dom";
 import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
 import { DIALOG_TEXT, FLEX_CONTAINER } from "./style";
+import ResetPassword from "../../store/auth/ResetPassword";
+import { selectAuthModalInfo } from "../../store/auth/selector";
+import { setAuthModalInfo } from "../../store/auth/authSlice";
 
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
@@ -50,8 +54,11 @@ const dialogMesseng ="Try again "
 
 
 function ForgotPassword() {
+  const {search} = useLocation()
+  const dispatch = useDispatch()
+  const modalInfo = useSelector(selectAuthModalInfo)
+  const token = useMemo(() => search && search.split('=')[1], [search])
   const [open, setOpen] = useState(false);
-  const [resetPasswordAuthenticationInformation, setResetPasswordAuthenticationInformation ] = useState()
   const {
     handleSubmit,
     register,
@@ -62,23 +69,21 @@ function ForgotPassword() {
     shouldFocusError: false,
   });
   const navigate = useNavigate()
-  
-
- 
+  console.log(modalInfo)
 
   return (
     <>
     <Box>
       <Dialog
-        open={!!open}
-        onClose={()=>setOpen(false)}
+        open={!!modalInfo}
+        onClose={()=>dispatch(setAuthModalInfo(null))}
         maxWidth={false}>
           <Box sx={FLEX_CONTAINER}>
-              <Box sx={{...DIALOG_TEXT,color:"#000"}}>Try again</Box>
+              <Box sx={{...DIALOG_TEXT,color:"#000"}}>{modalInfo}</Box>
               <Button sx={{
                 ...TEMPLATE_BUTTON_CREATE, width: "176px" 
               }}
-              onClick={()=>setOpen(false)}
+              onClick={()=>dispatch(setAuthModalInfo(null))}
               >
                 Ok
               </Button>
@@ -94,7 +99,7 @@ function ForgotPassword() {
           }}
         >
           <ContentContainer>
-            {resetPasswordAuthenticationInformation ?
+            {token ?
              <Box>
                <Title>
                  Please enter a new password for your account.
@@ -118,17 +123,7 @@ function ForgotPassword() {
               })}
                </Box>
                <Button
-              type="submit"
-              onClick={() => {
-                handleSubmit(data=>{
-                  axios.get(getForgotPassword(data.email))
-                    .then((res) =>navigate(SIGN_IN_ROUTE))
-                    .catch((e) => {
-                      console.log(e)
-                      setOpen(dialogMesseng)
-                    });
-                })()
-              }}
+               onClick={() => {dispatch()}}
               sx={{
                 ...TEMPLATE_BUTTON_CREATE,
                 mt:"26px",
@@ -175,12 +170,7 @@ function ForgotPassword() {
               type="submit"
               onClick={() => {
                 handleSubmit(data=>{
-                  axios.get(getForgotPassword(data.email))
-                    .then((res) =>navigate(SIGN_IN_ROUTE))
-                    .catch((e) => {
-                      console.log(e)
-                      setOpen(dialogMesseng)
-                    });
+                  dispatch(ResetPassword(data.email))
                 })()
               }}
               sx={{

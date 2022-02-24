@@ -6,10 +6,10 @@ export const instance = axios.create({
     baseURL: baseUrl
 })
 
-export const GET_TEMPLATES = `/templates/system`;
+export const GET_TEMPLATES = ``;
 export const POST_SIGN_UP_HR = `/register/hr`;
 export const POST_SIGN_UP_JOB_SEEKER = `/register/jobseeker`;
 export const LOGIN = `/login`;
 export const getForgotPassword = (email) => {
-    return `${baseUrl}/reset/password?email=${email}`
+    return `reset/password?email=${email}`
 }
