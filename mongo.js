@@ -574,6 +574,14 @@ let systemTemplate = {
               fields: [
                 {
                   _id: ObjectId(),
+                  name: "0%",
+                  metadata: {
+                    type: "percentage",
+                    value: "20%",
+                  },
+                },
+                {
+                  _id: ObjectId(),
                   name: "20%",
                   metadata: {
                     type: "percentage",
@@ -661,6 +669,14 @@ let systemTemplate = {
                 required: false,
               },
               fields: [
+                {
+                  _id: ObjectId(),
+                  name: "0%",
+                  metadata: {
+                    type: "percentage",
+                    value: "20%",
+                  },
+                },
                 {
                   _id: ObjectId(),
                   name: "20%",
@@ -871,30 +887,6 @@ let systemTemplate = {
             },
             {
               _id: ObjectId(),
-              name: "Description",
-              metadata: {
-                type: "description",
-                maxLength: 1000,
-                editable: false,
-                required_editable: true,
-                deletable: true,
-                required: false,
-              },
-            },
-            {
-              _id: ObjectId(),
-              name: "URL",
-              metadata: {
-                type: "url",
-                maxLength: 100,
-                editable: false,
-                required_editable: true,
-                deletable: true,
-                required: false,
-              },
-            },
-            {
-              _id: ObjectId(),
               name: "Start-End",
               metadata: {
                 type: "section",
@@ -933,6 +925,30 @@ let systemTemplate = {
                   },
                 },
               ],
+            },
+            {
+              _id: ObjectId(),
+              name: "URL",
+              metadata: {
+                type: "url",
+                maxLength: 100,
+                editable: false,
+                required_editable: true,
+                deletable: true,
+                required: false,
+              },
+            },
+            {
+              _id: ObjectId(),
+              name: "Description",
+              metadata: {
+                type: "description",
+                maxLength: 1000,
+                editable: false,
+                required_editable: true,
+                deletable: true,
+                required: false,
+              },
             },
           ],
         },

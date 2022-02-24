@@ -40,7 +40,7 @@ public class ResetController {
         final String token = tokenService.generate(userOptional.get());
         emailSender.sendResetPassword(userOptional.get().getEmail(), token);
 
-        return ResponseEntity.ok("Check you email!");
+        return ResponseEntity.ok("Check your email!");
     }
 
     @PostMapping(path = "/password")
