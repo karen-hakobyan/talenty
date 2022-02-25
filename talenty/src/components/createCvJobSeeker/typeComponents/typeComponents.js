@@ -26,11 +26,6 @@ const typeComponents = {
     description: Description,
     section_container: SectionContainer,
     text: () => null,
-    professional_skill: () => null,
-    evaluate_bar: () => null,
-    personal_skill: () => null,
-    language_level_container: () => null,
-    url: () => null,
 };
 
 export const sectionContainerTypes = {

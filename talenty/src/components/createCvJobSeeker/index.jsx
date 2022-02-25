@@ -28,7 +28,7 @@ export default function CreateCvJobSeeker() {
         if (!exactPage) {
             dispatch(setExactPage(1))
         }
-    }, [dispatch])
+    }, [dispatch, exactPage])
     // update local storage whenever data changed and also redux
     useEffect(() => {
         if (data) {
