@@ -16,4 +16,5 @@ export const sectionContainerTypes = {
     evaluate_bar: EvaluateBar,
     personal_skill: SpecialName,
     language_level_container: LanguageLevelContainer,
+    url: SpecialName,
 }

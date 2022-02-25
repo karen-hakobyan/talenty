@@ -51,8 +51,6 @@ const ContentContainer = styled("div")(({ tehem }) => ({
 
 const dialogMesseng ="Try again "
 
-
-
 function ForgotPassword() {
   const {search} = useLocation()
   const dispatch = useDispatch()
