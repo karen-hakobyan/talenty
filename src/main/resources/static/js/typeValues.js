@@ -14,7 +14,7 @@ function saveNewType(type) {
         }
     }
 
-    httpPost("http://localhost:7800/type_values/save", {type: type}, () => location.reload())
+    httpPost(BACKEND_URL + "/type_values/save", {type: type}, () => location.reload())
     updateTypeList()
     closeModal()
 }
@@ -40,7 +40,7 @@ function addNewValue(index, value) {
     types_list[index].values.push(value)
 
     Loader.openWithDisabledScrolling()
-    httpPost("http://localhost:7800/type_values/edit_values", {
+    httpPost(BACKEND_URL + "/type_values/edit_values", {
         type: types_list[index].type,
         values: types_list[index].values
     }, () => {
@@ -74,7 +74,7 @@ function requestForDeleteValue(typeIndex, valueIndex) {
 
 function deleteType(typeIndex) {
     Loader.openWithDisabledScrolling()
-    httpPost("http://localhost:7800/type_values/delete", {type: types_list[typeIndex].type}, () => location.reload())
+    httpPost(BACKEND_URL + "/type_values/delete", {type: types_list[typeIndex].type}, () => location.reload())
 }
 
 function requestForEditValueName(typeIndex, valueIndex, newValueName) {
@@ -98,7 +98,7 @@ function requestForEditTypeName(typeIndex, newTypeName) {
 }
 
 function editValues(index, values) {
-    httpPost("http://localhost:7800/type_values/edit_values", {
+    httpPost(BACKEND_URL + "/type_values/edit_values", {
         type: types_list[index].type,
         values: values
     }, () => {
@@ -108,7 +108,7 @@ function editValues(index, values) {
 }
 
 function editTypeName(oldTypeName, newTypeName) {
-    httpPost("http://localhost:7800/type_values/edit_type", [
+    httpPost(BACKEND_URL + "/type_values/edit_type", [
         {
             type: oldTypeName
         },
