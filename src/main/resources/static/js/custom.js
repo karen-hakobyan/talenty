@@ -22,9 +22,10 @@
 // List
 let types_list = []
 updateTypeList()
+console.log("TYPES AND LISTS: " + types_list)
 
 function updateTypeList() {
-    types_list = JSON.parse(httpGet("http://localhost:7800/type_values/get_all"))
+    types_list = JSON.parse(httpGet(BACKEND_URL + "/type_values/get_all"))
     if (!types_list) {
         types_list = []
     }
