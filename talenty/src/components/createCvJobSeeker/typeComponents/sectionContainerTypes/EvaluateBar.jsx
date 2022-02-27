@@ -1,6 +1,6 @@
 import {Box} from "@mui/material";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
-import {useEffect, useMemo, useRef, useState} from "react";
+import { useMemo, useRef, useState} from "react";
 
 const setExactWidth = (width, widths) => {
     for(let i = 0; i < widths.length - 1; i++) {

@@ -20,6 +20,7 @@ import BackgroundImage from "./BackgroundImage";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
 import {selectAuthIsCompany, selectAuthJwt, selectAuthModalInfo} from "../../store/auth/selector";
 import { setAuthModalInfo } from "../../store/auth/authSlice";
+import { ENTER_KEY } from "../../constants/keyCodes";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -98,6 +99,14 @@ function SignIn() {
                                     <SignInField
                                         key={objKey}
                                         {...{objKey, label, isPassword, register, errors, error}}
+                                         {...(isPassword ? {onKeyDown : (event)=>{
+                                        
+                                        if(event.key === ENTER_KEY){
+                                             handleSubmit((data) => {
+                                                 dispatch(Login({data, isChecked}))
+                                             })()    
+                                         }
+                                         }} : {})}
                                     />
                                 );
                             })}

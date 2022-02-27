@@ -126,6 +126,7 @@ export default function SignUp() {
                                 <SignUpField
                                     {...{isPassword, register, value, objKey, errors, error}}
                                     key={objKey}
+                                   
                                 />
                             );
                         })}
