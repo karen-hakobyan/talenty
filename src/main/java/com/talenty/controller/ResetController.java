@@ -44,7 +44,7 @@ public class ResetController {
     }
 
     @PostMapping(path = "/password")
-    public ResponseEntity<?> resetPassword(@RequestParam final String token, final ResetPasswordDetails details) {
+    public ResponseEntity<?> resetPassword(@RequestParam final String token, @RequestBody final ResetPasswordDetails details) {
         ValidationChecker.assertPasswordIsValid(details.getPassword());
         ValidationChecker.assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
 
