@@ -15,6 +15,7 @@ const initialState = {
     modalInfo: null,
     signOut: false,
     isValidToken: null,
+    isChnagePassword: null
 }
 const authSlice = createSlice({
     name: 'auth',
@@ -90,7 +91,7 @@ const authSlice = createSlice({
             console.log("fulfilled");
         },
         [ResetPassword.rejected]: (state, { payload }) => {
-            // state.loading = false
+            state.loading = false
             state.modalInfo = errorMessage[payload]
         },
         [ValidateToken.panding]: (state) => {
@@ -98,20 +99,22 @@ const authSlice = createSlice({
         },
         [ValidateToken.fulfilled]: (state) => {
             state.isValidToken = true
-                // state.loading = false
+            state.loading = false
         },
         [ValidateToken.rejected]: (state, { payload }) => {
             state.isValidToken = false
-                // state.loading = false
+            state.loading = false
         },
         [ChangePassword.panding]: (state) => {
-            // state.loading = true
+            state.loading = true
         },
         [ChangePassword.fulfilled]: (state) => {
             state.loading = false
+            state.isChnagePassword = true
         },
-        [ChangePassword.rejected]: (state) => {
+        [ChangePassword.rejected]: (state, { payload }) => {
             state.loading = false
+            state.isChnagePassword = false
         }
     }
 })

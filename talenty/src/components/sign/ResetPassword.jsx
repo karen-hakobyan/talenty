@@ -12,8 +12,9 @@ import { useForm } from "react-hook-form";
 import {  FIELD_RESET_PASSWORD } from "./helper";
 import SignUpField from "./SignUpField";
 import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import {  selectIsValidToken } from "../../store/auth/selector";
-import ValidateToken from "../../store/auth/ChangePassword";
+import {  selectIsChaneqePassword, selectIsValidToken } from "../../store/auth/selector";
+import ValidateToken, { ChangePassword } from "../../store/auth/ChangePassword";
+import { SIGN_IN_ROUTE } from "../../constants/routes";
 
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -42,6 +43,8 @@ function ResetPasswordComponent({token}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isValidToken = useSelector(selectIsValidToken)
+  const isChaneqePassword = useSelector(selectIsChaneqePassword)
+  console.log(isChaneqePassword);
   const {
     handleSubmit,
     register,
@@ -61,6 +64,14 @@ function ResetPasswordComponent({token}) {
       navigate('/')
     }
   },[isValidToken,navigate])
+
+  useEffect(()=>{
+    if(isChaneqePassword===true){
+      navigate(SIGN_IN_ROUTE)
+    }else if(isChaneqePassword===false){
+      navigate("*")
+    }
+  },[isChaneqePassword,navigate])
   
   
   return (
@@ -90,6 +101,15 @@ function ResetPasswordComponent({token}) {
               })}
                </Box>
                        <Button
+                       onClick={()=>{
+                          handleSubmit(data=>{
+                            let dataChange = {
+                              token,
+                              data
+                            }
+                            dispatch(ChangePassword(dataChange))
+                          })()
+                       }}
                        sx={{
                         ...TEMPLATE_BUTTON_CREATE,
                         mt:"26px",

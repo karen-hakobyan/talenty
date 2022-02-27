@@ -28,5 +28,6 @@ export const errorMessage = {
     INVALID_PERSONAL_SKILL_TYPE: "Incorrect personal skill",
     INVALID_SALARY_TYPE: "Incorrect salary type",
     DUPLICATE_SECTION_NAME: "Տhis section already exists",
-    INVALID_FIELD: "Invalid field"
+    INVALID_FIELD: "Invalid field",
+    ERR_NETWORK_CHANGED: "bla bal",
 }
