@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TokenRepository extends MongoRepository<TokenDocument, String> {
 
-    @Query(value = "{'expired': false}")
+    @Query(value = "{'value' : ?0, 'expired': false}")
     Optional<TokenDocument> findByValue(String token);
 
 }

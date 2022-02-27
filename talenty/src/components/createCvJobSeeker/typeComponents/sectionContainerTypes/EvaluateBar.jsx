@@ -10,7 +10,6 @@ const setExactWidth = (width, widths) => {
     }
 }
 export default function EvaluateBar({data}) {
-    console.log(data)
     const ref = useRef()
     let [childWidth, setChildWidth] = useState(0)
     let widths = useMemo(() => {

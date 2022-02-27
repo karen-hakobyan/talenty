@@ -7,8 +7,9 @@ import Address from "./Address";
 import Phone from "./Phone";
 import Country from "./Country";
 import SectionContainer from "./SectionContainer";
-import Section from "./sectionContainerTypes/Section";
+import SubSection from "./sectionContainerTypes/Section";
 import Description from "./sectionContainerTypes/Description";
+import Section from './Section'
 
 const typeComponents = {
     special_name: SpecialName,
@@ -21,7 +22,7 @@ const typeComponents = {
     driving_license: () => null,
     military_id: () => null,
     add_photo: () => null,
-    section: () => null,
+    section: Section,
     phone_number: Phone,
     description: Description,
     section_container: SectionContainer,
@@ -30,12 +31,13 @@ const typeComponents = {
 
 export const sectionContainerTypes = {
     text: SpecialName,
-    section: Section,
+    section: SubSection,
 }
 
 export const TYPES_TAKES_WHOLE_ROW = [
     'section_container',
     'description',
+    'section'
 ]
 
 export default typeComponents
