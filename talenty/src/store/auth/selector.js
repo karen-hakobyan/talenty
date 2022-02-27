@@ -10,4 +10,4 @@ export const selectAuthModalInfo = state => state.auth.modalInfo
 
 export const selectIsValidToken = state => state.auth.isValidToken
 
-export const selectIsChaneqePassword = state => state.auth.isChnagePassword
+export const selectIsChanegePassword = state => state.auth.isChnagePassword

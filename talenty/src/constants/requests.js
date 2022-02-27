@@ -12,7 +12,6 @@ export const POST_SIGN_UP_HR = `/register/hr`;
 export const POST_SIGN_UP_JOB_SEEKER = `/register/jobseeker`;
 export const LOGIN = `/login`;
 export const getForgotPassword = (email) => {
-    console.log(email)
     return `reset/password?email=${email}`
 }
 export const getValidateToken = (token) => {

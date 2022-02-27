@@ -17,7 +17,6 @@ export const ChangePassword = createAsyncThunk(
     'auth/changePassword',
     async(payload, thunkAPI) => {
         try {
-            console.log("mtav")
             let response = await instance.post(postChangePassword(payload.token), payload.data)
             console.log(response);
             return response.data

@@ -6,7 +6,7 @@ import { errorMessage } from "../../helpers/errorMessage";
 import ResetPassword from "./ResetPassword";
 import ValidateToken from "./ChangePassword";
 import ChangePassword from "./ChangePassword";
-
+// change password
 const initialState = {
     jwt: null,
     userInfo: null,
@@ -94,7 +94,7 @@ const authSlice = createSlice({
             state.loading = false
             state.modalInfo = errorMessage[payload]
         },
-        [ValidateToken.panding]: (state) => {
+        [ValidateToken.pending]: (state) => {
             state.loading = true
         },
         [ValidateToken.fulfilled]: (state) => {

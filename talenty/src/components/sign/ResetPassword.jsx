@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import {  FIELD_RESET_PASSWORD } from "./helper";
 import SignUpField from "./SignUpField";
 import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import {  selectIsChaneqePassword, selectIsValidToken } from "../../store/auth/selector";
+import {   selectIsChanegePassword, selectIsValidToken } from "../../store/auth/selector";
 import ValidateToken, { ChangePassword } from "../../store/auth/ChangePassword";
 import { SIGN_IN_ROUTE } from "../../constants/routes";
 
@@ -43,8 +43,7 @@ function ResetPasswordComponent({token}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isValidToken = useSelector(selectIsValidToken)
-  const isChaneqePassword = useSelector(selectIsChaneqePassword)
-  console.log(isChaneqePassword);
+  const isChnagePassword = useSelector(selectIsChanegePassword)
   const {
     handleSubmit,
     register,
@@ -65,13 +64,13 @@ function ResetPasswordComponent({token}) {
     }
   },[isValidToken,navigate])
 
-  useEffect(()=>{
-    if(isChaneqePassword===true){
-      navigate(SIGN_IN_ROUTE)
-    }else if(isChaneqePassword===false){
-      navigate("*")
-    }
-  },[isChaneqePassword,navigate])
+  // useEffect(()=>{
+  //   if(isChnagePassword===true){
+  //     navigate(SIGN_IN_ROUTE)
+  //   }else if(isChnagePassword===false){
+  //     navigate("*")
+  //   }
+  // },[isChnagePassword,navigate])
   
   
   return (
@@ -109,6 +108,11 @@ function ResetPasswordComponent({token}) {
                             }
                             dispatch(ChangePassword(dataChange))
                           })()
+                          if(isChnagePassword===true){
+                              navigate(SIGN_IN_ROUTE)
+                             }else if(isChnagePassword===false){
+                               navigate("*")
+                            }
                        }}
                        sx={{
                         ...TEMPLATE_BUTTON_CREATE,

@@ -54,7 +54,6 @@ function ForgotPassword() {
   const dispatch = useDispatch()
   const modalInfo = useSelector(selectAuthModalInfo)
   const token = useMemo(() => search && search.split('=')[1], [search])
-  console.log(token);
   const {
     handleSubmit,
     register,
@@ -64,7 +63,6 @@ function ForgotPassword() {
     shouldFocusError: false,
   });
   const navigate = useNavigate()
-  console.log(modalInfo)
 
   return (
     <>
@@ -132,6 +130,7 @@ function ForgotPassword() {
                 handleSubmit(data=>{
                   dispatch(ResetPassword(data.email))
                 })()
+                
               }}
               sx={{
                 ...TEMPLATE_BUTTON_CREATE,
