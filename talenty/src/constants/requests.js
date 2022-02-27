@@ -14,3 +14,7 @@ export const LOGIN = `/login`;
 export const getForgotPassword = (email) => {
     return `reset/password?email=${email}`
 }
+export const getValidateToken = (token) => {
+    return `/token?token=${token}`
+}
+export const postChangePassword = (token) => `/reset/password?token=${token}`

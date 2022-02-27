@@ -1,5 +1,4 @@
-import React, { useState, useMemo} from "react";
-import axios from "axios";
+import React, {  useMemo} from "react";
 import {useDispatch, useSelector} from 'react-redux'
 import { Box, styled } from "@mui/system";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -12,15 +11,15 @@ import {
 } from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import { useForm } from "react-hook-form";
-import { FIELD_EMAIL, FIELD_RESET_PASSWORD } from "./helper";
+import { FIELD_EMAIL } from "./helper";
 import SignUpField from "./SignUpField";
 import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import { getForgotPassword } from "../../constants/requests";
-import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
 import { DIALOG_TEXT, FLEX_CONTAINER } from "./style";
 import ResetPassword from "../../store/auth/ResetPassword";
 import { selectAuthModalInfo } from "../../store/auth/selector";
 import { setAuthModalInfo } from "../../store/auth/authSlice";
+import ResetPasswordComponent from "./ResetPassword";
+import { SIGN_UP_ROUTE } from "../../constants/routes";
 
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
@@ -49,25 +48,21 @@ const ContentContainer = styled("div")(({ tehem }) => ({
   marginLeft: "154px",
 }));
 
-const dialogMesseng ="Try again "
 
 function ForgotPassword() {
   const {search} = useLocation()
   const dispatch = useDispatch()
   const modalInfo = useSelector(selectAuthModalInfo)
   const token = useMemo(() => search && search.split('=')[1], [search])
-  const [open, setOpen] = useState(false);
   const {
     handleSubmit,
     register,
     formState: { errors },
-    watch,
   } = useForm({
     mode: "onChange",
     shouldFocusError: false,
   });
   const navigate = useNavigate()
-  console.log(modalInfo)
 
   return (
     <>
@@ -97,43 +92,8 @@ function ForgotPassword() {
           }}
         >
           <ContentContainer>
-            {token ?
-             <Box>
-               <Title>
-                 Please enter a new password for your account.
-               </Title>
-                <FormControl 
-              sx={{mt:"36px"}}
-              >
-               <Box sx={{
-                 display:"flex",
-                 flexDirection:"column",
-                 gap:"20px"
-               }}>
-                 {FIELD_RESET_PASSWORD(watch).map((el) => {
-                   let { name: value, isPassword, key: objKey, error } = el;
-                   return (
-                      <SignUpField
-                         {...{ isPassword, register, value, objKey, errors, error }}
-                         key={objKey}
-                       />
-                );
-              })}
-               </Box>
-               <Button
-               onClick={() => {dispatch()}}
-              sx={{
-                ...TEMPLATE_BUTTON_CREATE,
-                mt:"26px",
-                width: "466px",
-                ...{ textTransform: "none" },
-              }}
-
-            >
-              Submit
-            </Button>
-            </FormControl>
-             </Box>:
+            {token ? <ResetPasswordComponent token={token} />
+             :
             <Box>
               <Title variant="h1" component="div">
               Forgot password?
@@ -170,6 +130,7 @@ function ForgotPassword() {
                 handleSubmit(data=>{
                   dispatch(ResetPassword(data.email))
                 })()
+                
               }}
               sx={{
                 ...TEMPLATE_BUTTON_CREATE,

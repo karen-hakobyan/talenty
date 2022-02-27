@@ -4,7 +4,9 @@ import { HR_ROLE } from "../../constants/role";
 import Registration from "./Registration";
 import { errorMessage } from "../../helpers/errorMessage";
 import ResetPassword from "./ResetPassword";
-
+import ValidateToken from "./ChangePassword";
+import ChangePassword from "./ChangePassword";
+// change password
 const initialState = {
     jwt: null,
     userInfo: null,
@@ -12,6 +14,8 @@ const initialState = {
     loading: false,
     modalInfo: null,
     signOut: false,
+    isValidToken: null,
+    isChnagePassword: null
 }
 const authSlice = createSlice({
     name: 'auth',
@@ -87,10 +91,31 @@ const authSlice = createSlice({
             console.log("fulfilled");
         },
         [ResetPassword.rejected]: (state, { payload }) => {
-            console.log("rejected");
             state.loading = false
-            state.modalInfo = errorMessage[payload.response.data.message]
+            state.modalInfo = errorMessage[payload]
         },
+        [ValidateToken.pending]: (state) => {
+            state.loading = true
+        },
+        [ValidateToken.fulfilled]: (state) => {
+            state.isValidToken = true
+            state.loading = false
+        },
+        [ValidateToken.rejected]: (state, { payload }) => {
+            state.isValidToken = false
+            state.loading = false
+        },
+        [ChangePassword.panding]: (state) => {
+            state.loading = true
+        },
+        [ChangePassword.fulfilled]: (state) => {
+            state.loading = false
+            state.isChnagePassword = true
+        },
+        [ChangePassword.rejected]: (state, { payload }) => {
+            state.loading = false
+            state.isChnagePassword = false
+        }
     }
 })
 

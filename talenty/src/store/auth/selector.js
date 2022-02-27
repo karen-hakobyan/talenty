@@ -7,3 +7,7 @@ export const selectAuthUserInfo = (state) => state.auth.userInfo
 export const selectAuthIsCompany = (state) => state.auth.isCompany
 
 export const selectAuthModalInfo = state => state.auth.modalInfo
+
+export const selectIsValidToken = state => state.auth.isValidToken
+
+export const selectIsChanegePassword = state => state.auth.isChnagePassword

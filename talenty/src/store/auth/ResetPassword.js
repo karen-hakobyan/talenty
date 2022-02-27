@@ -5,10 +5,10 @@ const ResetPassword = createAsyncThunk('auth/ResetPassword', async(payload, thun
     let response
     try {
         response = await instance.get(getForgotPassword(payload))
+        return response.data
     } catch (err) {
-        return thunkAPI.rejectWithValue({ err })
+        return thunkAPI.rejectWithValue(err.response.data.message)
     }
-    return response.data
 })
 
 export default ResetPassword

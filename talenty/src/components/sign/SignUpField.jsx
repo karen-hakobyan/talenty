@@ -5,7 +5,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 const SignUpField = React.forwardRef(
-    ({register, value, isPassword, objKey, errors, error}, ref) => {
+    ({register, value, isPassword, objKey, errors, error, ...restProps}, ref) => {
         const [showPass, setShowPass] = useState(false)
 
         return (
@@ -39,6 +39,7 @@ const SignUpField = React.forwardRef(
                     placeholder={value}
                     error={!!errors?.[objKey]}
                     helperText={errors[objKey] ? errors[objKey].message : ""}
+                    {...restProps}
                 />
             </Box>
         );
