@@ -32,6 +32,7 @@ const authSlice = createSlice({
             }
             localStorage.clear()
             sessionStorage.clear()
+            state.signOut = true
         },
         setAuthModalInfo: (state, { payload }) => {
             state.modalInfo = payload

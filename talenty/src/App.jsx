@@ -6,6 +6,7 @@ import Routes from "./routes";
 import {getJwt} from "./components/dashboard/helper";
 import {setAuthInitialState, setAuthSignOut} from "./store/auth/authSlice";
 import { LANDING_PAGE_ROUTE } from "./constants/routes";
+import {setGlobalInitialData, setTemplateData} from "./store/globalData/slice";
 
 function App() {
     const dispatch = useDispatch()
@@ -16,10 +17,12 @@ function App() {
         if(!getJwt()) {
             dispatch(setAuthInitialState())
         }
-    },[dispatch, navigate])
+    },[dispatch])
     useEffect(() => {
         if(isSignOut) {
+            console.log('mtav appi effecti mej')
             navigate(LANDING_PAGE_ROUTE)
+            dispatch(setGlobalInitialData())
             dispatch(setAuthSignOut(false))
         }
     },[isSignOut, navigate, dispatch])
