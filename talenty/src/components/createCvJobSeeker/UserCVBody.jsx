@@ -1,4 +1,4 @@
-import {Box, Grid} from "@mui/material";
+import {Box} from "@mui/material";
 import {memo} from "react";
 import typeComponents, {TYPES_TAKES_WHOLE_ROW} from "./typeComponents/typeComponents";
 
