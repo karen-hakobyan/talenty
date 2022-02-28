@@ -746,7 +746,7 @@ let systemTemplate = {
               _id: ObjectId(),
               name: "Language",
               metadata: {
-                type: "text",
+                type: "language",
                 maxLength: 20,
                 editable: false,
                 required_editable: true,
