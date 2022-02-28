@@ -160,6 +160,8 @@ public class ValidationChecker {
                 break;
             }
 
+            case "language":
+                throw new InvalidLanguageTypeException();
             case "professional_skill":
                 throw new InvalidProfessionalSkillTypeException();
             case "personal_skill":
