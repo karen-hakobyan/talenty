@@ -20,6 +20,7 @@ export default function Section({data}) {
     if (data.fields[0].metadata.type === 'expected_salary') {
         return <ExpectedSalary {...{data}} />
     }
+    return null
 }
 
 function ExpectedSalary({data}) {
