@@ -7,7 +7,6 @@ import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
 import com.talenty.logical_executors.LogicExecutor;
-import com.talenty.logical_executors.SubmittedSectionValidationExecutor;
 import com.talenty.logical_executors.SubmittedSectionsValidationExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.SubmittedTemplateRepository;
@@ -42,7 +41,6 @@ public class SubmittedTemplateService {
 //                parentTemplate.getFields(),
 //                submittedTemplate.getFields(),
 //                applicationContext.getBean(FieldsIdValidationExecutor.class),
-//                applicationContext.getBean(SubmittedSectionsValidationExecutor.class),
 //                applicationContext.getBean(SubmittedSectionValidationExecutor.class)
 //        );
 
@@ -102,7 +100,6 @@ public class SubmittedTemplateService {
                     ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedField, tempParentField);
                 }
             } else if (tempSubmittedField.getFields() != null && tempParentField.getFields() != null) {
-                ValidationChecker.assertSubmittedSectionIsValid(tempSubmittedField);
                 cleanUpSubmittedTemplateFields(tempSubmittedField.getFields(), tempParentField.getFields());
             }
 

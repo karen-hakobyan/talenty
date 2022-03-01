@@ -81,27 +81,6 @@ public class ValidationChecker {
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
-    public static boolean assertSubmittedSectionIsValid(final FieldDocument section) {
-        final Map<String, Object> sectionMetadata = section.getMetadata();
-        if (sectionMetadata.containsKey("selected_values") && sectionMetadata.get("selected_values").equals("only_one")) {
-            int temp = 0;
-            for (final FieldDocument field : section.getFields()) {
-                if (field.getMetadata().containsKey("submitted_value")) {
-                    if (++temp > 1) throw new InvalidSectionException();
-                }
-            }
-            if (temp == 1) {
-                return true;
-            }
-            if (section.getMetadata().containsKey("required")) {
-                if ((boolean) section.getMetadata().get("required")) {
-                    throw new InvalidSectionException();
-                }
-            }
-        }
-        return true;
-    }
-
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
         final String submittedValue = (String) submittedField.getMetadata().get("submitted_value");
         final String type = (String) parentField.getMetadata().get("type");
@@ -109,9 +88,7 @@ public class ValidationChecker {
         final Map<String, Object> parentMetadata = parentField.getMetadata();
         if (parentMetadata.containsKey("values")) {
             final List<String> values = (List<String>) parentMetadata.get("values");
-            if (values.contains(submittedValue)) {
-                return true;
-            }
+            if (values.contains(submittedValue)) return true;
         }
 
         switch (type) {
@@ -160,6 +137,9 @@ public class ValidationChecker {
                 break;
             }
 
+            case "simple_evaluate_bar":
+            case "language_evaluate_bar":
+                throw new InvalidEvaluateBarException();
             case "language":
                 throw new InvalidLanguageTypeException();
             case "professional_skill":
@@ -333,8 +313,8 @@ public class ValidationChecker {
     private static void assertDeletedSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
         for (final FieldDocument parentSection : parentTemplate.getFields()) {
             if (Objects.equals(parentSection.getId(), section.getId())) {
-                if(parentSection.getMetadata().containsKey("deletable")) {
-                    if((boolean) parentSection.getMetadata().get("deletable")) {
+                if (parentSection.getMetadata().containsKey("deletable")) {
+                    if ((boolean) parentSection.getMetadata().get("deletable")) {
                         return;
                     }
                 }
@@ -345,7 +325,7 @@ public class ValidationChecker {
 
     // Considering both, field and section validation
     private static void assertNewFieldIsValid(final FieldDocument newField) {
-        if(newField.getMetadata().get("type").equals("section") && newField.getFields() == null) {
+        if (newField.getMetadata().get("type").equals("section") && newField.getFields() == null) {
             System.out.println("Section can't be empty (at least one field is required)");
             throw new InvalidSectionException();
         }
