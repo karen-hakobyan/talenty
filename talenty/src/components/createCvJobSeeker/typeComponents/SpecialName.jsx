@@ -1,18 +1,24 @@
 import TextField from "../../../shared/components/Textfield";
-import SubSection from "../../shared/subSection";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
+import {setTemplateData} from "../../../store/globalData/slice";
+import JobSeekerSubsection from "../JobSeekerSubsection";
 
-export default function SpecialName({data, sx = {}}) {
+export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
+    const dispatch = useDispatch()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
-    return <SubSection
+    return <JobSeekerSubsection
         label={data.name}
-        inputComponent={
+        Component={
             <TextField
-                sx={{width: '500px'}}
+                sx={{width: '500px', ...fieldStyle}}
                 onChange={(e) => {
                     setValue(e.target.value)
                 }}
                 value={value}
+                onBlur={() => {
+                    dispatch(setTemplateData({id: data.id, value}))
+                }}
             />}
         sx={sx}
     />

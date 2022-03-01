@@ -3,5 +3,8 @@ const selectGlobalDataViaKey = (key) => {
         return state.globalData[key];
     };
 };
+const selectLinksController = (state) => {
+    return state.globalData.linksController
+}
 
-export {selectGlobalDataViaKey};
+export {selectGlobalDataViaKey,selectLinksController};

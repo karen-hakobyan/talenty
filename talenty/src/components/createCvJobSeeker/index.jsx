@@ -1,29 +1,24 @@
 import {Box} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {ArrowBack} from "../../assets/icons/jobseeker";
-import {
-    TEMPLATE_INITIAL_DATA,
-    TEMPLAT_DATA,
-} from "../../constants/localStorage";
-import {
-    localStorageGetter,
-    localStorageSetter,
-} from "../../helpers/localStorage";
-import {globalDataSetter} from "../../request/get";
 import Button from "../../shared/components/Button";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../shared/styles";
-import {setExactPage, setGlobalDataViaKey, setNextPage, setPrevPage} from "../../store/globalData/slice";
+import {
+    addSectionContainerAction,
+    setExactPage,
+    setNextPage,
+    setPrevPage
+} from "../../store/globalData/slice";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
+import {getTemplate} from "../../store/globalData/getTemplate";
 
 export default function CreateCvJobSeeker() {
-    let [data, setData] = useState(null);
-    const [, setUnchangedData] = useState(null);
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
-
+    const templateData = useSelector((state) => state.globalData.templateData)
     useEffect(() => {
         if (!exactPage) {
             dispatch(setExactPage(1))
@@ -31,35 +26,24 @@ export default function CreateCvJobSeeker() {
     }, [dispatch, exactPage])
     // update local storage whenever data changed and also redux
     useEffect(() => {
-        if (data) {
-            let unchangedData = localStorageGetter(TEMPLATE_INITIAL_DATA);
-            setUnchangedData(unchangedData);
-            localStorageSetter(TEMPLAT_DATA, data);
-            dispatch(setGlobalDataViaKey({key: TEMPLAT_DATA, value: data}));
+        if (templateData === null) {
+            dispatch(getTemplate())
         }
-    }, [data, dispatch]);
-    useEffect(() => {
-        let storageExistingData = localStorageGetter(TEMPLAT_DATA);
+    }, [dispatch, templateData])
 
-        storageExistingData
-            ? setData(storageExistingData)
-            : globalDataSetter({
-                stateSetter: (data) => {
-                    setData(data);
-                    localStorageSetter(TEMPLATE_INITIAL_DATA, data);
-                },
-                urlKey: "getTemplates",
-            });
-    }, []);
-
-    if (!data) {
+    if (!templateData) {
         return null;
     }
     return (
         <Box sx={{pt: "44px", pl: "52px", pr: "52px", minHeight: '100vh'}}>
-            <Pagination pagesCount={data?.fields.length || 0} {...{exactPage}} />
+            <Pagination pagesCount={templateData?.fields.length || 0} {...{exactPage}} />
             {/* body */}
-            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 'calc(100vh - 130px)'}}>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                minHeight: 'calc(100vh - 130px)'
+            }}>
                 <Box
                     sx={{
                         mt: "44px",
@@ -68,8 +52,8 @@ export default function CreateCvJobSeeker() {
                         gap: "42px",
                     }}
                 >
-                    <SharedTemplateHeader title={data?.fields[exactPage - 1]?.name}/>
-                    <UserCVBody data={data?.fields[exactPage - 1]}/>
+                    <SharedTemplateHeader title={templateData?.fields[exactPage - 1]?.name}/>
+                    <UserCVBody data={templateData?.fields[exactPage - 1]}/>
                 </Box>
                 {/* actions bellow*/}
                 <Box sx={{display: "flex", pt: '44px', pb: '40px'}}>
@@ -90,8 +74,17 @@ export default function CreateCvJobSeeker() {
                             gap: "12px",
                         }}
                     >
-                        {data?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' && <Button sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}>Add</Button>}
-                        {data?.fields && data.fields.length !== exactPage && (
+                        {templateData?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' &&
+                            <Button
+                                sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
+                                onClick={() => {
+                                    dispatch(addSectionContainerAction(templateData.fields[exactPage - 1].id))
+                                }}
+                            >
+                                Add
+                            </Button>
+                        }
+                        {templateData?.fields && templateData.fields.length !== exactPage && (
                             <Button
                                 sx={HOME_PRIMARY_BUTTON}
                                 onClick={() => {

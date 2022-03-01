@@ -1,5 +1,4 @@
 import {getJwt} from "../../components/dashboard/helper";
-import {ROLE_BASE_NAVIGATION} from "../../constants/role";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 export function deleteFromTempleteById(templateData, id) {
@@ -11,21 +10,6 @@ export function deleteFromTempleteById(templateData, id) {
     });
 }
 
-export const checkNavigation = (navigate, route, isFromDashboard) => {
-    if (!navigate) {
-        return;
-    }
-    let jwt = getJwt();
-    let userInfo = jwt ? JSON.parse(atob(jwt.split(".")[1])) : {};
-    if (jwt) {
-        if (!isFromDashboard) {
-            navigate(ROLE_BASE_NAVIGATION[userInfo.role]);
-        }
-    } else if (route) {
-        navigate(route);
-    }
-};
-
 export const checkUserExistence = (navigate) => {
     if (!navigate) {
         return null;
@@ -34,3 +18,15 @@ export const checkUserExistence = (navigate) => {
         navigate(LANDING_PAGE_ROUTE);
     }
 };
+
+export const isValidPhoneNumber = (value) => {
+    if(value.includes(' ')){
+        return false
+    }
+    if(value[0] === '+') {
+        let temp = +value.substring(1, value.length)
+        return !isNaN(temp)
+    }
+    let temp = +value
+    return !isNaN(temp)
+}

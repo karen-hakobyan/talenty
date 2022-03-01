@@ -1,7 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {getTemplate} from "./getTemplate";
+import changeTemplateData, {addSectionContainer} from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     exactPage: 1,
+    templateInitialData: null,
+    templateData: null,
+    linksController: null,
 };
 
 export const globalDataSlice = createSlice({
@@ -12,9 +17,6 @@ export const globalDataSlice = createSlice({
             const {key, value} = payload;
             state[key] = value;
         },
-        setInitialState: (state) => {
-            state = initialState;
-        },
         setNextPage: (state) => {
             state.exactPage = state.exactPage + 1
         },
@@ -23,10 +25,41 @@ export const globalDataSlice = createSlice({
         },
         setExactPage: (state, {payload}) => {
             state.exactPage = payload
+        },
+        setTemplateData: (state, {payload: {id, value}}) => {
+            state.templateData = changeTemplateData(state.templateData, id, value)
+        },
+        addSectionContainerAction: (state, {payload: id}) => {
+            state.templateData = addSectionContainer(state.templateData, id)
+        },
+        setGlobalInitialData: (state) => {
+            for (let key in initialState) {
+                state[key] = initialState[key]
+            }
+            localStorage.clear()
+            sessionStorage.clear()
+        },
+        setLinksController: (state, {payload}) => {
+            state.linksController = payload
         }
     },
+    extraReducers: {
+        [getTemplate.fulfilled]: (state, {payload}) => {
+            state.templateData = payload
+        }
+    }
 });
 
-export const {setInitialState, setGlobalDataViaKey,setNextPage,setPrevPage, setExactPage} = globalDataSlice.actions;
+export const {
+    setInitialState,
+    setGlobalDataViaKey,
+    setNextPage,
+    setPrevPage,
+    setExactPage,
+    setTemplateData,
+    setGlobalInitialData,
+    setLinksController,
+    addSectionContainerAction,
+} = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;
