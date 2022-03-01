@@ -8,10 +8,17 @@ import {Checkbox} from "../../shared/Checkbox";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import SpecialName from "./SpecialName";
 import TextField from "../../../shared/components/Textfield";
+import MilitaryId from "./MilitaryId";
+import Photo from "./Photo";
 
 const salaryTypes = {
     expected_salary: Salary,
     salary_type: SalaryType,
+}
+const licensesTypes = {
+    driving_license: MilitaryId,
+    military_id: MilitaryId,
+    add_photo: Photo,
 }
 export default function Section({data}) {
     if (data.fields[0].metadata.type === 'social_link') {
@@ -20,7 +27,18 @@ export default function Section({data}) {
     if (data.fields[0].metadata.type === 'expected_salary') {
         return <ExpectedSalary {...{data}} />
     }
-    return null
+    return <PhotoLicenses {...{data}}/>
+}
+
+function PhotoLicenses({data}) {
+    console.log(data)
+    return <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+        {data.fields.map(el => {
+            let TempComponent = licensesTypes[el.metadata.type]
+            TempComponent = memo(TempComponent)
+            return <TempComponent data={el} />
+        })}
+    </Box>
 }
 
 function ExpectedSalary({data}) {
