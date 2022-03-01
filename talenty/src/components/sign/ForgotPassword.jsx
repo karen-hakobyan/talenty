@@ -16,10 +16,10 @@ import SignUpField from "./SignUpField";
 import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import { DIALOG_TEXT, FLEX_CONTAINER } from "./style";
 import ResetPassword from "../../store/auth/ResetPassword";
-import { selectAuthModalInfo } from "../../store/auth/selector";
-import { setAuthModalInfo } from "../../store/auth/authSlice";
+import { selectAuthModalInfo, selectIsResetPassword } from "../../store/auth/selector";
+import { setAuthIsResetPassword, setAuthModalInfo } from "../../store/auth/authSlice";
 import ResetPasswordComponent from "./ResetPassword";
-import { SIGN_UP_ROUTE } from "../../constants/routes";
+import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from "../../constants/routes";
 
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
@@ -53,6 +53,7 @@ function ForgotPassword() {
   const {search} = useLocation()
   const dispatch = useDispatch()
   const modalInfo = useSelector(selectAuthModalInfo)
+  const isResetPassword = useSelector(selectIsResetPassword)
   const token = useMemo(() => search && search.split('=')[1], [search])
   const {
     handleSubmit,
@@ -63,6 +64,7 @@ function ForgotPassword() {
     shouldFocusError: false,
   });
   const navigate = useNavigate()
+
 
   return (
     <>
@@ -76,7 +78,15 @@ function ForgotPassword() {
               <Button sx={{
                 ...TEMPLATE_BUTTON_CREATE, width: "176px" 
               }}
-              onClick={()=>dispatch(setAuthModalInfo(null))}
+              onClick={()=>{
+                if(isResetPassword){
+                  navigate(SIGN_IN_ROUTE)
+                  dispatch(setAuthIsResetPassword())
+                  dispatch(setAuthModalInfo(null))
+
+                }
+                dispatch(setAuthModalInfo(null))
+              }}
               >
                 Ok
               </Button>
@@ -115,10 +125,10 @@ function ForgotPassword() {
               >
                <Box>
                  {FIELD_EMAIL.map((el) => {
-                   let { name: value, isPassword, key: objKey, error } = el;
+                   let { name: value, isPassword, key: objKey, error,placeholder } = el;
                    return (
                       <SignUpField
-                         {...{ isPassword, register, value, objKey, errors, error }}
+                         {...{ isPassword, register, value, objKey, errors, error,placeholder }}
                          key={objKey}
                        />
                 );

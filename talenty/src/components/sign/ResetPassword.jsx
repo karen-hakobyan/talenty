@@ -12,9 +12,8 @@ import { useForm } from "react-hook-form";
 import {  FIELD_RESET_PASSWORD } from "./helper";
 import SignUpField from "./SignUpField";
 import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
-import {   selectIsChanegePassword, selectIsValidToken } from "../../store/auth/selector";
-import ValidateToken, { ChangePassword } from "../../store/auth/ChangePassword";
-import { SIGN_IN_ROUTE } from "../../constants/routes";
+import {  selectIsValidToken } from "../../store/auth/selector";
+import { ChangePassword,ValidateToken } from "../../store/auth/ChangePassword";
 
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -43,7 +42,6 @@ function ResetPasswordComponent({token}) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isValidToken = useSelector(selectIsValidToken)
-  const isChnagePassword = useSelector(selectIsChanegePassword)
   const {
     handleSubmit,
     register,
@@ -58,22 +56,14 @@ function ResetPasswordComponent({token}) {
     	dispatch(ValidateToken(token))
   },[dispatch,token])
 
+
   useEffect(() => {
     if(isValidToken === false) {
       navigate('/')
     }
   },[isValidToken,navigate])
-
-  // useEffect(()=>{
-  //   if(isChnagePassword===true){
-  //     navigate(SIGN_IN_ROUTE)
-  //   }else if(isChnagePassword===false){
-  //     navigate("*")
-  //   }
-  // },[isChnagePassword,navigate])
   
-  
-  return (
+  return  (
     <>
     <Box>
       
@@ -90,10 +80,10 @@ function ResetPasswordComponent({token}) {
                  gap:"20px"
                }}>
                  {FIELD_RESET_PASSWORD(watch).map((el) => {
-                   let { name: value, isPassword, key: objKey, error } = el;
+                   let { name: value, isPassword, key: objKey, error,placeholder } = el;
                    return (
                       <SignUpField
-                         {...{ isPassword, register, value, objKey, errors, error }}
+                         {...{ isPassword, register, value, objKey, errors, error,placeholder }}
                          key={objKey}
                        />
                 );
@@ -108,11 +98,6 @@ function ResetPasswordComponent({token}) {
                             }
                             dispatch(ChangePassword(dataChange))
                           })()
-                          if(isChnagePassword===true){
-                              navigate(SIGN_IN_ROUTE)
-                             }else if(isChnagePassword===false){
-                               navigate("*")
-                            }
                        }}
                        sx={{
                         ...TEMPLATE_BUTTON_CREATE,

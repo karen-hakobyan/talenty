@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import {TalentyLogo} from "../../assets/sign";
 import "../../fonts/index.css";
 import {Box, Button, Checkbox, Dialog, FormControl} from "@mui/material";
-import {FIELD} from "./signInHelper";
 import SignInField from "./SignInField";
 import {TEMPLATE_BUTTON_CREATE} from "../../shared/styles";
 import {
@@ -21,6 +20,7 @@ import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
 import {selectAuthIsCompany, selectAuthJwt, selectAuthModalInfo} from "../../store/auth/selector";
 import { setAuthModalInfo } from "../../store/auth/authSlice";
 import { ENTER_KEY } from "../../constants/keyCodes";
+import { FIELD_SIGN_IN } from "./helper";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -94,11 +94,11 @@ function SignIn() {
                                 gap: "20px",
                             }}
                         >
-                            {FIELD.map(({objKey, label, isPassword, error}) => {
+                            {FIELD_SIGN_IN.map(({objKey, label, isPassword, error,placeholder}) => {
                                 return (
                                     <SignInField
                                         key={objKey}
-                                        {...{objKey, label, isPassword, register, errors, error}}
+                                        {...{objKey, label, isPassword, register, errors, error,placeholder}}
                                          {...(isPassword ? {onKeyDown : (event)=>{
                                         
                                         if(event.key === ENTER_KEY){

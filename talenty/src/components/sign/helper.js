@@ -1,5 +1,6 @@
 export const FIELDS = (watch) => [{
         name: "First name",
+        placeholder: "John",
         key: "firstName",
         error: {
             required: "This field is required",
@@ -12,6 +13,7 @@ export const FIELDS = (watch) => [{
     },
     {
         name: "Last name",
+        placeholder: "Smith",
         key: "lastName",
         error: {
             maxLength: { value: 50, message: "max length should be 50." },
@@ -24,6 +26,7 @@ export const FIELDS = (watch) => [{
     },
     {
         name: "Email",
+        placeholder: "abcde@gmail.com",
         key: "email",
         error: {
             required: "This field is required",
@@ -35,6 +38,7 @@ export const FIELDS = (watch) => [{
     },
     {
         name: "Password",
+        placeholder: "Pabc123!",
         isPassword: true,
         key: "password",
         error: {
@@ -55,6 +59,7 @@ export const FIELDS = (watch) => [{
     },
     {
         name: "Confirm password",
+        placeholder: "Pabc123!",
         isPassword: true,
         key: "confirmPassword",
         error: {
@@ -66,9 +71,32 @@ export const FIELDS = (watch) => [{
         },
     },
 ];
+export const FIELD_SIGN_IN = [{
+        objKey: "email",
+        placeholder: "abcde@gmail.com",
+        label: "Email",
+        error: {
+            pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "The email is invalid",
+            },
+            required: "The field is Required",
+        },
+    },
+    {
+        objKey: "password",
+        label: "Password",
+        placeholder: "Pabc123!",
+        isPassword: "true",
+        error: {
+            required: "The field is Required",
+        },
+    },
+];
 
 export const FIELDS_COMPANY = (watch) => [{
         name: "Company name",
+        placeholder: "XXX LLC",
         key: "companyName",
         error: {
             required: "This field is required",
@@ -80,6 +108,7 @@ export const FIELDS_COMPANY = (watch) => [{
 
 export const FIELD_EMAIL = [{
     name: "Email",
+    placeholder: "abcde@gmail.com",
     key: "email",
     error: {
         required: "This field is required",
@@ -92,6 +121,7 @@ export const FIELD_EMAIL = [{
 
 export const FIELD_RESET_PASSWORD = (watch) => [{
         name: "Password",
+        placeholder: "Pabc123!",
         isPassword: true,
         key: "password",
         error: {
@@ -112,6 +142,7 @@ export const FIELD_RESET_PASSWORD = (watch) => [{
     },
     {
         name: "Confirm password",
+        placeholder: "Pabc123!",
         isPassword: true,
         key: "confirmPassword",
         error: {
