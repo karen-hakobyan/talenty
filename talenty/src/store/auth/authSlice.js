@@ -4,9 +4,7 @@ import { HR_ROLE } from "../../constants/role";
 import Registration from "./Registration";
 import { errorMessage } from "../../helpers/errorMessage";
 import ResetPassword from "./ResetPassword";
-import ValidateToken from "./ChangePassword";
-import ChangePassword from "./ChangePassword";
-// change password
+import { ValidateToken, ChangePassword } from "./ChangePassword";
 const initialState = {
     jwt: null,
     userInfo: null,
@@ -15,7 +13,8 @@ const initialState = {
     modalInfo: null,
     signOut: false,
     isValidToken: null,
-    isChnagePassword: null
+    isChangePassword: null,
+    isResetPassword: false,
 }
 const authSlice = createSlice({
     name: 'auth',
@@ -43,6 +42,12 @@ const authSlice = createSlice({
         },
         setAuthSignOut: (state, { payload }) => {
             state.signOut = payload
+        },
+        setAuthIsChangePass: (state) => {
+            state.isChangePassword = null
+        },
+        setAuthIsResetPassword: (state) => {
+            state.isResetPassword = false
         }
     },
     extraReducers: {
@@ -54,7 +59,6 @@ const authSlice = createSlice({
             state.loading = false
         },
         [Login.pending]: (state) => {
-            console.log('pending')
             state.loading = true
         },
         [Login.rejected]: (state) => {
@@ -79,7 +83,6 @@ const authSlice = createSlice({
             }
         },
         [Registration.pending]: (state) => {
-            console.log("pending");
             state.loading = true
         },
         [ResetPassword.pending]: (state) => {
@@ -88,8 +91,8 @@ const authSlice = createSlice({
         },
         [ResetPassword.fulfilled]: (state, { payload }) => {
             state.loading = false
+            state.isResetPassword = true
             state.modalInfo = "Check your email"
-            console.log("fulfilled");
         },
         [ResetPassword.rejected]: (state, { payload }) => {
             state.loading = false
@@ -111,14 +114,14 @@ const authSlice = createSlice({
         },
         [ChangePassword.fulfilled]: (state) => {
             state.loading = false
-            state.isChnagePassword = true
+            state.isChangePassword = true
         },
         [ChangePassword.rejected]: (state, { payload }) => {
             state.loading = false
-            state.isChnagePassword = false
+            state.isChangePassword = false
         }
     }
 })
 
 export default authSlice.reducer
-export const { setAuthInitialState, setAuthModalInfo, setAuthSignOut } = authSlice.actions
+export const { setAuthInitialState, setAuthModalInfo, setAuthSignOut, setAuthIsChangePass, setAuthIsResetPassword } = authSlice.actions

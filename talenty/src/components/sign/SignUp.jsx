@@ -121,10 +121,10 @@ export default function SignUp() {
                             ))}
                         </Box>
                         {fields.map((el) => {
-                            let {name: value, isPassword, key: objKey, error} = el;
+                            let {name: value, isPassword, key: objKey, error,placeholder} = el;
                             return (
                                 <SignUpField
-                                    {...{isPassword, register, value, objKey, errors, error}}
+                                    {...{isPassword, register, value, objKey, errors, error,placeholder}}
                                     key={objKey}
                                    
                                 />
