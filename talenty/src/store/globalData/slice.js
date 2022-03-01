@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {getTemplate} from "./getTemplate";
-import changeTemplateData from "../../components/createCvJobSeeker/actions";
+import changeTemplateData, {addSectionContainer} from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     exactPage: 1,
@@ -29,6 +29,9 @@ export const globalDataSlice = createSlice({
         setTemplateData: (state, {payload: {id, value}}) => {
             state.templateData = changeTemplateData(state.templateData, id, value)
         },
+        addSectionContainerAction: (state, {payload: id}) => {
+            state.templateData = addSectionContainer(state.templateData, id)
+        },
         setGlobalInitialData: (state) => {
             for (let key in initialState) {
                 state[key] = initialState[key]
@@ -55,7 +58,8 @@ export const {
     setExactPage,
     setTemplateData,
     setGlobalInitialData,
-    setLinksController
+    setLinksController,
+    addSectionContainerAction,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

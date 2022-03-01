@@ -1,10 +1,10 @@
 import {Box} from "@mui/material";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
-import { useMemo, useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 
 const setExactWidth = (width, widths) => {
-    for(let i = 0; i < widths.length - 1; i++) {
-        if(width > widths[i].width && width < widths[i + 1].width) {
+    for (let i = 0; i < widths.length - 1; i++) {
+        if (width > widths[i].width && width < widths[i + 1].width) {
             return widths[i + 1].width;
         }
     }
@@ -19,15 +19,16 @@ export default function EvaluateBar({data}) {
             result.push({name, width: index * unitWidth})
         })
         return result
-    },[data])
+    }, [data])
 
     return <JobSeekerSubsection
         label='Percentage'
         Component={<Box sx={{display: 'flex', flexDirection: 'column', gap: '6px'}}>
-            <Box ref={ref} sx={{position: 'relative',width: '500px', height: '40px',border: '1px solid #D9D9D9'}} onClick={(event) => {
-                setChildWidth(setExactWidth(event.clientX - ref.current.offsetLeft, widths))
-            }}>
-                <Box sx={{height: '38px', width: `${childWidth}px`, background: '#8C0DF0'}} />
+            <Box ref={ref} sx={{position: 'relative', width: '500px', height: '40px', border: '1px solid #D9D9D9'}}
+                 onClick={(event) => {
+                     setChildWidth(setExactWidth(event.clientX - ref.current.offsetLeft, widths))
+                 }}>
+                <Box sx={{height: '38px', width: `${childWidth}px`, background: '#8C0DF0'}}/>
             </Box>
             <Box sx={{display: 'flex', width: '500px', gap: '72px'}}>
                 {data.fields.map(el => {

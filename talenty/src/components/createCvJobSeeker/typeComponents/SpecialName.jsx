@@ -1,5 +1,4 @@
 import TextField from "../../../shared/components/Textfield";
-import SubSection from "../../shared/subSection";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {setTemplateData} from "../../../store/globalData/slice";
@@ -12,7 +11,7 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
         label={data.name}
         Component={
             <TextField
-                sx={{width: '500px',...fieldStyle }}
+                sx={{width: '500px', ...fieldStyle}}
                 onChange={(e) => {
                     setValue(e.target.value)
                 }}

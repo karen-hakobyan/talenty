@@ -15,7 +15,7 @@ export default function Phone({data}) {
                 sx={{width: '500px'}}
                 value={value}
                 onChange={(event) => {
-                    if(isValidPhoneNumber(event.target.value)) {
+                    if (isValidPhoneNumber(event.target.value)) {
                         setValue(event.target.value)
                     }
                 }}

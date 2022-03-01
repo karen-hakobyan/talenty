@@ -1,15 +1,15 @@
 import {useDispatch} from "react-redux";
 import {useState} from "react";
 import TextField from "../../../shared/components/Textfield";
-import SubSection from "../../shared/subSection";
 import {setTemplateData} from "../../../store/globalData/slice";
+import JobSeekerSubsection from "../JobSeekerSubsection";
 
 export default function Address({data}) {
     const dispatch = useDispatch()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
-    return <SubSection
+    return <JobSeekerSubsection
         label={data.name}
-        inputComponent={
+        Component={
             <TextField
                 sx={{width: '500px'}}
                 onChange={(e) => {

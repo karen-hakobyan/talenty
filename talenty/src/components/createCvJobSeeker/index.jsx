@@ -1,11 +1,16 @@
 import {Box} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {ArrowBack} from "../../assets/icons/jobseeker";
 import Button from "../../shared/components/Button";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../shared/styles";
-import {setExactPage, setGlobalDataViaKey, setNextPage, setPrevPage} from "../../store/globalData/slice";
+import {
+    addSectionContainerAction,
+    setExactPage,
+    setNextPage,
+    setPrevPage
+} from "../../store/globalData/slice";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 import {getTemplate} from "../../store/globalData/getTemplate";
@@ -14,7 +19,6 @@ export default function CreateCvJobSeeker() {
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
     const templateData = useSelector((state) => state.globalData.templateData)
-    console.log(templateData)
     useEffect(() => {
         if (!exactPage) {
             dispatch(setExactPage(1))
@@ -71,7 +75,15 @@ export default function CreateCvJobSeeker() {
                         }}
                     >
                         {templateData?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' &&
-                            <Button sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}>Add</Button>}
+                            <Button
+                                sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
+                                onClick={() => {
+                                    dispatch(addSectionContainerAction(templateData.fields[exactPage - 1].id))
+                                }}
+                            >
+                                Add
+                            </Button>
+                        }
                         {templateData?.fields && templateData.fields.length !== exactPage && (
                             <Button
                                 sx={HOME_PRIMARY_BUTTON}
