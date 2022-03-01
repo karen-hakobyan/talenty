@@ -15,7 +15,7 @@ public class EmailSender {
 
     //    @Value("REACT_APP_BACKEND_URL")
     private static final String BACKEND_URL = "https://api.talenty.duckdns.org";
-    private static final String CONFIRM_TOKEN_PART = "/confirm?token=%token%";
+    private static final String CONFIRM_TOKEN_PART = "/sign-in?token=%token%";
     private static final String RESET_PASSWORD_TOKEN_PART = "/forget-password?token=%token%";
     private static String CONFIRMATION_URL;
     private static String RESET_PASSWORD_URL;
