@@ -5,6 +5,8 @@ import CurrentDate from "./CurrentDate";
 import Description from "./Description";
 import EvaluateBar from "./EvaluateBar";
 import LanguageLevelContainer from "./LanguageLevelContainer";
+import ProfSkill from "./ProfSkill";
+import Language from "./Language";
 
 export const sectionContainerTypes = {
     text: SpecialName,
@@ -12,9 +14,10 @@ export const sectionContainerTypes = {
     description: Description,
     date: DateSubSection,
     current_date: CurrentDate,
-    professional_skill: SpecialName,
-    evaluate_bar: EvaluateBar,
-    personal_skill: SpecialName,
-    language_level_container: LanguageLevelContainer,
+    professional_skill: ProfSkill,
+    simple_evaluate_bar: EvaluateBar,
+    personal_skill: ProfSkill,
     url: SpecialName,
+    language: Language,
+    language_evaluate_bar: LanguageLevelContainer,
 }

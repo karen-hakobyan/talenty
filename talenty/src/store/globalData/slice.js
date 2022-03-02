@@ -7,6 +7,7 @@ const initialState = {
     templateInitialData: null,
     templateData: null,
     linksController: null,
+    evaluateWidths: null,
 };
 
 export const globalDataSlice = createSlice({
@@ -41,7 +42,10 @@ export const globalDataSlice = createSlice({
         },
         setLinksController: (state, {payload}) => {
             state.linksController = payload
-        }
+        },
+        setEvaluateWidths: (state, {payload}) => {
+            state.evaluateWidths = payload
+        },
     },
     extraReducers: {
         [getTemplate.fulfilled]: (state, {payload}) => {
@@ -60,6 +64,7 @@ export const {
     setGlobalInitialData,
     setLinksController,
     addSectionContainerAction,
+    setEvaluateWidths
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;
