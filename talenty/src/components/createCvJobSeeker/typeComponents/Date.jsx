@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import TextField from "../../../shared/components/Textfield";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import {setTemplateData} from "../../../store/globalData/slice";
+import BasicDatePicker from "../../shared/DatePicker";
 
 export default function Date({data}) {
     const dispatch = useDispatch()
@@ -10,14 +10,15 @@ export default function Date({data}) {
     return <JobSeekerSubsection
         label={data.name}
         Component={
-            <TextField
-                value={value}
-                type="date"
-                sx={{width: '500px'}}
-                onChange={(event) => setValue(event.target.value)}
-                onBlur={() => {
-                    dispatch(setTemplateData({id: data.id, value}))
-                }}
+            <BasicDatePicker
+                {...{value}}
+                onChange={
+                    (event) => dispatch(setTemplateData({
+                        id: data.id,
+                        value: event.target.value
+                    }))
+                }
+                fieldStyle={{width: '500px'}}
             />
         }
     />
