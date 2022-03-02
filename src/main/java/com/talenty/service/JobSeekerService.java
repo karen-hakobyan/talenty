@@ -41,7 +41,7 @@ public class JobSeekerService {
 
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
         if (userOptional.isPresent()) {
-            System.out.printf("Email '%s' already registered", request.getEmail());
+            System.out.printf("Email '%s' already registered\n", request.getEmail());
             throw new EmailAlreadyRegisteredException();
         }
 
