@@ -26,7 +26,11 @@ public class UserService {
     private final TokenService tokenService;
     private final EmailSender emailSender;
 
-    public UserService(final UserRepository userRepository, final PasswordEncoder passwordEncoder, final UserBuilder userBuilder, final TokenService tokenService, EmailSender emailSender) {
+    public UserService(final UserRepository userRepository,
+                       final PasswordEncoder passwordEncoder,
+                       final UserBuilder userBuilder,
+                       final TokenService tokenService,
+                       final EmailSender emailSender) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userBuilder = userBuilder;
@@ -37,24 +41,24 @@ public class UserService {
     public UserLoginResponseDetails login(final UserLoginRequestDetails request) {
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
         if (userOptional.isEmpty()) {
-            System.out.printf("User with email %s not found", request.getEmail());
+            System.out.printf("User with email '%s' not found", request.getEmail());
             throw new UserNotFoundException();
         }
 
         final boolean doPasswordsMatch = passwordEncoder.matches(request.getPassword(), userOptional.get().getPassword());
         if (!doPasswordsMatch) {
-            System.out.printf("Incorrect password for user with email %s", request.getPassword());
+            System.out.printf("Incorrect password for user with email '%s'", request.getPassword());
             throw new UserNotFoundException();
         }
 
         final UserDocument user = userOptional.get();
         if (!user.isVerifiedAccount()) {
-            System.out.printf("User with email %s is not verified, confirmation email has been sent again!", user.getEmail());
+            System.out.printf("User with email '%s' is not verified, confirmation email has been sent again!", user.getEmail());
             emailSender.sendConfirmation(user.getEmail(), tokenService.generate(user));
             throw new AccountIsNotVerifiedException();
         }
 
-        System.out.printf("User with email %s has been successfully logged in!", user.getEmail());
+        System.out.printf("User with email '%s' has been successfully logged in!", user.getEmail());
         return userBuilder.buildAuthenticatedUser(user);
     }
 
@@ -66,7 +70,7 @@ public class UserService {
         final UserDocument user = userOptional.get();
 
         if (user.isVerifiedAccount()) {
-            System.out.printf("User with email %s already verified his account", user.getEmail());
+            System.out.printf("User with email '%s' already verified his account", user.getEmail());
             tokenService.expireToken(tokenOptional);
             throw new AccountIsAlreadyVerified();
         }

@@ -52,7 +52,7 @@ public class HrService {
 
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
         if (userOptional.isPresent()) {
-            System.out.println("Email: " + request.getEmail() + " already registered!");
+            System.out.printf("Email '%s' already registered", request.getEmail());
             throw new EmailAlreadyRegisteredException();
         }
 
@@ -71,7 +71,7 @@ public class HrService {
         final String token = tokenService.generate(savedHr);
         emailSender.sendConfirmation(request.getEmail(), token);
 
-        System.out.printf("Successfully registered hr with email: %s from company %s\n", savedHr.getEmail(),  savedCompany.getName());
+        System.out.printf("Successfully registered hr with email '%s' from company '%s'\n", savedHr.getEmail(), savedCompany.getName());
         return HrMapper.instance.documentToRegisterResponse(savedHr);
     }
 
