@@ -26,7 +26,7 @@ public class HrService {
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final HrRepository hrRepository;
-    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
     private final TemplateRepository templateRepository;
@@ -34,14 +34,14 @@ public class HrService {
     public HrService(final UserRepository userRepository,
                      final CompanyRepository companyRepository,
                      final HrRepository hrRepository,
-                     final TokenRepository tokenRepository,
+                     final TokenService tokenService,
                      final EmailSender emailSender,
                      final PasswordEncoder passwordEncoder,
                      final TemplateRepository templateRepository) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
-        this.tokenRepository = tokenRepository;
+        this.tokenService = tokenService;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
         this.templateRepository = templateRepository;
@@ -51,9 +51,9 @@ public class HrService {
         ValidationChecker.assertDetailsAreValid(request);
 
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
-
         if (userOptional.isPresent()) {
-            throw new EmailAlreadyRegisteredException("Email: " + request.getEmail() + " already registered!");
+            System.out.println("Email: " + request.getEmail() + " already registered!");
+            throw new EmailAlreadyRegisteredException();
         }
 
         final CompanyDocument company = CompanyMapper.instance.extractCompanyFromRegisterRequest(request);
@@ -68,10 +68,10 @@ public class HrService {
 
         final HrDocument savedHr = hrRepository.save(hr);
 
-        final String token = UUID.randomUUID().toString();
-        tokenRepository.save(new TokenDocument(token, savedHr.getId()));
+        final String token = tokenService.generate(savedHr);
         emailSender.sendConfirmation(request.getEmail(), token);
 
+        System.out.printf("Successfully registered hr with email: %s from company %s\n", savedHr.getEmail(),  savedCompany.getName());
         return HrMapper.instance.documentToRegisterResponse(savedHr);
     }
 

@@ -36,9 +36,9 @@ public class JobSeekerService {
         ValidationChecker.assertDetailsAreValid(request);
 
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
-
         if (userOptional.isPresent()) {
-            throw new EmailAlreadyRegisteredException("Email " + request.getEmail() + "already registered");
+            System.out.println("Email " + request.getEmail() + "already registered");
+            throw new EmailAlreadyRegisteredException();
         }
 
         final JobSeekerDocument jobSeekerDocument = JobSeekerMapper.instance.requestToDocument(request);
@@ -50,6 +50,7 @@ public class JobSeekerService {
         final String token = tokenService.generate(savedJobSeeker);
         emailSender.sendConfirmation(request.getEmail(), token);
 
+        System.out.printf("Successfully registered job seeker with email %s\n", savedJobSeeker.getEmail());
         return JobSeekerMapper.instance.documentToRegisterResponse(savedJobSeeker);
     }
 
