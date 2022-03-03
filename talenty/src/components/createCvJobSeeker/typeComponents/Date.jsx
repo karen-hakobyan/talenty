@@ -6,17 +6,20 @@ import BasicDatePicker from "../../shared/DatePicker";
 
 export default function Date({data}) {
     const dispatch = useDispatch()
-    const [value, setValue] = useState(data.metadata.submitted_value || '')
     return <JobSeekerSubsection
         label={data.name}
         Component={
             <BasicDatePicker
-                {...{value}}
+                value={data.metadata.submitted_value}
                 onChange={
-                    (event) => dispatch(setTemplateData({
-                        id: data.id,
-                        value: event.target.value
-                    }))
+                    (event) => {
+                        // console.log(event.toString())
+                        console.log(event.toDateString())
+                        dispatch(setTemplateData({
+                            id: data.id,
+                            value: event.toDateString(),
+                        }))
+                    }
                 }
                 fieldStyle={{width: '500px'}}
             />

@@ -8,4 +8,6 @@ const selectLinksController = (state) => {
 }
 const selectEvaluatesBarWidths = state => state.globalData.evaluateWidths
 
-export {selectGlobalDataViaKey, selectLinksController, selectEvaluatesBarWidths};
+const selectSectionContainerController = (state) => state.globalData.sectionContainerController
+
+export {selectGlobalDataViaKey, selectLinksController, selectEvaluatesBarWidths, selectSectionContainerController};
