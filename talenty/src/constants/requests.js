@@ -18,3 +18,4 @@ export const getValidateToken = (token) => {
     return `/token?token=${token}`
 }
 export const postChangePassword = (token) => `/reset/password?token=${token}`
+export const getConfirmUser = (token) => `/confirm?token=${token}`

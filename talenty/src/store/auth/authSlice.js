@@ -5,6 +5,7 @@ import Registration from "./Registration";
 import { errorMessage } from "../../helpers/errorMessage";
 import ResetPassword from "./ResetPassword";
 import { ValidateToken, ChangePassword } from "./ChangePassword";
+import { ConfirmUser } from "./ConfirmUser";
 const initialState = {
     jwt: null,
     userInfo: null,
@@ -48,6 +49,10 @@ const authSlice = createSlice({
         },
         setAuthIsResetPassword: (state) => {
             state.isResetPassword = false
+        },
+
+        setIsValidToken: (state, { payload }) => {
+            state.isValidToken = payload
         }
     },
     extraReducers: {
@@ -119,9 +124,20 @@ const authSlice = createSlice({
         [ChangePassword.rejected]: (state, { payload }) => {
             state.loading = false
             state.isChangePassword = false
+        },
+        [ConfirmUser.pending]: (state) => {
+            state.loading = true
+        },
+        [ConfirmUser.fulfilled]: (state) => {
+            state.loading = false
+            state.isValidToken = true
+        },
+        [ConfirmUser.rejected]: (state) => {
+            state.loading = false
+            state.isValidToken = false
         }
     }
 })
 
 export default authSlice.reducer
-export const { setAuthInitialState, setAuthModalInfo, setAuthSignOut, setAuthIsChangePass, setAuthIsResetPassword } = authSlice.actions
+export const { setAuthInitialState, setAuthModalInfo, setAuthSignOut, setAuthIsChangePass, setAuthIsResetPassword, setIsValidToken } = authSlice.actions
