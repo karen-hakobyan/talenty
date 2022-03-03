@@ -24,7 +24,11 @@ public class JobSeekerService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public JobSeekerService(final JobSeekerRepository jobSeekerRepository, final EmailSender emailSender, final TokenService tokenService, final UserRepository userRepository, final PasswordEncoder passwordEncoder) {
+    public JobSeekerService(final JobSeekerRepository jobSeekerRepository,
+                            final EmailSender emailSender,
+                            final TokenService tokenService,
+                            final UserRepository userRepository,
+                            final PasswordEncoder passwordEncoder) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
         this.tokenService = tokenService;
@@ -36,9 +40,9 @@ public class JobSeekerService {
         ValidationChecker.assertDetailsAreValid(request);
 
         final Optional<UserDocument> userOptional = userRepository.findByEmail(request.getEmail());
-
         if (userOptional.isPresent()) {
-            throw new EmailAlreadyRegisteredException("Email " + request.getEmail() + "already registered");
+            System.out.printf("Email '%s' already registered\n", request.getEmail());
+            throw new EmailAlreadyRegisteredException();
         }
 
         final JobSeekerDocument jobSeekerDocument = JobSeekerMapper.instance.requestToDocument(request);
@@ -50,6 +54,7 @@ public class JobSeekerService {
         final String token = tokenService.generate(savedJobSeeker);
         emailSender.sendConfirmation(request.getEmail(), token);
 
+        System.out.printf("Successfully registered job seeker with email '%s'\n", savedJobSeeker.getEmail());
         return JobSeekerMapper.instance.documentToRegisterResponse(savedJobSeeker);
     }
 
