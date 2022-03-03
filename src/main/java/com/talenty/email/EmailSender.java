@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailSender {
 
     //    @Value("REACT_APP_BACKEND_URL")
-    private static final String BACKEND_URL = "https://talenty.duckdns.org";
+    private static final String BASE_URL = "https://talenty.duckdns.org";
     private static final String CONFIRM_TOKEN_PART = "/sign-in?token=%token%";
     private static final String RESET_PASSWORD_TOKEN_PART = "/forget-password?token=%token%";
     private static String CONFIRMATION_URL;
@@ -65,9 +65,9 @@ public class EmailSender {
 
     @PostConstruct
     private void init() {
-        CONFIRMATION_URL = (BACKEND_URL == null ? "http://localhost:7800" : BACKEND_URL) + CONFIRM_TOKEN_PART;
-        RESET_PASSWORD_URL = (BACKEND_URL == null ? "http://localhost:7800" : BACKEND_URL) + RESET_PASSWORD_TOKEN_PART;
-        System.out.println("BACKEND_URL: " + BACKEND_URL);
+        CONFIRMATION_URL = (BASE_URL == null ? "http://localhost:7800" : BASE_URL) + CONFIRM_TOKEN_PART;
+        RESET_PASSWORD_URL = (BASE_URL == null ? "http://localhost:7800" : BASE_URL) + RESET_PASSWORD_TOKEN_PART;
+        System.out.println("BACKEND_URL: " + BASE_URL);
         System.out.println("EMAIL_CONFIRMATION_URL: " + CONFIRMATION_URL);
         System.out.println("EMAIL_PASSWORD_RESET_URL: " + RESET_PASSWORD_URL);
     }
