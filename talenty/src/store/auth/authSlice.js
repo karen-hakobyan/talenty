@@ -5,6 +5,8 @@ import Registration from "./Registration";
 import { errorMessage } from "../../helpers/errorMessage";
 import ResetPassword from "./ResetPassword";
 import { ValidateToken, ChangePassword } from "./ChangePassword";
+import {useEffect} from "react";
+import {getJwt} from "../../components/dashboard/helper";
 const initialState = {
     jwt: null,
     userInfo: null,

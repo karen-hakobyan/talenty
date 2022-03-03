@@ -29,7 +29,25 @@ export default function Select({value, menuItems, textFieldWidth, ...restProps})
         {...restProps}
     >
         {menuItems.map(el => {
-            return <MenuItem value={el} key={el}>{el}</MenuItem>
+            return <MenuItem
+                value={el}
+                key={el}
+                sx={{
+                    '&:hover': {
+                        background: 'rgba(140, 13, 240, 0.14)',
+                    },
+                    '&.Mui-selected': {
+                        background: '#8C0DF024'
+                    },
+                    color: '#4C494F',
+                    fontSize: '16px',
+                    fontWeight: 400,
+                    fontFamily: 'Proxima Nova',
+                    lineHeight: '24px',
+                }}
+            >
+                {el}
+            </MenuItem>
         })}
     </TextField>
 }

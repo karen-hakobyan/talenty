@@ -20,7 +20,6 @@ const typeComponents = {
     city: City,
     country: Country,
     date: Date,
-    // date: BasicDatePicker,
     email: Email,
     gender: Gender,
     driving_license: MilitaryId,
@@ -30,7 +29,6 @@ const typeComponents = {
     phone_number: Phone,
     description: Description,
     section_container: SectionContainer,
-    text: () => null,
 };
 
 export const sectionContainerTypes = {

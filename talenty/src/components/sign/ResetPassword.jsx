@@ -15,7 +15,6 @@ import {  TEMPLATE_BUTTON_CREATE } from "../../shared/styles";
 import {  selectIsValidToken } from "../../store/auth/selector";
 import { ChangePassword,ValidateToken } from "../../store/auth/ChangePassword";
 
-
 const Title = styled(Typography)(({ theme }) => ({
   maxWidth: 317,
   fontFamily: "Proxima Nova",
@@ -26,17 +25,6 @@ const Title = styled(Typography)(({ theme }) => ({
   marginBottom: 18,
   color: NIGHT_RIDER,
 }));
-
-const Text = styled(Typography)(({ theme }) => ({
-  width: "100%",
-  fontFamily: "Proxima Nova",
-  fontStyle: "normal",
-  fontWeight: "normal",
-  fontSize: "16px",
-  lineHeight: "22px",
-  color: TEXT,
-}));
-
 
 function ResetPasswordComponent({token}) {
   const dispatch = useDispatch()

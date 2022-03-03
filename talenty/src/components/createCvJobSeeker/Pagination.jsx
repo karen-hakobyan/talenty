@@ -29,15 +29,28 @@ export default function Pagination({pagesCount, exactPage}) {
                 {arr.map((el) => (
                     <Box sx={{display: "flex", alignItems: "center", flex: 1}} key={el}>
                         <Box sx={PAGINATION_ITEM_STYLE(exactPage >= el)}>{el}</Box>
-                        {el !== pagesCount ? (
-                            <Box
-                                sx={{
-                                    flex: 1,
-                                    height: "2px",
-                                    background: exactPage >= el ? "#7E0BD9" : "#D2D2D2",
-                                }}
-                            />
-                        ) : null}
+                        {/*bellow lines stile*/}
+                        {
+                            el !== pagesCount ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flex: 1,
+                                        pr: '2px',
+                                        pl: '2px',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            height: "2px",
+                                            flex: 1,
+                                            borderRadius: '3px',
+                                            background: exactPage >= el ? "#7E0BD9" : "#D2D2D2",
+                                        }}
+                                    />
+                                </Box>
+                            ) : null
+                        }
                     </Box>
                 ))}
             </Box>

@@ -17,11 +17,7 @@ function App() {
     const isSignOut = useSelector(state => state.auth.signOut)
     const isChangePassword = useSelector(selectIsChangePassword)
 
-    useEffect(() => {
-        if (!getJwt() && isSignOut) {
-            dispatch(setAuthInitialState())
-        }
-    }, [dispatch, isSignOut])
+
     useEffect(() => {
         if (isSignOut) {
             navigate(LANDING_PAGE_ROUTE)
@@ -38,6 +34,7 @@ function App() {
             dispatch(setAuthIsChangePass())
         }
     }, [navigate, isChangePassword, dispatch])
+
     return (
         <>
             <Dialogs/>

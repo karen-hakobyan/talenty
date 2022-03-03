@@ -1,11 +1,17 @@
+import {memo, useEffect} from "react";
 import {Box} from "@mui/material";
+import {useSelector} from "react-redux";
 import {sectionContainerTypes} from "./sectionContainerTypes/types";
-import {memo} from "react";
+import {selectSectionContainerController} from "../../../store/globalData/selector";
 
 export const LINE_TYPES = ['description', 'url']
 
 export default function SectionContainer({data}) {
-    return <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', rowGap: '38px'}}>
+    const controller = useSelector(selectSectionContainerController)
+    useEffect(() => {
+
+    },[data])
+    return controller ? null : <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', rowGap: '38px'}}>
         {data.fields.map((el, index) => {
             let TempComponent = sectionContainerTypes[el.metadata.type]
             if (!TempComponent) {

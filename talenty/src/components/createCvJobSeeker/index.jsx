@@ -1,7 +1,7 @@
 import {Box} from "@mui/material";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {ArrowBack} from "../../assets/icons/jobseeker";
+import {ArrowBack, ArrowRight} from "../../assets/icons/jobseeker";
 import Button from "../../shared/components/Button";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../shared/styles";
@@ -92,6 +92,7 @@ export default function CreateCvJobSeeker() {
                                 }}
                             >
                                 Next
+                                <ArrowRight />
                             </Button>
                         )}
                     </Box>
