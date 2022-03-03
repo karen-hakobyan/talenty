@@ -7,9 +7,10 @@ import {RADIO_LABEL} from "../style";
 export default function MilitaryId({data}) {
     const dispatch = useDispatch()
     return <JobSeekerSubsection
+        sx={{mt: '27px'}}
         label={data.name}
         Component={
-            <Box sx={{width: '500px', display: 'flex'}}>
+            <Box sx={{display: 'flex'}}>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Radio
                         checked={data.metadata.submitted_value === true}

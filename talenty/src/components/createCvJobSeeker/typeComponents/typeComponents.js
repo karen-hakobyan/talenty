@@ -12,6 +12,7 @@ import Description from "./sectionContainerTypes/Description";
 import Section from './Section'
 import Photo from "./Photo";
 import MilitaryId from "./MilitaryId";
+import BasicDatePicker from "../../shared/DatePicker";
 
 const typeComponents = {
     special_name: SpecialName,
@@ -19,6 +20,7 @@ const typeComponents = {
     city: City,
     country: Country,
     date: Date,
+    // date: BasicDatePicker,
     email: Email,
     gender: Gender,
     driving_license: MilitaryId,

@@ -8,10 +8,18 @@ import {Checkbox} from "../../shared/Checkbox";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import SpecialName from "./SpecialName";
 import TextField from "../../../shared/components/Textfield";
+import MilitaryId from "./MilitaryId";
+import Photo from "./Photo";
+import Select from "../../../shared/components/Select";
 
 const salaryTypes = {
     expected_salary: Salary,
     salary_type: SalaryType,
+}
+const licensesTypes = {
+    driving_license: MilitaryId,
+    military_id: MilitaryId,
+    add_photo: Photo,
 }
 export default function Section({data}) {
     if (data.fields[0].metadata.type === 'social_link') {
@@ -20,6 +28,17 @@ export default function Section({data}) {
     if (data.fields[0].metadata.type === 'expected_salary') {
         return <ExpectedSalary {...{data}} />
     }
+    return <PhotoLicenses {...{data}}/>
+}
+
+function PhotoLicenses({data}) {
+    return <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+        {data.fields.map(el => {
+            let TempComponent = licensesTypes[el.metadata.type]
+            TempComponent = memo(TempComponent)
+            return <TempComponent data={el} key={el.name}/>
+        })}
+    </Box>
 }
 
 function ExpectedSalary({data}) {
@@ -104,15 +123,15 @@ function Salary({data}) {
 }
 
 function SalaryType({data}) {
-    return <TextField
-        value={data.metadata.submitted_value}
-        select
-        sx={{width: '100px'}}
-    >
-        {
-            data.metadata.values ?
-                data.metadata.values.map(el => <MenuItem value={el} key={el}>{el}</MenuItem>) :
-                <MenuItem value={data.metadata.submitted_value}>{data.metadata.submitted_value}</MenuItem>
-        }
-    </TextField>
+    const dispatch = useDispatch()
+    return (
+        <Select
+            value={data.metadata.submitted_value} menuItems={data.metadata.values}
+            textFieldWidth="100px"
+            onChange={(event) => {
+                dispatch(setTemplateData({id: data.id, value: event.target.value}))
+            }}
+        />
+    )
+
 }
