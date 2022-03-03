@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import Login from '../../store/auth/Login'
 import {styled} from "@mui/system";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {TalentyLogo} from "../../assets/sign";
 import "../../fonts/index.css";
 import {Box, Button, Checkbox, Dialog, FormControl} from "@mui/material";
@@ -12,15 +12,17 @@ import {TEMPLATE_BUTTON_CREATE} from "../../shared/styles";
 import {
     DASHBOARD_ROUTE,
     FORGOT_PASSWORD_ROUTE, HOME_PAGE_ROUTE,
+    LANDING_PAGE_ROUTE,
     SIGN_UP_ROUTE,
 } from "../../constants/routes";
 import {MAIN_PURPLE} from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
-import {selectAuthIsCompany, selectAuthJwt, selectAuthModalInfo} from "../../store/auth/selector";
-import { setAuthModalInfo } from "../../store/auth/authSlice";
+import {selectAuthIsCompany, selectAuthJwt, selectAuthModalInfo,  selectIsValidToken} from "../../store/auth/selector";
+import { setAuthModalInfo, setIsValidToken } from "../../store/auth/authSlice";
 import { ENTER_KEY } from "../../constants/keyCodes";
 import { FIELD_SIGN_IN } from "./helper";
+import { ConfirmUser } from "../../store/auth/ConfirmUser";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -39,9 +41,13 @@ function SignIn() {
     const dialogInfo = useSelector(selectAuthModalInfo)  
     const jwt = useSelector(selectAuthJwt)
     const isCompany = useSelector(selectAuthIsCompany)
+    const isValidToken = useSelector(selectIsValidToken)
     const dispatch = useDispatch()
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
+    const {search} = useLocation()
+    const token = useMemo(() => search && search.split('=')[1], [search])
+
     
     useEffect(() => {
         if(jwt) {
@@ -49,6 +55,26 @@ function SignIn() {
         }
     }, [jwt, isCompany, navigate]);
 
+    useEffect(()=>{
+        if(token){
+            dispatch(ConfirmUser(token))
+        }
+    },[token,dispatch])
+    useEffect(()=>{
+        if(isValidToken===false){
+            dispatch(setIsValidToken(null))
+            navigate(LANDING_PAGE_ROUTE)
+        }
+        if(isValidToken){
+            dispatch(setIsValidToken(null))
+        }
+    },[isValidToken,dispatch,isValidToken,navigate])
+
+
+    if(token && isValidToken===null){
+        return null
+    }
+    
     return (
         <>
             <Dialog
