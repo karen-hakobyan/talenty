@@ -18,7 +18,7 @@ public class TemplateController {
     private final TemplateService templateService;
     private final SubmittedTemplateService submittedTemplateService;
 
-    public TemplateController(TemplateService templateService, SubmittedTemplateService submittedTemplateService) {
+    public TemplateController(final TemplateService templateService, final SubmittedTemplateService submittedTemplateService) {
         this.templateService = templateService;
         this.submittedTemplateService = submittedTemplateService;
     }

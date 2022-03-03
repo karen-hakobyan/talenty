@@ -30,7 +30,9 @@ public class TemplateService {
     private final ApplicationContext applicationContext;
     private final HrRepository hrRepository;
 
-    public TemplateService(final TemplateRepository templateRepository, final ApplicationContext applicationContext, final HrRepository hrRepository) {
+    public TemplateService(final TemplateRepository templateRepository,
+                           final ApplicationContext applicationContext,
+                           final HrRepository hrRepository) {
         this.templateRepository = templateRepository;
         this.applicationContext = applicationContext;
         this.hrRepository = hrRepository;
@@ -47,7 +49,7 @@ public class TemplateService {
     public TemplateDocument getTemplateById(final String id) {
         final Optional<TemplateDocument> templateDocumentOptional = templateRepository.findById(id);
         if (templateDocumentOptional.isEmpty()) {
-            System.out.printf("Template with id: %s is not found\n", id);
+            System.out.printf("Template with id '%s' is not found\n", id);
             throw new NoSuchTemplateException();
         }
         final TemplateDocument templateDocument = templateDocumentOptional.get();
