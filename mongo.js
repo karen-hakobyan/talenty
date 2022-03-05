@@ -44,7 +44,7 @@ let systemTemplate = {
                         editable: false,
                         required_editable: true,
                         deletable: true,
-                        required: true,
+                        required: false,
                     },
                 },
                 {
@@ -55,7 +55,7 @@ let systemTemplate = {
                         editable: false,
                         required_editable: true,
                         deletable: true,
-                        required: true,
+                        required: false,
                     },
                 },
                 {
@@ -89,7 +89,7 @@ let systemTemplate = {
                         editable: false,
                         required_editable: true,
                         deletable: true,
-                        required: true,
+                        required: false,
                     },
                 },
                 {
@@ -100,7 +100,7 @@ let systemTemplate = {
                         editable: false,
                         required_editable: true,
                         deletable: true,
-                        required: true,
+                        required: false,
                     },
                 },
                 {
@@ -123,7 +123,7 @@ let systemTemplate = {
                         editable: false,
                         required_editable: true,
                         deletable: true,
-                        required: true,
+                        required: false,
                     },
                     fields: [
                         {
@@ -156,9 +156,7 @@ let systemTemplate = {
                     metadata: {
                         type: "section",
                         editable: false,
-                        required_editable: true,
                         deletable: true,
-                        required: true,
                     },
                     fields: [
                         {
@@ -169,7 +167,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: true,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -231,7 +229,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -279,7 +277,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -291,7 +289,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -462,7 +460,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -574,7 +572,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -621,7 +619,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -668,7 +666,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -765,7 +763,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -865,7 +863,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                             },
                         },
                         {
@@ -876,7 +874,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                                 visibility: "ROLE_JOB_SEEKER",
                             },
                         }
@@ -912,7 +910,7 @@ let systemTemplate = {
                                 editable: false,
                                 required_editable: true,
                                 deletable: false,
-                                required: true,
+                                required: false,
                                 visibility: "ROLE_JOB_SEEKER",
                             },
                         },

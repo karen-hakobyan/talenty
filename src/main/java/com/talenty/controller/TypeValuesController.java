@@ -5,7 +5,10 @@ import com.talenty.domain.mongo.TypeValuesDocument;
 import com.talenty.service.TypeValuesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/type_values")
@@ -19,7 +22,7 @@ public class TypeValuesController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveTypeValue(@RequestBody final TypeValues typeValues) {
-        TypeValuesDocument save = typeValuesService.save(typeValues);
+        typeValuesService.save(typeValues);
         return ResponseEntity.ok("Type Saved");
     }
 
@@ -30,17 +33,17 @@ public class TypeValuesController {
 
     @PostMapping("/delete")
     public ResponseEntity<?> deleteType(@RequestBody final TypeValues typeValues) {
-        String type = typeValuesService.delete(typeValues);
+        typeValuesService.delete(typeValues);
         return ResponseEntity.ok("Type Deleted");
     }
 
     @PostMapping("/edit_values")
     public ResponseEntity<?> editValues(@RequestBody final TypeValues typeValues) {
-        TypeValuesDocument editValues = typeValuesService.editValues(typeValues);
+        typeValuesService.editValues(typeValues);
         return ResponseEntity.ok("Edited");
     }
 
-    @PostMapping("edit_type")
+    @PostMapping("/edit_type")
     public ResponseEntity<?> editType(@RequestBody final TypeValues[] typeValues) {
         typeValuesService.editType(typeValues);
         return ResponseEntity.ok("Type Edited");
