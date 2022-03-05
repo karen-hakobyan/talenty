@@ -20,13 +20,30 @@ export const checkUserExistence = (navigate) => {
 };
 
 export const isValidPhoneNumber = (value) => {
-    if(value.includes(' ')){
+    if (value.includes(' ')) {
         return false
     }
-    if(value[0] === '+') {
+    if (value[0] === '+') {
         let temp = +value.substring(1, value.length)
         return !isNaN(temp)
     }
     let temp = +value
     return !isNaN(temp)
+}
+
+export const cleanTemplateNewIds = (data) => {
+    let result = JSON.stringify(data)
+    result = JSON.parse(result, (key, reviver) => {
+        if (!reviver?.id) {
+            return reviver
+        }
+        return (
+            {
+                ...(reviver.id.startsWith('0') ? {} : {id: reviver.id}),
+                ...(reviver.fields ? {fields: [...reviver.fields]} : {}),
+                ...(!reviver.fields && reviver.metadata.submitted_value ? {metadata: {submitted_value: reviver.metadata.submitted_value}} : {metadata: {}})
+            }
+        )
+    })
+    return result
 }

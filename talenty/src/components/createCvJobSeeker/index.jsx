@@ -9,11 +9,11 @@ import {
     addSectionContainerAction,
     setExactPage,
     setNextPage,
-    setPrevPage
+    setPrevPage, setSectionContainerController
 } from "../../store/globalData/slice";
+import {getTemplateActions, saveJobSeekerCV} from "../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
-import {getTemplate} from "../../store/globalData/getTemplate";
 
 export default function CreateCvJobSeeker() {
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export default function CreateCvJobSeeker() {
     // update local storage whenever data changed and also redux
     useEffect(() => {
         if (templateData === null) {
-            dispatch(getTemplate())
+            dispatch(getTemplateActions())
         }
     }, [dispatch, templateData])
 
@@ -79,12 +79,13 @@ export default function CreateCvJobSeeker() {
                                 sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
                                 onClick={() => {
                                     dispatch(addSectionContainerAction(templateData.fields[exactPage - 1].id))
+                                    dispatch(setSectionContainerController(null))
                                 }}
                             >
                                 Add
                             </Button>
                         }
-                        {templateData?.fields && templateData.fields.length !== exactPage && (
+                        {templateData?.fields && templateData.fields.length !== exactPage ? (
                             <Button
                                 sx={HOME_PRIMARY_BUTTON}
                                 onClick={() => {
@@ -93,6 +94,15 @@ export default function CreateCvJobSeeker() {
                             >
                                 Next
                                 <ArrowRight />
+                            </Button>
+                        ): (
+                            <Button
+                                sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
+                                onClick={() => {
+                                    dispatch(saveJobSeekerCV(templateData))
+                                }}
+                            >
+                                Save
                             </Button>
                         )}
                     </Box>

@@ -17,7 +17,9 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
                 }}
                 value={value}
                 onBlur={() => {
-                    dispatch(setTemplateData({id: data.id, value}))
+                    setTimeout(() => {
+                        dispatch(setTemplateData({id: data.id, value}))
+                    }, 110)
                 }}
             />}
         sx={sx}

@@ -39,21 +39,12 @@ function SignIn() {
     });
     const {errors} = formState;
     const dialogInfo = useSelector(selectAuthModalInfo)  
-    const jwt = useSelector(selectAuthJwt)
-    const isCompany = useSelector(selectAuthIsCompany)
     const isValidToken = useSelector(selectIsValidToken)
     const dispatch = useDispatch()
     const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
     const {search} = useLocation()
     const token = useMemo(() => search && search.split('=')[1], [search])
-
-    
-    useEffect(() => {
-        if(jwt) {
-            navigate(isCompany ? DASHBOARD_ROUTE: HOME_PAGE_ROUTE)
-        }
-    }, [jwt, isCompany, navigate]);
 
     useEffect(()=>{
         if(token){
@@ -68,7 +59,7 @@ function SignIn() {
         if(isValidToken){
             dispatch(setIsValidToken(null))
         }
-    },[isValidToken,dispatch,isValidToken,navigate])
+    },[isValidToken,dispatch,navigate])
 
 
     if(token && isValidToken===null){

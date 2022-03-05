@@ -16,7 +16,6 @@ function App() {
     const isSignOut = useSelector(state => state.auth.signOut)
     const isChangePassword = useSelector(selectIsChangePassword)
 
-
     useEffect(() => {
         if (isSignOut) {
             navigate(LANDING_PAGE_ROUTE)
