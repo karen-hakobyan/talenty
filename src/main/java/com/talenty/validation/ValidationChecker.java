@@ -31,9 +31,7 @@ public class ValidationChecker {
     }
 
     public static boolean assertPasswordIsValid(final String password) {
-        if (!PASSWORD_REGEX.matcher(password).matches()) {
-            throw new InvalidPasswordException();
-        }
+        if (!PASSWORD_REGEX.matcher(password).matches()) throw new InvalidPasswordException();
         return true;
     }
 
@@ -61,22 +59,14 @@ public class ValidationChecker {
     public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
         return assertEmailIsValid(details.getEmail()) &&
                 assertCompanyNameIsValid(details.getCompanyName()) &&
-                assertNameIsValid(
-                        details.getFirstName().replace(" ", "")
-                                + " "
-                                + details.getLastName().replace(" ", "")
-                ) &&
+                assertNameIsValid(makeFullName(details.getFirstName(), details.getLastName())) &&
                 assertPasswordIsValid(details.getPassword()) &&
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
     public static boolean assertDetailsAreValid(final JobSeekerRegisterRequestDetails details) {
         return assertEmailIsValid(details.getEmail()) &&
-                assertNameIsValid(
-                        details.getFirstName().replace(" ", "")
-                                + " "
-                                + details.getLastName().replace(" ", "")
-                ) &&
+                assertNameIsValid(makeFullName(details.getFirstName(), details.getLastName())) &&
                 assertPasswordIsValid(details.getPassword()) &&
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
@@ -191,6 +181,46 @@ public class ValidationChecker {
         return true;
     }
 
+    public static void assertTemplateSectionsNamesAreUnique(final TemplateDocument template) {
+        final Set<String> nameSet = new HashSet<>();
+
+        final List<FieldDocument> fields = template.getFields();
+        for (final FieldDocument field : fields) {
+            nameSet.add(field.getName().replaceAll(" ", ""));
+        }
+
+        if (nameSet.size() != fields.size())
+            throw new DuplicateSectionNameException();
+    }
+
+    public static void assertTemplateIsValid(final List<FieldDocument> newFields, final TemplateDocument parentTemplate) {
+        for (int i = 0; i < newFields.size(); i++) {
+            FieldDocument tempNewField = newFields.get(i);
+            final Map<String, Object> newFieldMetadata = tempNewField.getMetadata();
+            final boolean isSection = tempNewField.getFields() != null;
+
+            final String status = (String) newFieldMetadata.get("status");
+
+            if (status != null) {
+                switch (status) {
+                    case "NEW": {
+                        assertNewFieldIsValid(tempNewField);
+                        break;
+                    }
+
+                    case "DELETED": {
+                        assertDeletedFieldIsValid(tempNewField, parentTemplate.getFields());
+                        newFields.remove(i);
+                        break;
+                    }
+                }
+            }
+            if (isSection) {
+                ValidationChecker.assertTemplateIsValid(tempNewField.getFields(), parentTemplate);
+            }
+        }
+    }
+
     private static boolean assertUrlIsValid(final String value) {
         if (!URL_REGEX.matcher(value).matches()) {
             System.out.printf("The url: %s is not valid!", value);
@@ -249,46 +279,6 @@ public class ValidationChecker {
         return true;
     }
 
-    public static void assertTemplateSectionsNamesAreUnique(final TemplateDocument template) {
-        final Set<String> nameSet = new HashSet<>();
-
-        final List<FieldDocument> fields = template.getFields();
-        for (final FieldDocument field : fields) {
-            nameSet.add(field.getName().replaceAll(" ", ""));
-        }
-
-        if (nameSet.size() != fields.size())
-            throw new DuplicateSectionNameException();
-    }
-
-    public static void assertTemplateIsValid(final List<FieldDocument> newFields, final TemplateDocument parentTemplate) {
-        for (int i = 0; i < newFields.size(); i++) {
-            FieldDocument tempNewField = newFields.get(i);
-            final Map<String, Object> newFieldMetadata = tempNewField.getMetadata();
-            final boolean isSection = tempNewField.getFields() != null;
-
-            final String status = (String) newFieldMetadata.get("status");
-
-            if (status != null) {
-                switch (status) {
-                    case "NEW": {
-                        assertNewFieldIsValid(tempNewField);
-                        break;
-                    }
-
-                    case "DELETED": {
-                        assertDeletedFieldIsValid(tempNewField, parentTemplate.getFields());
-                        newFields.remove(i);
-                        break;
-                    }
-                }
-            }
-            if (isSection) {
-                ValidationChecker.assertTemplateIsValid(tempNewField.getFields(), parentTemplate);
-            }
-        }
-    }
-
     private static void assertDeletedFieldIsValid(FieldDocument newField, final List<FieldDocument> parentTemplate) {
         for (final FieldDocument tempParentField : parentTemplate) {
             if (!tempParentField.getMetadata().containsKey("type"))
@@ -305,9 +295,7 @@ public class ValidationChecker {
             if (Objects.equals(tempParentField.getMetadata().get("type"), "section")) {
                 assertDeletedFieldIsValid(newField, tempParentField.getFields());
             }
-
         }
-
     }
 
     private static void assertDeletedSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
@@ -342,6 +330,12 @@ public class ValidationChecker {
             throw new InvalidFieldException();
 
         newField.setId(String.valueOf(new ObjectId()));
+    }
+
+    private static String makeFullName(final String firstName, final String lastname) {
+        return firstName.replace(" ", "")
+                + " "
+                + lastname.replace(" ", "");
     }
 
 }
