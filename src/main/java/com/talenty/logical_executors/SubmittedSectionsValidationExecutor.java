@@ -21,7 +21,7 @@ public class SubmittedSectionsValidationExecutor implements LogicExecutor {
         if (doesRequiredFieldExists) {
             final boolean required = (boolean) tempParentFieldMetadata.get("required");
             if (required && !doesSubmittedValueExists) {
-                System.out.printf("Cause: Required field doesn't submitted! Field '%s'\n", tempSection);
+                System.out.printf("Required field doesn't submitted! Field '%s'\n", tempSection);
                 throw new NoSuchTemplateException();
             }
         }
