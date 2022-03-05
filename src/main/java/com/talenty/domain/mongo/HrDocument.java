@@ -1,13 +1,12 @@
 package com.talenty.domain.mongo;
 
+import com.mongodb.BasicDBObject;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,14 +16,11 @@ import java.util.List;
 public class HrDocument extends UserDocument {
 
     private String companyId;
-    private List<String> templatesList = new ArrayList<>();
+    @Setter(AccessLevel.NONE)
+    private BasicDBObject templates = new BasicDBObject();
 
-    public void addTemplate(final String id) {
-        templatesList.add(id);
-    }
-
-    public void removeTemplate(final String id) {
-        templatesList.remove(id);
+    public void addTemplate(final String id, final String name) {
+        templates.append(id, name);
     }
 
 }

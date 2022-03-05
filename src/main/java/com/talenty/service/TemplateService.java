@@ -1,26 +1,24 @@
 package com.talenty.service;
 
+import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.Template;
-import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.CleanUpMetadataExecutor;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.logical_executors.LogicExecutor;
 import com.talenty.mapper.TemplateMapper;
-import com.talenty.repository.HrRepository;
 import com.talenty.repository.TemplateRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -43,7 +41,7 @@ public class TemplateService {
     }
 
     public String getSystemTemplateId() {
-        return templateRepository.findSystemTemplateId().getId();
+        return templateRepository.findSystemTemplateInfo().getId();
     }
 
     public TemplateDocument getTemplateById(final String id) {
@@ -75,14 +73,14 @@ public class TemplateService {
         final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
 
         final HrDocument currentHr = hrService.getCurrentHr();
-        currentHr.addTemplate(savedNewTemplate.getId());
+        currentHr.addTemplate(savedNewTemplate.getId(), template.getName());
         hrService.save(currentHr);
 
         return TemplateMapper.instance.documentToDto(savedNewTemplate);
     }
 
-    public List<String> getAllTemplatesIds() {
-        return hrService.getCurrentHr().getTemplatesList();
+    public BasicDBObject getAllTemplates() {
+        return hrService.getCurrentHr().getTemplates();
     }
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
