@@ -5,7 +5,7 @@ import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.hr.HrRegisterResponseDetails;
 import com.talenty.domain.mongo.CompanyDocument;
 import com.talenty.domain.mongo.HrDocument;
-import com.talenty.domain.mongo.TokenDocument;
+import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
@@ -18,10 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class HrService {
@@ -67,7 +64,8 @@ public class HrService {
         hr.setCompanyId(savedCompany.getId());
         hr.setRole("ROLE_HR_ADMIN");
         hr.setPassword(passwordEncoder.encode(hr.getPassword()));
-        hr.addTemplate(templateRepository.findSystemTemplateId().getId());
+        final TemplateDocument systemTemplateInfo = templateRepository.findSystemTemplateInfo();
+        hr.addTemplate(systemTemplateInfo.getId(), systemTemplateInfo.getName());
 
         final HrDocument savedHr = hrRepository.save(hr);
 

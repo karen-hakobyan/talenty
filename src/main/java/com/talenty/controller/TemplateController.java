@@ -1,5 +1,6 @@
 package com.talenty.controller;
 
+import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.Template;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.service.SubmittedTemplateService;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/templates")
@@ -41,7 +42,7 @@ public class TemplateController {
     //    @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN')")
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> getAllTemplatesIds() {
-        final List<String> allTemplatesIds = templateService.getAllTemplatesIds();
+        final BasicDBObject allTemplatesIds = templateService.getAllTemplates();
         return ResponseEntity.ok(allTemplatesIds);
     }
 
