@@ -13,25 +13,20 @@ public class SubmittedSectionsValidationExecutor implements LogicExecutor {
         final FieldDocument parentSection = field[0];
         final FieldDocument tempSection = field[1];
 
-        if (parentSection.getFields().size() != tempSection.getFields().size()) {
-            throw new NoSuchTemplateException();
-        }
-
         final Map<String, Object> tempParentFieldMetadata = parentSection.getMetadata();
         final Map<String, Object> tempSubmittedFieldMetadata = tempSection.getMetadata();
 
-        if (tempParentFieldMetadata.containsKey("required")) {
-            if ((boolean) tempParentFieldMetadata.get("required")
-                    && !tempSubmittedFieldMetadata.containsKey("submitted_value")) {
-                System.out.printf(
-                        "Cause: Required field doesn't submitted! Field: %s ",
-                        tempSection
-                );
+        final boolean doesSubmittedValueExists = tempSubmittedFieldMetadata.containsKey("submitted_value");
+        final boolean doesRequiredFieldExists = tempParentFieldMetadata.containsKey("required");
+        if (doesRequiredFieldExists) {
+            final boolean required = (boolean) tempParentFieldMetadata.get("required");
+            if (required && !doesSubmittedValueExists) {
+                System.out.printf("Cause: Required field doesn't submitted! Field '%s'\n", tempSection);
                 throw new NoSuchTemplateException();
             }
         }
 
-        if (tempSubmittedFieldMetadata.containsKey("submitted_value")) {
+        if (doesSubmittedValueExists) {
             ValidationChecker.assertSubmittedFieldIsValid(tempSection, parentSection);
         }
 

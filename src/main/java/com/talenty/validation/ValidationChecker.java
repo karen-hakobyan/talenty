@@ -1,5 +1,6 @@
 package com.talenty.validation;
 
+import com.mongodb.BasicDBList;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
@@ -30,54 +31,14 @@ public class ValidationChecker {
         Twilio.init("AC237081575f7fa8e68cab48cbe22cb671", "9ed7c87ae1a51f514d496d631930f4ed");
     }
 
-    public static boolean assertPasswordIsValid(final String password) {
-        if (!PASSWORD_REGEX.matcher(password).matches()) throw new InvalidPasswordException();
-        return true;
-    }
-
-    public static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
-        if (!Objects.equals(password, confirmPassword)) {
-            throw new PasswordsDoNotMatchException();
-        }
-        return true;
-    }
-
-    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
-        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) {
-            System.out.println("Incorrect phone number format!");
-            throw new InvalidPhoneNumberException();
-        }
-        try {
-            PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
-            return true;
-        } catch (final ApiException e) {
-            System.out.println("Incorrect phone number!");
-            throw new InvalidPhoneNumberException();
-        }
-    }
-
-    public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
-        return assertEmailIsValid(details.getEmail()) &&
-                assertCompanyNameIsValid(details.getCompanyName()) &&
-                assertNameIsValid(makeFullName(details.getFirstName(), details.getLastName())) &&
-                assertPasswordIsValid(details.getPassword()) &&
-                assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
-    }
-
-    public static boolean assertDetailsAreValid(final JobSeekerRegisterRequestDetails details) {
-        return assertEmailIsValid(details.getEmail()) &&
-                assertNameIsValid(makeFullName(details.getFirstName(), details.getLastName())) &&
-                assertPasswordIsValid(details.getPassword()) &&
-                assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
-    }
-
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
+        // we are sure, that 'submitted_value' exists if required. Checked by SubmittedSectionsValidationExecutor.
         final String submittedValue = (String) submittedField.getMetadata().get("submitted_value");
         final String type = (String) parentField.getMetadata().get("type");
-
         final Map<String, Object> parentMetadata = parentField.getMetadata();
+
         if (parentMetadata.containsKey("values")) {
-            final List<String> values = (List<String>) parentMetadata.get("values");
+            final BasicDBList values = (BasicDBList) parentMetadata.get("values");
             if (values.contains(submittedValue)) return true;
         }
 
@@ -100,46 +61,42 @@ public class ValidationChecker {
             }
 
             case "date": {
-                if (!DATE_REGEX.matcher(submittedValue).matches()) {
-                    System.out.println("Invalid date format!");
-                    throw new InvalidDateFormatException();
-                }
-                final String[] DMY = submittedValue.split("/");
-                try {
-                    LocalDate.of(
-                            Integer.parseInt(DMY[2]),
-                            Integer.parseInt(DMY[1]),
-                            Integer.parseInt(DMY[0])
-                    );
-                } catch (final Exception e) {
-                    System.out.println("Invalid date!");
-                    throw new InvalidDateFormatException();
-                }
+                assertDateIsValid(submittedValue);
                 break;
             }
 
             case "expected_salary": {
                 assertLengthIsValid(submittedField, parentField);
-                if (!SALARY_REGEX.matcher(submittedValue).matches()) {
-                    System.out.println("Salary must contain only numbers!");
-                    throw new InvalidSalaryException();
-                }
+                assertSalaryisValid(submittedValue);
                 break;
             }
 
+            // Value types (types which must always contain [values])
             case "simple_evaluate_bar":
-            case "language_evaluate_bar":
+            case "language_evaluate_bar": {
+                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidEvaluateBarException();
-            case "language":
+            }
+            case "language": {
+                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidLanguageTypeException();
-            case "professional_skill":
+            }
+            case "professional_skill": {
+                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidProfessionalSkillTypeException();
-            case "personal_skill":
+            }
+            case "personal_skill": {
+                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidPersonalSkillTypeException();
-            case "salary_type":
+            }
+            case "salary_type": {
+                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidSalaryTypeException();
-            case "gender":
+            }
+            case "gender": {
+                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidGenderTypeException();
+            }
 
             case "city":
             case "special_name": {
@@ -154,31 +111,57 @@ public class ValidationChecker {
             }
 
             case "url":
+            case "social_link":
                 assertUrlIsValid(submittedValue);
             case "text":
             case "address":
-            case "description":
-            case "social_link": {
+            case "description": {
                 assertLengthIsValid(submittedField, parentField);
                 break;
             }
 
-            case "percentage":
             case "military_id":
             case "current_date":
-            case "language_level":
             case "driving_license": {
-                if (submittedValue != null && !submittedValue.equals("selected")) {
-                    System.out.printf("%s should be selected/unselected or nothing!", type);
-                    throw new InvalidPercentageValueException();
-                }
+                assertSingleChoiceFieldIsValid(submittedValue);
                 break;
             }
 
-            default:
-                System.out.println("No such type");
+            default: {
+                System.out.printf("No such type '%s'", type);
+                throw new NoSuchTypeException();
+            }
         }
         return true;
+    }
+
+    public static boolean assertPhoneNumberIsValid(final String phoneNumber) {
+        if (!PHONE_NUMBER_REGEX.matcher(phoneNumber).matches()) {
+            System.out.printf("Incorrect phone number format for '%s'\n", phoneNumber);
+            throw new InvalidPhoneNumberException();
+        }
+        try {
+            PhoneNumber.fetcher(new com.twilio.type.PhoneNumber(phoneNumber)).fetch();
+        } catch (final ApiException e) {
+            System.out.printf("Incorrect phone number for '%s'\n", phoneNumber);
+            throw new InvalidPhoneNumberException();
+        }
+        return true;
+    }
+
+    public static boolean assertDetailsAreValid(final HrRegisterRequestDetails details) {
+        return assertEmailIsValid(details.getEmail()) &&
+                assertCompanyNameIsValid(details.getCompanyName()) &&
+                assertNameIsValid(makeFullName(details.getFirstName(), details.getLastName())) &&
+                assertPasswordIsValid(details.getPassword()) &&
+                assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
+    }
+
+    public static boolean assertDetailsAreValid(final JobSeekerRegisterRequestDetails details) {
+        return assertEmailIsValid(details.getEmail()) &&
+                assertNameIsValid(makeFullName(details.getFirstName(), details.getLastName())) &&
+                assertPasswordIsValid(details.getPassword()) &&
+                assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
     public static void assertTemplateSectionsNamesAreUnique(final TemplateDocument template) {
@@ -189,13 +172,15 @@ public class ValidationChecker {
             nameSet.add(field.getName().replaceAll(" ", ""));
         }
 
-        if (nameSet.size() != fields.size())
+        if (nameSet.size() != fields.size()) {
+            System.out.println("Duplicate section names");
             throw new DuplicateSectionNameException();
+        }
     }
 
     public static void assertTemplateIsValid(final List<FieldDocument> newFields, final TemplateDocument parentTemplate) {
         for (int i = 0; i < newFields.size(); i++) {
-            FieldDocument tempNewField = newFields.get(i);
+            final FieldDocument tempNewField = newFields.get(i);
             final Map<String, Object> newFieldMetadata = tempNewField.getMetadata();
             final boolean isSection = tempNewField.getFields() != null;
 
@@ -221,12 +206,98 @@ public class ValidationChecker {
         }
     }
 
+    public static boolean assertPasswordIsValid(final String password) {
+        if (!PASSWORD_REGEX.matcher(password).matches()) {
+            System.out.println("Invalid password format");
+            throw new InvalidPasswordException();
+        }
+        return true;
+    }
+
+    public static boolean assertPasswordsAreEqual(final String password, final String confirmPassword) {
+        if (!Objects.equals(password, confirmPassword)) {
+            System.out.println("Passwords miss match");
+            throw new PasswordsDoNotMatchException();
+        }
+        return true;
+    }
+
+    private static boolean assertSingleChoiceFieldIsValid(final String value) {
+        if (value == null || "true".equals(value) || "false".equals(value)) return true;
+        System.out.printf("Invalid single choice field for value '%s'\n", value);
+        throw new InvalidSingleChoiceFieldException();
+    }
+
+    private static void assertSalaryisValid(final String salary) {
+        if (!SALARY_REGEX.matcher(salary).matches()) {
+            System.out.printf("Salary does not contain only numbers for salary '%s'\n", salary);
+            throw new InvalidSalaryException();
+        }
+    }
+
+    private static boolean assertDateIsValid(final String date) {
+        if (!DATE_REGEX.matcher(date).matches()) {
+            System.out.printf("Invalid date format for date '%s'\n", date);
+            throw new InvalidDateFormatException();
+        }
+        final String[] DMY = date.split("/");
+        try {
+            LocalDate.of(
+                    Integer.parseInt(DMY[2]),
+                    Integer.parseInt(DMY[1]),
+                    Integer.parseInt(DMY[0])
+            );
+        } catch (final Exception e) {
+            System.out.printf("Invalid date for date '%s'\n", date);
+            throw new InvalidDateFormatException();
+        }
+        return true;
+    }
+
     private static boolean assertUrlIsValid(final String value) {
         if (!URL_REGEX.matcher(value).matches()) {
-            System.out.printf("The url: %s is not valid!", value);
+            System.out.printf("The url '%s' is not valid\n", value);
             throw new InvalidUrlException();
         }
         return true;
+    }
+
+    private static boolean assertEmailIsValid(final String email) {
+        if (!EMAIL_REGEX.matcher(email).matches()) {
+            System.out.println("Email format exception for email '%s'!\n");
+            throw new InvalidEmailException();
+        }
+        return true;
+    }
+
+    private static boolean assertCompanyNameIsValid(final String companyName) {
+        if (!COMPANY_NAME_REGEX.matcher(companyName).matches()) {
+            System.out.printf("Invalid company name for '%s'\n", companyName);
+            throw new InvalidCompanyNameException();
+        }
+        return true;
+    }
+
+    private static boolean assertNameIsValid(final String name) {
+        if (!NAME_REGEX.matcher(name).matches()) {
+            System.out.printf("Name format exception, for name '%s'\n", name);
+            throw new InvalidUserNameException();
+        }
+        return true;
+    }
+
+    private static boolean assertCountryIsValid(final String country) {
+        if (!COUNTRIES.contains(country)) {
+            System.out.printf("Invalid country '%s'", country);
+            throw new InvalidCountryException();
+        }
+        return true;
+    }
+
+    private static String makeFullName(final String firstName, final String lastname) {
+        return firstName.replace(" ", "")
+                + " "
+                + lastname.replace(" ", "");
     }
 
     private static boolean assertLengthIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
@@ -236,60 +307,34 @@ public class ValidationChecker {
         final double maxLength = (Double) parentField.getMetadata().get("maxLength");
 
         if (value.length() > maxLength) {
-            final String cause = String.format(
-                    "Submitted Field size is bigger than expected. Field: %s, given size: %s, expected size: %s",
+            System.out.printf("Submitted Field size is bigger than expected. Field '%s', given size '%s', expected size '%s'\n",
                     parentField,
                     value.length(),
-                    maxLength
-            );
-            System.out.println(cause);
-            throw new InvalidFieldLengthException(cause);
+                    maxLength);
+            throw new InvalidFieldLengthException();
         }
 
         return true;
     }
 
-    private static boolean assertEmailIsValid(final String email) {
-        if (!EMAIL_REGEX.matcher(email).matches()) {
-            System.out.println("Email format exception!");
-            throw new InvalidEmailException();
-        }
-        return true;
-    }
-
-    private static boolean assertCompanyNameIsValid(final String companyName) {
-        if (!COMPANY_NAME_REGEX.matcher(companyName).matches()) {
-            System.out.println("Company name format exception!");
-            throw new InvalidCompanyNameException();
-        }
-        return true;
-    }
-
-    private static boolean assertNameIsValid(final String name) {
-        if (!NAME_REGEX.matcher(name).matches()) {
-            System.out.println("Name format exception!");
-            throw new InvalidUserNameException();
-        }
-        return true;
-    }
-
-    private static boolean assertCountryIsValid(final String country) {
-        if (!COUNTRIES.contains(country))
-            throw new InvalidCountryException();
-        return true;
-    }
-
-    private static void assertDeletedFieldIsValid(FieldDocument newField, final List<FieldDocument> parentTemplate) {
+    // Considering both, field and section validation
+    private static void assertDeletedFieldIsValid(final FieldDocument newField, final List<FieldDocument> parentTemplate) {
         for (final FieldDocument tempParentField : parentTemplate) {
-            if (!tempParentField.getMetadata().containsKey("type"))
+            if (!tempParentField.getMetadata().containsKey("type")) {
+                System.out.println("Field must contain 'type' key");
                 throw new InvalidFieldException();
+            }
 
             if (Objects.equals(tempParentField.getId(), newField.getId())) {
-                if (!tempParentField.getMetadata().containsKey("deletable"))
+                if (!tempParentField.getMetadata().containsKey("deletable")) {
+                    System.out.println("Field must contain 'deletable' key");
                     throw new InvalidFieldException();
+                }
 
-                if (!((Boolean) tempParentField.getMetadata().get("deletable")))
+                if (!((Boolean) tempParentField.getMetadata().get("deletable"))) {
+                    System.out.println("Not deleteable field can`t be deleted");
                     throw new InvalidFieldException();
+                }
             }
 
             if (Objects.equals(tempParentField.getMetadata().get("type"), "section")) {
@@ -298,44 +343,26 @@ public class ValidationChecker {
         }
     }
 
-    private static void assertDeletedSectionIsValid(final FieldDocument section, final TemplateDocument parentTemplate) {
-        for (final FieldDocument parentSection : parentTemplate.getFields()) {
-            if (Objects.equals(parentSection.getId(), section.getId())) {
-                if (parentSection.getMetadata().containsKey("deletable")) {
-                    if ((boolean) parentSection.getMetadata().get("deletable")) {
-                        return;
-                    }
-                }
-            }
-        }
-        throw new InvalidSectionException();
-    }
-
     // Considering both, field and section validation
     private static void assertNewFieldIsValid(final FieldDocument newField) {
-        if (newField.getMetadata().get("type").equals("section") && newField.getFields() == null) {
-            System.out.println("Section can't be empty (at least one field is required)");
-            throw new InvalidSectionException();
+        if (!newField.getMetadata().containsKey("type")) {
+            System.out.println("Field must contain 'type' key");
+            throw new InvalidFieldException();
         }
 
-        if (newField.getFields() != null) {
+        if (Objects.equals(newField.getMetadata().get("type"), "section") && newField.getFields() == null) {
+            System.out.println("Section can't be empty (at least one field is required)");
+            throw new InvalidSectionException();
+        } else if (newField.getFields() != null) {
             newField.setId(String.valueOf(new ObjectId()));
             return;
         }
 
-        if (!newField.getMetadata().containsKey("type"))
+        if (!Objects.equals(newField.getMetadata().get("type"), "simple_input")) {
+            System.out.println("New field`s type can only be 'simple_input'");
             throw new InvalidFieldException();
-
-        if (!Objects.equals(newField.getMetadata().get("type"), "simple_input"))
-            throw new InvalidFieldException();
-
+        }
         newField.setId(String.valueOf(new ObjectId()));
-    }
-
-    private static String makeFullName(final String firstName, final String lastname) {
-        return firstName.replace(" ", "")
-                + " "
-                + lastname.replace(" ", "");
     }
 
 }
