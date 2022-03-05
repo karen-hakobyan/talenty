@@ -29,20 +29,6 @@ public class TemplateController {
         return ResponseEntity.ok(systemTemplate);
     }
 
-    @PostMapping("/save_submitted_template")
-    public ResponseEntity<?> saveSubmittedTemplate(@RequestBody final Template template) {
-        submittedTemplateService.saveSubmittedTemplate(template);
-        return ResponseEntity.ok("saved_submitted_template");
-    }
-
-    @PostMapping("/create_new_template")
-//        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> createNewTemplate(@RequestBody final Template template) {
-        final Template createdTemplate = templateService.createNewTemplate(template);
-        return ResponseEntity.ok("created_new_template");
-    }
-
     @GetMapping("/template")
 //    @PreAuthorize("isAuthenticated()")
     @PreAuthorize("permitAll()")
@@ -52,11 +38,25 @@ public class TemplateController {
     }
 
     @GetMapping("/all")
-    //    @PreAuthorize("isAuthenticated()")
+    //    @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN')")
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> getAllTemplatesIds() {
         final List<String> allTemplatesIds = templateService.getAllTemplatesIds();
         return ResponseEntity.ok(allTemplatesIds);
+    }
+
+    @PostMapping("/create_new_template")
+//        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> createNewTemplate(@RequestBody final Template template) {
+        templateService.createNewTemplate(template);
+        return ResponseEntity.ok("created_new_template");
+    }
+
+    @PostMapping("/save_submitted_template")
+    public ResponseEntity<?> saveSubmittedTemplate(@RequestBody final Template template) {
+        submittedTemplateService.saveSubmittedTemplate(template);
+        return ResponseEntity.ok("saved_submitted_template");
     }
 
 }

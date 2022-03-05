@@ -1,5 +1,6 @@
 package com.talenty.service;
 
+import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.hr.HrRegisterResponseDetails;
 import com.talenty.domain.mongo.CompanyDocument;
@@ -8,10 +9,12 @@ import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
+import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.mapper.HrMapper;
 import com.talenty.repository.*;
 import com.talenty.validation.ValidationChecker;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +76,24 @@ public class HrService {
 
         System.out.printf("Successfully registered hr with email '%s' from company '%s'\n", savedHr.getEmail(), savedCompany.getName());
         return HrMapper.instance.documentToRegisterResponse(savedHr);
+    }
+
+    public HrDocument getCurrentHr() {
+        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+
+        final String currentHrId = authenticatedUser.getId();
+        final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);
+
+        if (currentHr.isEmpty()) {
+            System.out.printf("User with id '%s' not found while getting current hr from authenticated user\n", currentHrId);
+            throw new UserNotFoundException();
+        }
+
+        return currentHr.get();
+    }
+
+    public HrDocument save(final HrDocument hr) {
+        return hrRepository.save(hr);
     }
 
 }

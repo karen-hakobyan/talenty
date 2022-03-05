@@ -28,14 +28,14 @@ public class TemplateService {
 
     private final TemplateRepository templateRepository;
     private final ApplicationContext applicationContext;
-    private final HrRepository hrRepository;
+    private final HrService hrService;
 
     public TemplateService(final TemplateRepository templateRepository,
                            final ApplicationContext applicationContext,
-                           final HrRepository hrRepository) {
+                           final HrService hrService) {
         this.templateRepository = templateRepository;
         this.applicationContext = applicationContext;
-        this.hrRepository = hrRepository;
+        this.hrService = hrService;
     }
 
     public Template getSystemTemplate() {
@@ -74,15 +74,15 @@ public class TemplateService {
         newTemplate.setId(null);
         final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
 
-        final HrDocument currentHr = getCurrentHr();
+        final HrDocument currentHr = hrService.getCurrentHr();
         currentHr.addTemplate(savedNewTemplate.getId());
-        hrRepository.save(currentHr);
+        hrService.save(currentHr);
 
         return TemplateMapper.instance.documentToDto(savedNewTemplate);
     }
 
     public List<String> getAllTemplatesIds() {
-        return getCurrentHr().getTemplatesList();
+        return hrService.getCurrentHr().getTemplatesList();
     }
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
@@ -91,18 +91,6 @@ public class TemplateService {
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
             if (fieldFields != null) executeLogicOnTemplate(fieldFields, logicExecutors);
         });
-    }
-
-    private HrDocument getCurrentHr() {
-        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
-
-        final String currentHrId = authenticatedUser.getId();
-        final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);
-
-        if (currentHr.isEmpty())
-            throw new UserNotFoundException();
-
-        return currentHr.get();
     }
 
 }
