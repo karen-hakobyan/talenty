@@ -10,7 +10,7 @@ public class JobAnnouncementService {
 
     private final JobAnnouncementRepository jobAnnouncementRepository;
 
-    public JobAnnouncementService(JobAnnouncementRepository jobAnnouncementRepository) {
+    public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository) {
         this.jobAnnouncementRepository = jobAnnouncementRepository;
     }
 

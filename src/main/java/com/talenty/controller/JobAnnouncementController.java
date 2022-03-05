@@ -15,8 +15,7 @@ public class JobAnnouncementController {
 
     private final JobAnnouncementService jobAnnouncementService;
 
-
-    public JobAnnouncementController(JobAnnouncementService jobAnnouncementService) {
+    public JobAnnouncementController(final JobAnnouncementService jobAnnouncementService) {
         this.jobAnnouncementService = jobAnnouncementService;
     }
 

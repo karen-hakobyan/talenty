@@ -16,7 +16,7 @@ public class TypeValuesService {
 
     private final TypeValuesRepository typeValuesRepository;
 
-    public TypeValuesService(TypeValuesRepository typeValuesRepository) {
+    public TypeValuesService(final TypeValuesRepository typeValuesRepository) {
         this.typeValuesRepository = typeValuesRepository;
     }
 
@@ -35,7 +35,10 @@ public class TypeValuesService {
     public String delete(final TypeValues typeValues) {
         final String type = typeValues.getType();
         final TypeValuesDocument typeValuesDocument = typeValuesRepository.deleteByType(type);
-        if (typeValuesDocument == null) throw new NoSuchTypeException();
+        if (typeValuesDocument == null) {
+            System.out.printf("Type '%s' created by Admin Tool does not exist\n", type);
+            throw new NoSuchTypeException();
+        }
         return type;
     }
 
@@ -50,6 +53,7 @@ public class TypeValuesService {
 
     public void editType(final TypeValues[] typeValues) {
         if (typeValues.length != 2) {
+            System.out.printf("Type values length is '%d', should be always 2\n", typeValues.length);
             throw new InvalidTypeValuesLengthException();
         }
 
@@ -60,19 +64,24 @@ public class TypeValuesService {
         final TypeValuesDocument byType2 = typeValuesRepository.findByType(type2);
 
         if (byType1 != null && byType2 != null) {
+            System.out.printf("Type '%s' or '%s' is already exists\n", type1, type2);
             throw new GivenTypeAlreadyExistsException();
         } else if (byType1 == null && byType2 == null) {
+            System.out.printf("Type '%s' or '%s' does not exist\n", type1, type2);
             throw new NoSuchTypeException();
         }
 
-        if (byType1 == null) { // change 2nd type name with 1st
+        if (byType1 == null) {
+
+            // change 2nd type name with 1st
             byType2.setType(type1);
             typeValuesRepository.save(byType2);
-        } else { // change 1st type name with 2nd
+        } else {
+
+            // change 1st type name with 2nd
             byType1.setType(type2);
             typeValuesRepository.save(byType1);
         }
-
     }
 
 }

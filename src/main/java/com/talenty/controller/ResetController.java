@@ -34,6 +34,7 @@ public class ResetController {
         final Optional<UserDocument> userOptional = userService.findByEmail(email);
 
         if (userOptional.isEmpty()) {
+            System.out.printf("User with '%s' email does not exist\n", email);
             throw new UserNotFoundException();
         }
 
@@ -51,7 +52,8 @@ public class ResetController {
         final TokenDocument tokenDocument = tokenService.findByValue(token);
         final Optional<UserDocument> userOptional = userService.finById(tokenDocument.getUserId());
 
-        if(userOptional.isEmpty()) {
+        if (userOptional.isEmpty()) {
+            System.out.printf("User with '%s' id does not exist\n",tokenDocument.getUserId());
             throw new UserNotFoundException();
         }
 
