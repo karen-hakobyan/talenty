@@ -47,11 +47,6 @@ const INPUT_LABEL = {
     fontFamily: "Proxima Nova",
 };
 
-const FIELD_CHECKBOX_CONTAINER = {
-    display: "flex",
-    gap: "24px",
-    alignItems: "center",
-};
 const TEMPLATE_INPUT = {width: "421px"};
 const DISABLED_INPUT = {background: "#F5F5F5"};
 const TEMPLATE_BUTTON_ADD = {
@@ -143,6 +138,14 @@ const TEXT_FIELD = {
         borderColor: MAIN_PURPLE,
     },
 };
+
+const INPUT_VALUE_STYLE = {
+    fontFamily: 'Proxima Nova',
+    fontWeight: 400,
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: '#4C494F',
+}
 export {
     GLOBAL_TEXT,
     DIALOG_TITLE_CONTAINER,
@@ -151,7 +154,6 @@ export {
     DIALOG_ADD_SECTION_CONTAINER,
     TEMPLATE_ITEM_BUTTON_DISABLED,
     INPUT_LABEL,
-    FIELD_CHECKBOX_CONTAINER,
     TEMPLATE_INPUT,
     DISABLED_INPUT,
     TEMPLATE_BUTTON_ADD,
@@ -161,4 +163,5 @@ export {
     TEXT_FIELD,
     LINE,
     HOME_PRIMARY_BUTTON,
+    INPUT_VALUE_STYLE
 };

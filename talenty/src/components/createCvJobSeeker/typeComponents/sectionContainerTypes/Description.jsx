@@ -18,7 +18,9 @@ export default function Description({data}) {
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => {
-                    dispatch(setTemplateData({id: data.id, value}))
+                    setTimeout(() => {
+                        dispatch(setTemplateData({id: data.id, value}))
+                    }, 100)
                 }}
             />
         }

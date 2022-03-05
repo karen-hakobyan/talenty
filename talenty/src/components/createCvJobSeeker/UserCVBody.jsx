@@ -1,8 +1,23 @@
-import {memo} from "react";
+import {memo, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Box} from "@mui/material";
 import typeComponents, {TYPES_TAKES_WHOLE_ROW} from "./typeComponents/typeComponents";
+import {selectSectionContainerController} from "../../store/globalData/selector";
+import {setSectionContainerController} from "../../store/globalData/slice";
+import {UN_CLOSABLE_SECTION_CONTAINERS} from "./constants";
 
 export default function UserCVBody({data}) {
+    const dispatch = useDispatch()
+    const sectionContainerController = useSelector(selectSectionContainerController)
+    useEffect(() => {
+        if(data?.fields[0].metadata.type === 'section_container' && sectionContainerController?.name !== data.name && !UN_CLOSABLE_SECTION_CONTAINERS.includes(data.name)) {
+            dispatch(setSectionContainerController({name: data.name, activeIndex: data.fields.length - 1}))
+        }
+        if(UN_CLOSABLE_SECTION_CONTAINERS.includes(data.name)) {
+            dispatch(setSectionContainerController(null))
+        }
+    },[dispatch, sectionContainerController, data])
+
     if (!data) {
         return null;
     }
@@ -23,7 +38,7 @@ export default function UserCVBody({data}) {
                         gridColumnEnd: 3,
                     } : {display: 'flex', justifyContent: index % 2 !== 0 ? 'flex-end' : 'flex-start'})
                 }} key={el.id}>
-                    <TempComponent data={el}/>
+                    <TempComponent data={el} {...{index}} />
                 </Box>
             )
         })}

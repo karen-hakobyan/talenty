@@ -15,13 +15,13 @@ export default function changeTemplateData(data, id, value) {
 export const addSectionContainer = (templateData, id) => {
     let temp = JSON.stringify(templateData)
     temp = JSON.parse(temp, (key, reviverValue) => {
-        if(!reviverValue?.id) {
+        if (!reviverValue?.id) {
             return reviverValue
         }
-        if(reviverValue?.id === id) {
+        if (reviverValue?.id === id) {
             let temp1 = JSON.stringify(reviverValue.fields[0])
             temp1 = JSON.parse(temp1, (key, val) => {
-                if(!val?.id) {
+                if (!val?.id) {
                     return val
                 }
                 return {
@@ -33,8 +33,6 @@ export const addSectionContainer = (templateData, id) => {
             reviverValue.fields.push(temp1)
         }
         return reviverValue
-     })
-
+    })
     return temp
-
 }

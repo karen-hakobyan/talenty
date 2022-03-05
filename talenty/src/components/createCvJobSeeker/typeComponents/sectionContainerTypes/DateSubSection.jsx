@@ -18,12 +18,17 @@ export default function DateSubSection({data, extra}) {
         onChange={
             (event) => dispatch(setTemplateData({
                 id: data.id,
-                value: event.toDateString()
+                value: validateDate(event.toLocaleDateString())
             }))
         }
         fieldStyle={{width: '242px'}}
         pickerProps={
-            extra ? {disabled: extra.metadata.submitted_value} : {}
+            extra ? {disabled: !!extra.metadata.submitted_value} : {}
         }
     />
+}
+
+function validateDate(date) {
+    let result = date.split('/')
+    return result.map(el => el.length === 1 ? '0' + el : el).join('/')
 }
