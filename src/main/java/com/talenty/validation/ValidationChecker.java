@@ -128,7 +128,7 @@ public class ValidationChecker {
             }
 
             default: {
-                System.out.printf("No such type '%s'", type);
+                System.out.printf("No such type '%s'\n", type);
                 throw new NoSuchTypeException();
             }
         }

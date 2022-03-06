@@ -10,13 +10,11 @@ import com.talenty.logical_executors.LogicExecutor;
 import com.talenty.logical_executors.SubmittedSectionsValidationExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.SubmittedTemplateRepository;
-import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SubmittedTemplateService {
@@ -61,8 +59,9 @@ public class SubmittedTemplateService {
         parentFields.forEach(tempParentField -> {
             final FieldDocument tempSubmittedField = submittedFields.get(index[0]++);
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(tempParentField, tempSubmittedField));
-            if (tempParentField.getFields() != null)
-                cleanUpSubmittedTemplateFieldsUltimate(tempParentField.getFields(), tempSubmittedField.getFields(), false);
+            final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
+            if (tempParentFieldFields != null)
+                cleanUpSubmittedTemplateFieldsUltimate(tempParentFieldFields, tempSubmittedField.getFields(), false);
         });
     }
 
