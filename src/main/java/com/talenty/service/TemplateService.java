@@ -85,8 +85,8 @@ public class TemplateService {
 
     private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
         fields.forEach(field -> {
-            final List<FieldDocument> fieldFields = field.getFields();
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
+            final List<FieldDocument> fieldFields = field.getFields();
             if (fieldFields != null) executeLogicOnTemplate(fieldFields, logicExecutors);
         });
     }

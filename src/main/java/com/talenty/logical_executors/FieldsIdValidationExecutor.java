@@ -2,7 +2,10 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FieldsIdValidationExecutor implements LogicExecutor {
 
     @Override
@@ -10,11 +13,7 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
         final FieldDocument parentField = field[0];
         final FieldDocument tempField = field[1];
         if (!parentField.getId().equals(tempField.getId())) {
-            System.out.printf(
-                    "Cause: Field ID miss match. Current Field: %s, Current Parent's Field: %s",
-                    tempField,
-                    parentField
-            );
+            System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", tempField, parentField);
             throw new NoSuchTemplateException();
         }
     }

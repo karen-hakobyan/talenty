@@ -3,9 +3,11 @@ package com.talenty.logical_executors;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.validation.ValidationChecker;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 public class SubmittedSectionsValidationExecutor implements LogicExecutor {
 
     @Override

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Map;
 
 @Component
-@Scope("prototype")
 public class CleanUpMetadataExecutor implements LogicExecutor {
 
     private final String[] REMOVABLE_FIELDS = {"editable", "deletable", "required", "required_editable"};
