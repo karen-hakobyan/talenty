@@ -35,14 +35,15 @@ public class SubmittedTemplateService {
         final TemplateDocument parentTemplate = templateService.getTemplateById(template.getId());
 
         final TemplateDocument submittedTemplate = TemplateMapper.instance.dtoToTemplate(template);
-        cleanUpSubmittedTemplateFields(submittedTemplate.getFields(), parentTemplate.getFields());
+//        cleanUpSubmittedTemplateFields(submittedTemplate.getFields(), parentTemplate.getFields(), true);
 
-//        cleanUpSubmittedTemplateFieldsUltimate(
-//                parentTemplate.getFields(),
-//                submittedTemplate.getFields(),
-//                applicationContext.getBean(FieldsIdValidationExecutor.class),
-//                applicationContext.getBean(SubmittedSectionValidationExecutor.class)
-//        );
+        cleanUpSubmittedTemplateFieldsUltimate(
+                parentTemplate.getFields(),
+                submittedTemplate.getFields(),
+                true,
+                applicationContext.getBean(FieldsIdValidationExecutor.class),
+                applicationContext.getBean(SubmittedSectionsValidationExecutor.class)
+        );
 
         final SubmittedTemplateDocument cleanedUpSubmittedTemplate = TemplateMapper.instance.templateTopSubmittedTemplate(submittedTemplate);
         cleanedUpSubmittedTemplate.setId(null);
@@ -51,59 +52,18 @@ public class SubmittedTemplateService {
         return submittedTemplateRepository.save(cleanedUpSubmittedTemplate);
     }
 
-    private void cleanUpSubmittedTemplateFieldsUltimate(final List<FieldDocument> submittedFields, final List<FieldDocument> parentFields, final LogicExecutor... logicExecutors) {
-        if (submittedFields.size() != parentFields.size())
-            throw new NoSuchTemplateException();
-
+    private void cleanUpSubmittedTemplateFieldsUltimate(final List<FieldDocument> parentFields,
+                                                        final List<FieldDocument> submittedFields,
+                                                        final boolean firstTimeRequested,
+                                                        final LogicExecutor... logicExecutors) {
+        if (firstTimeRequested && submittedFields.size() != parentFields.size()) throw new NoSuchTemplateException();
         final int[] index = {0};
         parentFields.forEach(tempParentField -> {
             final FieldDocument tempSubmittedField = submittedFields.get(index[0]++);
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(tempParentField, tempSubmittedField));
             if (tempParentField.getFields() != null)
-                cleanUpSubmittedTemplateFields(tempSubmittedField.getFields(), tempParentField.getFields());
+                cleanUpSubmittedTemplateFieldsUltimate(tempParentField.getFields(), tempSubmittedField.getFields(), false);
         });
-    }
-
-    private void cleanUpSubmittedTemplateFields(final List<FieldDocument> submittedFields, final List<FieldDocument> parentFields) {
-        if (submittedFields.size() != parentFields.size()) {
-            throw new NoSuchTemplateException();
-        }
-        for (int i = 0; i < parentFields.size(); i++) {
-            final FieldDocument tempSubmittedField = submittedFields.get(i);
-            final FieldDocument tempParentField = parentFields.get(i);
-
-            if (!tempParentField.getId().equals(tempSubmittedField.getId())) {
-                System.out.printf(
-                        "Cause: Field ID miss match. Current Field: %s, Current Parent's Field: %s",
-                        tempSubmittedField,
-                        tempParentField
-                );
-                throw new NoSuchTemplateException();
-            }
-
-            if (tempSubmittedField.getFields() == null && tempParentField.getFields() == null) {
-                final Map<String, Object> tempParentFieldMetadata = tempParentField.getMetadata();
-                final Map<String, Object> tempSubmittedFieldMetadata = tempSubmittedField.getMetadata();
-
-                if (tempParentFieldMetadata.containsKey("required")) {
-                    if ((boolean) tempParentFieldMetadata.get("required")
-                            && !tempSubmittedFieldMetadata.containsKey("submitted_value")) {
-                        System.out.printf(
-                                "Cause: Required field doesn't submitted! Field: %s ",
-                                tempSubmittedField
-                        );
-                        throw new NoSuchTemplateException();
-                    }
-                }
-
-                if (tempSubmittedFieldMetadata.containsKey("submitted_value")) {
-                    ValidationChecker.assertSubmittedFieldIsValid(tempSubmittedField, tempParentField);
-                }
-            } else if (tempSubmittedField.getFields() != null && tempParentField.getFields() != null) {
-                cleanUpSubmittedTemplateFields(tempSubmittedField.getFields(), tempParentField.getFields());
-            }
-
-        }
     }
 
 }
