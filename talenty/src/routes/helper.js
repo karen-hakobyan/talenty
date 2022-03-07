@@ -8,7 +8,6 @@ import {
     DASHBOARD_ROUTE,
     HOME_PAGE_ROUTE,
 } from "../constants/routes";
-import {Route} from "react-router-dom";
 
 export let HR_ROUTES = [
     {

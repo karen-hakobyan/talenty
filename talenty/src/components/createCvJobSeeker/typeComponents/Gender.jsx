@@ -1,7 +1,4 @@
 import {useDispatch} from "react-redux";
-import TextField from "../../../shared/components/Textfield";
-import SubSection from "../../shared/subSection";
-import {MenuItem} from "@mui/material";
 import {setTemplateData} from "../../../store/globalData/slice";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import Select from "../../../shared/components/Select";

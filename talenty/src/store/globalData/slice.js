@@ -37,6 +37,9 @@ export const globalDataSlice = createSlice({
         addSectionContainerAction: (state, {payload: id}) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
+        addPublicationsSection: (state, {payload: {id, isBook}}) => {
+            state.templateData = addSectionContainer(state.templateData, id, isBook)
+        },
         setGlobalInitialData: (state) => {
             for (let key in initialState) {
                 state[key] = initialState[key]
@@ -73,6 +76,7 @@ export const {
     addSectionContainerAction,
     setEvaluateWidths,
     setSectionContainerController,
+    addPublicationsSection,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

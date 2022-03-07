@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/system";
-import axios from 'axios'
 import {Dialog, IconButton, Typography, Box,} from "@mui/material";
 import {PINK} from "../../constants/colors";
 import {
@@ -29,11 +28,10 @@ import {
     TEMPLATE_BUTTON_ADD,
     TEMPLATE_BUTTON_CREATE,
 } from "../../shared/styles";
-import {compareObjects} from "../../helpers/compareTwoData";
 import AddSection from "../dialogs/addSection";
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {useRef} from "react";
-import {selectAuthJwt, selectAuthUserInfo} from "../../store/auth/selector";
+import {selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 const CustomInput = styled("input")(() => ({
@@ -59,9 +57,8 @@ function CvTemplateMain() {
     const [title, setTitle] = useState("");
     const [data, setData] = useState(null);
     const userInfo = useSelector(selectAuthUserInfo)
-    const jwt = useSelector(selectAuthJwt)
     const [isTemplateNameText, setIsTemplateNameText] = useState(true);
-    const [unchangeData, setUnchangedData] = useState(null);
+    const [,setUnchangedData] = useState(null);
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();

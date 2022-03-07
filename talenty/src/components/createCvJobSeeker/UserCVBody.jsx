@@ -5,6 +5,7 @@ import typeComponents, {TYPES_TAKES_WHOLE_ROW} from "./typeComponents/typeCompon
 import {selectSectionContainerController} from "../../store/globalData/selector";
 import {setSectionContainerController} from "../../store/globalData/slice";
 import {UN_CLOSABLE_SECTION_CONTAINERS} from "./constants";
+import PublicationSection from "./Publications";
 
 export default function UserCVBody({data}) {
     const dispatch = useDispatch()
@@ -20,6 +21,10 @@ export default function UserCVBody({data}) {
 
     if (!data) {
         return null;
+    }
+
+    if(data.name === 'Publications') {
+        return <PublicationSection {...{data}} />
     }
 
     return <Box

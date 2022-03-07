@@ -10,15 +10,14 @@ import {Box, Button, Checkbox, Dialog, FormControl} from "@mui/material";
 import SignInField from "./SignInField";
 import {TEMPLATE_BUTTON_CREATE} from "../../shared/styles";
 import {
-    DASHBOARD_ROUTE,
-    FORGOT_PASSWORD_ROUTE, HOME_PAGE_ROUTE,
+    FORGOT_PASSWORD_ROUTE,
     LANDING_PAGE_ROUTE,
     SIGN_UP_ROUTE,
 } from "../../constants/routes";
 import {MAIN_PURPLE} from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
-import {selectAuthIsCompany, selectAuthJwt, selectAuthModalInfo,  selectIsValidToken} from "../../store/auth/selector";
+import { selectAuthModalInfo,  selectIsValidToken} from "../../store/auth/selector";
 import { setAuthModalInfo, setIsValidToken } from "../../store/auth/authSlice";
 import { ENTER_KEY } from "../../constants/keyCodes";
 import { FIELD_SIGN_IN } from "./helper";

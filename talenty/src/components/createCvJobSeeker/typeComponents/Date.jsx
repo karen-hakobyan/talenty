@@ -1,8 +1,8 @@
-import {useState} from "react";
 import {useDispatch} from "react-redux";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import {setTemplateData} from "../../../store/globalData/slice";
 import BasicDatePicker from "../../shared/DatePicker";
+import {validateDate} from "./sectionContainerTypes/DateSubSection";
 
 export default function Date({data}) {
     const dispatch = useDispatch()
@@ -13,11 +13,9 @@ export default function Date({data}) {
                 value={data.metadata.submitted_value}
                 onChange={
                     (event) => {
-                        // console.log(event.toString())
-                        console.log(event.toDateString())
                         dispatch(setTemplateData({
                             id: data.id,
-                            value: event.toDateString(),
+                            value: validateDate(event.toLocaleDateString()),
                         }))
                     }
                 }

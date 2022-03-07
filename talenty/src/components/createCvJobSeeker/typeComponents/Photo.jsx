@@ -14,7 +14,7 @@ export default function Photo({data}) {
                     justifyContent: 'center',
                     alignItems: 'flex-end'
                 }}>
-                    <AddPhotoSVG/>
+                        <AddPhotoSVG />
                 </Box>
                 <Box sx={{
                     width: '100%',

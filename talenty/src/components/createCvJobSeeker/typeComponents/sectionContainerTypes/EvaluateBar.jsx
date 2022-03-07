@@ -1,6 +1,6 @@
 import {Box} from "@mui/material";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useMemo, useRef} from "react";
 import {setEvaluateWidths, setTemplateData} from "../../../../store/globalData/slice";
 import {useDispatch, useSelector} from "react-redux";
 import {selectEvaluatesBarWidths} from "../../../../store/globalData/selector";
@@ -13,7 +13,8 @@ const setExactWidth = (width, widths) => {
         }
     }
 }
-export default function EvaluateBar({data}) {
+// depend is value of skill or profficency level with depend we control whether field is disabled or not
+export default function EvaluateBar({data, depend}) {
     const ref = useRef()
     const dispatch = useDispatch()
     const evaluateWidths = useSelector(selectEvaluatesBarWidths);
@@ -40,14 +41,23 @@ export default function EvaluateBar({data}) {
     return <JobSeekerSubsection
         label='Percentage'
         Component={<Box sx={{display: 'flex', flexDirection: 'column', gap: '6px'}}>
-            <Box ref={ref} sx={{position: 'relative', width: '500px', height: '40px', border: '1px solid #D9D9D9'}}
+            <Box ref={ref} sx={{
+                position: 'relative',
+                width: '500px',
+                height: '40px',
+                border: '1px solid #D9D9D9',
+            ...(depend ? {background: 'none', cursor: 'pointer'}: {background: '#D9D9D9'})
+            }}
                  onClick={(event) => {
+                     if (!depend) {
+                         return
+                     }
                      dispatch(setTemplateData({
                          id: data.id,
                          value: setExactWidth(event.clientX - ref.current.offsetLeft, evaluateWidths)
                      }))
                  }}>
-                <Box sx={{height: '38px', width: `${childWidth}px`, background: '#8C0DF0'}}/>
+                {depend && <Box sx={{height: '38px', width: `${childWidth}px`, background: '#8C0DF0'}}/>}
             </Box>
             <Box sx={{display: 'flex', width: '500px', gap: '72px'}}>
                 {data.metadata.values.map(el => {
