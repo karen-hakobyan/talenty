@@ -11,7 +11,11 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
         label={data.name}
         Component={
             <TextField
-                sx={{width: '500px', ...fieldStyle}}
+                sx={
+                    {
+                        width: '500px', ...fieldStyle,
+                    }
+                }
                 onChange={(e) => {
                     setValue(e.target.value)
                 }}
@@ -21,6 +25,7 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
                         dispatch(setTemplateData({id: data.id, value}))
                     }, 110)
                 }}
+                {...(data.name ? {} : {placeholder: 'URL'})}
             />}
         sx={sx}
     />

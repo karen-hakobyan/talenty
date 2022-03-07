@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import DatePicker from '@mui/lab/DatePicker';
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import {LocalizationProvider} from "@mui/lab";
 import TextField from "../../shared/components/Textfield";
+import {changeDateFormat} from "../createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection";
 
 export default function BasicDatePicker({
                                             fieldProps = {},
@@ -15,7 +16,7 @@ export default function BasicDatePicker({
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <DatePicker
-                value={value || null}
+                value={(value && changeDateFormat(value)) || null}
                 {...pickerProps}
                 onChange={onChange}
                 renderInput={(params) => {

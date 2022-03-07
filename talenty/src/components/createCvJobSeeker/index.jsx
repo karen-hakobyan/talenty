@@ -9,7 +9,8 @@ import {
     addSectionContainerAction,
     setExactPage,
     setNextPage,
-    setPrevPage, setSectionContainerController
+    setPrevPage,
+    setSectionContainerController
 } from "../../store/globalData/slice";
 import {getTemplateActions, saveJobSeekerCV} from "../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
@@ -74,7 +75,8 @@ export default function CreateCvJobSeeker() {
                             gap: "12px",
                         }}
                     >
-                        {templateData?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' &&
+                        {
+                            templateData?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' && templateData?.fields[exactPage - 1].name !== 'Publications' &&
                             <Button
                                 sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
                                 onClick={() => {
@@ -93,9 +95,9 @@ export default function CreateCvJobSeeker() {
                                 }}
                             >
                                 Next
-                                <ArrowRight />
+                                <ArrowRight/>
                             </Button>
-                        ): (
+                        ) : (
                             <Button
                                 sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
                                 onClick={() => {

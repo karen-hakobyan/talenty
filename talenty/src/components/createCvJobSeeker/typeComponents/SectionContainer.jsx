@@ -13,7 +13,7 @@ export default function SectionContainer({data, index}) {
     const dispatch = useDispatch()
     const controller = useSelector(selectSectionContainerController)
     const isActive = useMemo(() => {
-        if(!controller)  {
+        if (!controller) {
             return null
         }
         return controller && controller.activeIndex === index
@@ -59,7 +59,8 @@ export default function SectionContainer({data, index}) {
                         gridColumnStart: 1,
                         gridColumnEnd: 3
                     } : {display: 'flex', justifyContent: index % 2 === 0 ? 'flex-start' : 'flex-end'}} key={el.id}>
-                        <TempComponent data={el}/>
+                        <TempComponent
+                            data={el} {...(el.metadata.type === 'simple_evaluate_bar' ? {depend: data.fields[0].metadata.submitted_value} : {})} />
                     </Box>
                 )
             })}

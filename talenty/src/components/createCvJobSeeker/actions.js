@@ -12,14 +12,15 @@ export default function changeTemplateData(data, id, value) {
     return temp
 }
 
-export const addSectionContainer = (templateData, id) => {
+// isbook parameter for determine and add bookSubsection instead of article subsection variant
+export const addSectionContainer = (templateData, id, isBook) => {
     let temp = JSON.stringify(templateData)
     temp = JSON.parse(temp, (key, reviverValue) => {
         if (!reviverValue?.id) {
             return reviverValue
         }
         if (reviverValue?.id === id) {
-            let temp1 = JSON.stringify(reviverValue.fields[0])
+            let temp1 = JSON.stringify(reviverValue.fields[isBook ? 1 : 0])
             temp1 = JSON.parse(temp1, (key, val) => {
                 if (!val?.id) {
                     return val

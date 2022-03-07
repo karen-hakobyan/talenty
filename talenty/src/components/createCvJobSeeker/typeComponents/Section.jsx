@@ -1,6 +1,6 @@
 import {memo, useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
-import {Box, MenuItem} from "@mui/material";
+import {Box} from "@mui/material";
 import {selectLinksController} from "../../../store/globalData/selector";
 import {setLinksController, setTemplateData} from "../../../store/globalData/slice";
 import SOCIAL_LINK_ICONS from "../../cvTemplate/typeComponents/section/socialLinkIcons";

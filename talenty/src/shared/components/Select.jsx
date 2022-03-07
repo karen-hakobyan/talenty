@@ -28,7 +28,7 @@ export default function Select({value, menuItems, textFieldWidth, ...restProps})
         }}
         {...restProps}
     >
-        {menuItems.map(el => {
+        {menuItems.map((el) => {
             return <MenuItem
                 value={el}
                 key={el}

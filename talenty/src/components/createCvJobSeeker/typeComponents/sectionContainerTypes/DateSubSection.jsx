@@ -12,7 +12,7 @@ export default function DateSubSection({data, extra}) {
                 value: undefined,
             }))
         }
-    },[extra, dispatch])
+    },[extra, dispatch, data])
     return <BasicDatePicker
         value={data.metadata.submitted_value}
         onChange={
@@ -28,7 +28,19 @@ export default function DateSubSection({data, extra}) {
     />
 }
 
-function validateDate(date) {
+export function validateDate(date) {
     let result = date.split('/')
+    let temp = result[0]
+    result[0] = result[1]
+    result[1] = temp
     return result.map(el => el.length === 1 ? '0' + el : el).join('/')
+}
+
+export function changeDateFormat(date) {
+    let result = date.split('/')
+    let temp = result[0]
+    result[0] = result[1]
+    result[1] = temp
+    console.log(result)
+    return result.join('/')
 }
