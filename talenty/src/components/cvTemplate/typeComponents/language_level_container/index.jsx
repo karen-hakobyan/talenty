@@ -29,15 +29,15 @@ export default function LanguageLevelGenerator({
             }
             inputComponent={
                 <Box sx={{display: "flex", gap: "10px"}}>
-                    {data.fields.map((el) => {
+                    {data.metadata.values.map((el) => {
                         return (
                             <Button
-                                key={el.id}
+                                key={el}
                                 sx={{width: "133px", ...DISABLED_INPUT, height: "40px"}}
                                 style={{textTransform: "none"}}
                                 disabled
                             >
-                                {el.name}
+                                {el}
                             </Button>
                         );
                     })}

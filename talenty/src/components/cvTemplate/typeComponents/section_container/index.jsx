@@ -14,7 +14,7 @@ export default function SectionContainer({
     return (
         <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px"}}>
             {data.fields.map((field) => {
-                if (field.metadata.status === "deleted") {
+                if (field.metadata.status === "DELETED") {
                     return null;
                 }
                 let TempComponent = typeComponents[field.metadata.type];
