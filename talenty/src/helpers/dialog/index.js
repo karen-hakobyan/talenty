@@ -24,7 +24,6 @@ const editMapper = (initialName) => (field) => {
 };
 
 export function onDelete({dispatch, item, dialogData, isSectionContainer}) {
-    // console.log(dialogData);
     const updatedDialogData = isSectionContainer
         ? {
             ...dialogData,
@@ -48,6 +47,37 @@ export function isDisabled({templateData, value}) {
             ? templateData.fields[0]
             : templateData;
     return result.fields.some((el) => el.name === value) || value.length === 0;
+}
+
+export function editOtherCheckbox({dispatch, dialogData, id}) {
+    let updatedDialogData = JSON.stringify(dialogData)
+    updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
+        if(!reviverValue?.id || reviverValue.id !== id) {
+            return reviverValue
+        }
+        return {
+            ...reviverValue,
+            metadata: {
+                ...reviverValue.metadata,
+                required: !reviverValue.metadata.required
+            }
+        }
+    })
+    dispatch(setDialogData(updatedDialogData))
+}
+
+export function deleteOtherAction({dispatch, dialogData, id}) {
+    let updatedDialogData = JSON.stringify(dialogData)
+    updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
+        if(!reviverValue?.id || reviverValue.id !== id) {
+            return reviverValue
+        }
+        return {
+            ...reviverValue,
+            metadata: {...reviverValue.metadata, status: "DELETED"}
+        }
+    })
+    dispatch(setDialogData(updatedDialogData))
 }
 
 export function editCheckboxState({

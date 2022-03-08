@@ -8,7 +8,6 @@ import {
 } from "../../constants/redux/globalData";
 import {
     DIALOG_MAIN_CONTAINER,
-    DIALOG_TITLE_CONTAINER,
     TEMPLATE_ITEM_BUTTON,
 } from "../../shared/styles";
 import {setDialogIsOpen} from "../../store/dialogs/slice";
@@ -17,6 +16,7 @@ import {setGlobalDataViaKey} from "../../store/globalData/slice";
 import typeComponents from "../cvTemplate/typeComponents";
 import AddField from "./addField";
 import Attention from "./attention";
+import SharedTemplateHeader from "../../shared/components/TemplateHeader";
 
 export default function Body({
                                  dialogData,
@@ -26,7 +26,6 @@ export default function Body({
     const dispatch = useDispatch();
     const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
     const templateData = useSelector(selectGlobalDataViaKey(TEMPLATE_DATA));
-
     if (!dialogData) {
         return null;
     }
@@ -43,8 +42,9 @@ export default function Body({
             <Dialog open={attentionIsOpen} onClose={() => setAttentionIsOpen(false)}>
                 <Attention {...{setAttentionIsOpen}} />
             </Dialog>
-            <Box sx={DIALOG_TITLE_CONTAINER}>{dialogData.name}</Box>
-            <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px"}}>
+
+            <SharedTemplateHeader title={dialogData.name}/>
+            <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px", pt: '44px'}}>
                 {dialogData.fields.map((field) => {
                     // if status deleted show nothing
                     if (field.metadata.status === "deleted") {

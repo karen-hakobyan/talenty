@@ -6,7 +6,6 @@ import {DescriptionGenerator} from "./description";
 import EmailGenerator from "./email";
 import GenderGenerator from "./gender";
 import PhoneGenerator from "./phoneNumber";
-import PhotoGenerator from "./photo";
 import SpecialNameGenerator from "./specialName";
 import SectionGenerator from "./section";
 import SectionContainer from "./section_container";
@@ -21,18 +20,16 @@ const typeComponents = {
     date: DateGenerator,
     email: EmailGenerator,
     gender: GenderGenerator,
-    driving_license: PhotoGenerator,
-    military_id: PhotoGenerator,
-    add_photo: PhotoGenerator,
     section: SectionGenerator,
     phone_number: PhoneGenerator,
     description: DescriptionGenerator,
     section_container: SectionContainer,
     text: SpecialNameGenerator,
     professional_skill: SpecialNameGenerator,
-    evaluate_bar: EveluateBar,
+    simple_evaluate_bar: EveluateBar,
     personal_skill: SpecialNameGenerator,
-    language_level_container: LanguageLevelGenerator,
+    language_evaluate_bar: LanguageLevelGenerator,
+    language: SpecialNameGenerator,
     url: SpecialNameGenerator,
     simple_input: DescriptionGenerator,
 };

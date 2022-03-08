@@ -33,9 +33,9 @@ export default function EveluateBar({data, isSectionContainer, dispatch, dialogD
                         marginTop: "6px",
                     }}
                 >
-                    {data.fields.map((el) => (
+                    {data.metadata.values.map((el) => (
                         <Box
-                            key={el.id}
+                            key={el}
                             sx={{
                                 fontFamily: "Proxima Nova",
                                 fontWeight: 400,
@@ -43,7 +43,7 @@ export default function EveluateBar({data, isSectionContainer, dispatch, dialogD
                                 lineHeight: "24px",
                             }}
                         >
-                            {el.name}
+                            {el}
                         </Box>
                     ))}
                 </Box>
