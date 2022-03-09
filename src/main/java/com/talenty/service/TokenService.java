@@ -27,6 +27,7 @@ public class TokenService {
     public TokenDocument findByValue(final String token) {
         final Optional<TokenDocument> byValue = tokenRepository.findByValue(token);
         if(byValue.isEmpty()) {
+            System.out.printf("Token '%s' does not exist\n",token);
             throw new TokenNotFoundException("");
         }
         return byValue.get();

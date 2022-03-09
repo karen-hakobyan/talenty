@@ -4,12 +4,10 @@ import com.talenty.domain.dto.reset.ResetPasswordDetails;
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
-import com.talenty.exceptions.TokenNotFoundException;
 import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.service.TokenService;
 import com.talenty.service.UserService;
 import com.talenty.validation.ValidationChecker;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +51,7 @@ public class ResetController {
         final Optional<UserDocument> userOptional = userService.finById(tokenDocument.getUserId());
 
         if (userOptional.isEmpty()) {
-            System.out.printf("User with '%s' id does not exist\n",tokenDocument.getUserId());
+            System.out.printf("User with '%s' id does not exist\n", tokenDocument.getUserId());
             throw new UserNotFoundException();
         }
 

@@ -8,7 +8,6 @@ import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.AccountIsAlreadyVerified;
 import com.talenty.exceptions.AccountIsNotVerifiedException;
-import com.talenty.exceptions.TokenNotFoundException;
 import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.mapper.UserBuilder;
 import com.talenty.repository.UserRepository;
