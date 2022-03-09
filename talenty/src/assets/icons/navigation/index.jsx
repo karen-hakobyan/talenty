@@ -8,6 +8,8 @@ import {ReactComponent as OfferSVG} from "./offer.svg";
 import {ReactComponent as RejectedSVG} from "./rejected.svg";
 import {ReactComponent as CreateGroupSVG} from "./createGroup.svg";
 import {ReactComponent as ArchiveSVG} from "./archive.svg";
+import {ReactComponent as NavCreateCVSVG} from "./navCreateCV.svg";
+import {ReactComponent as AddNewSubItem} from "./addNew.svg";
 
 export {
     OpenNavSVG,
@@ -20,4 +22,6 @@ export {
     RejectedSVG,
     CreateGroupSVG,
     ArchiveSVG,
+    NavCreateCVSVG,
+    AddNewSubItem
 };
