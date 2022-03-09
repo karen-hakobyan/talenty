@@ -109,7 +109,7 @@ function CvTemplateMain() {
     }
 
     return (
-        <Box sx={{width: "100%", pr: "24px", pl: "24px", pb: "24px"}}>
+        <Box sx={{width: "100%", pr: "24px", pl: "24px", pb: "24px", maxHeight: 'calc(100vh - 80px)', overflow: 'scroll'}}>
             <Dialog
                 open={addSectionDialogIsOpen}
                 maxWidth={false}
@@ -194,14 +194,6 @@ function CvTemplateMain() {
                 </IconButton>
                 <IconButton
                     sx={TEMPLATE_BUTTON_CREATE}
-                    // disabled={compareObjects(data, unchangeData)}
-                    // onClick={() => axios.post('http://localhost:7800/templates/create_new_template', data, {
-                    //     headers: {
-                    //         'Authorization': `Bearer ${jwt}`,
-                    //     }
-                    // }).then(response => {
-                    //     console.log(response)
-                    // })}
                 >
                     <CreateCVTemplateSVG/>
                     Create CV

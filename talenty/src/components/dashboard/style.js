@@ -19,6 +19,7 @@ export const MAIN_NAV_CONTAINER = (isNavOpen, maxWidth, minWidth) => ({
     position: "relative",
     transition: `width ${WIDTH_TRANSITION}s`,
     boxShadow: "2px 6px 8px 0px #2D2D2D0F",
+    height: 'calc(100vh - 80px)',
 });
 
 export const MAIN_OPENER = (isNavOpen) => ({
@@ -77,4 +78,5 @@ export const CHILD_ICON_TEXT_CONTAINER = {
     display: "flex",
     gap: "12px",
     alignItems: "center",
+    cursor: 'pointer'
 };

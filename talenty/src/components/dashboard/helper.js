@@ -1,11 +1,13 @@
 import {
+    AddNewSubItem,
     ApplicationSVG,
     CategorySVG,
     CreateGroupSVG,
     HomeNavSVG,
+    NavCreateCVSVG,
     OfferSVG,
     RejectedSVG,
-    WorkSVG,
+    WorkSVG
 } from "../../assets/icons/navigation";
 
 export const getJwt = () => {
@@ -27,6 +29,9 @@ export let navItemsGenerator = [
         text: "Dashboard",
         open: null,
         children: [],
+        action: (navigate) => {
+            navigate('')
+        }
     },
     {
         IconComponent: CategorySVG,
@@ -46,4 +51,16 @@ export let navItemsGenerator = [
         text: "Job announcments",
         children: [],
     },
+    {
+        IconComponent: NavCreateCVSVG,
+        key: genId(),
+        text: 'CV template',
+        children: [
+            {
+                text: "Create new Cv", key: genId(), IconComponent: AddNewSubItem, action: (navigate) => {
+                    navigate('template')
+                }
+            }
+        ],
+    }
 ];

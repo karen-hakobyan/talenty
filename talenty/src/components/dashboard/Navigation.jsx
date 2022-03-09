@@ -13,28 +13,32 @@ import {
     NAV_GENERATOR_CONTAINER,
     NAV_ITEM_CONTAINER,
 } from "./style";
+import {useNavigate} from "react-router-dom";
 
 export default function Navigation({maxWidth, minWidth}) {
     const [navItemGeneratorState, setNavItemGeneratorState] =
         useState(navItemsGenerator);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isTextShown, setIsTextShown] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (!isNavOpen) {
             setIsTextShown(isNavOpen);
         } else {
-            setTimeout(() => setIsTextShown(isNavOpen), 0.5 * 1000);
+            setTimeout(() => setIsTextShown(isNavOpen), 500);
         }
     }, [isNavOpen]);
 
     useEffect(() => {
         if (!isTextShown) {
-            setNavItemGeneratorState((prev) =>
-                prev.map((item) => ({
-                    ...item,
-                    ...(item.open !== null ? {open: false} : {}),
-                }))
+            setNavItemGeneratorState((prev) =>(
+                    prev.map((item) => ({
+                        ...item,
+                        ...(item.open !== null ? {open: false} : {}),
+                    }))
+            )
+
             );
         }
     }, [isTextShown]);
@@ -50,9 +54,16 @@ export default function Navigation({maxWidth, minWidth}) {
             />
             <Box sx={NAV_GENERATOR_CONTAINER}>
                 {navItemGeneratorState.map(
-                    ({IconComponent, key, text, open, children}) => {
+                    ({IconComponent, key, text, open, action, children}) => {
                         return (
-                            <Box {...{key}} sx={NAV_ITEM_CONTAINER}>
+                            <Box
+                                {...{key}}
+                                sx={{
+                                    ...NAV_ITEM_CONTAINER,
+                                    cursor: action ? 'pointer' : 'default'
+                                }}
+                                {...(action ? {onClick: () => action(navigate)}: {})}
+                            >
                                 <Box>
                                     <Box sx={ICON_TEXT_CONTAINER}>
                                         <IconComponent/>
@@ -65,9 +76,13 @@ export default function Navigation({maxWidth, minWidth}) {
                                     <Box sx={ITEM_CHILDREN_CONTAINER}>
                                         {isTextShown &&
                                             open &&
-                                            children.map(({text, key, IconComponent}) => {
+                                            children.map(({text, key, IconComponent, action}) => {
                                                 return (
-                                                    <Box sx={CHILD_ICON_TEXT_CONTAINER} {...{key}}>
+                                                    <Box sx={CHILD_ICON_TEXT_CONTAINER} {...{key}} {...(action ? {
+                                                        onClick: () => {
+                                                            action(navigate)
+                                                        }
+                                                    } : {})}>
                                                         {IconComponent && <IconComponent/>}
                                                         <Box sx={CHILD_TEXT}>{text}</Box>
                                                     </Box>
