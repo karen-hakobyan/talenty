@@ -1076,7 +1076,7 @@ let jobAnnouncement = {
                                 type: "deadline_ja",
                                 maxLength: 100,
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                     ],
