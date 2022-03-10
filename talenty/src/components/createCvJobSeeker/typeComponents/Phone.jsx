@@ -4,6 +4,7 @@ import TextField from "../../../shared/components/Textfield";
 import SubSection from "../../shared/subSection";
 import {setTemplateData} from "../../../store/globalData/slice";
 import {isValidPhoneNumber} from "../../../helpers/actions";
+import Select from "../../../shared/components/Select";
 
 export default function Phone({data}) {
     let [value, setValue] = useState(data.metadata.submitted_value || '')
@@ -22,6 +23,18 @@ export default function Phone({data}) {
                 onBlur={() => {
                     dispatch(setTemplateData({id: data.id, value}))
                 }}
+                // InputProps={{
+                //     startAdornment: <Select
+                //         menuItems={[]}
+                //         onChange={(event) => dispatch(setTemplateData({id: data.id, value: event.target.value}))}
+                //         fieldStyle={{
+                //             '.MuiOutlinedInput-notchedOutline': {
+                //                 border: 'none'
+                //             },
+                //             width: '44px',
+                //         }}
+                //     />
+                // }}
             />
         }
     />

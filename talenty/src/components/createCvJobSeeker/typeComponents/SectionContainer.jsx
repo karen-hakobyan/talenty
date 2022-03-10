@@ -9,7 +9,8 @@ import {setSectionContainerController} from "../../../store/globalData/slice";
 
 export const LINE_TYPES = ['description', 'url']
 
-export default function SectionContainer({data, index}) {
+export default function SectionContainer({data, index, fields}) {
+    console.log(fields)
     const dispatch = useDispatch()
     const controller = useSelector(selectSectionContainerController)
     const isActive = useMemo(() => {
@@ -36,7 +37,7 @@ export default function SectionContainer({data, index}) {
             >
                 <Box sx={{...INPUT_VALUE_STYLE}}>{data.fields[0].metadata.submitted_value}</Box>
                 <IconButton>
-                    <SelectIconSVG/>
+                    <SelectIconSVG />
                 </IconButton>
             </Box>
         )
@@ -60,7 +61,9 @@ export default function SectionContainer({data, index}) {
                         gridColumnEnd: 3
                     } : {display: 'flex', justifyContent: index % 2 === 0 ? 'flex-start' : 'flex-end'}} key={el.id}>
                         <TempComponent
-                            data={el} {...(el.metadata.type === 'simple_evaluate_bar' ? {depend: data.fields[0].metadata.submitted_value} : {})} />
+                            data={el} {...(el.metadata.type === 'simple_evaluate_bar' ? {depend: data.fields[0].metadata.submitted_value} : {})}
+                            {...{fields}}
+                        />
                     </Box>
                 )
             })}

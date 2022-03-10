@@ -8,6 +8,7 @@ import {UN_CLOSABLE_SECTION_CONTAINERS} from "./constants";
 import PublicationSection from "./Publications";
 
 export default function UserCVBody({data}) {
+    console.log(data)
     const dispatch = useDispatch()
     const sectionContainerController = useSelector(selectSectionContainerController)
     useEffect(() => {
@@ -43,7 +44,7 @@ export default function UserCVBody({data}) {
                         gridColumnEnd: 3,
                     } : {display: 'flex', justifyContent: index % 2 !== 0 ? 'flex-end' : 'flex-start'})
                 }} key={el.id}>
-                    <TempComponent data={el} {...{index}} />
+                    <TempComponent data={el} {...{index}} fields={data.fields} />
                 </Box>
             )
         })}

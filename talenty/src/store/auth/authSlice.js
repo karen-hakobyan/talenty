@@ -50,7 +50,6 @@ const authSlice = createSlice({
         setAuthIsResetPassword: (state) => {
             state.isResetPassword = false
         },
-
         setIsValidToken: (state, { payload }) => {
             state.isValidToken = payload
         }
