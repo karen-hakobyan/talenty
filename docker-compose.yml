@@ -3,6 +3,8 @@ services:
   db:
     image: mongo
     container_name: talenty-mongo
+    ports:
+      - "27777:27777"
     environment:
       MONGO_INITDB_DATABASE: talenty
     volumes:
