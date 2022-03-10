@@ -1036,28 +1036,11 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Type",
                             metadata: {
-                                type: "section",
+                                type: "salary_type_ja",
                                 deletable: false,
                                 required: false,
+                                values: ["Net", "Gross"],
                             },
-                            fields: [
-                                {
-                                    _id: ObjectId(),
-                                    name: "Net",
-                                    metadata: {
-                                        type: "salary_type_ja",
-                                        value: "Net",
-                                    },
-                                },
-                                {
-                                    _id: ObjectId(),
-                                    name: "Gross",
-                                    metadata: {
-                                        type: "salary_type_ja",
-                                        value: "Gross",
-                                    },
-                                },
-                            ],
                         },
                         {
                             _id: ObjectId(),
