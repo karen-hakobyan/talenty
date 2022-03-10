@@ -8,10 +8,11 @@ import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.AccountIsAlreadyVerified;
 import com.talenty.exceptions.AccountIsNotVerifiedException;
-import com.talenty.exceptions.TokenNotFoundException;
 import com.talenty.exceptions.UserNotFoundException;
+import com.talenty.jwt.JWTService;
 import com.talenty.mapper.UserBuilder;
 import com.talenty.repository.UserRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +26,20 @@ public class UserService {
     private final UserBuilder userBuilder;
     private final TokenService tokenService;
     private final EmailSender emailSender;
+    private final JWTService jwtService;
 
     public UserService(final UserRepository userRepository,
                        final PasswordEncoder passwordEncoder,
                        final UserBuilder userBuilder,
                        final TokenService tokenService,
-                       final EmailSender emailSender) {
+                       final EmailSender emailSender,
+                       final JWTService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userBuilder = userBuilder;
         this.tokenService = tokenService;
         this.emailSender = emailSender;
+        this.jwtService = jwtService;
     }
 
     public UserLoginResponseDetails login(final UserLoginRequestDetails request) {
@@ -89,9 +93,35 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void resetPassword(final UserDocument user, final ResetPasswordDetails details) {
+    public String resetPassword(final String token, final ResetPasswordDetails details) {
+        ValidationChecker.assertPasswordIsValid(details.getPassword());
+        ValidationChecker.assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
+
+        final TokenDocument tokenDocument = tokenService.findByValue(token);
+        final Optional<UserDocument> userOptional = finById(tokenDocument.getUserId());
+
+        if (userOptional.isEmpty()) {
+            System.out.printf("User with '%s' id does not exist\n", tokenDocument.getUserId());
+            throw new UserNotFoundException();
+        }
+
+        final UserDocument user = userOptional.get();
         user.setPassword(passwordEncoder.encode(details.getPassword()));
         userRepository.save(user);
+        tokenService.expireToken(tokenDocument);
+        return jwtService.generate(user);
+    }
+
+    public void sendResetPassword(final String email) {
+        final Optional<UserDocument> userOptional = findByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            System.out.printf("User with '%s' email does not exist\n", email);
+            throw new UserNotFoundException();
+        }
+
+        final String token = tokenService.generate(userOptional.get());
+        emailSender.sendResetPassword(userOptional.get().getEmail(), token);
     }
 
 }

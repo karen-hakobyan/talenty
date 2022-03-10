@@ -20,47 +20,21 @@ import java.util.Optional;
 public class ResetController {
 
     private final UserService userService;
-    private final EmailSender emailSender;
-    private final TokenService tokenService;
 
-    public ResetController(final UserService userService, final EmailSender emailSender, final TokenService tokenService) {
+    public ResetController(final UserService userService) {
         this.userService = userService;
-        this.emailSender = emailSender;
-        this.tokenService = tokenService;
     }
 
     @GetMapping(path = "/password")
     public ResponseEntity<?> sendPasswordResetEmail(@RequestParam final String email) {
-        final Optional<UserDocument> userOptional = userService.findByEmail(email);
-
-        if (userOptional.isEmpty()) {
-            System.out.printf("User with '%s' email does not exist\n", email);
-            throw new UserNotFoundException();
-        }
-
-        final String token = tokenService.generate(userOptional.get());
-        emailSender.sendResetPassword(userOptional.get().getEmail(), token);
-
+        userService.sendResetPassword(email);
         return ResponseEntity.ok("Check your email!");
     }
 
     @PostMapping(path = "/password")
     public ResponseEntity<?> resetPassword(@RequestParam final String token, @RequestBody final ResetPasswordDetails details) {
-        ValidationChecker.assertPasswordIsValid(details.getPassword());
-        ValidationChecker.assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
-
-        final TokenDocument tokenDocument = tokenService.findByValue(token);
-        final Optional<UserDocument> userOptional = userService.finById(tokenDocument.getUserId());
-
-        if (userOptional.isEmpty()) {
-            System.out.printf("User with '%s' id does not exist\n",tokenDocument.getUserId());
-            throw new UserNotFoundException();
-        }
-
-        userService.resetPassword(userOptional.get(), details);
-        tokenService.expireToken(tokenDocument);
-
-        return ResponseEntity.ok("Password updated!");
+        final String newJwt = userService.resetPassword(token, details);
+        return ResponseEntity.ok(newJwt);
     }
 
 }
