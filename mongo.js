@@ -140,11 +140,11 @@ let systemTemplate = {
                             _id: ObjectId(),
                             name: "Salary type",
                             metadata: {
-                                type: "salary_type",
+                                type: "currency",
                                 maxLength: 3,
                                 editable: false,
                                 deletable: false,
-                                value: "USD",
+                                values: ["USD"],
                                 submitted_value: "USD",
                             },
                         },
@@ -963,7 +963,7 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Title",
                     metadata: {
-                        type: "text",
+                        type: "title",
                         maxLength: 100,
                         deletable: false,
                         required: true,
@@ -1036,7 +1036,7 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Type",
                             metadata: {
-                                type: "salary_type_ja",
+                                type: "salary_type",
                                 deletable: false,
                                 required: false,
                                 values: ["Net", "Gross"],
@@ -1073,7 +1073,7 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Deadline",
                             metadata: {
-                                type: "deadline_ja",
+                                type: "deadline",
                                 maxLength: 100,
                                 deletable: false,
                                 required: true,

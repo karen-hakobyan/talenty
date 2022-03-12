@@ -5,6 +5,7 @@ import com.talenty.service.JobAnnouncementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +22,13 @@ public class JobAnnouncementController {
 
     @GetMapping("/system")
     public ResponseEntity<?> getJobAnnouncementTemplate() {
-        JobAnnouncement jobAnnouncement = jobAnnouncementService.getSystemJobAnnouncement();
+        final JobAnnouncement jobAnnouncement = jobAnnouncementService.getSystemJobAnnouncement();
         return ResponseEntity.ok(jobAnnouncement);
+    }
+
+    public ResponseEntity<?> publishJobAnnouncement(@RequestBody final JobAnnouncement request) {
+        final JobAnnouncement response = jobAnnouncementService.publish(request);
+        return ResponseEntity.ok("set to pending state");
     }
 
 }
