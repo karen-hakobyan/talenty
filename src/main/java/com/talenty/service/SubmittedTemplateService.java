@@ -5,7 +5,8 @@ import com.talenty.domain.mongo.SubmittedTemplateDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.logical_executors.Executor;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
-import com.talenty.logical_executors.SubmittedSectionsValidationExecutor;
+import com.talenty.logical_executors.RequiredFieldValidationExecutor;
+import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.SubmittedTemplateRepository;
 import org.springframework.context.ApplicationContext;
@@ -34,7 +35,8 @@ public class SubmittedTemplateService {
                 submittedTemplate.getFields(),
                 true,
                 applicationContext.getBean(FieldsIdValidationExecutor.class),
-                applicationContext.getBean(SubmittedSectionsValidationExecutor.class)
+                applicationContext.getBean(RequiredFieldValidationExecutor.class),
+                applicationContext.getBean(SubmittedFieldValueValidationExecutor.class)
         );
 
         final SubmittedTemplateDocument cleanedUpSubmittedTemplate = TemplateMapper.instance.templateTopSubmittedTemplate(submittedTemplate);

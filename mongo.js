@@ -140,11 +140,11 @@ let systemTemplate = {
                             _id: ObjectId(),
                             name: "Salary type",
                             metadata: {
-                                type: "salary_type",
+                                type: "currency",
                                 maxLength: 3,
                                 editable: false,
                                 deletable: false,
-                                value: "USD",
+                                values: ["USD"],
                                 submitted_value: "USD",
                             },
                         },
