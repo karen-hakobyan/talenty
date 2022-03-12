@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface JobAnnouncementRepository extends MongoRepository<JobAnnouncementDocument, String> {
 
-    @Query(value = "{'system' : true}")
+    @Query(value = "{'system' : true}", fields = "{}")
     JobAnnouncementDocument findSystemJobAnnouncement();
 
 }
