@@ -963,7 +963,7 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Title",
                     metadata: {
-                        type: "text",
+                        type: "title",
                         maxLength: 100,
                         deletable: false,
                         required: true,
@@ -1036,28 +1036,11 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Type",
                             metadata: {
-                                type: "section",
+                                type: "salary_type",
                                 deletable: false,
                                 required: false,
+                                values: ["Net", "Gross"],
                             },
-                            fields: [
-                                {
-                                    _id: ObjectId(),
-                                    name: "Net",
-                                    metadata: {
-                                        type: "salary_type_ja",
-                                        value: "Net",
-                                    },
-                                },
-                                {
-                                    _id: ObjectId(),
-                                    name: "Gross",
-                                    metadata: {
-                                        type: "salary_type_ja",
-                                        value: "Gross",
-                                    },
-                                },
-                            ],
                         },
                         {
                             _id: ObjectId(),
@@ -1090,10 +1073,10 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Deadline",
                             metadata: {
-                                type: "deadline_ja",
+                                type: "deadline",
                                 maxLength: 100,
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                     ],
