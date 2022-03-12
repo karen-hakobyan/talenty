@@ -1,5 +1,5 @@
 .idea
 target
 *.iml
-
+src/main/resources/static/js/consts.js
 .vscode
