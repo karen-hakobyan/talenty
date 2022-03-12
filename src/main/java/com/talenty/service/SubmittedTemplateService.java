@@ -1,20 +1,15 @@
 package com.talenty.service;
 
 import com.talenty.domain.dto.Template;
-import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.SubmittedTemplateDocument;
 import com.talenty.domain.mongo.TemplateDocument;
-import com.talenty.exceptions.NoSuchTemplateException;
+import com.talenty.logical_executors.Executor;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
-import com.talenty.logical_executors.LogicExecutor;
 import com.talenty.logical_executors.SubmittedSectionsValidationExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.SubmittedTemplateRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class SubmittedTemplateService {
@@ -33,9 +28,8 @@ public class SubmittedTemplateService {
         final TemplateDocument parentTemplate = templateService.getTemplateById(template.getId());
 
         final TemplateDocument submittedTemplate = TemplateMapper.instance.dtoToTemplate(template);
-//        cleanUpSubmittedTemplateFields(submittedTemplate.getFields(), parentTemplate.getFields(), true);
 
-        cleanUpSubmittedTemplateFieldsUltimate(
+        Executor.cleanUpSubmittedFields(
                 parentTemplate.getFields(),
                 submittedTemplate.getFields(),
                 true,
@@ -48,21 +42,6 @@ public class SubmittedTemplateService {
         cleanedUpSubmittedTemplate.setParentId(parentTemplate.getId());
 
         return submittedTemplateRepository.save(cleanedUpSubmittedTemplate);
-    }
-
-    private void cleanUpSubmittedTemplateFieldsUltimate(final List<FieldDocument> parentFields,
-                                                        final List<FieldDocument> submittedFields,
-                                                        final boolean firstTimeRequested,
-                                                        final LogicExecutor... logicExecutors) {
-        if (firstTimeRequested && submittedFields.size() != parentFields.size()) throw new NoSuchTemplateException();
-        final int[] index = {0};
-        parentFields.forEach(tempParentField -> {
-            final FieldDocument tempSubmittedField = submittedFields.get(index[0]++);
-            Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(tempParentField, tempSubmittedField));
-            final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
-            if (tempParentFieldFields != null)
-                cleanUpSubmittedTemplateFieldsUltimate(tempParentFieldFields, tempSubmittedField.getFields(), false);
-        });
     }
 
 }

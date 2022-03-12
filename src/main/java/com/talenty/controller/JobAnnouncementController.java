@@ -21,7 +21,7 @@ public class JobAnnouncementController {
 
     @GetMapping("/system")
     public ResponseEntity<?> getJobAnnouncementTemplate() {
-        JobAnnouncement jobAnnouncement = jobAnnouncementService.getSystemJobAnnouncement();
+        final JobAnnouncement jobAnnouncement = jobAnnouncementService.getSystemJobAnnouncement();
         return ResponseEntity.ok(jobAnnouncement);
     }
 
