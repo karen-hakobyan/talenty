@@ -39,6 +39,7 @@ public class JobAnnouncementService {
                 applicationContext.getBean(RequiredFieldValidationExecutor.class),
                 applicationContext.getBean(SubmittedFieldValueValidationExecutor.class)
         );
+
         return null;
     }
 }

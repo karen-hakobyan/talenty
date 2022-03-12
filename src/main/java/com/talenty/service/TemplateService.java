@@ -63,6 +63,7 @@ public class TemplateService {
         final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
 
         ValidationChecker.assertTemplateSectionsNamesAreUnique(newTemplate);
+        // TODO change method with logical executor
         ValidationChecker.assertTemplateIsValid(newTemplate.getFields(), parentTemplate);
 
         newTemplate.setId(null);
