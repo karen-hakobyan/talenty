@@ -130,7 +130,7 @@ let systemTemplate = {
                             _id: ObjectId(),
                             name: "Expected Salary",
                             metadata: {
-                                type: "expected_salary",
+                                type: "salary",
                                 maxLength: 10,
                                 editable: false,
                                 deletable: false,
@@ -1046,7 +1046,7 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "From",
                             metadata: {
-                                type: "int",
+                                type: "salary",
                                 deletable: false,
                                 required: false,
                             },
@@ -1055,7 +1055,7 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "To",
                             metadata: {
-                                type: "int",
+                                type: "salary",
                                 deletable: false,
                                 required: false,
                             },
