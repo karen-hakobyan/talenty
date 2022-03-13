@@ -32,6 +32,7 @@ export const saveJobSeekerCV = createAsyncThunk(
 export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
     try {
         instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+        console.log('mtav')
         const response = await instance.post('templates/create_new_template', templateData)
         console.log(response.data)
     } catch (err) {

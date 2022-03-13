@@ -46,10 +46,7 @@ export default function Body({
             <SharedTemplateHeader title={dialogData.name}/>
             <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px", pt: '44px'}}>
                 {dialogData.fields.map((field) => {
-                    // if status deleted show nothing
-                    if (field.metadata.status === "deleted") {
-                        return null;
-                    }
+
                     let TempComponent = typeComponents[field.metadata.type];
                     if (!TempComponent) {
                         return <h1>they have changed again some type</h1>;
