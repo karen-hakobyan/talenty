@@ -33,6 +33,7 @@ import {ENTER_KEY} from "../../constants/keyCodes";
 import {useRef} from "react";
 import {selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
+import {createCvHR} from "../../store/globalData/getTemplateActions";
 
 const CustomInput = styled("input")(() => ({
     width: "100%",
@@ -109,7 +110,7 @@ function CvTemplateMain() {
     }
 
     return (
-        <Box sx={{width: "100%", pr: "24px", pl: "24px", pb: "24px", maxHeight: 'calc(100vh - 80px)', overflow: 'scroll'}}>
+        <Box sx={{pr: "24px", pl: "24px", pb: "24px", maxHeight: 'calc(100vh - 80px)', overflow: 'scroll', flex: 1}}>
             <Dialog
                 open={addSectionDialogIsOpen}
                 maxWidth={false}
@@ -194,6 +195,7 @@ function CvTemplateMain() {
                 </IconButton>
                 <IconButton
                     sx={TEMPLATE_BUTTON_CREATE}
+                    onClick={() => {dispatch(createCvHR(data))}}
                 >
                     <CreateCVTemplateSVG/>
                     Create CV
