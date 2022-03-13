@@ -2,9 +2,11 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 public class RequiredFieldValidationExecutor implements LogicExecutor {
 
     @Override
