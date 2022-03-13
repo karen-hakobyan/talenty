@@ -2,18 +2,10 @@ import {memo, useCallback} from "react";
 import {useDispatch} from "react-redux";
 import {Box, IconButton, ListItem, ListItemText} from "@mui/material";
 import {ListItemStyle} from "./CVTemplateStyle";
-import {EditSVG, DeleteIconSVG} from "../../assets/icons/createTemplate";
-import {
-    TEMPLATE_ITEM_BUTTON,
-    TEMPLATE_ITEM_BUTTON_DISABLED,
-} from "../../shared/styles";
+import {DeleteIconSVG, EditSVG} from "../../assets/icons/createTemplate";
+import {TEMPLATE_ITEM_BUTTON, TEMPLATE_ITEM_BUTTON_DISABLED,} from "../../shared/styles";
 import {ACTION_WRAPPER} from "./style";
-import {
-    setDialogData,
-    setDialogInitialData,
-    setDialogIsOpen,
-    setDialogType,
-} from "../../store/dialogs/slice";
+import {setDialogData, setDialogInitialData, setDialogIsOpen, setDialogType,} from "../../store/dialogs/slice";
 
 function onDelete(setData, item) {
     setData((prevState) => {
@@ -27,13 +19,13 @@ function onDelete(setData, item) {
     });
 }
 
-function TemplateItem({item, setData}) {
+function TemplateItem({item, setData, isAnnouncement}) {
     const dispatch = useDispatch();
     const onEdit = useCallback(
         (item) => {
             dispatch(setDialogData(item));
             dispatch(setDialogIsOpen(true));
-            dispatch(setDialogType("body"));
+            dispatch(setDialogType(isAnnouncement ? 'announcement' : "body"));
             dispatch(setDialogInitialData(item));
         },
         [dispatch]
@@ -47,7 +39,7 @@ function TemplateItem({item, setData}) {
                     <EditSVG/>
                     Edit
                 </IconButton>
-                <IconButton
+                {isAnnouncement ? item.metadata.deletable && <IconButton
                     onClick={() => {
                         onDelete(setData, item);
                     }}
@@ -60,7 +52,20 @@ function TemplateItem({item, setData}) {
                 >
                     <DeleteIconSVG/>
                     Delete
-                </IconButton>
+                </IconButton> : <IconButton
+                    onClick={() => {
+                        onDelete(setData, item);
+                    }}
+                    disabled={!item.metadata.deletable}
+                    sx={
+                        item.metadata.deletable
+                            ? TEMPLATE_ITEM_BUTTON
+                            : TEMPLATE_ITEM_BUTTON_DISABLED
+                    }
+                >
+                    <DeleteIconSVG/>
+                    Delete
+                </IconButton>}
             </Box>
         </ListItem>
     );

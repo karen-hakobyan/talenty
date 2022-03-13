@@ -10,4 +10,12 @@ const selectEvaluatesBarWidths = state => state.globalData.evaluateWidths
 
 const selectSectionContainerController = (state) => state.globalData.sectionContainerController
 
-export {selectGlobalDataViaKey, selectLinksController, selectEvaluatesBarWidths, selectSectionContainerController};
+const selectTemplateData = (state) => state.globalData.templateData
+
+export {
+    selectGlobalDataViaKey,
+    selectLinksController,
+    selectEvaluatesBarWidths,
+    selectSectionContainerController,
+    selectTemplateData
+};

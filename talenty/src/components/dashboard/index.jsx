@@ -7,6 +7,7 @@ import Header from "./Header";
 import Navigation from "./Navigation";
 import {selectAuthJwt, selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
+import JobAnnouncement from "./JobAnnouncement";
 
 export default function Dashboard() {
     const jwt = useSelector(selectAuthJwt)
@@ -30,6 +31,7 @@ export default function Dashboard() {
                 <Routes>
                     <Route path="/" element={<h1>Talenty!!!</h1>}/>
                     <Route path="template" element={<CvTemplateMain/>}/>
+                    <Route path='announcement' element={<JobAnnouncement />} />
                 </Routes>
             </Box>
         </Box>

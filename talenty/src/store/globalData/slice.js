@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getTemplateActions} from "./getTemplateActions";
+import {getJobAnnouncement, getTemplateActions} from "./getTemplateActions";
 import changeTemplateData, {addSectionContainer} from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
@@ -55,12 +55,18 @@ export const globalDataSlice = createSlice({
         },
         setSectionContainerController: (state, {payload}) => {
             state.sectionContainerController = payload
+        },
+        setAllTemplateData: (state,{payload}) => {
+            state.templateData = payload
         }
     },
     extraReducers: {
         [getTemplateActions.fulfilled]: (state, {payload}) => {
             state.templateData = payload
-        }
+        },
+        [getJobAnnouncement.fulfilled]: (state, {payload}) => {
+            state.templateData = payload
+        },
     }
 });
 
@@ -77,6 +83,7 @@ export const {
     setEvaluateWidths,
     setSectionContainerController,
     addPublicationsSection,
+    setAllTemplateData
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

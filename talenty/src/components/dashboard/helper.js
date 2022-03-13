@@ -48,8 +48,14 @@ export let navItemsGenerator = [
     {
         IconComponent: WorkSVG,
         key: genId(),
-        text: "Job announcments",
-        children: [],
+        text: "Job announcement",
+        children: [
+            {
+                text: "Create announcement", key: genId(), IconComponent: AddNewSubItem, action: (navigate) => {
+                    navigate('announcement')
+                }
+            }
+        ],
     },
     {
         IconComponent: NavCreateCVSVG,

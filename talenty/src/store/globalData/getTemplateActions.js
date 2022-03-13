@@ -28,3 +28,25 @@ export const saveJobSeekerCV = createAsyncThunk(
         }
     }
 )
+
+export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
+    try {
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+        const response = await instance.post('templates/create_new_template', templateData)
+        console.log(response.data)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+export const getJobAnnouncement = createAsyncThunk(
+    'globalData/getJobAnnouncement',
+    async (_, thunkAPI) => {
+        try {
+            const response = await instance.get('/job_announcements/system')
+            return response.data
+        } catch (error) {
+            console.log('error during get announcements')
+        }
+
+    })
