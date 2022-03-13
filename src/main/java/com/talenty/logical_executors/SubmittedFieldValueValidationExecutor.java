@@ -11,6 +11,7 @@ public class SubmittedFieldValueValidationExecutor implements LogicExecutor {
     public void execute(final FieldDocument... field) {
         final FieldDocument parentSection = field[0];
         final FieldDocument tempSection = field[1];
+        if (parentField.getFields() != null && tempField.getFields() != null) return;
 
         final boolean doesSubmittedValueExists = tempSection.getMetadata().containsKey("submitted_value");
 
