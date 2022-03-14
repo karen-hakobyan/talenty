@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document(collection = "job_announcement")
+@Document(collection = "job_announcements")
 public class JobAnnouncementDocument {
 
     @Id

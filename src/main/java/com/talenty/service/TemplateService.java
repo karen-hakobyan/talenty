@@ -66,6 +66,11 @@ public class TemplateService {
         // TODO change method with logical executor
         ValidationChecker.assertTemplateIsValid(newTemplate.getFields(), parentTemplate);
 
+        Executor.executeLogicOnFields(
+                newTemplate.getFields()
+        );
+
+
         newTemplate.setId(null);
         final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
 
