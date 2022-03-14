@@ -10,4 +10,6 @@ while [ $? -ne 0 ]; do
   docker exec talenty-mongo mongo localhost/talenty templates_data.js
 done
 
+docker cp clear_user_template_data.js talenty-mongo:clear_user_template_data.js
+
 docker exec talenty-mongo mongo localhost/talenty clear_user_template_data.js
