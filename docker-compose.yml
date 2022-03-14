@@ -7,6 +7,9 @@ services:
       - "27777:27777"
     environment:
       MONGO_INITDB_DATABASE: talenty
+    volumes:
+      - .db/announcements_data.js:/docker-entrypoint-initdb.d/announcements_data.js
+      - .db/templates_data.js:/docker-entrypoint-initdb.d/templates_data.js
   backend:
     build: .
     container_name: talenty-backend
