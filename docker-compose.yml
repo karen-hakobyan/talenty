@@ -7,8 +7,6 @@ services:
       - "27777:27777"
     environment:
       MONGO_INITDB_DATABASE: talenty
-    volumes:
-      - ./mongo.js:/docker-entrypoint-initdb.d/mongo.js
   backend:
     build: .
     container_name: talenty-backend
