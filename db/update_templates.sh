@@ -9,3 +9,5 @@ while [ $? -ne 0 ]; do
   sleep 1
   docker exec talenty-mongo mongo localhost/talenty templates_data.js
 done
+
+docker exec talenty-mongo mongo localhost/talenty clear_user_template_data.js
