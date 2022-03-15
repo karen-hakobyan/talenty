@@ -14,13 +14,36 @@ import {
     NAV_ITEM_CONTAINER,
 } from "./style";
 import {useNavigate} from "react-router-dom";
+import {getTemplateLists} from "../../store/globalData/getTemplateActions";
+import {useDispatch, useSelector} from "react-redux";
+import {selectTemplateList} from "../../store/globalData/selector";
+
+function navChildDoor({setNavItemGeneratorState, isTextShown, key}) {
+    if (isTextShown) {
+        setNavItemGeneratorState((prev) => {
+            return prev.map((elem) => {
+                return elem.key === key
+                    ? {...elem, open: !elem.open}
+                    : elem;
+            });
+        });
+    }
+}
 
 export default function Navigation({maxWidth, minWidth}) {
     const [navItemGeneratorState, setNavItemGeneratorState] =
-        useState(navItemsGenerator);
+        useState(navItemsGenerator());
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isTextShown, setIsTextShown] = useState(false);
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const templateList = useSelector(selectTemplateList)
+    useEffect(() => {
+        dispatch(getTemplateLists())
+    },[dispatch])
+    useEffect(() => {
+        setNavItemGeneratorState(navItemsGenerator(templateList, dispatch))
+    },[templateList, dispatch])
 
     useEffect(() => {
         if (!isNavOpen) {
@@ -32,13 +55,12 @@ export default function Navigation({maxWidth, minWidth}) {
 
     useEffect(() => {
         if (!isTextShown) {
-            setNavItemGeneratorState((prev) =>(
+            setNavItemGeneratorState((prev) => (
                     prev.map((item) => ({
                         ...item,
                         ...(item.open !== null ? {open: false} : {}),
                     }))
-            )
-
+                )
             );
         }
     }, [isTextShown]);
@@ -62,14 +84,20 @@ export default function Navigation({maxWidth, minWidth}) {
                                     ...NAV_ITEM_CONTAINER,
                                     cursor: action ? 'pointer' : 'default'
                                 }}
-                                {...(action ? {onClick: () => action(navigate)}: {})}
+                                {...(action ? {onClick: () => action(navigate)} : {})}
                             >
                                 <Box>
                                     <Box sx={ICON_TEXT_CONTAINER}>
                                         <IconComponent/>
                                         {isTextShown && (
                                             <Box>
-                                                <Box sx={MAIN_TEXT_STYLE}>{text}</Box>
+                                                <Box
+                                                    sx={{...MAIN_TEXT_STYLE, ...(isTextShown && open !== null ? {cursor: 'pointer'} : {})}}
+                                                    onClick={() => open !== null && navChildDoor({
+                                                        isTextShown,
+                                                        setNavItemGeneratorState,
+                                                        key
+                                                    })}>{text}</Box>
                                             </Box>
                                         )}
                                     </Box>
@@ -100,15 +128,7 @@ export default function Navigation({maxWidth, minWidth}) {
                                             cursor: "pointer",
                                         }}
                                         onClick={() => {
-                                            if (isTextShown) {
-                                                setNavItemGeneratorState((prev) => {
-                                                    return prev.map((elem) => {
-                                                        return elem.key === key
-                                                            ? {...elem, open: !elem.open}
-                                                            : elem;
-                                                    });
-                                                });
-                                            }
+                                            navChildDoor({isTextShown, setNavItemGeneratorState, key})
                                         }}
                                     />
                                 ) : null}

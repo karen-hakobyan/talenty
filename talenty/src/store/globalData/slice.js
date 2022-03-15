@@ -1,10 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTemplateActions, getJobAnnouncement } from "./getTemplateActions";
-import changeTemplateData, { addSectionContainer, deleteAddSectionContainer } from "../../components/createCvJobSeeker/actions";
+import {
+    createCvHR,
+    getJobAnnouncement,
+    getTemplateActions,
+    getTemplateById,
+    getTemplateLists
+} from "./getTemplateActions";
+import changeTemplateData, { addSectionContainer } from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     exactPage: 1,
     templateInitialData: null,
+    templateList: [],
     templateData: null,
     linksController: null,
     evaluateWidths: null,
@@ -66,9 +73,23 @@ export const globalDataSlice = createSlice({
     extraReducers: {
         [getTemplateActions.fulfilled]: (state, { payload }) => {
             state.templateData = payload
+            state.templateInitialData = payload
         },
         [getJobAnnouncement.fulfilled]: (state, { payload }) => {
             state.templateData = payload
+        },
+        [createCvHR.fulfilled]: (state) => {
+            state.templateData = null;
+        },
+        [getTemplateLists.fulfilled]: (state, { payload }) => {
+            state.templateList = payload
+        },
+        [getTemplateLists.rejected]: state => {
+            state.templateList = []
+        },
+        [getTemplateById.fulfilled]: (state, { payload }) => {
+            state.templateData = payload
+            state.templateInitialData = payload
         },
     }
 });

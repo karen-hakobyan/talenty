@@ -1,39 +1,20 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/system";
-import {Dialog, IconButton, Typography, Box,} from "@mui/material";
+import {Box, Dialog, IconButton, Typography,} from "@mui/material";
 import {PINK} from "../../constants/colors";
-import {
-    AddSectionIconSVG,
-    CreateCVTemplateSVG,
-    ListSVG,
-    TemplateNamePenSVG,
-} from "../../assets/icons/createTemplate";
+import {AddSectionIconSVG, CreateCVTemplateSVG, ListSVG, TemplateNamePenSVG,} from "../../assets/icons/createTemplate";
 import TemplateItem from "./TemplateItem";
-import hrExData from "../../helpers/ajabsandal";
-import {globalDataSetter} from "../../request/get";
-import {
-    localStorageGetter,
-    localStorageSetter,
-} from "../../helpers/localStorage";
-import {
-    TEMPLATE_INITIAL_DATA,
-    TEMPLAT_DATA,
-} from "../../constants/localStorage";
-import {setGlobalDataViaKey} from "../../store/globalData/slice";
-import {selectGlobalDataViaKey} from "../../store/globalData/selector";
-import {UPDATED_TEMPLATE_DATA} from "../../constants/redux/globalData";
-import {
-    TEMPLATE_BUTTON_ADD,
-    TEMPLATE_BUTTON_CREATE,
-} from "../../shared/styles";
+import {setAllTemplateData} from "../../store/globalData/slice";
+import { selectTemplateData, selectTemplateInitialData} from "../../store/globalData/selector";
+import {TEMPLATE_BUTTON_ADD, TEMPLATE_BUTTON_CREATE,} from "../../shared/styles";
 import AddSection from "../dialogs/addSection";
 import {ENTER_KEY} from "../../constants/keyCodes";
-import {useRef} from "react";
 import {selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
-import {createCvHR} from "../../store/globalData/getTemplateActions";
+import {createCvHR, getTemplateActions} from "../../store/globalData/getTemplateActions";
+import {compareObjects} from "../../helpers/compareTwoData";
 
 const CustomInput = styled("input")(() => ({
     width: "100%",
@@ -56,54 +37,31 @@ const placeholderInput = "System Template"
 
 function CvTemplateMain() {
     const [title, setTitle] = useState("");
-    const [data, setData] = useState(null);
+    const data = useSelector(selectTemplateData)
     const userInfo = useSelector(selectAuthUserInfo)
     const [isTemplateNameText, setIsTemplateNameText] = useState(true);
-    const [,setUnchangedData] = useState(null);
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const unchangedData = useSelector(selectTemplateInitialData)
     const customInput = useRef(null)
+
     useEffect(() => {
-        if(userInfo === null) {
+        if (userInfo === null) {
             navigate(LANDING_PAGE_ROUTE)
         }
-    },[navigate, userInfo])
+    }, [navigate, userInfo])
 
-    const updatedTemplateData = useSelector(
-        selectGlobalDataViaKey(UPDATED_TEMPLATE_DATA)
-    );
     useEffect(() => {
         setTitle(data?.name || "");
     }, [data]);
 
-    useEffect(() => {
-        if (updatedTemplateData) {
-            setData(updatedTemplateData);
-        }
-    }, [updatedTemplateData]);
     // update local storage whenever data changed and also redux
     useEffect(() => {
-        if (data) {
-            let unchangedData = localStorageGetter(TEMPLATE_INITIAL_DATA);
-            setUnchangedData(unchangedData);
-            localStorageSetter(TEMPLAT_DATA, data);
-            dispatch(setGlobalDataViaKey({key: TEMPLAT_DATA, value: data}));
+        if(!data) {
+            dispatch(getTemplateActions())
         }
     }, [data, dispatch]);
-    useEffect(() => {
-        let storageExistingData = localStorageGetter(TEMPLAT_DATA);
-        storageExistingData
-            ? setData(storageExistingData)
-            : globalDataSetter({
-                stateSetter: (data) => {
-                    setData(data);
-                    localStorageSetter(TEMPLATE_INITIAL_DATA, data);
-                },
-                urlKey: "getTemplates",
-                errorAction: () => setData(hrExData),
-            });
-    }, []);
 
     if (!data) {
         return null;
@@ -120,7 +78,7 @@ function CvTemplateMain() {
             >
                 <AddSection
                     setIsOpen={setAddSectionDialogIsOpen}
-                    setTemplateData={setData}
+                    setTemplateData={(data) => dispatch(setAllTemplateData(data))}
                     templateData={data}
                 />
             </Dialog>
@@ -152,7 +110,7 @@ function CvTemplateMain() {
                 <TemplateNamePenSVG
                     onClick={() => {
                         setIsTemplateNameText(false);
-                        setData((prev) => ({...prev, name: ""}));
+                        dispatch(setAllTemplateData({...data, name: ''}))
                         setTimeout(() => customInput.current.focus())
 
                     }}
@@ -169,19 +127,19 @@ function CvTemplateMain() {
                     }}
                     onBlur={() => {
                         setIsTemplateNameText(true);
-                        setData((prev) => ({...prev, name: title}));
+                        dispatch(setAllTemplateData({...data, name: title}))
                     }}
                     onKeyDown={(event) => {
                         if (event.key === ENTER_KEY) {
                             setIsTemplateNameText(true);
-                            setData((prev) => ({...prev, name: title}));
+                            dispatch(setAllTemplateData({...data, name: title}))
                         }
                     }}
                 />
 
             </Box>
             {data.fields.map((item) => (
-                item.metadata.status !== "DELETED" && <TemplateItem key={item.name} item={item} setData={setData} />
+                item.metadata.status !== "DELETED" && <TemplateItem key={item.name} item={item} setData={(data) => dispatch(setAllTemplateData(data))} data={data}/>
             ))}
             <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px"}}>
                 <IconButton
@@ -195,7 +153,10 @@ function CvTemplateMain() {
                 </IconButton>
                 <IconButton
                     sx={TEMPLATE_BUTTON_CREATE}
-                    onClick={() => {dispatch(createCvHR(data))}}
+                    onClick={() => {
+                        dispatch(createCvHR(data))
+                    }}
+                    disabled={compareObjects(unchangedData, data)}
                 >
                     <CreateCVTemplateSVG/>
                     Create CV

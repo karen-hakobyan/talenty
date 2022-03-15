@@ -16,7 +16,7 @@ export default function AddSection({
                                        templateData,
                                    }) {
     const [value, setValue] = useState("");
-
+    // const templateData = useSelector(selectTemplateData)
     return (
         <Box sx={{...DIALOG_ADD_SECTION_CONTAINER, ...FLEX_CONTAINER}}>
             <Box>
@@ -43,7 +43,7 @@ export default function AddSection({
                     sx={ADD_TEMPLATE_SECTION}
                     style={{textTransform: "none"}}
                     onClick={() => {
-                        onAdd({setTemplateData, value});
+                        onAdd({setTemplateData, value, templateData});
                         setIsOpen(false);
                     }}
                     disabled={isDisabled({templateData, value})}
@@ -55,23 +55,21 @@ export default function AddSection({
     );
 }
 
-function onAdd({setTemplateData, value}) {
-    setTemplateData((prev) => {
-        return {
-            ...prev,
-            fields: [
-                ...prev.fields,
-                {
-                    name: value,
-                    fields: [],
-                    metadata: {
-                        type: "section",
-                        status: 'NEW',
-                        deletable: true,
-                    },
+function onAdd({setTemplateData, value, templateData}) {
+    setTemplateData({
+        ...templateData,
+        fields: [
+            ...templateData.fields,
+            {
+                name: value,
+                fields: [],
+                metadata: {
+                    type: "section",
+                    status: 'NEW',
+                    deletable: true,
                 },
-            ],
-        };
+            },
+        ],
     });
 }
 

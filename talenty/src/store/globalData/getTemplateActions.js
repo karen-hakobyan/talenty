@@ -8,13 +8,40 @@ export const getTemplateActions = createAsyncThunk('globalData/getTemplateAction
     try {
         instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
         const response = await instance.get(getUrls['getTemplates'])
-        console.log(response.data)
         return response.data
     } catch {
         console.log('error during get templates')
     }
 })
 
+export const getTemplateLists = createAsyncThunk(
+    'globalData/getTemplateLists',
+    async (_, thunkAPI) => {
+        try {
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+            const response = await instance.get(getUrls.templateList)
+            return Object.entries(response.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+)
+
+export const getTemplateById = createAsyncThunk(
+    'globalData/getTemplateById',
+    async (id, thunkAPI) => {
+        try {
+            console.log(id)
+            console.log('hasav by id')
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+            const response = await instance.get(getUrls.templateById(id))
+            console.log(response.data)
+            return response.data
+        } catch (err) {
+            console.log('error during get template by id')
+        }
+    }
+)
 export const saveJobSeekerCV = createAsyncThunk(
     'globalData/saveJobSeekerCV',
     async (templateData, thunkAPI) => {
@@ -32,9 +59,8 @@ export const saveJobSeekerCV = createAsyncThunk(
 export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
     try {
         instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-        console.log('mtav')
         const response = await instance.post('templates/create_new_template', templateData)
-        console.log(response.data)
+        return response.data
     } catch (err) {
         console.log(err)
     }

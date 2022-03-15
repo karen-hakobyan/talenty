@@ -9,6 +9,7 @@ import {
     RejectedSVG,
     WorkSVG
 } from "../../assets/icons/navigation";
+import {getTemplateById} from "../../store/globalData/getTemplateActions";
 
 export const getJwt = () => {
     let jwt = localStorage.getItem("jwt");
@@ -22,7 +23,8 @@ export const WIDTH_TRANSITION = "0.5";
 
 export let genId = () => Math.random().toString();
 
-export let navItemsGenerator = [
+export let navItemsGenerator = (templateList = [], dispatch = () => {
+}) => ([
     {
         IconComponent: HomeNavSVG,
         key: genId(),
@@ -54,7 +56,7 @@ export let navItemsGenerator = [
                 text: "Create announcement", key: genId(), IconComponent: AddNewSubItem, action: (navigate) => {
                     navigate('announcement')
                 }
-            }
+            },
         ],
     },
     {
@@ -66,7 +68,17 @@ export let navItemsGenerator = [
                 text: "Create new Cv", key: genId(), IconComponent: AddNewSubItem, action: (navigate) => {
                     navigate('template')
                 }
-            }
+            },
+            ...templateList.map(([id, value]) => {
+                return {
+                    key: id,
+                    text: value,
+                    action: async (navigate) => {
+                        await dispatch(getTemplateById(id))
+                        navigate('template')
+                    }
+                }
+            })
         ],
     }
-];
+]);

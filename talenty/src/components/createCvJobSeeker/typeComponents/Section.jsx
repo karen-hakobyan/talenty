@@ -13,8 +13,8 @@ import Photo from "./Photo";
 import Select from "../../../shared/components/Select";
 
 const salaryTypes = {
-    expected_salary: Salary,
-    salary_type: SalaryType,
+    salary: Salary,
+    currency: SalaryType,
 }
 const licensesTypes = {
     driving_license: MilitaryId,
@@ -25,7 +25,7 @@ export default function Section({data}) {
     if (data.fields[0].metadata.type === 'social_link') {
         return <SocialMedia {...{data}} />
     }
-    if (data.fields[0].metadata.type === 'expected_salary') {
+    if (data.fields[0].metadata.type === 'salary') {
         return <ExpectedSalary {...{data}} />
     }
     return <PhotoLicenses {...{data}}/>
