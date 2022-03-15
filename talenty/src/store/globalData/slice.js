@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTemplateActions } from "./getTemplateActions";
+import { getTemplateActions, getJobAnnouncement } from "./getTemplateActions";
 import changeTemplateData, { addSectionContainer, deleteAddSectionContainer } from "../../components/createCvJobSeeker/actions";
 
 const initialState = {

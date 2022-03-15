@@ -38,43 +38,16 @@ export const addSectionContainer = (templateData, id, isBook) => {
     return temp
 }
 export const deleteAddSectionContainer = ( {templateData,id}) => {
-    // if (!Array.isArray) {
-    //      Array.isArray = function(arg) {
-    //      return Object.prototype.toString.call(arg) === '[object Array]';
-    //  };
-    // }
-    // let temp = JSON.stringify(templateData)
-    // temp = JSON.parse(temp,(key,value)=>{
-    //     if(value && value.id===id){
-    //         return {...value}
-    //     }
-    //     console.log(value,"evalution")
-    // })
-    // temp = JSON.parse(temp, (key, reviverValue) => {
-    //     if (!reviverValue?.id) {
-    //         return reviverValue
-    //     }
-    // }
-    
-    // newData = templateData.fields.map(el=>{
-    //     el.fields.map(deletEl=>{
-    //         if(deletEl.id===id){
-    //             return {
-    //                 ...deletEl,
-    //                 fields : deletEl.fields.filter(item=>{
-    //                     console.log("delete")
-    //                     if(item.id === id){
-    //                       return false
-    //                      }else{
-    //                         return true
-    //                     }
-    //                  })
-    //             }               
-    //         }
-    //         return deletEl
-    //     })
-    //     return el 
-    // })
-    
-    return templateData
+    let result = JSON.stringify(templateData)
+    result = JSON.parse(result, (key, reviverValue) =>
+     {
+        if(!reviverValue?.id || reviverValue.metadata?.type !== 'section') {
+            return reviverValue
+        }
+        return {
+            ...reviverValue,
+            fields: reviverValue.fields.filter(el => el.id !== id)
+        }
+    })
+    return result
 }

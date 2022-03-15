@@ -1,25 +1,32 @@
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Box} from "@mui/material";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
 import Button from "../../../../shared/components/Button";
-import {setTemplateData} from "../../../../store/globalData/slice";
+import {setDeleteAddSection, setTemplateData} from "../../../../store/globalData/slice";
 import { DeleteSectionBtn } from "../../../../assets/icons/jobseeker";
 import { MAIN_PURPLE } from "../../../../constants/colors";
 
-export default function LanguageLevelContainer({data,fields}) {
+export default function LanguageLevelContainer({data,fields,id}) {
+    const templateData = useSelector((state) => state.globalData.templateData)
     const dispatch = useDispatch()
     return <JobSeekerSubsection
         label={<Box
             sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <Box >Percentage</Box>
+                <Box >{data.name}</Box>
                 {fields.length !== 1 ?(<Box sx={{
                      cursor:"pointer",
                     fill:"#4C494F",
                     transition: "all 0.5s",
+                    display:"flex",
+                    justifyContent:"center",
+                    alignItems:"center",
                     "&:hover":{
                         fill: MAIN_PURPLE,
                         transition: "all 0.5s",
                     }
+                }}
+                onClick={()=>{
+                    dispatch(setDeleteAddSection({templateData,id}))
                 }}
                 > <DeleteSectionBtn style={{
                     fill:"inherit"
