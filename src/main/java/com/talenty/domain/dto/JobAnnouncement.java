@@ -1,5 +1,6 @@
 package com.talenty.domain.dto;
 
+import com.talenty.enums.JobAnnouncementStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +14,6 @@ public class JobAnnouncement {
     private String name;
     private List<Field> fields;
     private String attachedTemplateId;
+    private JobAnnouncementStatus status;
 
 }

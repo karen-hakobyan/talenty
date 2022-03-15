@@ -62,6 +62,7 @@ public class ValidationChecker {
 
             case "date":
             case "deadline": {
+                // TODO edit deadline logic deadline > currentDate
                 assertDateIsValid(submittedValue);
                 break;
             }
