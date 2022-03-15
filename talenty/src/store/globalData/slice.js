@@ -19,6 +19,7 @@ const initialState = {
     // maybe object that have sections controller's parents name and some index which will control decreasing height
     // pritom piti chlini miamit personal skill proffesional skill u language for publications it will be another story :D 
     sectionContainerController: null,
+
 };
 
 export const globalDataSlice = createSlice({
