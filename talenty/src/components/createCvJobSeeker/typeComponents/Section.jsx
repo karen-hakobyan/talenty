@@ -53,7 +53,7 @@ function ExpectedSalary({data}) {
                             return null
                         }
                         TempComponent = memo(TempComponent)
-                        return <TempComponent data={el} key={el.id}/>
+                        return <TempComponent data={el} key={el.id}  />
                     })
                 }
             </Box>
@@ -133,5 +133,4 @@ function SalaryType({data}) {
             }}
         />
     )
-
 }

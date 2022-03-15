@@ -1,6 +1,5 @@
-
-import { useSelector } from "react-redux";
-import { selectAuthUserInfo } from "../../store/auth/selector";
+import {useSelector} from "react-redux";
+import {selectAuthUserInfo} from "../../store/auth/selector";
 import {useNavigate} from "react-router-dom";
 import {Box, Button, Switch} from "@mui/material";
 import {DefaultUserIcon} from "../../assets/icons/jobseeker";
@@ -8,12 +7,12 @@ import {CREATE_CV} from "../../constants/routes";
 import {HOME_PRIMARY_BUTTON} from "../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
-import { MAIN_PURPLE } from "../../constants/colors";
+import {MAIN_PURPLE} from "../../constants/colors";
 
 export default function Home() {
     const navigate = useNavigate();
-    const {email ,firstName,lastName} = useSelector(selectAuthUserInfo)
-    
+    const {email, firstName, lastName} = useSelector(selectAuthUserInfo)
+
     return (
         <Box sx={{pt: "52px", pl: "60px", pr: "60px"}}>
             <Box sx={{display: "flex", gap: "20px"}}>

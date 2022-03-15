@@ -1,9 +1,7 @@
+import {memo, useState} from "react";
 import {Box, Button, Dialog, IconButton} from "@mui/material";
 import {DIALOG_MAIN_CONTAINER, TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
-import {selectTemplateData} from "../../store/globalData/selector";
-import {useSelector} from "react-redux";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
-import {memo, useState} from "react";
 import AddField from "./addField";
 import Attention from "./attention";
 import announcementTypes from "../announcement/announcementTypes";
@@ -14,7 +12,6 @@ export default function AnnouncementBody({
                                              attentionIsOpen,
                                              setAttentionIsOpen,
                                          }) {
-    const templateData = useSelector(selectTemplateData)
     const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
     if(!dialogData) {
         return null

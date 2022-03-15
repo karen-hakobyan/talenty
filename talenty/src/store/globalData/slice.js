@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
     createCvHR,
     getJobAnnouncement,
@@ -6,7 +6,7 @@ import {
     getTemplateById,
     getTemplateLists
 } from "./getTemplateActions";
-import changeTemplateData, {addSectionContainer} from "../../components/createCvJobSeeker/actions";
+import changeTemplateData, { addSectionContainer, deleteAddSectionContainer } from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     exactPage: 1,
@@ -25,8 +25,8 @@ export const globalDataSlice = createSlice({
     name: "globalData",
     initialState,
     reducers: {
-        setGlobalDataViaKey: (state, {payload}) => {
-            const {key, value} = payload;
+        setGlobalDataViaKey: (state, { payload }) => {
+            const { key, value } = payload;
             state[key] = value;
         },
         setNextPage: (state) => {
@@ -35,16 +35,16 @@ export const globalDataSlice = createSlice({
         setPrevPage: (state) => {
             state.exactPage = state.exactPage - 1
         },
-        setExactPage: (state, {payload}) => {
+        setExactPage: (state, { payload }) => {
             state.exactPage = payload
         },
-        setTemplateData: (state, {payload: {id, value}}) => {
+        setTemplateData: (state, { payload: { id, value } }) => {
             state.templateData = changeTemplateData(state.templateData, id, value)
         },
-        addSectionContainerAction: (state, {payload: id}) => {
+        addSectionContainerAction: (state, { payload: id }) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
-        addPublicationsSection: (state, {payload: {id, isBook}}) => {
+        addPublicationsSection: (state, { payload: { id, isBook } }) => {
             state.templateData = addSectionContainer(state.templateData, id, isBook)
         },
         setGlobalInitialData: (state) => {
@@ -54,37 +54,40 @@ export const globalDataSlice = createSlice({
             localStorage.clear()
             sessionStorage.clear()
         },
-        setLinksController: (state, {payload}) => {
+        setLinksController: (state, { payload }) => {
             state.linksController = payload
         },
-        setEvaluateWidths: (state, {payload}) => {
+        setEvaluateWidths: (state, { payload }) => {
             state.evaluateWidths = payload
         },
-        setSectionContainerController: (state, {payload}) => {
+        setSectionContainerController: (state, { payload }) => {
             state.sectionContainerController = payload
         },
-        setAllTemplateData: (state,{payload}) => {
+        setDeleteAddSection: (state, { payload }) => {
+            state.templateData = deleteAddSectionContainer(payload)
+        },
+        setAllTemplateData: (state, { payload }) => {
             state.templateData = payload
         }
     },
     extraReducers: {
-        [getTemplateActions.fulfilled]: (state, {payload}) => {
+        [getTemplateActions.fulfilled]: (state, { payload }) => {
             state.templateData = payload
             state.templateInitialData = payload
         },
-        [getJobAnnouncement.fulfilled]: (state, {payload}) => {
+        [getJobAnnouncement.fulfilled]: (state, { payload }) => {
             state.templateData = payload
         },
         [createCvHR.fulfilled]: (state) => {
             state.templateData = null;
         },
-        [getTemplateLists.fulfilled]: (state, {payload}) => {
+        [getTemplateLists.fulfilled]: (state, { payload }) => {
             state.templateList = payload
         },
         [getTemplateLists.rejected]: state => {
             state.templateList = []
         },
-        [getTemplateById.fulfilled]: (state, {payload}) => {
+        [getTemplateById.fulfilled]: (state, { payload }) => {
             state.templateData = payload
             state.templateInitialData = payload
         },
@@ -104,6 +107,7 @@ export const {
     setEvaluateWidths,
     setSectionContainerController,
     addPublicationsSection,
+    setDeleteAddSection,
     setAllTemplateData
 } = globalDataSlice.actions;
 

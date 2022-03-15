@@ -22,6 +22,18 @@ export default function Phone({data}) {
                 onBlur={() => {
                     dispatch(setTemplateData({id: data.id, value}))
                 }}
+                // InputProps={{
+                //     startAdornment: <Select
+                //         menuItems={[]}
+                //         onChange={(event) => dispatch(setTemplateData({id: data.id, value: event.target.value}))}
+                //         fieldStyle={{
+                //             '.MuiOutlinedInput-notchedOutline': {
+                //                 border: 'none'
+                //             },
+                //             width: '44px',
+                //         }}
+                //     />
+                // }}
             />
         }
     />

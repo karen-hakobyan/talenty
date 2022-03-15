@@ -5,7 +5,7 @@ export default function changeTemplateData(data, id, value) {
             return reviverValue
         }
         if (reviverValue?.id === id) {
-            return {...reviverValue, metadata: {...reviverValue.metadata, submitted_value: value}}
+            return {...reviverValue, metadata: {...reviverValue.metadata, submitted_value: value } }
         }
         return reviverValue
     })
@@ -28,7 +28,7 @@ export const addSectionContainer = (templateData, id, isBook) => {
                 return {
                     ...val,
                     id: Math.random().toString(),
-                    metadata: {...val.metadata, submitted_value: ''},
+                    metadata: {...val.metadata, submitted_value: '' },
                 }
             })
             reviverValue.fields.push(temp1)
@@ -36,4 +36,18 @@ export const addSectionContainer = (templateData, id, isBook) => {
         return reviverValue
     })
     return temp
+}
+export const deleteAddSectionContainer = ( {templateData,id}) => {
+    let result = JSON.stringify(templateData)
+    result = JSON.parse(result, (key, reviverValue) =>
+     {
+        if(!reviverValue?.id || reviverValue.metadata?.type !== 'section') {
+            return reviverValue
+        }
+        return {
+            ...reviverValue,
+            fields: reviverValue.fields.filter(el => el.id !== id)
+        }
+    })
+    return result
 }

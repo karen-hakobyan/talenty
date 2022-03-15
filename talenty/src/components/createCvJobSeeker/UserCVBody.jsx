@@ -43,7 +43,7 @@ export default function UserCVBody({data}) {
                         gridColumnEnd: 3,
                     } : {display: 'flex', justifyContent: index % 2 !== 0 ? 'flex-end' : 'flex-start'})
                 }} key={el.id}>
-                    <TempComponent data={el} {...{index}} />
+                    <TempComponent data={el} {...{index}} fields={data.fields} sectionid = {data.id} />
                 </Box>
             )
         })}
