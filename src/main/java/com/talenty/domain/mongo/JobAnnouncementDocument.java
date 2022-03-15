@@ -19,5 +19,6 @@ public class JobAnnouncementDocument {
     private String name;
     private List<FieldDocument> fields;
     private String attachedTemplateId;
+    private String status;
 
 }
