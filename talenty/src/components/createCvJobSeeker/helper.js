@@ -1,0 +1,1 @@
+export const dependOfType = ['simple_evaluate_bar', 'language_evaluate_bar']

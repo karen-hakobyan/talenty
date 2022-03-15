@@ -6,6 +6,7 @@ import {sectionContainerTypes} from "./sectionContainerTypes/types";
 import {SelectIconSVG} from "../../../assets/icons/createTemplate";
 import {INPUT_VALUE_STYLE} from "../../../shared/styles";
 import {setSectionContainerController} from "../../../store/globalData/slice";
+import { dependOfType } from "../helper";
 
 export const LINE_TYPES = ['description', 'url']
 
@@ -60,7 +61,7 @@ export default function SectionContainer({data, index, fields}) {
                         gridColumnEnd: 3
                     } : {display: 'flex', justifyContent: index % 2 === 0 ? 'flex-start' : 'flex-end'}} key={el.id}>
                         <TempComponent
-                            data={el} {...(el.metadata.type === 'simple_evaluate_bar' ? {depend: data.fields[0].metadata.submitted_value} : {})}
+                            data={el} {...(dependOfType.includes(el.metadata.type) ? {depend: data.fields[0].metadata.submitted_value} : {})}
                             {...{fields,id:data.id}}
                         />
                     </Box>

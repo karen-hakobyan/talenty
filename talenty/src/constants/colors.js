@@ -12,3 +12,4 @@ export const NIGHT_RIDER = "#2F2F2F";
 export const ERROR_COLOR = "#FF4141";
 export const COMET = "#616162";
 export const LANGUAGE_LEVEL_BTN_COLOR = "#6F0BBE"
+export const DISABLED_BG_COLOR = "#9F9F9F"
