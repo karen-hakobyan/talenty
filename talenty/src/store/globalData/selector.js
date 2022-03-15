@@ -12,10 +12,16 @@ const selectSectionContainerController = (state) => state.globalData.sectionCont
 
 const selectTemplateData = (state) => state.globalData.templateData
 
+const selectTemplateInitialData = state => state.globalData.templateInitialData
+
+const selectTemplateList = state => state.globalData.templateList
+
 export {
     selectGlobalDataViaKey,
     selectLinksController,
     selectEvaluatesBarWidths,
     selectSectionContainerController,
-    selectTemplateData
+    selectTemplateData,
+    selectTemplateInitialData,
+    selectTemplateList,
 };

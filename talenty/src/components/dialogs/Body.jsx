@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AddFieldSVG} from "../../assets/icons/createTemplate";
 import {
     TEMPLATE_DATA,
-    UPDATED_TEMPLATE_DATA,
 } from "../../constants/redux/globalData";
 import {
     DIALOG_MAIN_CONTAINER,
@@ -12,7 +11,7 @@ import {
 } from "../../shared/styles";
 import {setDialogIsOpen} from "../../store/dialogs/slice";
 import {selectGlobalDataViaKey} from "../../store/globalData/selector";
-import {setGlobalDataViaKey} from "../../store/globalData/slice";
+import {setAllTemplateData} from "../../store/globalData/slice";
 import typeComponents from "../cvTemplate/typeComponents";
 import AddField from "./addField";
 import Attention from "./attention";
@@ -111,6 +110,6 @@ function onSave({dialogData, dispatch, templateData}) {
             return value;
         }
     });
-    dispatch(setGlobalDataViaKey({key: UPDATED_TEMPLATE_DATA, value: result}));
+    dispatch(setAllTemplateData(result))
     dispatch(setDialogIsOpen(false));
 }

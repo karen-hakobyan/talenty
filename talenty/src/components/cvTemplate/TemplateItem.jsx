@@ -7,19 +7,17 @@ import {TEMPLATE_ITEM_BUTTON, TEMPLATE_ITEM_BUTTON_DISABLED,} from "../../shared
 import {ACTION_WRAPPER} from "./style";
 import {setDialogData, setDialogInitialData, setDialogIsOpen, setDialogType,} from "../../store/dialogs/slice";
 
-function onDelete(setData, item) {
-    setData((prevState) => {
-        return {
-            ...prevState,
-            fields: item.id ? prevState.fields.map(el => el.name === item.name ? {
-                ...el,
-                metadata: {...el.metadata, status: 'DELETED'}
-            } : el) : prevState.fields.filter(el => el.name !== item.name)
-        };
+function onDelete(setData, item, data) {
+    setData({
+        ...data,
+        fields: item.id ? data.fields.map(el => el.name === item.name ? {
+            ...el,
+            metadata: {...el.metadata, status: 'DELETED'}
+        } : el) : data.fields.filter(el => el.name !== item.name)
     });
 }
 
-function TemplateItem({item, setData, isAnnouncement}) {
+function TemplateItem({item, setData, isAnnouncement, data}) {
     const dispatch = useDispatch();
     const onEdit = useCallback(
         (item) => {
@@ -28,7 +26,7 @@ function TemplateItem({item, setData, isAnnouncement}) {
             dispatch(setDialogType(isAnnouncement ? 'announcement' : "body"));
             dispatch(setDialogInitialData(item));
         },
-        [dispatch]
+        [dispatch, isAnnouncement]
     );
 
     return (
@@ -41,7 +39,7 @@ function TemplateItem({item, setData, isAnnouncement}) {
                 </IconButton>
                 {isAnnouncement ? item.metadata.deletable && <IconButton
                     onClick={() => {
-                        onDelete(setData, item);
+                        onDelete(setData, item, data);
                     }}
                     disabled={!item.metadata.deletable}
                     sx={
@@ -54,7 +52,7 @@ function TemplateItem({item, setData, isAnnouncement}) {
                     Delete
                 </IconButton> : <IconButton
                     onClick={() => {
-                        onDelete(setData, item);
+                        onDelete(setData, item, data);
                     }}
                     disabled={!item.metadata.deletable}
                     sx={

@@ -5,9 +5,9 @@ import SocialLink from "./SocialLink";
 
 // eslint-disable-next-line
 const SUBSECTION_TYPES = {
-    salary_type: SalaryType,
+    currency: SalaryType,
     social_link: SocialLink,
-    expected_salary: ExpectedSalary,
+    salary: ExpectedSalary,
     date: Date,
 };
 
