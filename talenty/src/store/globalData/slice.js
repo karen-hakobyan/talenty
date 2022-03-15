@@ -57,15 +57,19 @@ export const globalDataSlice = createSlice({
             state.sectionContainerController = payload
         },
         setDeleteAddSection: (state, { payload }) => {
-
-
             state.templateData = deleteAddSectionContainer(payload)
+        },
+        setAllTemplateData: (state, { payload }) => {
+            state.templateData = payload
         }
     },
     extraReducers: {
         [getTemplateActions.fulfilled]: (state, { payload }) => {
             state.templateData = payload
-        }
+        },
+        [getJobAnnouncement.fulfilled]: (state, { payload }) => {
+            state.templateData = payload
+        },
     }
 });
 
@@ -83,6 +87,7 @@ export const {
     setSectionContainerController,
     addPublicationsSection,
     setDeleteAddSection,
+    setAllTemplateData
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

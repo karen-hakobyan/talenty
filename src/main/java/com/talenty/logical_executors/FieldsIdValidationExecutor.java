@@ -12,6 +12,7 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
     public void execute(final FieldDocument... field) {
         final FieldDocument parentField = field[0];
         final FieldDocument tempField = field[1];
+
         if (!parentField.getId().equals(tempField.getId())) {
             System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", tempField, parentField);
             throw new NoSuchTemplateException();

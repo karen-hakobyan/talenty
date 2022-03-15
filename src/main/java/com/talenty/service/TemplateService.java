@@ -2,23 +2,19 @@ package com.talenty.service;
 
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.Template;
-import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.CleanUpMetadataExecutor;
+import com.talenty.logical_executors.Executor;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
-import com.talenty.logical_executors.LogicExecutor;
 import com.talenty.mapper.TemplateMapper;
 import com.talenty.repository.TemplateRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -52,7 +48,7 @@ public class TemplateService {
         }
         final TemplateDocument templateDocument = templateDocumentOptional.get();
 
-        executeLogicOnTemplate(
+        Executor.executeLogicOnFields(
                 templateDocument.getFields(),
                 applicationContext.getBean(FieldsAutoCompleteExecutor.class),
                 applicationContext.getBean(AdminValuesMergeExecutor.class),
@@ -67,7 +63,13 @@ public class TemplateService {
         final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
 
         ValidationChecker.assertTemplateSectionsNamesAreUnique(newTemplate);
+        // TODO change method with logical executor
         ValidationChecker.assertTemplateIsValid(newTemplate.getFields(), parentTemplate);
+
+        Executor.executeLogicOnFields(
+                newTemplate.getFields()
+        );
+
 
         newTemplate.setId(null);
         final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
@@ -81,14 +83,6 @@ public class TemplateService {
 
     public BasicDBObject getAllTemplates() {
         return hrService.getCurrentHr().getTemplates();
-    }
-
-    private void executeLogicOnTemplate(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
-        fields.forEach(field -> {
-            Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
-            final List<FieldDocument> fieldFields = field.getFields();
-            if (fieldFields != null) executeLogicOnTemplate(fieldFields, logicExecutors);
-        });
     }
 
 }

@@ -32,7 +32,7 @@ public class ValidationChecker {
     }
 
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
-        // we are sure, that 'submitted_value' exists if required. Checked by SubmittedSectionsValidationExecutor.
+        // we are sure, that 'submitted_value' exists if required. Checked by RequiredFieldValidationExecutor.
         final String submittedValue = (String) submittedField.getMetadata().get("submitted_value");
         final String type = (String) parentField.getMetadata().get("type");
         final Map<String, Object> parentMetadata = parentField.getMetadata();
@@ -60,12 +60,13 @@ public class ValidationChecker {
                 break;
             }
 
-            case "date": {
+            case "date":
+            case "deadline": {
                 assertDateIsValid(submittedValue);
                 break;
             }
 
-            case "expected_salary": {
+            case "salary": {
                 assertLengthIsValid(submittedField, parentField);
                 assertSalaryisValid(submittedValue);
                 break;
@@ -74,31 +75,52 @@ public class ValidationChecker {
             // Value types (types which must always contain [values])
             case "simple_evaluate_bar":
             case "language_evaluate_bar": {
-                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidEvaluateBarException();
             }
             case "language": {
-                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidLanguageTypeException();
             }
             case "professional_skill": {
-                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidProfessionalSkillTypeException();
             }
             case "personal_skill": {
-                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidPersonalSkillTypeException();
             }
-            case "salary_type": {
-                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
-                throw new InvalidSalaryTypeException();
+            case "currency": {
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                throw new InvalidCurrencyException();
             }
             case "gender": {
-                System.out.printf("Invalid submission fo Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
                 throw new InvalidGenderTypeException();
+            }
+            case "employment_terms": {
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                throw new InvalidEmploymentTypeException();
+            }
+            case "job_type": {
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                throw new InvalidJobTypeException();
+            }
+            case "job_category": {
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                throw new InvalidJobCategoryException();
+            }
+            case "candidate_level": {
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                throw new InvalidCandidateLevelException();
+            }
+            case "salary_type": {
+                System.out.printf("Invalid submission of Type '%s', sumbitted value '%s'\n", type, submittedValue);
+                throw new InvalidSalaryTypeException();
             }
 
             case "city":
+            case "title":
             case "special_name": {
                 assertLengthIsValid(submittedField, parentField);
                 assertNameIsValid(submittedValue);
@@ -230,7 +252,7 @@ public class ValidationChecker {
 
     private static void assertSalaryisValid(final String salary) {
         if (!SALARY_REGEX.matcher(salary).matches()) {
-            System.out.printf("Salary does not contain only numbers for salary '%s'\n", salary);
+            System.out.printf("Salary does not contain only numbers for value '%s'\n", salary);
             throw new InvalidSalaryException();
         }
     }

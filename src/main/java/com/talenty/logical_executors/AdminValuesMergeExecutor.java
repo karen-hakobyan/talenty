@@ -24,14 +24,14 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
     @Override
     public void execute(final FieldDocument... fields) {
         final FieldDocument field = fields[0];
-        if (field.getFields() != null) {
-            return;
-        }
+        if (field.getFields() != null) return;
+
         if (adminDefinedTypeValues == null) {
             try {
                 adminDefinedTypeValues = typeValuesService.getTypesWithValues();
             } catch (final Exception e) {
                 System.out.println("Could not get admin data");
+                return;
             }
         }
         final Map<String, Object> metadata = field.getMetadata();
