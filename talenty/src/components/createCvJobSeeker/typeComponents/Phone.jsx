@@ -4,7 +4,6 @@ import TextField from "../../../shared/components/Textfield";
 import SubSection from "../../shared/subSection";
 import {setTemplateData} from "../../../store/globalData/slice";
 import {isValidPhoneNumber} from "../../../helpers/actions";
-import Select from "../../../shared/components/Select";
 
 export default function Phone({data}) {
     let [value, setValue] = useState(data.metadata.submitted_value || '')

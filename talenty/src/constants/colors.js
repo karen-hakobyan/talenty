@@ -10,4 +10,5 @@ export const WHITE = "#fff";
 export const SR_TROPAZ = "#2C5282";
 export const NIGHT_RIDER = "#2F2F2F";
 export const ERROR_COLOR = "#FF4141";
-export const COMET = "#616162"
+export const COMET = "#616162";
+export const LANGUAGE_LEVEL_BTN_COLOR = "#6F0BBE"

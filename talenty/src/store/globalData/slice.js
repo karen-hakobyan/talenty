@@ -6,7 +6,7 @@ import {
     getTemplateById,
     getTemplateLists
 } from "./getTemplateActions";
-import changeTemplateData, { addSectionContainer } from "../../components/createCvJobSeeker/actions";
+import changeTemplateData, { addSectionContainer, deleteAddSectionContainer } from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     exactPage: 1,

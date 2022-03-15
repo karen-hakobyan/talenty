@@ -4,7 +4,7 @@ import JobSeekerSubsection from "../../JobSeekerSubsection";
 import Button from "../../../../shared/components/Button";
 import {setDeleteAddSection, setTemplateData} from "../../../../store/globalData/slice";
 import { DeleteSectionBtn } from "../../../../assets/icons/jobseeker";
-import { MAIN_PURPLE } from "../../../../constants/colors";
+import { LANGUAGE_LEVEL_BTN_COLOR, MAIN_PURPLE } from "../../../../constants/colors";
 
 export default function LanguageLevelContainer({data,fields,id}) {
     const templateData = useSelector((state) => state.globalData.templateData)
@@ -40,9 +40,9 @@ export default function LanguageLevelContainer({data,fields,id}) {
                             width: '156px',
                             color: '#8C8C8C',
                             border: '1px solid #8C8C8C',
-                            ...(data.metadata.submitted_value === el ? {background: 'red'} : {}),
+                            ...(data.metadata.submitted_value === el ? {background: LANGUAGE_LEVEL_BTN_COLOR} : {}),
                             '&:hover': {
-                                background: 'blue',
+                                background: MAIN_PURPLE,
                             }
                         }}
                         onClick={() => {
