@@ -27,7 +27,7 @@ export default function SectionContainer({
                         data={field}
                         key={field.name}
                         isSectionContainer
-                        {...{dialogData, templateData, dispatch}}
+                        {...{dialogData, templateData, dispatch,sectionId:field.id}}
                     />
                 );
             })}

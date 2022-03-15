@@ -1,6 +1,6 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {getTemplateActions} from "./getTemplateActions";
-import changeTemplateData, {addSectionContainer} from "../../components/createCvJobSeeker/actions";
+import { createSlice } from "@reduxjs/toolkit";
+import { getTemplateActions } from "./getTemplateActions";
+import changeTemplateData, { addSectionContainer, deleteAddSectionContainer } from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     exactPage: 1,
@@ -18,8 +18,8 @@ export const globalDataSlice = createSlice({
     name: "globalData",
     initialState,
     reducers: {
-        setGlobalDataViaKey: (state, {payload}) => {
-            const {key, value} = payload;
+        setGlobalDataViaKey: (state, { payload }) => {
+            const { key, value } = payload;
             state[key] = value;
         },
         setNextPage: (state) => {
@@ -28,16 +28,16 @@ export const globalDataSlice = createSlice({
         setPrevPage: (state) => {
             state.exactPage = state.exactPage - 1
         },
-        setExactPage: (state, {payload}) => {
+        setExactPage: (state, { payload }) => {
             state.exactPage = payload
         },
-        setTemplateData: (state, {payload: {id, value}}) => {
+        setTemplateData: (state, { payload: { id, value } }) => {
             state.templateData = changeTemplateData(state.templateData, id, value)
         },
-        addSectionContainerAction: (state, {payload: id}) => {
+        addSectionContainerAction: (state, { payload: id }) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
-        addPublicationsSection: (state, {payload: {id, isBook}}) => {
+        addPublicationsSection: (state, { payload: { id, isBook } }) => {
             state.templateData = addSectionContainer(state.templateData, id, isBook)
         },
         setGlobalInitialData: (state) => {
@@ -47,18 +47,23 @@ export const globalDataSlice = createSlice({
             localStorage.clear()
             sessionStorage.clear()
         },
-        setLinksController: (state, {payload}) => {
+        setLinksController: (state, { payload }) => {
             state.linksController = payload
         },
-        setEvaluateWidths: (state, {payload}) => {
+        setEvaluateWidths: (state, { payload }) => {
             state.evaluateWidths = payload
         },
-        setSectionContainerController: (state, {payload}) => {
+        setSectionContainerController: (state, { payload }) => {
             state.sectionContainerController = payload
+        },
+        setDeleteAddSection: (state, { payload }) => {
+
+
+            state.templateData = deleteAddSectionContainer(payload)
         }
     },
     extraReducers: {
-        [getTemplateActions.fulfilled]: (state, {payload}) => {
+        [getTemplateActions.fulfilled]: (state, { payload }) => {
             state.templateData = payload
         }
     }
@@ -77,6 +82,7 @@ export const {
     setEvaluateWidths,
     setSectionContainerController,
     addPublicationsSection,
+    setDeleteAddSection,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

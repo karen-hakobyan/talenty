@@ -6,7 +6,6 @@ import { Button,  FormControl, Typography } from "@mui/material";
 import "../../fonts//index.css";
 import {
   NIGHT_RIDER,
-  TEXT,
 } from "../../constants/colors";
 import { useForm } from "react-hook-form";
 import {  FIELD_RESET_PASSWORD } from "./helper";

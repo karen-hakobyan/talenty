@@ -10,7 +10,6 @@ import {setSectionContainerController} from "../../../store/globalData/slice";
 export const LINE_TYPES = ['description', 'url']
 
 export default function SectionContainer({data, index, fields}) {
-    console.log(fields)
     const dispatch = useDispatch()
     const controller = useSelector(selectSectionContainerController)
     const isActive = useMemo(() => {
@@ -62,7 +61,7 @@ export default function SectionContainer({data, index, fields}) {
                     } : {display: 'flex', justifyContent: index % 2 === 0 ? 'flex-start' : 'flex-end'}} key={el.id}>
                         <TempComponent
                             data={el} {...(el.metadata.type === 'simple_evaluate_bar' ? {depend: data.fields[0].metadata.submitted_value} : {})}
-                            {...{fields}}
+                            {...{fields,id:data.id}}
                         />
                     </Box>
                 )
