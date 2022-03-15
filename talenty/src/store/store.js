@@ -17,7 +17,7 @@ const reHydrateStore = () => {
         return JSON.parse(localStorage.getItem('applicationState')); // re-hydrate the index
     }
 };
-const localStorageMiddleware = ({ getState }) => {
+const localStorageMiddleware = ({getState}) => {
     return next => action => {
         const result = next(action);
         localStorage.setItem('applicationState', JSON.stringify(getState()));
