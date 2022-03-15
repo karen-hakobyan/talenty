@@ -1,5 +1,6 @@
 package com.talenty.domain.mongo;
 
+import com.talenty.enums.JobAnnouncementStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,6 @@ public class JobAnnouncementDocument {
     private String name;
     private List<FieldDocument> fields;
     private String attachedTemplateId;
-    private String status;
+    private JobAnnouncementStatus status;
 
 }
