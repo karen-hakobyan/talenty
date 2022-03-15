@@ -64,8 +64,6 @@ public class HrService {
         hr.setCompanyId(savedCompany.getId());
         hr.setRole("ROLE_HR_ADMIN");
         hr.setPassword(passwordEncoder.encode(hr.getPassword()));
-        final TemplateDocument systemTemplateInfo = templateRepository.findSystemTemplateInfo();
-        hr.addTemplate(systemTemplateInfo.getId(), systemTemplateInfo.getName());
 
         final HrDocument savedHr = hrRepository.save(hr);
 
