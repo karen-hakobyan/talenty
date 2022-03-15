@@ -1,10 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-const initialState = [{
-    name: "Company name",
-    value: "",
-    inputName: "companyName",
-},
+const initialState = [
+    {
+        name: "Company name",
+        value: "",
+        inputName: "companyName",
+    },
     {
         name: "First name",
         value: "",
