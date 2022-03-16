@@ -13,7 +13,7 @@ import AddSection from "../dialogs/addSection";
 
 export default function JobAnnouncement() {
     const dispatch = useDispatch()
-    const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(true)
+    const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false)
     const templateData = useSelector(selectTemplateData)
     useEffect(() => {
         dispatch(getJobAnnouncement())
@@ -50,7 +50,7 @@ export default function JobAnnouncement() {
                     setData={(data) => {
                         dispatch(setAllTemplateData(data))
                     }}
-                    sAnnouncement
+                    isAnnouncement
                     data={templateData}
                 />
             })}
@@ -62,7 +62,7 @@ export default function JobAnnouncement() {
                     Attach CV template
                 </IconButton>
                 <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end', gap: '16px'}}>
-                    <IconButton sx={TEMPLATE_BUTTON_ADD}>
+                    <IconButton sx={TEMPLATE_BUTTON_ADD} onClick={() => setAddSectionDialogIsOpen(true)}>
                         <AddSectionIconSVG/>
                         Add Section
                     </IconButton>

@@ -13,11 +13,11 @@ export default function AnnouncementBody({
                                              setAttentionIsOpen,
                                          }) {
     const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
-    if(!dialogData) {
+    if (!dialogData) {
         return null
     }
     return <Box sx={DIALOG_MAIN_CONTAINER}>
-        <SharedTemplateHeader title={dialogData.name} />
+        <SharedTemplateHeader title={dialogData.name}/>
         <Dialog
             open={addFieldIsOpen}
             onClose={() => setAddFieldIsOpen(false)}
@@ -32,7 +32,7 @@ export default function AnnouncementBody({
         <Box sx={{display: "grid", gap: "24px", pt: '44px'}}>
             {dialogData.fields.map(field => {
                 let TempComponent = announcementTypes[field.metadata.type]
-                if(!TempComponent) {
+                if (!TempComponent) {
                     return null
                 }
                 TempComponent = memo(TempComponent)

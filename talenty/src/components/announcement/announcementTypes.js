@@ -1,14 +1,29 @@
-import {Box} from "@mui/material";
+import Title from "./Title";
+import EmploymentTerms from "./EmploymentTerms";
+import JobType from "./JobType";
+import JobCategory from "./JobCategory";
+import CandidateLevel from "./CandidateLevel";
+import Country from "./Country";
+import City from "./City";
+import Section from "./Section";
+import SimpleInput from "./SimpleInput";
+import ProfessionalSkill from "./ProfessionalSkill";
+import Description from "./Description";
+import PersonalSkill from "./PersonalSkill";
 
 const announcementTypes = {
-    employment_terms: () => <Box>employment Terms</Box>,
-    title: () => <Box>title</Box>,
-    job_type: () => <Box>job type</Box>,
-    job_category: () => <Box>job category</Box>,
-    candidate_level: () => <Box>candidate level</Box>,
-    country: () => <Box>country</Box>,
-    city: () => <Box>city</Box>,
-    section: () => <Box>this is salary section</Box>,
+    employment_terms: EmploymentTerms,
+    title: Title,
+    job_type: JobType,
+    job_category: JobCategory,
+    candidate_level: CandidateLevel,
+    country: Country,
+    city: City,
+    section: Section,
+    simple_input: SimpleInput,
+    description: Description,
+    professional_skill: ProfessionalSkill,
+    personal_skill: PersonalSkill,
 }
 
 export default announcementTypes
