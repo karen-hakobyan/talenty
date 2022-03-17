@@ -29,8 +29,9 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Collection",
                     metadata: {
-                        type: "section",
+                        type: "grid_section",
                         editable: false,
+                        deletable: true,
                     },
                     fields: [
                         {
