@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
@@ -17,10 +18,12 @@ public class HrDocument extends UserDocument {
 
     private String companyId;
     @Setter(AccessLevel.NONE)
-    private BasicDBObject templates = new BasicDBObject();
 
-    public void addTemplate(final String id, final String name) {
-        templates.append(id, name);
+    @Field("cv_templates")
+    private BasicDBObject cvTemplates = new BasicDBObject();
+
+    public void addCvTemplate(final String id, final String name) {
+        cvTemplates.append(id, name);
     }
 
 }

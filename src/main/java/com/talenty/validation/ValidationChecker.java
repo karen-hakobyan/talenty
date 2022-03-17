@@ -187,10 +187,10 @@ public class ValidationChecker {
                 assertPasswordsAreEqual(details.getPassword(), details.getConfirmPassword());
     }
 
-    public static void assertTemplateSectionsNamesAreUnique(final CVTemplateDocument template) {
+    public static void assertCvTemplateSectionsNamesAreUnique(final CVTemplateDocument cvTemplate) {
         final Set<String> nameSet = new HashSet<>();
 
-        final List<FieldDocument> fields = template.getFields();
+        final List<FieldDocument> fields = cvTemplate.getFields();
         for (final FieldDocument field : fields) {
             nameSet.add(field.getName().replaceAll(" ", ""));
         }
@@ -201,7 +201,7 @@ public class ValidationChecker {
         }
     }
 
-    public static void assertTemplateIsValid(final List<FieldDocument> newFields, final CVTemplateDocument parentTemplate) {
+    public static void assertCvTemplateIsValid(final List<FieldDocument> newFields, final CVTemplateDocument parentTemplate) {
         for (int i = 0; i < newFields.size(); i++) {
             final FieldDocument tempNewField = newFields.get(i);
             final Map<String, Object> newFieldMetadata = tempNewField.getMetadata();
@@ -224,7 +224,7 @@ public class ValidationChecker {
                 }
             }
             if (isSection) {
-                ValidationChecker.assertTemplateIsValid(tempNewField.getFields(), parentTemplate);
+                ValidationChecker.assertCvTemplateIsValid(tempNewField.getFields(), parentTemplate);
             }
         }
     }

@@ -13,7 +13,7 @@ public class JobAnnouncement {
     private String id;
     private String name;
     private List<Field> fields;
-    private String attachedTemplateId;
+    private String attachedCvTemplateId;
     private JobAnnouncementStatus status;
 
 }

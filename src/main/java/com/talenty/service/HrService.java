@@ -28,7 +28,7 @@ public class HrService {
     private final TokenService tokenService;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-    private final TemplateRepository templateRepository;
+    private final CVTemplateRepository cvTemplateRepository;
 
     public HrService(final UserRepository userRepository,
                      final CompanyRepository companyRepository,
@@ -36,14 +36,14 @@ public class HrService {
                      final TokenService tokenService,
                      final EmailSender emailSender,
                      final PasswordEncoder passwordEncoder,
-                     final TemplateRepository templateRepository) {
+                     final CVTemplateRepository cvTemplateRepository) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
         this.tokenService = tokenService;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
-        this.templateRepository = templateRepository;
+        this.cvTemplateRepository = cvTemplateRepository;
     }
 
     public HrRegisterResponseDetails register(final HrRegisterRequestDetails request) {

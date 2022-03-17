@@ -9,8 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@Document("submitted_templates")
-public class SubmittedTemplateDocument {
+@Document("submitted_cv_templates")
+public class SubmittedCVTemplateDocument {
 
     @Id
     private String id;
