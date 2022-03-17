@@ -1,8 +1,7 @@
 import com.talenty.domain.mongo.FieldDocument;
-import com.talenty.domain.mongo.TemplateDocument;
+import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.logical_executors.Executor;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +13,9 @@ public class ExecutorChecker {
     @Test
     public void executeLogicOnFields() {
 
-        final TemplateDocument template = new TemplateDocument();
-        template.setId("1");
-        template.setName("TEST template");
+        final CVTemplateDocument cv_template = new CVTemplateDocument();
+        cv_template.setId("1");
+        cv_template.setName("TEST cv_template");
 
         final List<FieldDocument> sections = new ArrayList<>();
 
@@ -42,10 +41,10 @@ public class ExecutorChecker {
         section.setFields(sectionFields);
 
         sections.add(section);
-        template.setFields(sections);
+        cv_template.setFields(sections);
 
         Executor.executeLogicOnFields(
-                template.getFields()
+                cv_template.getFields()
         );
 
     }

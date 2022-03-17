@@ -1,9 +1,9 @@
-db.templates.drop()
+db.cv_templates.drop()
 
-let systemTemplate = {
+let systemCVTemplate = {
     _id: ObjectId(),
     system: true,
-    name: "System Template",
+    name: "System CV Template",
     fields: [
         {
             _id: ObjectId(),
@@ -946,4 +946,4 @@ let systemTemplate = {
     ],
 };
 
-db.templates.insert(systemTemplate);
+db.cv_templates.insert(systemCVTemplate);

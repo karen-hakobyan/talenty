@@ -30,7 +30,7 @@ export default function Dashboard() {
                 <Navigation maxWidth={282} minWidth={82}/>
                 <Routes>
                     <Route path="/" element={<h1>Talenty!!!</h1>}/>
-                    <Route path="template" element={<CvTemplateMain/>}/>
+                    <Route path="cvTemplate" element={<CvTemplateMain/>}/>
                     <Route path='announcement' element={<JobAnnouncement />} />
                 </Routes>
             </Box>
