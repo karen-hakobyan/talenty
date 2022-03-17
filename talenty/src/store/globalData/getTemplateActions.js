@@ -48,7 +48,7 @@ export const saveJobSeekerCV = createAsyncThunk(
         try {
             console.log(cleanTemplateNewIds(templateData))
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-            const response = await instance.post('templates/save_submitted_template', cleanTemplateNewIds(templateData))
+            const response = await instance.post('/cv_template/save_submitted', cleanTemplateNewIds(templateData))
             console.log(response)
         } catch (err) {
             console.log(err)
@@ -59,7 +59,7 @@ export const saveJobSeekerCV = createAsyncThunk(
 export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
     try {
         instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-        const response = await instance.post('templates/create_new_template', templateData)
+        const response = await instance.post('cv_template/create_new', templateData)
         return response.data
     } catch (err) {
         console.log(err)

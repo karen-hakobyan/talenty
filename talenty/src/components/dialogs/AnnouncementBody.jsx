@@ -1,4 +1,5 @@
 import {memo, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Box, Button, Dialog, IconButton} from "@mui/material";
 import {DIALOG_MAIN_CONTAINER, TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
@@ -6,6 +7,8 @@ import AddField from "./addField";
 import Attention from "./attention";
 import announcementTypes from "../announcement/announcementTypes";
 import {AddFieldSVG} from "../../assets/icons/createTemplate";
+import {selectTemplateData} from "../../store/globalData/selector";
+import {onSave} from "./Body";
 
 export default function AnnouncementBody({
                                              dialogData,
@@ -13,6 +16,8 @@ export default function AnnouncementBody({
                                              setAttentionIsOpen,
                                          }) {
     const [addFieldIsOpen, setAddFieldIsOpen] = useState(false);
+    const dispatch = useDispatch()
+    const templateData = useSelector(selectTemplateData)
     if (!dialogData) {
         return null
     }
@@ -31,6 +36,9 @@ export default function AnnouncementBody({
 
         <Box sx={{display: "grid", gap: "24px", pt: '44px'}}>
             {dialogData.fields.map(field => {
+                if (field.name === 'Deadline') {
+                    return null
+                }
                 let TempComponent = announcementTypes[field.metadata.type]
                 if (!TempComponent) {
                     return null
@@ -39,7 +47,7 @@ export default function AnnouncementBody({
                 return <TempComponent data={field} key={field.name}/>
             })}
         </Box>
-        <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px"}}>
+        <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px", pt: '44px'}}>
             <IconButton
                 sx={{...TEMPLATE_ITEM_BUTTON, width: "179px"}}
                 onClick={() => {
@@ -63,6 +71,9 @@ export default function AnnouncementBody({
                     background: "#8C0DF0",
                 }}
                 style={{textTransform: "none"}}
+                onClick={() => {
+                    onSave({dispatch, dialogData, templateData});
+                }}
             >
                 Save
             </Button>

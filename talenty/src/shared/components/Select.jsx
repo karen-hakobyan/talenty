@@ -3,7 +3,14 @@ import {SelectIconSVG} from "../../assets/icons/createTemplate";
 import {MenuItem} from "@mui/material";
 import TextField from "./Textfield";
 
-export default function Select({value, menuItems, textFieldWidth, fieldStyle = {}, ...restProps}) {
+export default function Select({
+                                   value = 'none',
+                                   menuItems,
+                                   textFieldWidth,
+                                   fieldStyle = {},
+                                   placeHolder,
+                                   ...restProps
+                               }) {
     const [open, setOpen] = useState(false)
     return <TextField
         sx={{
@@ -29,6 +36,7 @@ export default function Select({value, menuItems, textFieldWidth, fieldStyle = {
         }}
         {...restProps}
     >
+        {placeHolder && <MenuItem value="none" disabled sx={{display: 'none'}}>{placeHolder}</MenuItem>}
         {menuItems.map((el) => {
             return <MenuItem
                 value={el}

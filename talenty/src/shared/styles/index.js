@@ -110,8 +110,8 @@ const DIALOG_TITLE_CONTAINER = {
 };
 
 const DIALOG_MAIN_CONTAINER = {
-    width: "950px",
-    padding: "36px 24px",
+    width: "1142px",
+    padding: "36px 52px",
 };
 
 const DIALOG_ADD_SECTION_CONTAINER = {

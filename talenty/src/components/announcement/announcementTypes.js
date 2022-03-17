@@ -6,10 +6,9 @@ import CandidateLevel from "./CandidateLevel";
 import Country from "./Country";
 import City from "./City";
 import Section from "./Section";
-import SimpleInput from "./SimpleInput";
 import ProfessionalSkill from "./ProfessionalSkill";
 import Description from "./Description";
-import PersonalSkill from "./PersonalSkill";
+import GridSection from "../createCvJobSeeker/typeComponents/sectionContainerTypes/GridSection";
 
 const announcementTypes = {
     employment_terms: EmploymentTerms,
@@ -19,11 +18,12 @@ const announcementTypes = {
     candidate_level: CandidateLevel,
     country: Country,
     city: City,
+    grid_section: GridSection,
     section: Section,
-    simple_input: SimpleInput,
+    simple_input: Description,
     description: Description,
     professional_skill: ProfessionalSkill,
-    personal_skill: PersonalSkill,
+    personal_skill: ProfessionalSkill,
 }
 
 export default announcementTypes

@@ -30,7 +30,12 @@ export const isValidPhoneNumber = (value) => {
     let temp = +value
     return !isNaN(temp)
 }
-
+export const isValidRationalNumber = value => {
+    if (value.includes(' ') || value === '0') {
+        return false
+    }
+    return !isNaN(+value)
+}
 export const cleanTemplateNewIds = (data) => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (key, reviver) => {

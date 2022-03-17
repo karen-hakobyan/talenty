@@ -37,20 +37,7 @@ function TemplateItem({item, setData, isAnnouncement, data}) {
                     <EditSVG/>
                     Edit
                 </IconButton>
-                {isAnnouncement ? item.metadata.deletable && <IconButton
-                    onClick={() => {
-                        onDelete(setData, item, data);
-                    }}
-                    disabled={!item.metadata.deletable}
-                    sx={
-                        item.metadata.deletable
-                            ? TEMPLATE_ITEM_BUTTON
-                            : TEMPLATE_ITEM_BUTTON_DISABLED
-                    }
-                >
-                    <DeleteIconSVG/>
-                    Delete
-                </IconButton> : <IconButton
+                {item.metadata.deletable && <IconButton
                     onClick={() => {
                         onDelete(setData, item, data);
                     }}
