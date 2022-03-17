@@ -1,0 +1,1 @@
+export const ATTENTION_TYPES = ['body', 'announcement']

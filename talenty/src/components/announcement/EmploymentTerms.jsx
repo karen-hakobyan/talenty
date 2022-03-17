@@ -1,5 +1,7 @@
-import {Box} from "@mui/material";
+import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 
-export default function EmploymentTerms(props) {
-    return <Box>EmploymentTerms</Box>
+export default function EmploymentTerms({data}) {
+    return <JobSeekerSubsection
+        label={data.name}
+    />
 }

@@ -8,6 +8,7 @@ import {setDialogInitialState} from "../../store/dialogs/slice";
 import isDialogDataInitial from "./helper";
 import {dialogTypes} from "./type";
 import {selectAuthLoading} from "../../store/auth/selector";
+import {ATTENTION_TYPES} from "./constants";
 
 export default function Dialogs() {
     const dispatch = useDispatch();
@@ -17,7 +18,6 @@ export default function Dialogs() {
     const dialogInitialData = useSelector(selectDialogInitialData);
     const [attentionIsOpen, setAttentionIsOpen] = useState(false);
     const isAuthLoading = useSelector(selectAuthLoading)
-    console.log(dialogType)
     const tempComponentInfo = useMemo(() => {
         return dialogType ? dialogTypes[dialogType]({
             dialogData, setAttentionIsOpen, attentionIsOpen, dialogInitialData,
@@ -42,7 +42,7 @@ export default function Dialogs() {
     return (
         <Dialog
             open={true}
-            onClose={dialogType === "body" ? () => {
+            onClose={ATTENTION_TYPES.includes(dialogType) ? () => {
                 if (isDialogDataInitial(dialogData, dialogInitialData)) {
                     dispatch(setDialogInitialState());
                 } else {
