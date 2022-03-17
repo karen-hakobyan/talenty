@@ -1,8 +1,8 @@
 package com.talenty.service;
 
-import com.talenty.domain.dto.Template;
+import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.mongo.SubmittedTemplateDocument;
-import com.talenty.domain.mongo.TemplateDocument;
+import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.logical_executors.Executor;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
@@ -25,10 +25,10 @@ public class SubmittedTemplateService {
         this.applicationContext = applicationContext;
     }
 
-    public SubmittedTemplateDocument saveSubmittedTemplate(final Template template) {
-        final TemplateDocument parentTemplate = templateService.getTemplateById(template.getId());
+    public SubmittedTemplateDocument saveSubmittedTemplate(final CVTemplate cvTemplate) {
+        final CVTemplateDocument parentTemplate = templateService.getTemplateById(cvTemplate.getId());
 
-        final TemplateDocument submittedTemplate = TemplateMapper.instance.dtoToTemplate(template);
+        final CVTemplateDocument submittedTemplate = TemplateMapper.instance.dtoToTemplate(cvTemplate);
 
         Executor.cleanUpSubmittedFields(
                 parentTemplate.getFields(),

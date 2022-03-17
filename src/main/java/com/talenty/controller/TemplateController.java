@@ -1,15 +1,13 @@
 package com.talenty.controller;
 
 import com.mongodb.BasicDBObject;
-import com.talenty.domain.dto.Template;
-import com.talenty.domain.mongo.TemplateDocument;
+import com.talenty.domain.dto.CVTemplate;
+import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.service.SubmittedTemplateService;
 import com.talenty.service.TemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/templates")
@@ -25,16 +23,16 @@ public class TemplateController {
     }
 
     @GetMapping("/system")
-    public ResponseEntity<Template> getSystemTemplate() {
-        final Template systemTemplate = templateService.getSystemTemplate();
-        return ResponseEntity.ok(systemTemplate);
+    public ResponseEntity<CVTemplate> getSystemTemplate() {
+        final CVTemplate systemCVTemplate = templateService.getSystemTemplate();
+        return ResponseEntity.ok(systemCVTemplate);
     }
 
     @GetMapping("/template")
 //    @PreAuthorize("isAuthenticated()")
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> getTemplateById(@RequestParam final String id) {
-        final TemplateDocument templateById = templateService.getTemplateById(id);
+        final CVTemplateDocument templateById = templateService.getTemplateById(id);
         return ResponseEntity.ok(templateById);
     }
 
@@ -49,14 +47,14 @@ public class TemplateController {
     @PostMapping("/create_new_template")
 //        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> createNewTemplate(@RequestBody final Template template) {
-        templateService.createNewTemplate(template);
+    public ResponseEntity<?> createNewTemplate(@RequestBody final CVTemplate cvTemplate) {
+        templateService.createNewTemplate(cvTemplate);
         return ResponseEntity.ok("created_new_template");
     }
 
     @PostMapping("/save_submitted_template")
-    public ResponseEntity<?> saveSubmittedTemplate(@RequestBody final Template template) {
-        submittedTemplateService.saveSubmittedTemplate(template);
+    public ResponseEntity<?> saveSubmittedTemplate(@RequestBody final CVTemplate cvTemplate) {
+        submittedTemplateService.saveSubmittedTemplate(cvTemplate);
         return ResponseEntity.ok("saved_submitted_template");
     }
 

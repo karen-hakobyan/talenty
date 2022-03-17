@@ -5,7 +5,6 @@ import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.hr.HrRegisterResponseDetails;
 import com.talenty.domain.mongo.CompanyDocument;
 import com.talenty.domain.mongo.HrDocument;
-import com.talenty.domain.mongo.TemplateDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;

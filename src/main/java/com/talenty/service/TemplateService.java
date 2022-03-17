@@ -1,9 +1,9 @@
 package com.talenty.service;
 
 import com.mongodb.BasicDBObject;
-import com.talenty.domain.dto.Template;
+import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.mongo.HrDocument;
-import com.talenty.domain.mongo.TemplateDocument;
+import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.CleanUpMetadataExecutor;
@@ -32,7 +32,7 @@ public class TemplateService {
         this.hrService = hrService;
     }
 
-    public Template getSystemTemplate() {
+    public CVTemplate getSystemTemplate() {
         return TemplateMapper.instance.documentToDto(getTemplateById(getSystemTemplateId()));
     }
 
@@ -40,27 +40,27 @@ public class TemplateService {
         return templateRepository.findSystemTemplateInfo().getId();
     }
 
-    public TemplateDocument getTemplateById(final String id) {
-        final Optional<TemplateDocument> templateDocumentOptional = templateRepository.findById(id);
+    public CVTemplateDocument getTemplateById(final String id) {
+        final Optional<CVTemplateDocument> templateDocumentOptional = templateRepository.findById(id);
         if (templateDocumentOptional.isEmpty()) {
             System.out.printf("Template with id '%s' is not found\n", id);
             throw new NoSuchTemplateException();
         }
-        final TemplateDocument templateDocument = templateDocumentOptional.get();
+        final CVTemplateDocument cvTemplateDocument = templateDocumentOptional.get();
 
         Executor.executeLogicOnFields(
-                templateDocument.getFields(),
+                cvTemplateDocument.getFields(),
                 applicationContext.getBean(FieldsAutoCompleteExecutor.class),
                 applicationContext.getBean(AdminValuesMergeExecutor.class),
                 applicationContext.getBean(CleanUpMetadataExecutor.class)
         );
 
-        return templateDocument;
+        return cvTemplateDocument;
     }
 
-    public Template createNewTemplate(final Template template) {
-        final TemplateDocument parentTemplate = getTemplateById(template.getId());
-        final TemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(template);
+    public CVTemplate createNewTemplate(final CVTemplate cvTemplate) {
+        final CVTemplateDocument parentTemplate = getTemplateById(cvTemplate.getId());
+        final CVTemplateDocument newTemplate = TemplateMapper.instance.dtoToTemplate(cvTemplate);
 
         ValidationChecker.assertTemplateSectionsNamesAreUnique(newTemplate);
         // TODO change method with logical executor
@@ -72,10 +72,10 @@ public class TemplateService {
 
 
         newTemplate.setId(null);
-        final TemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
+        final CVTemplateDocument savedNewTemplate = templateRepository.save(newTemplate);
 
         final HrDocument currentHr = hrService.getCurrentHr();
-        currentHr.addTemplate(savedNewTemplate.getId(), template.getName());
+        currentHr.addTemplate(savedNewTemplate.getId(), cvTemplate.getName());
         hrService.save(currentHr);
 
         return TemplateMapper.instance.documentToDto(savedNewTemplate);

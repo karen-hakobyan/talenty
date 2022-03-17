@@ -1,8 +1,8 @@
 package com.talenty.mapper;
 
-import com.talenty.domain.dto.Template;
+import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.mongo.SubmittedTemplateDocument;
-import com.talenty.domain.mongo.TemplateDocument;
+import com.talenty.domain.mongo.CVTemplateDocument;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -11,10 +11,10 @@ public interface TemplateMapper {
 
     TemplateMapper instance = Mappers.getMapper(TemplateMapper.class);
 
-    Template documentToDto(TemplateDocument document);
+    CVTemplate documentToDto(CVTemplateDocument document);
 
-    TemplateDocument dtoToTemplate(Template template);
+    CVTemplateDocument dtoToTemplate(CVTemplate cvTemplate);
 
-    SubmittedTemplateDocument templateTopSubmittedTemplate(TemplateDocument template);
+    SubmittedTemplateDocument templateTopSubmittedTemplate(CVTemplateDocument template);
 
 }
