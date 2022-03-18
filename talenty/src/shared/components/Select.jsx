@@ -30,6 +30,7 @@ export default function Select({value, menuItems, textFieldWidth, fieldStyle = {
         }}
         {...restProps}
     >
+        {placeHolder && <MenuItem value="none" disabled sx={{display: 'none'}}>{placeHolder}</MenuItem>}
         {menuItems.map((el) => {
             return <MenuItem
                 value={el}

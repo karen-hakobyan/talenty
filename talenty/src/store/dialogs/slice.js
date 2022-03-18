@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import changeTemplateData from "../../components/createCvJobSeeker/actions";
 
 const initialState = {
     isOpen: false,
@@ -26,6 +27,9 @@ export const dialogSlice = createSlice({
             state.dialogType = null;
             state.initialData = null;
         },
+        changeDialogDataById: (state, {payload: {id, value}}) => {
+            state.data = changeTemplateData(state.data, id, value)
+        },
         setDialogData: (state, {payload}) => {
             state.data = payload;
         },
@@ -49,6 +53,7 @@ export const {
     setDialogType,
     setIsCompany,
     setDialogInitialData,
+    changeDialogDataById
 } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

@@ -31,7 +31,7 @@ export default function Dashboard() {
                 <Routes>
                     <Route path="/" element={<h1>Talenty!!!</h1>}/>
                     <Route path="template" element={<CvTemplateMain/>}/>
-                    <Route path='announcement' element={<JobAnnouncement />} />
+                    <Route path='announcement' element={<JobAnnouncement/>}/>
                 </Routes>
             </Box>
         </Box>

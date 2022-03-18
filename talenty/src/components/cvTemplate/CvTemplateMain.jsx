@@ -9,6 +9,8 @@ import TemplateItem from "./TemplateItem";
 import {setAllTemplateData} from "../../store/globalData/slice";
 import { selectTemplateData, selectTemplateInitialData, selectTemplateList} from "../../store/globalData/selector";
 import {DIALOG_ADD_SECTION_CONTAINER,    DIALOG_BUTTON_PURPLE,    FLEX_CONTAINER, GLOBAL_TEXT, TEMPLATE_BUTTON_ADD, TEMPLATE_BUTTON_CREATE, TEMPLATE_TITLE,} from "../../shared/styles";
+import {selectTemplateData, selectTemplateInitialData} from "../../store/globalData/selector";
+import {TEMPLATE_BUTTON_ADD, TEMPLATE_BUTTON_CREATE,} from "../../shared/styles";
 import AddSection from "../dialogs/addSection";
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {selectAuthUserInfo} from "../../store/auth/selector";
@@ -64,7 +66,7 @@ function CvTemplateMain() {
 
     // update local storage whenever data changed and also redux
     useEffect(() => {
-        if(!data) {
+        if (!data) {
             dispatch(getTemplateActions())
         }
     }, [data, dispatch]);
@@ -182,7 +184,9 @@ function CvTemplateMain() {
 
             </Box>
             {data.fields.map((item) => (
-                item.metadata.status !== "DELETED" && <TemplateItem key={item.name} item={item} setData={(data) => dispatch(setAllTemplateData(data))} data={data}/>
+                item.metadata.status !== "DELETED" &&
+                <TemplateItem key={item.name} item={item} setData={(data) => dispatch(setAllTemplateData(data))}
+                              data={data}/>
             ))}
             <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px"}}>
                 <IconButton

@@ -99,7 +99,7 @@ export default function Body({
     );
 }
 
-function onSave({dialogData, dispatch, templateData}) {
+export function onSave({dialogData, dispatch, templateData}) {
     const result = JSON.parse(JSON.stringify(templateData), (key, value) => {
         if (!value?.id) {
             return value;

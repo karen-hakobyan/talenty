@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Template {
+public class CVTemplate {
 
     private String id;
     private String name;

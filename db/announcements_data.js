@@ -27,57 +27,68 @@ let jobAnnouncement = {
                 },
                 {
                     _id: ObjectId(),
-                    name: "Employment terms",
+                    name: "Collection",
                     metadata: {
-                        type: "employment_terms",
-                        deletable: false,
-                        required: false,
+                        type: "grid_section",
+                        editable: false,
+                        deletable: true,
                     },
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Job type",
-                    metadata: {
-                        type: "job_type",
-                        deletable: false,
-                        required: false,
-                    },
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Job Category",
-                    metadata: {
-                        type: "job_category",
-                        deletable: false,
-                        required: false,
-                    },
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Candidate level",
-                    metadata: {
-                        type: "candidate_level",
-                        deletable: false,
-                        required: false,
-                    },
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Country",
-                    metadata: {
-                        type: "country",
-                        deletable: false,
-                        required: false,
-                    },
-                },
-                {
-                    _id: ObjectId(),
-                    name: "City",
-                    metadata: {
-                        type: "city",
-                        deletable: false,
-                        required: false,
-                    },
+                    fields: [
+                        {
+                            _id: ObjectId(),
+                            name: "Employment terms",
+                            metadata: {
+                                type: "employment_terms",
+                                deletable: false,
+                                required: false,
+                            },
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Job type",
+                            metadata: {
+                                type: "job_type",
+                                deletable: false,
+                                required: false,
+                            },
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Job Category",
+                            metadata: {
+                                type: "job_category",
+                                deletable: false,
+                                required: false,
+                            },
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Candidate level",
+                            metadata: {
+                                type: "candidate_level",
+                                deletable: false,
+                                required: false,
+                            },
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "Country",
+                            metadata: {
+                                type: "country",
+                                deletable: false,
+                                required: false,
+                            },
+                        },
+                        {
+                            _id: ObjectId(),
+                            name: "City",
+                            metadata: {
+                                type: "city",
+                                deletable: false,
+                                required: false,
+                            },
+                        },
+                    ],
                 },
                 {
                     _id: ObjectId(),
@@ -125,17 +136,17 @@ let jobAnnouncement = {
                                 required: false,
                             },
                         },
-                        {
-                            _id: ObjectId(),
-                            name: "Deadline",
-                            metadata: {
-                                type: "deadline",
-                                maxLength: 100,
-                                deletable: false,
-                                required: true,
-                            },
-                        },
                     ],
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Deadline",
+                    metadata: {
+                        type: "deadline",
+                        maxLength: 100,
+                        deletable: false,
+                        required: true,
+                    },
                 },
             ],
         },

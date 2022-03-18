@@ -18,11 +18,11 @@ while [ $? -ne 0 ]; do
   docker exec talenty-db mongo localhost/talenty announcements_data.js
 done
 
-docker cp templates_data.js talenty-db:templates_data.js
+docker cp cv_templates_data.js talenty-db:cv_templates_data.js
 
-docker exec talenty-db mongo localhost/talenty templates_data.js
+docker exec talenty-db mongo localhost/talenty cv_templates_data.js
 
 while [ $? -ne 0 ]; do
   sleep 1
-  docker exec talenty-db mongo localhost/talenty templates_data.js
+  docker exec talenty-db mongo localhost/talenty cv_templates_data.js
 done
