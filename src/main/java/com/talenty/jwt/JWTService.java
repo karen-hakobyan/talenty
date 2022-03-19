@@ -11,6 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Objects;
 
 @Component
 public class JWTService {
@@ -37,7 +38,8 @@ public class JWTService {
         if (jwtToken == null || !jwtToken.startsWith("Bearer ")) {
             return null;
         }
-        return jwtToken.substring(7);
+        final String substring = jwtToken.substring(7);
+        return Objects.equals(substring, "null") ? null : substring;
     }
 
 }

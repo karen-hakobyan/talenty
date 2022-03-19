@@ -35,8 +35,8 @@ public class JwtAuthorizationFilter implements Filter {
         final String jwtToken = ((HttpServletRequest) request).getHeader("Authorization");
 
         // <logs>
-        final DateTimeFormatter formater = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        System.out.printf("Request came with JWT '%s', %s", jwtToken, formater.format(LocalDateTime.now()));
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        System.out.printf("Request came with JWT '%s', %s\n", jwtToken, formatter.format(LocalDateTime.now()));
         // </logs>
 
         final String token = jwtService.validateToken(jwtToken);
