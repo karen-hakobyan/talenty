@@ -60,6 +60,7 @@ export default function AnnouncementBody({
             <Button
                 sx={{
                     ...TEMPLATE_ITEM_BUTTON,
+                    textTransform: "none",
                     width: "179px",
                     color: "#FFFFFF",
                     "&:hover": {

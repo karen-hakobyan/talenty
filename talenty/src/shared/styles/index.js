@@ -1,4 +1,5 @@
-import {MAIN_PURPLE, TEXT} from "../../constants/colors";
+import { MAIN_PURPLE, TEXT, DIALOG_TITLE_COLOR } from "../../constants/colors";
+
 
 const TEMPLATE_ITEM_BUTTON = {
     display: "flex",
@@ -36,7 +37,7 @@ const TEMPLATE_ITEM_BUTTON_DISABLED = {
     border: "1px solid #EFEFEF",
     background: "#EFEFEF",
     cursor: "default",
-    "&:hover": {background: "#EFEFEF"},
+    "&:hover": { background: "#EFEFEF" },
 };
 
 const INPUT_LABEL = {
@@ -47,8 +48,8 @@ const INPUT_LABEL = {
     fontFamily: "Proxima Nova",
 };
 
-const TEMPLATE_INPUT = {width: "421px"};
-const DISABLED_INPUT = {background: "#F5F5F5"};
+const TEMPLATE_INPUT = { width: "421px" };
+const DISABLED_INPUT = { background: "#F5F5F5" };
 const TEMPLATE_BUTTON_ADD = {
     display: "flex",
     width: "179px",
@@ -122,6 +123,7 @@ const DIALOG_ADD_SECTION_CONTAINER = {
     paddingLeft: "24px",
 };
 const GLOBAL_TEXT = {
+    fontFamily: 'Proxima Nova',
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 14,
@@ -146,6 +148,23 @@ const INPUT_VALUE_STYLE = {
     lineHeight: '24px',
     color: '#4C494F',
 }
+const TEMPLATE_TITLE = {
+    ...INPUT_VALUE_STYLE,
+    color: DIALOG_TITLE_COLOR
+}
+const DIALOG_BUTTON_PURPLE = {
+    ...TEMPLATE_ITEM_BUTTON,
+    textTransform: "none",
+    width: "179px",
+    color: "#FFFFFF",
+    "&:hover": {
+        background: "#8C0DF0",
+    },
+    "&.Mui-disabled": {
+        background: "#9F9F9F",
+    },
+    background: "#8C0DF0",
+}
 export {
     GLOBAL_TEXT,
     DIALOG_TITLE_CONTAINER,
@@ -163,5 +182,7 @@ export {
     TEXT_FIELD,
     LINE,
     HOME_PRIMARY_BUTTON,
-    INPUT_VALUE_STYLE
+    INPUT_VALUE_STYLE,
+    DIALOG_BUTTON_PURPLE,
+    TEMPLATE_TITLE
 };
