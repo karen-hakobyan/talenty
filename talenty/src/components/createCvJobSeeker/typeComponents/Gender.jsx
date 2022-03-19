@@ -9,6 +9,7 @@ export default function Gender({data}) {
     return <JobSeekerSubsection
         Component={
             <Select
+                placeHolder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
                 menuItems={data.metadata.values}
                 onChange={(event) => {

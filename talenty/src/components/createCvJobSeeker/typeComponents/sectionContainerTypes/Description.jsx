@@ -11,7 +11,7 @@ export default function Description({data}) {
         label={data.name}
         Component={
             <TextField
-                placeholder={data?.name}
+                placeholder={data.metadata.placeholder}
                 variant="outlined"
                 multiline
                 rows={4}

@@ -38,7 +38,7 @@ export default function Select({
         }}
         {...restProps}
     >
-        {placeHolder && <MenuItem value="none" disabled sx={{display: 'none'}}>{placeHolder}</MenuItem>}
+        {placeHolder && <MenuItem value="none" disabled sx={{display: 'none',color:"#4C494F"}}>{placeHolder}</MenuItem>}
         {menuItems.map((el) => {
             return <MenuItem
                 value={el}

@@ -109,6 +109,7 @@ function Salary({data}) {
     const dispatch = useDispatch()
 
     return <TextField
+        placeholder={data.metadata.placeholder}
         sx={{width: '384px'}}
         onChange={(e) => {
             if (!isNaN(+e.target.value) && e.target.value !== ' ') {

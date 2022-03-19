@@ -8,7 +8,6 @@ import SubSection from "../../../shared/subSection";
 
 export default function GenderGenerator({data, dispatch, dialogData, templateData}) {
 
-
     return (
         <SubSection
             label={data.name}

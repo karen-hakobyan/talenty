@@ -11,6 +11,7 @@ export default function Address({data}) {
         label={data.name}
         Component={
             <TextField
+                placeholder={data.metadata.placeholder}
                 sx={{width: '500px'}}
                 onChange={(e) => {
                     setValue(e.target.value)

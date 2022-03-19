@@ -10,6 +10,7 @@ export default function Country({data}) {
         label={data.name}
         Component={
             <Select
+                placeHolder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
                 menuItems={COUNTRY_NAMES}
                 onChange={(event) => dispatch(setTemplateData({id: data.id, value: event.target.value}))}
