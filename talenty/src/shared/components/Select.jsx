@@ -3,10 +3,17 @@ import {SelectIconSVG} from "../../assets/icons/createTemplate";
 import {MenuItem} from "@mui/material";
 import TextField from "./Textfield";
 
-export default function Select({value, menuItems, textFieldWidth, fieldStyle = {}, laceholder,placeholderInput,placeHolder, ...restProps}) {
+export default function Select({
+                                   value = 'none',
+                                   menuItems = [],
+                                   textFieldWidth,
+                                   fieldStyle = {},
+                                   placeHolder,
+                                   selectProps = {},
+                                   ...restProps
+                               }) {
     const [open, setOpen] = useState(false)
     return <TextField
-        placeholder ={placeholderInput? placeholderInput : ""} 
         sx={{
             width: textFieldWidth || '500px',
             color: '#8C8C8C',
@@ -27,6 +34,7 @@ export default function Select({value, menuItems, textFieldWidth, fieldStyle = {
                 height: '40px',
             },
             open,
+            ...selectProps
         }}
         {...restProps}
     >

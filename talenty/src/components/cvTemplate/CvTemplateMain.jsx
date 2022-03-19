@@ -68,17 +68,11 @@ function CvTemplateMain() {
             dispatch(getTemplateActions())
         }
     }, [data, dispatch]);
-    // useEffect(()=>{
-    //     if(!isValidTemplateNameDialogOpen){
-    //         window.scrollTo(0, 0)
-    //     }
-    // },[])
 
     if (!data) {
         return null;
     }
    
-
     return (
         <Box
         ref={container}
@@ -104,7 +98,6 @@ function CvTemplateMain() {
                     onClick={()=>{
                         setIsValidTemplateNameDialogOpen(false)
                         setIsTemplateNameText(false);
-                        // window.scrollTo(0, 0)
                         customInput.current.scrollTo(0,0)
                         setTimeout(() => customInput.current.focus());
                     }}

@@ -20,7 +20,7 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
                     setValue(e.target.value)
                 }}
                 value={value}
-                disabled={data.metadata.autocomplete? true:false}
+                disabled={!!data.metadata.autocomplete}
                 onBlur={() => {
                     setTimeout(() => {
                         dispatch(setTemplateData({id: data.id, value}))

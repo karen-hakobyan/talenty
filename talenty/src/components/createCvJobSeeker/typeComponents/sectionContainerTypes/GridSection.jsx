@@ -5,7 +5,7 @@ import {memo} from "react";
 export default function GridSection({data}) {
     console.log(data)
     return <Box
-        sx={{width: '100%', background: 'red', height: '20px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)'}}
+        sx={{width: '100%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', rowGap: '38px'}}
     >
         {data.fields.map(el => {
             let TempComponent = announcementTypes[el.metadata.type]
