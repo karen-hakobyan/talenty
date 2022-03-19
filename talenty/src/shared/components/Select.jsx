@@ -5,10 +5,11 @@ import TextField from "./Textfield";
 
 export default function Select({
                                    value = 'none',
-                                   menuItems,
+                                   menuItems = [],
                                    textFieldWidth,
                                    fieldStyle = {},
                                    placeHolder,
+                                   selectProps = {},
                                    ...restProps
                                }) {
     const [open, setOpen] = useState(false)
@@ -33,6 +34,7 @@ export default function Select({
                 height: '40px',
             },
             open,
+            ...selectProps
         }}
         {...restProps}
     >

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {TextField} from "@mui/material";
+import {TextField, Box} from "@mui/material";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 
@@ -8,7 +8,7 @@ export default function Description({data}) {
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
     return <JobSeekerSubsection
-        label={data.name}
+        label={data.metadata.required ? <Box>{data.name} *</Box> : data.name}
         Component={
             <TextField
                 placeholder={data?.name}
