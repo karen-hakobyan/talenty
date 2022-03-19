@@ -16,6 +16,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 public class JwtAuthorizationFilter implements Filter {
@@ -29,6 +33,12 @@ public class JwtAuthorizationFilter implements Filter {
         final JWTService jwtService = new JWTService();
 
         final String jwtToken = ((HttpServletRequest) request).getHeader("Authorization");
+
+        // <logs>
+        final DateTimeFormatter formater = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        System.out.printf("Request came with JWT '%s', %s", jwtToken, formater.format(LocalDateTime.now()));
+        // </logs>
+
         final String token = jwtService.validateToken(jwtToken);
 
         if (token == null) {
