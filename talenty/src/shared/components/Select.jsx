@@ -3,7 +3,7 @@ import {SelectIconSVG} from "../../assets/icons/createTemplate";
 import {MenuItem} from "@mui/material";
 import TextField from "./Textfield";
 
-export default function Select({value, menuItems, textFieldWidth, fieldStyle = {}, laceholder,placeholderInput, ...restProps}) {
+export default function Select({value, menuItems, textFieldWidth, fieldStyle = {}, laceholder,placeholderInput,placeHolder, ...restProps}) {
     const [open, setOpen] = useState(false)
     return <TextField
         placeholder ={placeholderInput? placeholderInput : ""} 
