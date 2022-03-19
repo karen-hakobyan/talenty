@@ -11,6 +11,7 @@ export default function Email({data}) {
         label={data.name}
         inputComponent={
             <TextField
+                placeholder={data.metadata.placeholder}
                 sx={{width: '500px'}}
                 value={value}
                 onChange={(event) => setValue(event.target.value)}

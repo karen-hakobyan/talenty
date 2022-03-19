@@ -14,6 +14,7 @@ export default function DateSubSection({data, extra}) {
         }
     },[extra, dispatch, data])
     return <BasicDatePicker
+        placeholder={data.metadata.placeholder}
         value={data.metadata.submitted_value}
         onChange={
             (event) => dispatch(setTemplateData({

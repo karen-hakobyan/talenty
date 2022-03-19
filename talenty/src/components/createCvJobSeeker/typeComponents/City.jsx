@@ -11,6 +11,7 @@ export default function City({data}) {
         label={data.name}
         Component={
             <TextField
+                placeholder={data.metadata.placeholder}
                 value={value}
                 sx={{width: '500px'}}
                 onChange={(e) => {

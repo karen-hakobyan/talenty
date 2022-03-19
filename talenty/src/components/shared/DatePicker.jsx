@@ -11,7 +11,7 @@ export default function BasicDatePicker({
                                             fieldStyle = {},
                                             value,
                                             onChange = () => {},
-                                            placeholder = 'DD/MM/YY'
+                                            placeholder
                                         }) {
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>

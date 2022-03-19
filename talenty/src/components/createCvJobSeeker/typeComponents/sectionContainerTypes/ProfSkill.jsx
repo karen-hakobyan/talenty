@@ -9,6 +9,7 @@ export default function ProfSkill({data}) {
         label={data.name}
         Component={
             <Select
+                placeHolder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
                 menuItems={data.metadata.values}
                 onChange={event => dispatch(setTemplateData({id: data.id, value: event.target.value}))}

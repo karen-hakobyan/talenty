@@ -5,11 +5,13 @@ import BasicDatePicker from "../../shared/DatePicker";
 import {validateDate} from "./sectionContainerTypes/DateSubSection";
 
 export default function Date({data}) {
+    console.log(data);
     const dispatch = useDispatch()
     return <JobSeekerSubsection
         label={data.name}
         Component={
             <BasicDatePicker
+                placeholder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
                 onChange={
                     (event) => {

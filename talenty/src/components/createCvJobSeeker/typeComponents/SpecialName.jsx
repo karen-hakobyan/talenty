@@ -11,6 +11,7 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
         label={data.name}
         Component={
             <TextField
+                placeholder={data.metadata.placeholder}
                 sx={
                     {
                         width: '500px', ...fieldStyle,
