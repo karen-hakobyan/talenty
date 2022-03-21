@@ -12,17 +12,6 @@ const deleteMapper = (name) => (el) => {
 
 const deleteFilterer = (name) => (el) => el.name !== name
 
-const editMapper = (initialName) => (field) => {
-    const {name, metadata} = field;
-    if (name === initialName) {
-        return {
-            ...field,
-            metadata: {...metadata, required: !metadata.required},
-        };
-    }
-    return field;
-};
-
 export function onDelete({dispatch, item, dialogData, isSectionContainer}) {
     const updatedDialogData = isSectionContainer
         ? {
@@ -52,7 +41,7 @@ export function isDisabled({templateData, value}) {
 export function editOtherCheckbox({dispatch, dialogData, id}) {
     let updatedDialogData = JSON.stringify(dialogData)
     updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
-        if(!reviverValue?.id || reviverValue.id !== id) {
+        if (!reviverValue?.id || reviverValue.id !== id) {
             return reviverValue
         }
         return {
@@ -69,7 +58,7 @@ export function editOtherCheckbox({dispatch, dialogData, id}) {
 export function deleteOtherAction({dispatch, dialogData, id}) {
     let updatedDialogData = JSON.stringify(dialogData)
     updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
-        if(!reviverValue?.id || reviverValue.id !== id) {
+        if (!reviverValue?.id || reviverValue.id !== id) {
             return reviverValue
         }
         return {
@@ -83,28 +72,25 @@ export function deleteOtherAction({dispatch, dialogData, id}) {
 export function editCheckboxState({
                                       dispatch,
                                       dialogData,
-                                      name: initialName,
-                                      isSectionContainer,
+                                      id,
                                   }) {
-    const updatedDialogData = isSectionContainer
-        ? {
-            ...dialogData,
-            fields: [
-                {
-                    ...dialogData.fields[0],
-                    fields: dialogData.fields[0].fields.map(editMapper(initialName)),
-                },
-            ],
+    const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (_, reviverValue) => {
+        if (!reviverValue?.id) {
+            return reviverValue
         }
-        : {
-            ...dialogData,
-            fields: dialogData.fields.map(editMapper(initialName)),
-        };
+        if (reviverValue.id === id) {
+            return {
+                ...reviverValue,
+                metadata: {...reviverValue.metadata, required: !reviverValue.metadata.required}
+            }
+        }
+        return reviverValue
+    })
     dispatch(setDialogData(updatedDialogData));
 }
 
 export function editLinkCheckboxState({dialogData, id, dispatch}) {
-    const dialogDataJSON = JSON.stringify({...dialogData});
+    const dialogDataJSON = JSON.stringify(dialogData);
 
     const updatedDialogData = JSON.parse(dialogDataJSON, (key, value) => {
         if (value.id === id) {

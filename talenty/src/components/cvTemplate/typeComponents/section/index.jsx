@@ -90,8 +90,7 @@ export default function SectionGenerator({
                             editCheckboxState({
                                 dispatch,
                                 dialogData,
-                                name: data.name,
-                                isSectionContainer,
+                                id: data.id,
                             });
                         }}
                         checked={data.metadata.required}

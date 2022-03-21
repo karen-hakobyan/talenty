@@ -67,6 +67,7 @@ export default function Section({data}) {
                                             }
                                         }
                                     }
+                                    placeholder={from.name}
                                     onBlur={() => {
                                         dispatch(changeDialogDataById({id: from.id, value: fromValue}))
                                     }}
@@ -87,6 +88,7 @@ export default function Section({data}) {
                                                 }
                                             }
                                         }
+                                        placeholder={to.name}
                                         onBlur={() => {
                                             dispatch(changeDialogDataById({id: to.id, value: toValue}))
                                         }}
