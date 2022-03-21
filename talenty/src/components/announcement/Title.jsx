@@ -16,6 +16,7 @@ export default function Title({data}) {
                     sx={{width: '100%'}} value={value}
                     onChange={(event) => setValue(event.target.value)}
                     onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
+                    placeholder={data.name}
                 />
             }
         />

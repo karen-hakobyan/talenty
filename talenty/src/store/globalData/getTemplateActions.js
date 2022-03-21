@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {instance} from "../../constants/requests";
 import {getJwt} from "../../components/dashboard/helper";
 import {getUrls} from "../../request/get";
-import {cleanTemplateNewIds} from "../../helpers/actions";
+import {cleanHrTemplateNewIds, cleanTemplateNewIds} from "../../helpers/actions";
 
 export const getTemplateActions = createAsyncThunk('globalData/getTemplateActions', async (_, thunkAPI) => {
     try {
@@ -59,7 +59,7 @@ export const saveJobSeekerCV = createAsyncThunk(
 export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
     try {
         instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-        const response = await instance.post('cv_template/create_new', templateData)
+        const response = await instance.post('cv_template/create_new', cleanHrTemplateNewIds(templateData))
         return response.data
     } catch (err) {
         console.log(err)

@@ -7,6 +7,7 @@ import {changeDialogDataById} from "../../store/dialogs/slice";
 export default function Description({data}) {
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
+    console.log('simple input')
     return <JobSeekerSubsection
         label={data.metadata.required ? <Box>{data.name} *</Box> : data.name}
         Component={

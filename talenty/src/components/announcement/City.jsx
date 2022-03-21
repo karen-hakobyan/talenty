@@ -18,6 +18,7 @@ export default function City({data}) {
                         setValue(event.target.value)
                     }
                 }
+                placeholder="City"
                 onBlur={() => {
                     dispatch(changeDialogDataById({id: data.id, value}))
                 }}

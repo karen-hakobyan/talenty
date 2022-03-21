@@ -36,7 +36,7 @@ export default function Body({
                 onClose={() => setAddFieldIsOpen(false)}
                 maxWidth={false}
             >
-                <AddField dialogData={dialogData} setIsOpen={setAddFieldIsOpen}/>
+                <AddField dialogData={dialogData} setIsOpen={setAddFieldIsOpen} withId/>
             </Dialog>
             <Dialog open={attentionIsOpen} onClose={() => setAttentionIsOpen(false)}>
                 <Attention {...{setAttentionIsOpen}} />

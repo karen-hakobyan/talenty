@@ -38,6 +38,7 @@ export default function JobAnnouncement() {
                     setIsOpen={setAddSectionDialogIsOpen}
                     setTemplateData={(data) => dispatch(setAllTemplateData(data))}
                     templateData={templateData}
+                    withId
                 />
             </Dialog>
             {templateData.fields.map(el => {

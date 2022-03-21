@@ -52,3 +52,19 @@ export const cleanTemplateNewIds = (data) => {
     })
     return result
 }
+export const cleanHrTemplateNewIds = data => {
+    let result = JSON.stringify(data)
+    result = JSON.parse(result, (_, reviverValue) => {
+        if (!reviverValue?.id) {
+            return reviverValue
+        }
+        return (
+            {
+                ...(reviverValue.id.startsWith('0') ? {} : {id: reviverValue.id}),
+                ...(reviverValue.fields ? {fields: [...reviverValue.fields]} : {}),
+                metadata: reviverValue.metadata,
+            }
+        )
+    })
+    return result
+}
