@@ -9,8 +9,7 @@ import isDialogDataInitial from "./helper";
 import {dialogTypes} from "./type";
 import {selectAuthLoading} from "../../store/auth/selector";
 import {ATTENTION_TYPES} from "./constants";
-import Loading from "../../assets/loading/load.gif"
-import { Box } from "@mui/system";
+
 
 export default function Dialogs() {
     const dispatch = useDispatch();
@@ -54,15 +53,7 @@ export default function Dialogs() {
             maxWidth={false}
             sx={{borderRadius: "16px"}}
         >
-            {isAuthLoading ? <Box sx={{
-                background:"#000"
-
-            }}>
-                <img style={{
-                        // width: "100px",
-                        // height: "100px"
-                }}   src={Loading}  />
-            </Box> : <TempComponent {...tempComponentInfo.props} />}
+            {isAuthLoading ? " loading... ": <TempComponent {...tempComponentInfo.props} />}
         </Dialog>
     );
 }

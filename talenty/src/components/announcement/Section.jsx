@@ -12,7 +12,6 @@ import BasicDatePicker from "../shared/DatePicker";
 import {validateDate} from "../createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection";
 
 export default function Section({data}) {
-    console.log(data)
     const dispatch = useDispatch()
     const [type, from, to, currency] = data.fields
     const [fromValue, setFromValue] = useState(from.metadata.submitted_value || '')
@@ -60,7 +59,7 @@ export default function Section({data}) {
                             Component={
                                 <TextField
                                     sx={{width: '180px'}}
-                                    placeholder={data.metadata.placeholder}
+                                    placeholder={from.metadata.placeholder}
                                     value={fromValue}
                                     onChange={
                                         (event) => {
@@ -69,7 +68,6 @@ export default function Section({data}) {
                                             }
                                         }
                                     }
-                                    placeholder={from.name}
                                     onBlur={() => {
                                         dispatch(changeDialogDataById({id: from.id, value: fromValue}))
                                     }}
