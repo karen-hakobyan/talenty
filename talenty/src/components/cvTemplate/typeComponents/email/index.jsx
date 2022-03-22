@@ -38,8 +38,7 @@ export default function EmailGenerator({data, dispatch, dialogData, templateData
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }

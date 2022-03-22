@@ -36,8 +36,7 @@ export default function PhotoGenerator({data, dispatch, dialogData, templateData
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }

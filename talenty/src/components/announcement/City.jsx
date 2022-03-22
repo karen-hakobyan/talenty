@@ -11,7 +11,7 @@ export default function City({data}) {
         label={data.name}
         Component={
             <TextField
-                sx={{width: '320px'}}
+                sx={{width: '100%'}}
                 value={value}
                 onChange={
                     (event) => {

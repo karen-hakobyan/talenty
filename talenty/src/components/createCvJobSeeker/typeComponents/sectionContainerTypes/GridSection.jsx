@@ -1,19 +1,26 @@
 import {Box} from '@mui/material'
 import announcementTypes from "../../../announcement/announcementTypes";
 import {memo} from "react";
+import memoPropsAreEqual from "../../../../helpers/memo";
 
-export default function GridSection({data}) {
-    console.log(data)
+function GridSection({data}) {
     return <Box
-        sx={{width: '100%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', rowGap: '38px'}}
+        sx={{
+            width: '100%',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            rowGap: '38px',
+            columnGap: '38px',
+        }}
     >
         {data.fields.map(el => {
             let TempComponent = announcementTypes[el.metadata.type]
             if (!TempComponent) {
                 return null
             }
-            TempComponent = memo(TempComponent)
-            return <TempComponent data={el}/>
+            return <TempComponent data={el} key={el.id}/>
         })}
     </Box>
 }
+
+export default memo(GridSection, memoPropsAreEqual)

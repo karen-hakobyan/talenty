@@ -111,6 +111,7 @@ export default function Section({data}) {
                         sx={{ml: '38px'}}
                         Component={
                             <BasicDatePicker
+                                placeholder="Deadline"
                                 value={deadline.metadata.submitted_value}
                                 onChange={
                                     (event) => {
@@ -120,6 +121,7 @@ export default function Section({data}) {
                                         }))
                                     }
                                 }
+                                pickerProps={{minDate: new Date()}}
                                 fieldStyle={{width: '300px'}}
                             />
                         }

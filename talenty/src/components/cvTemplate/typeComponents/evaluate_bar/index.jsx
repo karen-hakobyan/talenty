@@ -68,10 +68,8 @@ export default function EveluateBar({data, isSectionContainer, dispatch, dialogD
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
-                                isSectionContainer,
                             })
                         }
                     >

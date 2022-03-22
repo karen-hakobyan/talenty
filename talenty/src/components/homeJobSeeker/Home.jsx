@@ -3,7 +3,6 @@ import {selectAuthUserInfo} from "../../store/auth/selector";
 import {useNavigate} from "react-router-dom";
 import {Box, Button, Switch} from "@mui/material";
 import {DefaultUserIcon} from "../../assets/icons/jobseeker";
-import {CREATE_CV} from "../../constants/routes";
 import {HOME_PRIMARY_BUTTON} from "../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
@@ -72,7 +71,7 @@ export default function Home() {
                                 sx={HOME_PRIMARY_BUTTON}
                                 style={{textTransform: "none"}}
                                 onClick={() => {
-                                    navigate(CREATE_CV);
+                                    navigate('create-cv');
                                 }}
                             >
                                 Create CV

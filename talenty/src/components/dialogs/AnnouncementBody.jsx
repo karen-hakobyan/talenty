@@ -1,4 +1,4 @@
-import {memo, useState} from "react";
+import {memo, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, Button, Dialog, IconButton} from "@mui/material";
 import {DIALOG_MAIN_CONTAINER, TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
@@ -9,6 +9,7 @@ import announcementTypes from "../announcement/announcementTypes";
 import {AddFieldSVG} from "../../assets/icons/createTemplate";
 import {selectTemplateData} from "../../store/globalData/selector";
 import {onSave} from "./Body";
+import {isRequiredFieldsFilled} from "../../helpers/dialog";
 
 export default function AnnouncementBody({
                                              dialogData,
@@ -43,7 +44,7 @@ export default function AnnouncementBody({
                 if (!TempComponent) {
                     return null
                 }
-                TempComponent = memo(TempComponent)
+                TempComponent = memo(TempComponent, (prev, next) => JSON.stringify(next) !== JSON.stringify(next))
                 return <TempComponent data={field} key={field.name}/>
             })}
         </Box>
@@ -72,6 +73,7 @@ export default function AnnouncementBody({
                     background: "#8C0DF0",
                 }}
                 style={{textTransform: "none"}}
+                disabled={!isRequiredFieldsFilled(dialogData)}
                 onClick={() => {
                     onSave({dispatch, dialogData, templateData});
                 }}
@@ -81,3 +83,7 @@ export default function AnnouncementBody({
         </Box>
     </Box>
 }
+
+// export default memo(AnnouncementBody, (prev, next) => {
+//     return JSON.stringify(prev) !== JSON.stringify(next)
+// })

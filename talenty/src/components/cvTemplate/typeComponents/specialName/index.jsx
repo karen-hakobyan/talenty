@@ -50,10 +50,8 @@ export default function SpecialNameGenerator({
                             onClick={() =>
                                 onDelete({
                                     dispatch,
-                                    item: data,
-                                    data: templateData,
                                     dialogData,
-                                    isSectionContainer,
+                                    id: data.id,
                                 })
                             }
                         >

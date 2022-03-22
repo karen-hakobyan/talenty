@@ -10,23 +10,33 @@ const deleteMapper = (name) => (el) => {
     return el;
 };
 
-const deleteFilterer = (name) => (el) => el.name !== name
+const deleteFilterer = (id) => (el) => el.id !== id
 
-export function onDelete({dispatch, item, dialogData, isSectionContainer}) {
-    const updatedDialogData = isSectionContainer
-        ? {
-            ...dialogData,
-            fields: [
-                {
-                    ...dialogData.fields[0],
-                    fields: item.id ? dialogData.fields[0].fields.map(deleteMapper(item.name)) : dialogData.fields[0].fields.filter(deleteFilterer(item.name)),
-                },
-            ],
+export function onDelete({dispatch, dialogData, id}) {
+    // const updatedDialogData = isSectionContainer
+    //     ? {
+    //         ...dialogData,
+    //         fields: [
+    //             {
+    //                 ...dialogData.fields[0],
+    //                 fields: item.id ? dialogData.fields[0].fields.map(deleteMapper(item.name)) : dialogData.fields[0].fields.filter(deleteFilterer(item.name)),
+    //             },
+    //         ],
+    //     }
+    //     : {
+    //         ...dialogData,
+    //         fields: item.id ? dialogData.fields.map(deleteMapper(item.name)) : dialogData.fields.filter(deleteFilterer(item.name)),
+    //     };
+    const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (key, value) => {
+        if (value?.fields && value?.fields.some(deleteFilterer)) {
+            return {
+                ...value,
+                fields: value.fields.filter(el => el.id !== id)
+            }
+        } else {
+            return value
         }
-        : {
-            ...dialogData,
-            fields: item.id ? dialogData.fields.map(deleteMapper(item.name)) : dialogData.fields.filter(deleteFilterer(item.name)),
-        };
+    })
     dispatch(setDialogData(updatedDialogData));
 }
 
@@ -104,3 +114,15 @@ export function editLinkCheckboxState({dialogData, id, dispatch}) {
     });
     dispatch(setDialogData(updatedDialogData));
 }
+
+export function isRequiredFieldsFilled(data) {
+    if (data.fields) {
+        return data.fields.map(el => isRequiredFieldsFilled(el)).every(el => el === true)
+    } else {
+        if (data.metadata.required && !data.metadata.submitted_value) {
+            return false
+        }
+    }
+    return true
+}
+
