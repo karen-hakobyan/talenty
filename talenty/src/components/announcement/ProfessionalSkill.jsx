@@ -9,9 +9,10 @@ export default function ProfessionalSkill({data}) {
         label={data.name}
         Component={
             <Select
+
                 menuItems={data.metadata.values || [1, 2, 3]}
                 value={[data.metadata.submitted_value]}
-                placeHolder="Skill name"
+                placeHolder={data.metadata.placeholder}
                 textFieldWidth='100%'
                 selectProps={{
                     multiple: true, renderValue: (value) => {

@@ -17,7 +17,7 @@ export default function EmailGenerator({data, dispatch, dialogData, templateData
             inputComponent={
                 <TextField
                     disabled
-                    placeholder="Your email"
+                    placeholder={data.metadata.placeholder}
                     sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}
                     InputProps={{sx: {height: "40px"}}}
                 />

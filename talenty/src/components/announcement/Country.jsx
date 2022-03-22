@@ -10,10 +10,10 @@ export default function Country({data}) {
         label={data.name}
         Component={
             <Select
+                placeHolder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
                 textFieldWidth="320px"
                 menuItems={COUNTRY_NAMES}
-                placeHolder={data.name}
                 onChange={(event => dispatch(changeDialogDataById({id: data.id, value: event.target.value})))}
             />
         }

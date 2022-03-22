@@ -23,7 +23,7 @@ export default function SpecialNameGenerator({
                 label={data.name}
                 inputComponent={
                     <TextField
-                        placeholder={data?.name}
+                        placeholder={data?.metadata.placeholder}
                         disabled
                         variant="outlined"
                         sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}

@@ -18,7 +18,7 @@ export default function PhoneGenerator({data, dispatch, dialogData, templateData
             inputComponent={
                 <TextField
                     disabled
-                    placeholder="77 123 456"
+                    placeholder={data.metadata.placeholder}
                     sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}
                     InputProps={{sx: {height: "40px"}}}
                 />

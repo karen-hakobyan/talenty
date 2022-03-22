@@ -16,7 +16,7 @@ export default function CityGenerator({data, dispatch, dialogData, templateData}
             label={data.name}
             inputComponent={
                 <TextField
-                    placeholder={data?.name}
+                    placeholder={data?.metadata.placeholder}
                     disabled
                     variant="outlined"
                     sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}

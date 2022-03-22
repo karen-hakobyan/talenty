@@ -12,7 +12,7 @@ export default function JobCategory({data}) {
                 value={data.metadata.submitted_value}
                 textFieldWidth="320px"
                 menuItems={data.metadata.values}
-                placeHolder={data.name}
+                placeHolder={data.metadata.placeholder}
                 onChange={(event) => {
                     dispatch(changeDialogDataById(({id: data.id, value: event.target.value})))
                 }}

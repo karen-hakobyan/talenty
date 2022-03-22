@@ -39,7 +39,7 @@ export default function CountryGenerator({data, dispatch, dialogData, templateDa
                     disabled={!data.metadata.required_editable}
                 />
             }
-            inputComponent={<Select disabled/>}
+            inputComponent={<Select placeHolder={data.metadata.placeholder} disabled/>}
         />
     );
 }
