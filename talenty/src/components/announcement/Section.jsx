@@ -69,6 +69,7 @@ export default function Section({data}) {
                                             }
                                         }
                                     }
+                                    placeholder={from.name}
                                     onBlur={() => {
                                         dispatch(changeDialogDataById({id: from.id, value: fromValue}))
                                     }}
@@ -89,6 +90,7 @@ export default function Section({data}) {
                                                 }
                                             }
                                         }
+                                        placeholder={to.name}
                                         onBlur={() => {
                                             dispatch(changeDialogDataById({id: to.id, value: toValue}))
                                         }}
@@ -111,6 +113,7 @@ export default function Section({data}) {
                         sx={{ml: '38px'}}
                         Component={
                             <BasicDatePicker
+                                placeholder="Deadline"
                                 value={deadline.metadata.submitted_value}
                                 onChange={
                                     (event) => {
@@ -120,6 +123,7 @@ export default function Section({data}) {
                                         }))
                                     }
                                 }
+                                pickerProps={{minDate: new Date()}}
                                 fieldStyle={{width: '300px'}}
                             />
                         }

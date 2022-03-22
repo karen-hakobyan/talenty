@@ -11,14 +11,14 @@ export default function City({data}) {
         label={data.name}
         Component={
             <TextField
-                placeholder={data.metadata.placeholder}
-                sx={{width: '320px'}}
+                sx={{width: '100%'}}
                 value={value}
                 onChange={
                     (event) => {
                         setValue(event.target.value)
                     }
                 }
+                placeholder={data.metadata.placeholder}
                 onBlur={() => {
                     dispatch(changeDialogDataById({id: data.id, value}))
                 }}

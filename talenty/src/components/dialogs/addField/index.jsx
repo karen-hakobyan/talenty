@@ -14,7 +14,7 @@ import {
 } from "../../../shared/styles";
 import {setDialogData} from "../../../store/dialogs/slice";
 
-export default function AddField({dialogData, setIsOpen}) {
+export default function AddField({dialogData, setIsOpen, withId}) {
     const dispatch = useDispatch();
     const [value, setValue] = useState("");
 
@@ -44,7 +44,7 @@ export default function AddField({dialogData, setIsOpen}) {
                     sx={ADD_TEMPLATE_SECTION}
                     style={{textTransform: "none"}}
                     onClick={() => {
-                        onAdd({dispatch, value, dialogData});
+                        onAdd({dispatch, value, dialogData, withId});
                         setIsOpen(false);
                     }}
                     disabled={isDisabled({templateData: dialogData, value})}
@@ -56,7 +56,8 @@ export default function AddField({dialogData, setIsOpen}) {
     );
 }
 
-const addFieldParamsGenerator = (value) => ({
+const addFieldParamsGenerator = (value, withId) => ({
+    ...(withId ? {id: Math.random().toString()} : {}),
     name: value,
     metadata: {
         type: specialNameType,
@@ -69,7 +70,7 @@ const addFieldParamsGenerator = (value) => ({
     },
 });
 
-function onAdd({dispatch, dialogData, value}) {
+function onAdd({dispatch, dialogData, value, withId}) {
     const result =
         dialogData.fields[0]?.metadata.type === "section_container"
             ? {
@@ -79,14 +80,14 @@ function onAdd({dispatch, dialogData, value}) {
                         ...dialogData.fields[0],
                         fields: [
                             ...dialogData.fields[0].fields,
-                            addFieldParamsGenerator(value),
+                            addFieldParamsGenerator(value, withId),
                         ],
                     },
                 ],
             }
             : {
                 ...dialogData,
-                fields: [...dialogData.fields, addFieldParamsGenerator(value)],
+                fields: [...dialogData.fields, addFieldParamsGenerator(value, withId)],
             };
     dispatch(setDialogData(result));
 }

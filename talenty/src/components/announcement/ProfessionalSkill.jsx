@@ -1,29 +1,30 @@
+import {useState} from "react";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
-import Select from "../../shared/components/Select";
 import {useDispatch} from "react-redux";
+import {MultipleSelect} from "../../shared/components/Select";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 
 export default function ProfessionalSkill({data}) {
     const dispatch = useDispatch()
+    const [value, setValue] = useState(data.metadata.submitted_value)
+
     return <JobSeekerSubsection
         label={data.name}
         Component={
-            <Select
-
-                menuItems={data.metadata.values || [1, 2, 3]}
-                value={[data.metadata.submitted_value]}
+            <MultipleSelect
+                menuItems={data.metadata.values || ['1', '2', '3']}
+                value={value ? value.split('$$') : []}
                 placeHolder={data.metadata.placeholder}
                 textFieldWidth='100%'
-                selectProps={{
-                    multiple: true, renderValue: (value) => {
-                        return value.join(',')
+                onChange={(event) => {
+                    if (event.target.value.length === new Set(event.target.value).size) {
+                        setValue(event.target.value.join('$$'))
                     }
                 }}
-                onChange={(event) => {
-                    dispatch(changeDialogDataById({
-                        id: data.id,
-                        value: [...(data.metadata.submitted_value || []), event.target.value]
-                    }))
+                selectProps={{
+                    onClose: () => {
+                        dispatch(changeDialogDataById({id: data.id, value}))
+                    }
                 }}
             />
         }

@@ -54,8 +54,7 @@ export default function EveluateBar({data, isSectionContainer, dispatch, dialogD
                         editCheckboxState({
                             dispatch,
                             dialogData,
-                            name: data.name,
-                            isSectionContainer,
+                            id: data.id,
                         });
                     }}
                     checked={data.metadata.required}
@@ -69,10 +68,8 @@ export default function EveluateBar({data, isSectionContainer, dispatch, dialogD
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
-                                isSectionContainer,
                             })
                         }
                     >

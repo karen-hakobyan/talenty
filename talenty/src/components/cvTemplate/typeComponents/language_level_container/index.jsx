@@ -19,8 +19,7 @@ export default function LanguageLevelGenerator({
                         editCheckboxState({
                             dispatch,
                             dialogData,
-                            name: data.name,
-                            isSectionContainer,
+                            id: data.id,
                         });
                     }}
                     checked={data.metadata.required}

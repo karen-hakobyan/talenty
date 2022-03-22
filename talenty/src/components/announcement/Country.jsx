@@ -12,7 +12,7 @@ export default function Country({data}) {
             <Select
                 placeHolder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
-                textFieldWidth="320px"
+                textFieldWidth="100%"
                 menuItems={COUNTRY_NAMES}
                 onChange={(event => dispatch(changeDialogDataById({id: data.id, value: event.target.value})))}
             />

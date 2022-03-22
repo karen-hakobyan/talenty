@@ -18,8 +18,7 @@ export default function GenderGenerator({data, dispatch, dialogData, templateDat
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }
@@ -32,7 +31,7 @@ export default function GenderGenerator({data, dispatch, dialogData, templateDat
             checkboxComponent={
                 <Checkbox
                     onChange={() => {
-                        editCheckboxState({dispatch, dialogData, name: data.name});
+                        editCheckboxState({dispatch, dialogData, id: data.id});
                     }}
                     checked={data.metadata.required}
                     disabled={!data.metadata.required_editable}

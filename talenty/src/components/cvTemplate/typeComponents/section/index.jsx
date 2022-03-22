@@ -90,8 +90,7 @@ export default function SectionGenerator({
                             editCheckboxState({
                                 dispatch,
                                 dialogData,
-                                name: data.name,
-                                isSectionContainer,
+                                id: data.id,
                             });
                         }}
                         checked={data.metadata.required}
@@ -106,10 +105,8 @@ export default function SectionGenerator({
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
-                                isSectionContainer,
                             })
                         }
                     >

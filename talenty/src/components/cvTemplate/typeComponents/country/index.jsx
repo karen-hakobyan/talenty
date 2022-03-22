@@ -7,8 +7,6 @@ import Select from "../../../shared/Select";
 import SubSection from "../../../shared/subSection";
 
 export default function CountryGenerator({data, dispatch, dialogData, templateData}) {
-
-
     return (
         <SubSection
             label={data.name}
@@ -16,13 +14,14 @@ export default function CountryGenerator({data, dispatch, dialogData, templateDa
                 data.metadata.deletable ? (
                     <IconButton
                         sx={TEMPLATE_ITEM_BUTTON}
-                        onClick={() =>
-                            onDelete({
-                                dispatch,
-                                name: data,
-                                data: templateData,
-                                dialogData,
-                            })
+                        onClick={
+                            () => {
+                                onDelete({
+                                    dispatch,
+                                    id: data.id,
+                                    dialogData,
+                                })
+                            }
                         }
                     >
                         <DeleteIconSVG/>
@@ -33,7 +32,7 @@ export default function CountryGenerator({data, dispatch, dialogData, templateDa
             checkboxComponent={
                 <Checkbox
                     onChange={() => {
-                        editCheckboxState({dispatch, dialogData, name: data.name});
+                        editCheckboxState({dispatch, dialogData, id: data.id});
                     }}
                     checked={data.metadata.required}
                     disabled={!data.metadata.required_editable}

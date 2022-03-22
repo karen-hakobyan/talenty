@@ -26,7 +26,7 @@ export default function CityGenerator({data, dispatch, dialogData, templateData}
             checkboxComponent={
                 <Checkbox
                     onChange={() => {
-                        editCheckboxState({dispatch, dialogData, name: data.name});
+                        editCheckboxState({dispatch, dialogData, id: data.id});
                     }}
                     checked={data.metadata.required}
                     disabled={!data.metadata.required_editable}
@@ -39,8 +39,7 @@ export default function CityGenerator({data, dispatch, dialogData, templateData}
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }

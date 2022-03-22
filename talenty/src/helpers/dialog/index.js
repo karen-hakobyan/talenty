@@ -10,34 +10,33 @@ const deleteMapper = (name) => (el) => {
     return el;
 };
 
-const deleteFilterer = (name) => (el) => el.name !== name
+const deleteFilterer = (id) => (el) => el.id !== id
 
-const editMapper = (initialName) => (field) => {
-    const {name, metadata} = field;
-    if (name === initialName) {
-        return {
-            ...field,
-            metadata: {...metadata, required: !metadata.required},
-        };
-    }
-    return field;
-};
-
-export function onDelete({dispatch, item, dialogData, isSectionContainer}) {
-    const updatedDialogData = isSectionContainer
-        ? {
-            ...dialogData,
-            fields: [
-                {
-                    ...dialogData.fields[0],
-                    fields: item.id ? dialogData.fields[0].fields.map(deleteMapper(item.name)) : dialogData.fields[0].fields.filter(deleteFilterer(item.name)),
-                },
-            ],
+export function onDelete({dispatch, dialogData, id}) {
+    // const updatedDialogData = isSectionContainer
+    //     ? {
+    //         ...dialogData,
+    //         fields: [
+    //             {
+    //                 ...dialogData.fields[0],
+    //                 fields: item.id ? dialogData.fields[0].fields.map(deleteMapper(item.name)) : dialogData.fields[0].fields.filter(deleteFilterer(item.name)),
+    //             },
+    //         ],
+    //     }
+    //     : {
+    //         ...dialogData,
+    //         fields: item.id ? dialogData.fields.map(deleteMapper(item.name)) : dialogData.fields.filter(deleteFilterer(item.name)),
+    //     };
+    const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (key, value) => {
+        if (value?.fields && value?.fields.some(deleteFilterer)) {
+            return {
+                ...value,
+                fields: value.fields.filter(el => el.id !== id)
+            }
+        } else {
+            return value
         }
-        : {
-            ...dialogData,
-            fields: item.id ? dialogData.fields.map(deleteMapper(item.name)) : dialogData.fields.filter(deleteFilterer(item.name)),
-        };
+    })
     dispatch(setDialogData(updatedDialogData));
 }
 
@@ -52,7 +51,7 @@ export function isDisabled({templateData, value}) {
 export function editOtherCheckbox({dispatch, dialogData, id}) {
     let updatedDialogData = JSON.stringify(dialogData)
     updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
-        if(!reviverValue?.id || reviverValue.id !== id) {
+        if (!reviverValue?.id || reviverValue.id !== id) {
             return reviverValue
         }
         return {
@@ -69,7 +68,7 @@ export function editOtherCheckbox({dispatch, dialogData, id}) {
 export function deleteOtherAction({dispatch, dialogData, id}) {
     let updatedDialogData = JSON.stringify(dialogData)
     updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
-        if(!reviverValue?.id || reviverValue.id !== id) {
+        if (!reviverValue?.id || reviverValue.id !== id) {
             return reviverValue
         }
         return {
@@ -83,28 +82,25 @@ export function deleteOtherAction({dispatch, dialogData, id}) {
 export function editCheckboxState({
                                       dispatch,
                                       dialogData,
-                                      name: initialName,
-                                      isSectionContainer,
+                                      id,
                                   }) {
-    const updatedDialogData = isSectionContainer
-        ? {
-            ...dialogData,
-            fields: [
-                {
-                    ...dialogData.fields[0],
-                    fields: dialogData.fields[0].fields.map(editMapper(initialName)),
-                },
-            ],
+    const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (_, reviverValue) => {
+        if (!reviverValue?.id) {
+            return reviverValue
         }
-        : {
-            ...dialogData,
-            fields: dialogData.fields.map(editMapper(initialName)),
-        };
+        if (reviverValue.id === id) {
+            return {
+                ...reviverValue,
+                metadata: {...reviverValue.metadata, required: !reviverValue.metadata.required}
+            }
+        }
+        return reviverValue
+    })
     dispatch(setDialogData(updatedDialogData));
 }
 
 export function editLinkCheckboxState({dialogData, id, dispatch}) {
-    const dialogDataJSON = JSON.stringify({...dialogData});
+    const dialogDataJSON = JSON.stringify(dialogData);
 
     const updatedDialogData = JSON.parse(dialogDataJSON, (key, value) => {
         if (value.id === id) {
@@ -118,3 +114,15 @@ export function editLinkCheckboxState({dialogData, id, dispatch}) {
     });
     dispatch(setDialogData(updatedDialogData));
 }
+
+export function isRequiredFieldsFilled(data) {
+    if (data.fields) {
+        return data.fields.map(el => isRequiredFieldsFilled(el)).every(el => el === true)
+    } else {
+        if (data.metadata.required && !data.metadata.submitted_value) {
+            return false
+        }
+    }
+    return true
+}
+

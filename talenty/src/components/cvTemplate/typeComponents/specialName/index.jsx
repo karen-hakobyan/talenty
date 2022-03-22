@@ -36,8 +36,7 @@ export default function SpecialNameGenerator({
                             editCheckboxState({
                                 dispatch,
                                 dialogData,
-                                name: data.name,
-                                isSectionContainer,
+                                id: data.id,
                             });
                         }}
                         checked={data.metadata.required}
@@ -51,10 +50,8 @@ export default function SpecialNameGenerator({
                             onClick={() =>
                                 onDelete({
                                     dispatch,
-                                    item: data,
-                                    data: templateData,
                                     dialogData,
-                                    isSectionContainer,
+                                    id: data.id,
                                 })
                             }
                         >

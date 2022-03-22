@@ -31,8 +31,7 @@ export function DescriptionGenerator({data, isSectionContainer, dispatch, dialog
                         editCheckboxState({
                             dispatch,
                             dialogData,
-                            name: data.name,
-                            isSectionContainer,
+                            id: data.id
                         });
                     }}
                     checked={data.metadata.required}
@@ -46,10 +45,8 @@ export function DescriptionGenerator({data, isSectionContainer, dispatch, dialog
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
                                 dialogData,
-                                isSectionContainer,
+                                id: data.id,
                             })
                         }
                     >

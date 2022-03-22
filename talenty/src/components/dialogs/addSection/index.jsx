@@ -61,6 +61,7 @@ function onAdd({setTemplateData, value, templateData}) {
         fields: [
             ...templateData.fields,
             {
+                id: Math.random().toString(),
                 name: value,
                 fields: [],
                 metadata: {

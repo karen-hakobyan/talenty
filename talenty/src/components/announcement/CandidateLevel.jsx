@@ -10,7 +10,7 @@ export default function CandidateLevel({data}) {
         Component={
             <Select
                 value={data.metadata.submitted_value}
-                textFieldWidth="320px"
+                textFieldWidth="100%"
                 menuItems={data.metadata.values}
                 placeHolder={data.metadata.placeholder}
                 onChange={(event) => {
