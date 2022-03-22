@@ -39,8 +39,7 @@ export default function CityGenerator({data, dispatch, dialogData, templateData}
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }

@@ -18,8 +18,7 @@ export default function GenderGenerator({data, dispatch, dialogData, templateDat
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }

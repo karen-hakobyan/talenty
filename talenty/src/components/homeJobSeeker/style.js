@@ -1,6 +1,7 @@
-import { COMET, TEXT } from "../../constants/colors";
+import {COMET, TEXT} from "../../constants/colors";
 
 export const CONTAINER_HEADER = {
+    top: 0,
     height: "74px",
     display: "flex",
     pt: "20px",
@@ -9,6 +10,10 @@ export const CONTAINER_HEADER = {
     pr: "26px",
     boxShadow: "0px 2px 8px 0px #2D2D2D0F",
     alignItems: "center",
+    zIndex: 99,
+    position: 'fixed',
+    width: '100%',
+    background: '#FFFFFF',
 };
 
 export const BOX_STYLE_SHADOW = {

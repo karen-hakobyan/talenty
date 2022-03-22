@@ -11,7 +11,7 @@ export default function Country({data}) {
         Component={
             <Select
                 value={data.metadata.submitted_value}
-                textFieldWidth="320px"
+                textFieldWidth="100%"
                 menuItems={COUNTRY_NAMES}
                 placeHolder={data.name}
                 onChange={(event => dispatch(changeDialogDataById({id: data.id, value: event.target.value})))}

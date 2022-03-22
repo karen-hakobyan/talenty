@@ -10,7 +10,8 @@ export default function BasicDatePicker({
                                             pickerProps = {},
                                             fieldStyle = {},
                                             value,
-                                            onChange = () => {},
+                                            onChange = () => {
+                                            },
                                             placeholder
                                         }) {
     return (
