@@ -13,10 +13,10 @@ export default function Title({data}) {
             label={<Box>Title <span style={{color: '#8C0DF0'}}>*</span></Box>}
             Component={
                 <TextField
+                    placeholder={data.metadata.placeholder}
                     sx={{width: '100%'}} value={value}
                     onChange={(event) => setValue(event.target.value)}
                     onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
-                    placeholder={data.name}
                 />
             }
         />

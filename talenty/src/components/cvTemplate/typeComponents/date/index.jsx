@@ -24,7 +24,7 @@ export default function DateGenerator({
             inputComponent={
                 <TextField
                     disabled={disabledInput}
-                    placeholder="DD/MM/YYYY"
+                    placeholder={data.metadata.placeholder}
                     sx={{...TEMPLATE_INPUT, ...(disabledInput ? DISABLED_INPUT : {})}}
                     InputProps={{sx: {height: "40px"}}}
                 />

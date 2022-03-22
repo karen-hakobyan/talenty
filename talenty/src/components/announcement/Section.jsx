@@ -59,6 +59,7 @@ export default function Section({data}) {
                             Component={
                                 <TextField
                                     sx={{width: '180px'}}
+                                    placeholder={from.metadata.placeholder}
                                     value={fromValue}
                                     onChange={
                                         (event) => {
@@ -67,7 +68,6 @@ export default function Section({data}) {
                                             }
                                         }
                                     }
-                                    placeholder={from.name}
                                     onBlur={() => {
                                         dispatch(changeDialogDataById({id: from.id, value: fromValue}))
                                     }}

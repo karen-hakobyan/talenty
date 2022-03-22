@@ -9,7 +9,7 @@ export default function JobType({data}) {
                 value={data.metadata.submitted_value}
                 textFieldWidth="100%"
                 menuItems={data.metadata.values}
-                placeHolder={data.name}
+                placeHolder={data.metadata.placeholder}
             />
         }
     />

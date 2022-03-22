@@ -14,7 +14,7 @@ export default function ProfessionalSkill({data}) {
             <MultipleSelect
                 menuItems={data.metadata.values || ['1', '2', '3']}
                 value={value ? value.split('$$') : []}
-                placeHolder="Skill name"
+                placeHolder={data.metadata.placeholder}
                 textFieldWidth='100%'
                 onChange={(event) => {
                     if (event.target.value.length === new Set(event.target.value).size) {

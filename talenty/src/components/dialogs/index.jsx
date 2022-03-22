@@ -10,6 +10,7 @@ import {dialogTypes} from "./type";
 import {selectAuthLoading} from "../../store/auth/selector";
 import {ATTENTION_TYPES} from "./constants";
 
+
 export default function Dialogs() {
     const dispatch = useDispatch();
     const dialogType = useSelector(selectDialogType);
@@ -52,7 +53,7 @@ export default function Dialogs() {
             maxWidth={false}
             sx={{borderRadius: "16px"}}
         >
-            {isAuthLoading ? 'loading...' : <TempComponent {...tempComponentInfo.props} />}
+            {isAuthLoading ? " loading... ": <TempComponent {...tempComponentInfo.props} />}
         </Dialog>
     );
 }

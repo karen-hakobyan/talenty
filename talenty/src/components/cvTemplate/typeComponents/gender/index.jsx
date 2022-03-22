@@ -37,7 +37,7 @@ export default function GenderGenerator({data, dispatch, dialogData, templateDat
                     disabled={!data.metadata.required_editable}
                 />
             }
-            inputComponent={<Select disabled/>}
+            inputComponent={<Select placeHolder={data.metadata.placeholder} disabled/>}
         />
     );
 }

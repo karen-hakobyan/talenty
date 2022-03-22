@@ -8,7 +8,7 @@ export default function EmploymentTerms({data}) {
             <Select
                 value={data.metadata.submitted_value}
                 menuItems={data.metadata.values}
-                placeHolder={data.name}
+                placeHolder={data.metadata.placeholder}
                 textFieldWidth="100%"
             />
         }

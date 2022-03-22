@@ -17,7 +17,7 @@ export function DescriptionGenerator({data, isSectionContainer, dispatch, dialog
             label={data.name}
             inputComponent={
                 <TextField
-                    placeholder={data?.name}
+                    placeholder={data?.metadata.placeholder}
                     disabled
                     variant="outlined"
                     multiline
