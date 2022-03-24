@@ -1,9 +1,10 @@
 package com.talenty.service;
 
-import com.talenty.domain.dto.CVTemplate;
+import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.logical_executors.Executor;
+import com.talenty.logical_executors.ExecutorWithParent;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
@@ -17,35 +18,31 @@ public class SubmittedCvTemplateService {
 
     private final SubmittedCvTemplateRepository submittedCvTemplateRepository;
     private final CVTemplateService cvTemplateService;
-    private final ApplicationContext applicationContext;
 
     public SubmittedCvTemplateService(final SubmittedCvTemplateRepository submittedCvTemplateRepository,
-                                      final CVTemplateService cvTemplateService,
-                                      final ApplicationContext applicationContext) {
+                                      final CVTemplateService cvTemplateService) {
         this.submittedCvTemplateRepository = submittedCvTemplateRepository;
         this.cvTemplateService = cvTemplateService;
-        this.applicationContext = applicationContext;
     }
 
-    public SubmittedCVTemplateDocument saveSubmittedCvTemplate(final CVTemplate cvTemplate) {
-        final CVTemplateDocument parentTemplate = cvTemplateService.getCvTemplateById(cvTemplate.getId());
+    public SubmittedCVTemplateDocument saveSubmittedCvTemplate(final SubmittedCVTemplate submittedCVTemplate) {
+        final CVTemplateDocument parentTemplate = cvTemplateService.getCvTemplateById(submittedCVTemplate.getId());
 
-        final CVTemplateDocument submittedTemplate = CVTemplateMapper.instance.dtoToTemplate(cvTemplate);
+        final SubmittedCVTemplateDocument submittedTemplate = CVTemplateMapper.instance.dtoToDocument(submittedCVTemplate);
 
-        Executor.cleanUpSubmittedFields(
-                parentTemplate.getFields(),
+        final ExecutorWithParent executorWithParent = new ExecutorWithParent(parentTemplate, submittedTemplate);
+
+        Executor.executeLogicOnFields(
                 submittedTemplate.getFields(),
-                true,
-                applicationContext.getBean(FieldsIdValidationExecutor.class),
-                applicationContext.getBean(RequiredFieldValidationExecutor.class),
-                applicationContext.getBean(SubmittedFieldValueValidationExecutor.class)
+                new FieldsIdValidationExecutor(executorWithParent),
+                new RequiredFieldValidationExecutor(executorWithParent),
+                new SubmittedFieldValueValidationExecutor(executorWithParent)
         );
 
-        final SubmittedCVTemplateDocument cleanedUpSubmittedCvTemplate = CVTemplateMapper.instance.cvTemplateToSubmittedTemplate(submittedTemplate);
-        cleanedUpSubmittedCvTemplate.setId(null);
-        cleanedUpSubmittedCvTemplate.setParentId(parentTemplate.getId());
+        submittedTemplate.setId(null);
+        submittedTemplate.setParentId(parentTemplate.getId());
 
-        return submittedCvTemplateRepository.save(cleanedUpSubmittedCvTemplate);
+        return submittedCvTemplateRepository.save(submittedTemplate);
     }
 
 }

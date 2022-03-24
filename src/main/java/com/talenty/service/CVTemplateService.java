@@ -7,8 +7,11 @@ import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.CleanUpMetadataExecutor;
+import com.talenty.logical_executors.DeletedFieldValidationExecutor;
 import com.talenty.logical_executors.Executor;
+import com.talenty.logical_executors.ExecutorWithParent;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
+import com.talenty.logical_executors.NewFieldValidationExecutor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.CVTemplateRepository;
 import com.talenty.validation.ValidationChecker;
@@ -60,16 +63,15 @@ public class CVTemplateService {
 
     public CVTemplate createNewCvTemplate(final CVTemplate cvTemplate) {
         final CVTemplateDocument parentTemplate = getCvTemplateById(cvTemplate.getId());
-        final CVTemplateDocument newTemplate = CVTemplateMapper.instance.dtoToTemplate(cvTemplate);
+        final CVTemplateDocument newTemplate = CVTemplateMapper.instance.dtoToDocument(cvTemplate);
 
-        ValidationChecker.assertCvTemplateSectionsNamesAreUnique(newTemplate);
-        // TODO change method with logical executor
-        ValidationChecker.assertCvTemplateIsValid(newTemplate.getFields(), parentTemplate);
+        final ExecutorWithParent executorWithParent = new ExecutorWithParent(parentTemplate, newTemplate);
 
         Executor.executeLogicOnFields(
-                newTemplate.getFields()
+                newTemplate.getFields(),
+                new NewFieldValidationExecutor(),
+                new DeletedFieldValidationExecutor(executorWithParent)
         );
-
 
         newTemplate.setId(null);
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);

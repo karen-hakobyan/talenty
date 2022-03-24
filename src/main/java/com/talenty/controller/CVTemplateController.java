@@ -2,6 +2,7 @@ package com.talenty.controller;
 
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.CVTemplate;
+import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.service.SubmittedCvTemplateService;
 import com.talenty.service.CVTemplateService;
@@ -53,8 +54,8 @@ public class CVTemplateController {
     }
 
     @PostMapping("/save_submitted")
-    public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final CVTemplate cvTemplate) {
-        submittedCvTemplateService.saveSubmittedCvTemplate(cvTemplate);
+    public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate submittedCVTemplate) {
+        submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
         return ResponseEntity.ok("saved_submitted_cv_template");
     }
 

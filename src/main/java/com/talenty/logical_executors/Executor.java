@@ -24,10 +24,10 @@ public class Executor {
         final int[] index = {0};
         parentFields.forEach(tempParentField -> {
             final FieldDocument tempSubmittedField = submittedFields.get(index[0]++);
-            Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(tempParentField, tempSubmittedField));
+            Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(tempSubmittedField));
             final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
             if (tempParentFieldFields != null)
-                cleanUpSubmittedFields(tempParentFieldFields, tempSubmittedField.getFields(), false);
+                cleanUpSubmittedFields(tempParentFieldFields, tempSubmittedField.getFields(), false, logicExecutors);
         });
     }
 

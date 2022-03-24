@@ -10,11 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Document("submitted_cv_templates")
-public class SubmittedCVTemplateDocument {
+public class SubmittedCVTemplateDocument extends BaseTemplateDocument {
 
-    @Id
-    private String id;
     private String parentId;
-    private List<SubmittedFieldDocument> fields;
 
 }

@@ -341,7 +341,7 @@ public class ValidationChecker {
     }
 
     // Considering both, field and section validation
-    private static void assertDeletedFieldIsValid(final FieldDocument newField, final List<FieldDocument> parentTemplate) {
+    public static void assertDeletedFieldIsValid(final FieldDocument newField, final List<FieldDocument> parentTemplate) {
         for (final FieldDocument tempParentField : parentTemplate) {
             if (!tempParentField.getMetadata().containsKey("type")) {
                 System.out.println("Field must contain 'type' key");
@@ -367,7 +367,25 @@ public class ValidationChecker {
     }
 
     // Considering both, field and section validation
-    private static void assertNewFieldIsValid(final FieldDocument newField) {
+    public static void assertDeletedFieldIsValid(final FieldDocument field, final FieldDocument parentField) {
+        if (!parentField.getMetadata().containsKey("type")) {
+            System.out.println("Field must contain 'type' key");
+            throw new InvalidFieldException();
+        }
+
+        if (!parentField.getMetadata().containsKey("deletable")) {
+            System.out.println("Field must contain 'deletable' key");
+            throw new InvalidFieldException();
+        }
+
+        if (!((Boolean) parentField.getMetadata().get("deletable"))) {
+            System.out.println("Not deleteable field can`t be deleted");
+            throw new InvalidFieldException();
+        }
+    }
+
+    // Considering both, field and section validation
+    public static void assertNewFieldIsValid(final FieldDocument newField) {
         if (!newField.getMetadata().containsKey("type")) {
             System.out.println("Field must contain 'type' key");
             throw new InvalidFieldException();

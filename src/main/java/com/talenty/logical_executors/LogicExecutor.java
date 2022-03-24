@@ -4,6 +4,6 @@ import com.talenty.domain.mongo.FieldDocument;
 
 public interface LogicExecutor {
 
-    void execute(FieldDocument... fields);
+    void execute(FieldDocument field);
 
 }

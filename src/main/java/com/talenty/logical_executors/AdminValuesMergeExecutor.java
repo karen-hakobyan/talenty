@@ -22,8 +22,7 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
     }
 
     @Override
-    public void execute(final FieldDocument... fields) {
-        final FieldDocument field = fields[0];
+    public void execute(final FieldDocument field) {
         if (field.getFields() != null) return;
 
         if (adminDefinedTypeValues == null) {

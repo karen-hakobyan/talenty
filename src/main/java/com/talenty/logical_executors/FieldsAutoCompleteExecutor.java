@@ -11,10 +11,8 @@ import java.util.Map;
 @Component
 public class FieldsAutoCompleteExecutor implements LogicExecutor {
 
-
     @Override
-    public void execute(final FieldDocument... fields) {
-        final FieldDocument field = fields[0];
+    public void execute(final FieldDocument field) {
         if (field.getFields() != null) return;
 
         final AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();

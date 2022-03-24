@@ -2,20 +2,31 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.validation.ValidationChecker;
-import org.springframework.stereotype.Component;
 
-@Component
+import java.util.Map;
+import java.util.Objects;
+
 public class SubmittedFieldValueValidationExecutor implements LogicExecutor {
 
+    private final ExecutorWithParent executorWithParent;
+
+    public SubmittedFieldValueValidationExecutor(final ExecutorWithParent executorWithParent) {
+        this.executorWithParent = executorWithParent;
+    }
+
     @Override
-    public void execute(final FieldDocument... field) {
-        final FieldDocument parentField = field[0];
-        final FieldDocument tempField = field[1];
-        if (parentField.getFields() != null && tempField.getFields() != null) return;
+    public void execute(final FieldDocument field) {
+        final Map<String, Object> metadata = field.getMetadata();
 
-        final boolean doesSubmittedValueExists = tempField.getMetadata().containsKey("submitted_value");
+        final boolean fieldIsNew = metadata.containsKey("status") && Objects.equals(metadata.get("status"), "NEW");
+        if (fieldIsNew) return;
 
-        if (doesSubmittedValueExists) ValidationChecker.assertSubmittedFieldIsValid(tempField, parentField);
+        final FieldDocument parentField = executorWithParent.getCurrentParentField();
+        if (parentField.getFields() != null && field.getFields() != null) return;
+
+        final boolean doesSubmittedValueExists = metadata.containsKey("submitted_value");
+
+        if (doesSubmittedValueExists) ValidationChecker.assertSubmittedFieldIsValid(field, parentField);
     }
 
 }
