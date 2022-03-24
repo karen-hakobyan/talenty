@@ -2,21 +2,18 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.BaseTemplateDocument;
 import com.talenty.domain.mongo.FieldDocument;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Stack;
 
 public class ExecutorWithParent {
 
     private final BaseTemplateDocument parentTemplate;
     private final BaseTemplateDocument childTemplate;
-    private final List<FieldDocument> parentTemplateFields;
-    private final List<FieldDocument> childTemplateFields;
-    private final Map<Integer, Node> chain;
-    private final int baseIndex;
+    private Stack<Node> chain;
 
     public ExecutorWithParent(final BaseTemplateDocument parentTemplate, final BaseTemplateDocument childTemplate) {
         this.parentTemplate = parentTemplate;
@@ -24,34 +21,60 @@ public class ExecutorWithParent {
         if (parentTemplate == null || childTemplate == null) {
             throw new IllegalArgumentException("Templates cant be null while creating ExecutorWithParent");
         }
-        parentTemplateFields = parentTemplate.getFields();
-        childTemplateFields = childTemplate.getFields();
-        chain = new HashMap<>();
-        baseIndex = 0;
-        final Node node = new Node();
-        node.setList(parentTemplateFields);
-        node.setIndex(0);
-        chain.put(baseIndex, node);
+        initializeChain();
     }
 
-    protected FieldDocument getCurrentParentField() {
-        final FieldDocument currentField = chain.get(baseIndex).getField();
+    protected Node getCurrentNode() {
+        return chain.peek();
+    }
 
-//        if () {
-//
-//        }
+    private void initializeChain() {
+        chain = new Stack<>();
+        final Node initialNode = new Node(
+                parentTemplate.getFields(),
+                childTemplate.getFields(),
+                0
+        );
+        chain.push(initialNode);
+    }
 
-        return currentField;
+    public void moveIndicator() {
+        final Node currentNode = getCurrentNode();
+
+        final List<FieldDocument> currentParentList = currentNode.parentList;
+        final List<FieldDocument> currentChildList = currentNode.childList;
+
+        final FieldDocument currentParentField = currentParentList.get(currentNode.lastIndex);
+        final FieldDocument currentChildField = currentChildList.get(currentNode.lastIndex);
+
+        if (currentParentField.getFields() != null) {
+            final Node nextNode = new Node(
+                    currentParentField.getFields(),
+                    currentChildField.getFields(),
+                    0
+            );
+            currentNode.incrementIndex();
+            chain.push(nextNode);
+        } else {
+            currentNode.incrementIndex();
+
+            if (currentParentList.size() == chain.peek().lastIndex) {
+                chain.pop();
+                moveIndicator();
+            }
+        }
     }
 
     @Getter
     @Setter
+    @AllArgsConstructor
     private static class Node {
-        private List<FieldDocument> list;
-        private int index = 0;
+        private List<FieldDocument> parentList;
+        private List<FieldDocument> childList;
+        private int lastIndex = -1;
 
-        public FieldDocument getField() {
-            return list.get(index);
+        public void incrementIndex() {
+            this.lastIndex++;
         }
 
     }

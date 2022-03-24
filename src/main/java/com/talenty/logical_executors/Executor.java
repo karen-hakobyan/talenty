@@ -2,17 +2,21 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
+import com.talenty.service.FieldService;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Executor {
 
-    public static void executeLogicOnFields(final List<FieldDocument> fields, final LogicExecutor... logicExecutors) {
+    public static void executeLogicOnFields(final List<FieldDocument> fields,
+                                            final ExecutorWithParent withParentExecutor,
+                                            final LogicExecutor... logicExecutors) {
         fields.forEach(field -> {
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
+            if (!FieldService.isFieldNew(field)) withParentExecutor.moveIndicator();
             final List<FieldDocument> fieldFields = field.getFields();
-            if (fieldFields != null) executeLogicOnFields(fieldFields, logicExecutors);
+            if (fieldFields != null) executeLogicOnFields(fieldFields, withParentExecutor, logicExecutors);
         });
     }
 

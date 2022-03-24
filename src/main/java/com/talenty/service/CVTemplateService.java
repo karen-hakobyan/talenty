@@ -11,6 +11,7 @@ import com.talenty.logical_executors.DeletedFieldValidationExecutor;
 import com.talenty.logical_executors.Executor;
 import com.talenty.logical_executors.ExecutorWithParent;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
+import com.talenty.logical_executors.FieldsIdValidationExecutor;
 import com.talenty.logical_executors.NewFieldValidationExecutor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.CVTemplateRepository;
@@ -70,7 +71,8 @@ public class CVTemplateService {
         Executor.executeLogicOnFields(
                 newTemplate.getFields(),
                 new NewFieldValidationExecutor(),
-                new DeletedFieldValidationExecutor(executorWithParent)
+                new DeletedFieldValidationExecutor(executorWithParent),
+                new FieldsIdValidationExecutor(executorWithParent)
         );
 
         newTemplate.setId(null);

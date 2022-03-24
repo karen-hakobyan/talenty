@@ -2,9 +2,7 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-
-import java.util.Map;
-import java.util.Objects;
+import com.talenty.service.FieldService;
 
 public class FieldsIdValidationExecutor implements LogicExecutor {
 
@@ -16,17 +14,14 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
 
     @Override
     public void execute(final FieldDocument field) {
-        final Map<String, Object> metadata = field.getMetadata();
+        if (FieldService.isFieldNew(field)) return;
 
-        final boolean fieldIsNew = metadata.containsKey("status") && Objects.equals(metadata.get("status"), "NEW");
-        if (fieldIsNew) return;
-
-        final FieldDocument parentField = executorWithParent.getCurrentParentField();
-
-        if (!parentField.getId().equals(field.getId())) {
-            System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", field, parentField);
-            throw new NoSuchTemplateException();
-        }
+//        final FieldDocument parentField = executorWithParent.getCurrentNode();
+//
+//        if (!parentField.getId().equals(field.getId())) {
+//            System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", field, parentField);
+//            throw new NoSuchTemplateException();
+//        }
     }
 
 }
