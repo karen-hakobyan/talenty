@@ -8,8 +8,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: talenty
     volumes:
-      - .db/announcements_data.js:/docker-entrypoint-initdb.d/announcements_data.js
-      - .db/cv_templates_data.js:/docker-entrypoint-initdb.d/cv_templates_data.js
+      - .mongodbdata:/data/db
   backend:
     build: .
     container_name: talenty-backend

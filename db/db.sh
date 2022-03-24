@@ -7,6 +7,7 @@ docker rm talenty-db
 docker run -d \
   -p 27777:27017 \
   --name talenty-db \
+  -v mongodbdata:/data/db \
   mongo
 
 docker cp announcements_data.js talenty-db:announcements_data.js
