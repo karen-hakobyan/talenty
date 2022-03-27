@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Map;
 
-@Component
 public class CleanUpMetadataExecutor implements LogicExecutor {
 
     private final String[] REMOVABLE_FIELDS = {"editable", "deletable", "required", "required_editable"};

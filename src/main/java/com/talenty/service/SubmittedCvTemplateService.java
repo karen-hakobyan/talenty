@@ -34,6 +34,7 @@ public class SubmittedCvTemplateService {
 
         Executor.executeLogicOnFields(
                 submittedTemplate.getFields(),
+                executorWithParent,
                 new FieldsIdValidationExecutor(executorWithParent),
                 new RequiredFieldValidationExecutor(executorWithParent),
                 new SubmittedFieldValueValidationExecutor(executorWithParent)

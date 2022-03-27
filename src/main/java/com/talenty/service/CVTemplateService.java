@@ -54,9 +54,10 @@ public class CVTemplateService {
 
         Executor.executeLogicOnFields(
                 cvTemplateDocument.getFields(),
-                applicationContext.getBean(FieldsAutoCompleteExecutor.class),
+                null,
+                new FieldsAutoCompleteExecutor(),
                 applicationContext.getBean(AdminValuesMergeExecutor.class),
-                applicationContext.getBean(CleanUpMetadataExecutor.class)
+                new CleanUpMetadataExecutor()
         );
 
         return cvTemplateDocument;
@@ -70,9 +71,10 @@ public class CVTemplateService {
 
         Executor.executeLogicOnFields(
                 newTemplate.getFields(),
+                executorWithParent,
+                new FieldsIdValidationExecutor(executorWithParent),
                 new NewFieldValidationExecutor(),
-                new DeletedFieldValidationExecutor(executorWithParent),
-                new FieldsIdValidationExecutor(executorWithParent)
+                new DeletedFieldValidationExecutor(executorWithParent)
         );
 
         newTemplate.setId(null);

@@ -3,6 +3,8 @@ package com.talenty.logical_executors;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.validation.ValidationChecker;
 
+import static com.talenty.logical_executors.ExecutorWithParent.Node;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -16,12 +18,13 @@ public class DeletedFieldValidationExecutor implements LogicExecutor {
 
     @Override
     public void execute(final FieldDocument field) {
-//        final Map<String, Object> metadata = field.getMetadata();
-//        if (metadata.containsKey("status") && Objects.equals(metadata.get("status"), "DELETED")) {
-//            ValidationChecker.assertDeletedFieldIsValid(field, executorWithParent.getCurrentNode());
-////            final int deletedFieldIndex = executorWithParent.getCurrentIndex();
-//        }
-
+        final Map<String, Object> metadata = field.getMetadata();
+        if (metadata.containsKey("status") && Objects.equals(metadata.get("status"), "DELETED")) {
+            final Node currentNode = executorWithParent.getCurrentNode();
+            ValidationChecker.assertDeletedFieldIsValid(currentNode.getCurrentParentField());
+            currentNode.getChildList().add(currentNode.getLastIndex(), null);
+            currentNode.getChildList().remove(currentNode.getLastIndex() + 1);
+        }
     }
 
 }

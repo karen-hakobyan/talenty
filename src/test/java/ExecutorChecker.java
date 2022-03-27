@@ -43,9 +43,9 @@ public class ExecutorChecker {
         sections.add(section);
         cv_template.setFields(sections);
 
-        Executor.executeLogicOnFields(
-                cv_template.getFields()
-        );
+//        Executor.executeLogicOnFields(
+//                cv_template.getFields()
+//        );
 
     }
 

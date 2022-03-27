@@ -14,14 +14,16 @@ public class SubmittedFieldValueValidationExecutor implements LogicExecutor {
 
     @Override
     public void execute(final FieldDocument field) {
-//        if (FieldService.isFieldNew(field)) return;
-//
-//        final FieldDocument parentField = executorWithParent.getCurrentNode();
-//        if (parentField.getFields() != null && field.getFields() != null) return;
-//
-//        final boolean doesSubmittedValueExists = field.getMetadata().containsKey("submitted_value");
-//
-//        if (doesSubmittedValueExists) ValidationChecker.assertSubmittedFieldIsValid(field, parentField);
+        if (FieldService.isFieldNew(field)) return;
+
+        final ExecutorWithParent.Node currentNode = executorWithParent.getCurrentNode();
+        final FieldDocument currentParentField = currentNode.getCurrentParentField();
+
+        if (currentParentField.getFields() != null && field.getFields() != null) return;
+
+        final boolean doesSubmittedValueExists = field.getMetadata().containsKey("submitted_value");
+
+        if (doesSubmittedValueExists) ValidationChecker.assertSubmittedFieldIsValid(field, currentParentField);
     }
 
 }

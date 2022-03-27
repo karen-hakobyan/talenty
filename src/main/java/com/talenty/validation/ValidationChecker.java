@@ -33,12 +33,12 @@ public class ValidationChecker {
 
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
         // we are sure, that 'submitted_value' exists if required. Checked by RequiredFieldValidationExecutor.
-        final String submittedValue = (String) submittedField.getMetadata().get("submitted_value");
+        final String submittedValue = (String) submittedField.getMetadata().get("submitted_value").toString();
         final String type = (String) parentField.getMetadata().get("type");
         final Map<String, Object> parentMetadata = parentField.getMetadata();
 
         if (parentMetadata.containsKey("values")) {
-            final BasicDBList values = (BasicDBList) parentMetadata.get("values");
+            final ArrayList<String> values = (ArrayList<String>) parentMetadata.get("values");
             if (values.contains(submittedValue)) return true;
         }
 
@@ -201,34 +201,6 @@ public class ValidationChecker {
         }
     }
 
-    public static void assertCvTemplateIsValid(final List<FieldDocument> newFields, final CVTemplateDocument parentTemplate) {
-        for (int i = 0; i < newFields.size(); i++) {
-            final FieldDocument tempNewField = newFields.get(i);
-            final Map<String, Object> newFieldMetadata = tempNewField.getMetadata();
-            final boolean isSection = tempNewField.getFields() != null;
-
-            final String status = (String) newFieldMetadata.get("status");
-
-            if (status != null) {
-                switch (status) {
-                    case "NEW": {
-                        assertNewFieldIsValid(tempNewField);
-                        break;
-                    }
-
-                    case "DELETED": {
-                        assertDeletedFieldIsValid(tempNewField, parentTemplate.getFields());
-                        newFields.remove(i);
-                        break;
-                    }
-                }
-            }
-            if (isSection) {
-                ValidationChecker.assertCvTemplateIsValid(tempNewField.getFields(), parentTemplate);
-            }
-        }
-    }
-
     public static boolean assertPasswordIsValid(final String password) {
         if (!PASSWORD_REGEX.matcher(password).matches()) {
             System.out.println("Invalid password format");
@@ -341,33 +313,7 @@ public class ValidationChecker {
     }
 
     // Considering both, field and section validation
-    public static void assertDeletedFieldIsValid(final FieldDocument newField, final List<FieldDocument> parentTemplate) {
-        for (final FieldDocument tempParentField : parentTemplate) {
-            if (!tempParentField.getMetadata().containsKey("type")) {
-                System.out.println("Field must contain 'type' key");
-                throw new InvalidFieldException();
-            }
-
-            if (Objects.equals(tempParentField.getId(), newField.getId())) {
-                if (!tempParentField.getMetadata().containsKey("deletable")) {
-                    System.out.println("Field must contain 'deletable' key");
-                    throw new InvalidFieldException();
-                }
-
-                if (!((Boolean) tempParentField.getMetadata().get("deletable"))) {
-                    System.out.println("Not deleteable field can`t be deleted");
-                    throw new InvalidFieldException();
-                }
-            }
-
-            if (Objects.equals(tempParentField.getMetadata().get("type"), "section")) {
-                assertDeletedFieldIsValid(newField, tempParentField.getFields());
-            }
-        }
-    }
-
-    // Considering both, field and section validation
-    public static void assertDeletedFieldIsValid(final FieldDocument field, final FieldDocument parentField) {
+    public static void assertDeletedFieldIsValid(final FieldDocument parentField) {
         if (!parentField.getMetadata().containsKey("type")) {
             System.out.println("Field must contain 'type' key");
             throw new InvalidFieldException();
@@ -391,7 +337,7 @@ public class ValidationChecker {
             throw new InvalidFieldException();
         }
 
-        if (Objects.equals(newField.getMetadata().get("type"), "section") && newField.getFields() == null) {
+        if (Objects.equals(newField.getMetadata().get("type"), "section") && (newField.getFields() == null || newField.getFields().size() == 0)) {
             System.out.println("Section can't be empty (at least one field is required)");
             throw new InvalidSectionException();
         } else if (newField.getFields() != null) {

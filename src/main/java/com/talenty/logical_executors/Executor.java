@@ -14,7 +14,7 @@ public class Executor {
                                             final LogicExecutor... logicExecutors) {
         fields.forEach(field -> {
             Arrays.stream(logicExecutors).forEach(logicExecutor -> logicExecutor.execute(field));
-            if (!FieldService.isFieldNew(field)) withParentExecutor.moveIndicator();
+            if (withParentExecutor != null && !FieldService.isFieldNew(field)) withParentExecutor.moveIndicator();
             final List<FieldDocument> fieldFields = field.getFields();
             if (fieldFields != null) executeLogicOnFields(fieldFields, withParentExecutor, logicExecutors);
         });

@@ -26,12 +26,7 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
         if (field.getFields() != null) return;
 
         if (adminDefinedTypeValues == null) {
-            try {
-                adminDefinedTypeValues = typeValuesService.getTypesWithValues();
-            } catch (final Exception e) {
-                System.out.println("Could not get admin data");
-                return;
-            }
+            getTypeValues();
         }
         final Map<String, Object> metadata = field.getMetadata();
 
@@ -43,7 +38,7 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
     }
 
     @PostConstruct
-    private void init() {
+    private void getTypeValues() {
         try {
             adminDefinedTypeValues = typeValuesService.getTypesWithValues();
         } catch (final Exception e) {

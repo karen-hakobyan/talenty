@@ -42,10 +42,9 @@ public class ExecutorWithParent {
         final Node currentNode = getCurrentNode();
 
         final List<FieldDocument> currentParentList = currentNode.parentList;
-        final List<FieldDocument> currentChildList = currentNode.childList;
 
-        final FieldDocument currentParentField = currentParentList.get(currentNode.lastIndex);
-        final FieldDocument currentChildField = currentChildList.get(currentNode.lastIndex);
+        final FieldDocument currentParentField = currentNode.getCurrentParentField();
+        final FieldDocument currentChildField = currentNode.getCurrentChildField();
 
         if (currentParentField.getFields() != null) {
             final Node nextNode = new Node(
@@ -54,13 +53,15 @@ public class ExecutorWithParent {
                     0
             );
             currentNode.incrementIndex();
+            if (currentParentList.size() == chain.peek().lastIndex) {
+                chain.pop();
+            }
             chain.push(nextNode);
         } else {
             currentNode.incrementIndex();
 
             if (currentParentList.size() == chain.peek().lastIndex) {
                 chain.pop();
-                moveIndicator();
             }
         }
     }
@@ -68,13 +69,21 @@ public class ExecutorWithParent {
     @Getter
     @Setter
     @AllArgsConstructor
-    private static class Node {
+    public static class Node {
         private List<FieldDocument> parentList;
         private List<FieldDocument> childList;
-        private int lastIndex = -1;
+        private int lastIndex = 0;
 
         public void incrementIndex() {
             this.lastIndex++;
+        }
+
+        public FieldDocument getCurrentParentField() {
+            return parentList.get(lastIndex);
+        }
+
+        public FieldDocument getCurrentChildField() {
+            return childList.get(lastIndex);
         }
 
     }
