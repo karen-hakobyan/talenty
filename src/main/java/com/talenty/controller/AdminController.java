@@ -28,4 +28,10 @@ public class AdminController {
         return modelAndView;
     }
 
+    @GetMapping("/job_announcements")
+    public ModelAndView getJobAnnouncementsPage(final ModelAndView modelAndView) {
+        modelAndView.setViewName("JobAnnouncementsPage");
+        return modelAndView;
+    }
+
 }

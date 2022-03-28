@@ -4,10 +4,9 @@ import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
-import com.talenty.logical_executors.Executor;
-import com.talenty.logical_executors.ExecutorWithParent;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
+import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.JobAnnouncementMapper;
 import com.talenty.repository.JobAnnouncementRepository;
 import org.springframework.context.ApplicationContext;
@@ -29,11 +28,9 @@ public class JobAnnouncementService {
 
     public JobAnnouncement getSystemJobAnnouncement() {
         final JobAnnouncementDocument systemJobAnnouncement = jobAnnouncementRepository.findSystemJobAnnouncement();
-        Executor.executeLogicOnFields(
-                systemJobAnnouncement.getFields(),
-                null,
-                applicationContext.getBean(AdminValuesMergeExecutor.class)
-        );
+        Executor.getInstance()
+                .setChildFields(systemJobAnnouncement.getFields())
+                .executeLogic(applicationContext.getBean(AdminValuesMergeExecutor.class));
         return JobAnnouncementMapper.instance.documentToDto(systemJobAnnouncement);
     }
 
@@ -46,15 +43,16 @@ public class JobAnnouncementService {
             throw new NoSuchTemplateException();
         }
 
-        final ExecutorWithParent executorWithParent = new ExecutorWithParent(parentTemplate.get(), document);
+        Executor.getInstance()
+                .setParentFields(parentTemplate.get().getFields())
+                .setChildFields(document.getFields())
+                .executeLogic(
+                        new RequiredFieldValidationExecutor(),
+                        new SubmittedFieldValueValidationExecutor()
+                );
 
-        Executor.executeLogicOnFields(
-                document.getFields(),
-                executorWithParent,
-                new RequiredFieldValidationExecutor(executorWithParent),
-                new SubmittedFieldValueValidationExecutor(executorWithParent)
-        );
         final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
+        saved.setId(null);
         return JobAnnouncementMapper.instance.documentToDto(saved);
     }
 }

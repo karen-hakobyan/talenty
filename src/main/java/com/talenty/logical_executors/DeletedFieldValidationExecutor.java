@@ -3,28 +3,32 @@ package com.talenty.logical_executors;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.validation.ValidationChecker;
 
-import static com.talenty.logical_executors.ExecutorWithParent.Node;
-
 import java.util.Map;
 import java.util.Objects;
 
 public class DeletedFieldValidationExecutor implements LogicExecutor {
+    private static final boolean NEED_PARENT_FIELD = true;
+    private FieldDocument currentParentField;
 
-    private final ExecutorWithParent executorWithParent;
-
-    public DeletedFieldValidationExecutor(final ExecutorWithParent executorWithParent) {
-        this.executorWithParent = executorWithParent;
+    @Override
+    public FieldDocument execute(final FieldDocument field) {
+        final Map<String, Object> metadata = field.getMetadata();
+        if (metadata.containsKey("status") && Objects.equals(metadata.get("status"), "DELETED")) {
+            ValidationChecker.assertDeletedFieldIsValid(this.currentParentField);
+            // returning null because it is deleted
+            return null;
+        }
+        return field;
     }
 
     @Override
-    public void execute(final FieldDocument field) {
-        final Map<String, Object> metadata = field.getMetadata();
-        if (metadata.containsKey("status") && Objects.equals(metadata.get("status"), "DELETED")) {
-            final Node currentNode = executorWithParent.getCurrentNode();
-            ValidationChecker.assertDeletedFieldIsValid(currentNode.getCurrentParentField());
-            currentNode.getChildList().add(currentNode.getLastIndex(), null);
-            currentNode.getChildList().remove(currentNode.getLastIndex() + 1);
-        }
+    public boolean needParentField() {
+        return NEED_PARENT_FIELD;
+    }
+
+    @Override
+    public void setCurrentParentField(final FieldDocument field) {
+        this.currentParentField = field;
     }
 
 }

@@ -33,7 +33,7 @@ public class CVTemplateController {
 //    @PreAuthorize("isAuthenticated()")
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> getCvTemplateById(@RequestParam final String id) {
-        final CVTemplateDocument cvTemplateById = cvTemplateService.getCvTemplateById(id);
+        final CVTemplateDocument cvTemplateById = cvTemplateService.getCvTemplateById(id, false);
         return ResponseEntity.ok(cvTemplateById);
     }
 

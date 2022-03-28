@@ -4,6 +4,10 @@ import com.talenty.domain.mongo.FieldDocument;
 
 public interface LogicExecutor {
 
-    void execute(FieldDocument field);
+    FieldDocument execute(FieldDocument field);
+
+    boolean needParentField();
+
+    void setCurrentParentField(FieldDocument field);
 
 }

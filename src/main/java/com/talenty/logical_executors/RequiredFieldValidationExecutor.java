@@ -2,33 +2,19 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-import static com.talenty.logical_executors.ExecutorWithParent.Node;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class RequiredFieldValidationExecutor implements LogicExecutor {
-
-    private final ExecutorWithParent executorWithParent;
-
-    public RequiredFieldValidationExecutor(final ExecutorWithParent executorWithParent) {
-        this.executorWithParent = executorWithParent;
-    }
+    private static final boolean NEED_PARENT_FIELD = true;
+    private FieldDocument currentParentField;
 
     @Override
-    public void execute(final FieldDocument field) {
+    public FieldDocument execute(final FieldDocument field) {
         final Map<String, Object> tempSubmittedFieldMetadata = field.getMetadata();
+        if (this.currentParentField.getFields() != null && field.getFields() != null) return field;
 
-        final boolean fieldIsNew = tempSubmittedFieldMetadata.containsKey("status")
-                && Objects.equals(tempSubmittedFieldMetadata.get("status"), "NEW");
-        if (fieldIsNew) return;
-
-        final Node currentNode = executorWithParent.getCurrentNode();
-        final FieldDocument currentParentField = currentNode.getCurrentParentField();
-
-        if (currentParentField.getFields() != null && field.getFields() != null) return;
-
-        final Map<String, Object> tempParentFieldMetadata = currentParentField.getMetadata();
+        final Map<String, Object> tempParentFieldMetadata = this.currentParentField.getMetadata();
 
         final boolean doesRequiredFieldExists = tempParentFieldMetadata.containsKey("required");
         if (doesRequiredFieldExists) {
@@ -39,6 +25,17 @@ public class RequiredFieldValidationExecutor implements LogicExecutor {
                 throw new NoSuchTemplateException();
             }
         }
+        return field;
+    }
+
+    @Override
+    public boolean needParentField() {
+        return NEED_PARENT_FIELD;
+    }
+
+    @Override
+    public void setCurrentParentField(final FieldDocument field) {
+        this.currentParentField = field;
     }
 
 }

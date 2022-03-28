@@ -22,19 +22,26 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
     }
 
     @Override
-    public void execute(final FieldDocument field) {
-        if (field.getFields() != null) return;
+    public FieldDocument execute(final FieldDocument field) {
+        if (field.getFields() != null) return field;
+        if (adminDefinedTypeValues == null) getTypeValues();
 
-        if (adminDefinedTypeValues == null) {
-            getTypeValues();
-        }
         final Map<String, Object> metadata = field.getMetadata();
-
         for (final TypeValues typeValue : adminDefinedTypeValues) {
             if (typeValue.getType().equals(metadata.get("type"))) {
                 metadata.put("values", typeValue.getValues());
             }
         }
+        return field;
+    }
+
+    @Override
+    public boolean needParentField() {
+        return false;
+    }
+
+    @Override
+    public void setCurrentParentField(final FieldDocument field) {
     }
 
     @PostConstruct

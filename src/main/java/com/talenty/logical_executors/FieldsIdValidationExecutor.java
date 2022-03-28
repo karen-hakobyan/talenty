@@ -2,29 +2,30 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-import com.talenty.service.FieldService;
+import org.springframework.stereotype.Component;
 
-import static com.talenty.logical_executors.ExecutorWithParent.Node;
-
+@Component
 public class FieldsIdValidationExecutor implements LogicExecutor {
 
-    private final ExecutorWithParent executorWithParent;
-
-    public FieldsIdValidationExecutor(final ExecutorWithParent executorWithParent) {
-        this.executorWithParent = executorWithParent;
-    }
+    private FieldDocument currentParentField;
 
     @Override
-    public void execute(final FieldDocument field) {
-        if (FieldService.isFieldNew(field)) return;
-
-        final Node currentNode = executorWithParent.getCurrentNode();
-        final FieldDocument currentParentField = currentNode.getCurrentParentField();
-
-        if (!currentParentField.getId().equals(field.getId())) {
+    public FieldDocument execute(final FieldDocument field) {
+        if (!this.currentParentField.getId().equals(field.getId())) {
             System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", field, currentParentField);
             throw new NoSuchTemplateException();
         }
+        return field;
+    }
+
+    @Override
+    public boolean needParentField() {
+        return true;
+    }
+
+    @Override
+    public void setCurrentParentField(final FieldDocument field) {
+        this.currentParentField = field;
     }
 
 }
