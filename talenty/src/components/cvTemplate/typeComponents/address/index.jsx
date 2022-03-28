@@ -18,7 +18,7 @@ export default function AddressGenerator({data, dispatch, dialogData, templateDa
             inputComponent={
                 <TextField
                     disabled
-                    placeholder={data.name}
+                    placeholder={data.metadata.placeholder}
                     sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}
                     InputProps={{sx: {height: "40px"}}}
                 />
@@ -26,7 +26,7 @@ export default function AddressGenerator({data, dispatch, dialogData, templateDa
             checkboxComponent={
                 <Checkbox
                     onChange={() => {
-                        editCheckboxState({dispatch, dialogData, id: data.id});
+                        editCheckboxState({dispatch, dialogData, name: data.name});
                     }}
                     checked={data.metadata.required}
                     disabled={!data.metadata.required_editable}
@@ -39,7 +39,8 @@ export default function AddressGenerator({data, dispatch, dialogData, templateDa
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                id: data.id,
+                                item: data,
+                                data: templateData,
                                 dialogData,
                             })
                         }
