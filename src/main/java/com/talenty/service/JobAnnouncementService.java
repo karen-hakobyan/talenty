@@ -35,11 +35,11 @@ public class JobAnnouncementService {
     public JobAnnouncement publish(final JobAnnouncement jobAnnouncement) {
         final JobAnnouncementDocument document = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
         Executor.executeLogicOnFields(
-                document.getFields(),
-                applicationContext.getBean(RequiredFieldValidationExecutor.class),
-                applicationContext.getBean(SubmittedFieldValueValidationExecutor.class)
+                document.getFields()
+//                applicationContext.getBean(RequiredFieldValidationExecutor.class),
+//                applicationContext.getBean(SubmittedFieldValueValidationExecutor.class)
         );
-
-        return null;
+        final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
+        return JobAnnouncementMapper.instance.documentToDto(saved);
     }
 }

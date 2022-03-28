@@ -35,7 +35,7 @@ public class JWTService {
     }
 
     public String validateToken(final String jwtToken) {
-        if (jwtToken == null || !jwtToken.startsWith("Bearer ")) {
+        if (jwtToken == null || !jwtToken.startsWith("Bearer ") || Objects.equals("null", jwtToken)) {
             return null;
         }
         final String substring = jwtToken.substring(7);
