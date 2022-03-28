@@ -44,7 +44,12 @@ function SignIn() {
     const navigate = useNavigate();
     const {search} = useLocation()
     const token = useMemo(() => search && search.split('=')[1], [search])
-
+    const [isChangeToken,setISChangeToken]=useState(false)
+    useEffect(()=>{
+        if(token.length!==0){
+            setISChangeToken(true)
+        }
+    },[isChangeToken,token])
     useEffect(()=>{
         if(token){
             dispatch(ConfirmUser(token))
@@ -54,14 +59,16 @@ function SignIn() {
         if(isValidToken===false){
             dispatch(setIsValidToken(null))
             navigate(LANDING_PAGE_ROUTE)
+            setISChangeToken(false)
         }
         if(isValidToken){
             dispatch(setIsValidToken(null))
+            setISChangeToken(false)
         }
     },[isValidToken,dispatch,navigate])
 
 
-    if(token && isValidToken===null){
+    if(isChangeToken && isValidToken===null){
         return null
     }
     
