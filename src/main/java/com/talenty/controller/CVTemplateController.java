@@ -49,7 +49,7 @@ public class CVTemplateController {
 //        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createNewCvTemplate(@RequestBody final CVTemplate cvTemplate) {
-        cvTemplateService.createNewCvTemplate(cvTemplate);
+        final CVTemplate newCvTemplate = cvTemplateService.createNewCvTemplate(cvTemplate);
         return ResponseEntity.ok("created_new_cv_template");
     }
 

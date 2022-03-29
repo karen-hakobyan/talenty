@@ -13,6 +13,7 @@ import com.talenty.logical_executors.executor.Executor;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.CVTemplateRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +65,7 @@ public class CVTemplateService {
         final CVTemplateDocument parentTemplate = getCvTemplateById(cvTemplate.getId(), true);
         final CVTemplateDocument newTemplate = CVTemplateMapper.instance.dtoToDocument(cvTemplate);
 
+        ValidationChecker.assertCvTemplateSectionsNamesAreUnique(newTemplate);
         Executor.getInstance()
                 .setParentFields(parentTemplate.getFields())
                 .setChildFields(newTemplate.getFields())
