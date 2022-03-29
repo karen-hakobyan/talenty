@@ -8,14 +8,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-@Component
 public class FieldsAutoCompleteExecutor implements LogicExecutor {
 
-
     @Override
-    public void execute(final FieldDocument... fields) {
-        final FieldDocument field = fields[0];
-        if (field.getFields() != null) return;
+    public FieldDocument execute(final FieldDocument field) {
+        if (field.getFields() != null) return field;
 
         final AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         if ("ROLE_JOB_SEEKER".equals(user.getRole())) {
@@ -39,6 +36,17 @@ public class FieldsAutoCompleteExecutor implements LogicExecutor {
                 metadata.put("autocomplete", true);
             }
         }
+
+        return field;
+    }
+
+    @Override
+    public boolean needParentField() {
+        return false;
+    }
+
+    @Override
+    public void setCurrentParentField(FieldDocument field) {
     }
 
 }

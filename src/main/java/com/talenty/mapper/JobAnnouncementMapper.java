@@ -12,6 +12,6 @@ public interface JobAnnouncementMapper {
 
     JobAnnouncement documentToDto(JobAnnouncementDocument document);
 
-    JobAnnouncementDocument dtoToDocument(JobAnnouncement document);
+    JobAnnouncementDocument dtoToDocument(JobAnnouncement dto);
 
 }

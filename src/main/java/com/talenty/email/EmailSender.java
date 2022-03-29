@@ -57,7 +57,7 @@ public class EmailSender {
                     "    </body>\n" +
                     "</html>", "text/html");
             emailSender.send(message);
-            System.out.println("Confirmation message to: " + to + " has been sent with token: " + token);
+            System.out.println("Reset message to: " + to + " has been sent with token: " + token);
         } catch (final MessagingException e) {
             e.printStackTrace();
         }

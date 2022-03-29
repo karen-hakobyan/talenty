@@ -7,11 +7,12 @@ import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.CleanUpMetadataExecutor;
-import com.talenty.logical_executors.Executor;
+import com.talenty.logical_executors.DeletedFieldValidationExecutor;
+import com.talenty.logical_executors.FieldsIdValidationExecutor;
+import com.talenty.logical_executors.executor.Executor;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.CVTemplateRepository;
-import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -33,14 +34,14 @@ public class CVTemplateService {
     }
 
     public CVTemplate getSystemCvTemplate() {
-        return CVTemplateMapper.instance.documentToDto(getCvTemplateById(getSystemCvTemplateId()));
+        return CVTemplateMapper.instance.documentToDto(getCvTemplateById(getSystemCvTemplateId(), false));
     }
 
     public String getSystemCvTemplateId() {
         return cvTemplateRepository.findSystemTemplateInfo().getId();
     }
 
-    public CVTemplateDocument getCvTemplateById(final String id) {
+    public CVTemplateDocument getCvTemplateById(final String id, final boolean withMetaData) {
         final Optional<CVTemplateDocument> cvTemplateDocumentOptional = cvTemplateRepository.findById(id);
         if (cvTemplateDocumentOptional.isEmpty()) {
             System.out.printf("Template with id '%s' is not found\n", id);
@@ -48,28 +49,28 @@ public class CVTemplateService {
         }
         final CVTemplateDocument cvTemplateDocument = cvTemplateDocumentOptional.get();
 
-        Executor.executeLogicOnFields(
-                cvTemplateDocument.getFields(),
-                applicationContext.getBean(FieldsAutoCompleteExecutor.class),
-                applicationContext.getBean(AdminValuesMergeExecutor.class),
-                applicationContext.getBean(CleanUpMetadataExecutor.class)
-        );
+        Executor.getInstance()
+                .setChildFields(cvTemplateDocument.getFields())
+                .executeLogic(
+                        new FieldsAutoCompleteExecutor(),
+                        applicationContext.getBean(AdminValuesMergeExecutor.class),
+                        !withMetaData ? new CleanUpMetadataExecutor() : null
+                );
 
         return cvTemplateDocument;
     }
 
     public CVTemplate createNewCvTemplate(final CVTemplate cvTemplate) {
-        final CVTemplateDocument parentTemplate = getCvTemplateById(cvTemplate.getId());
-        final CVTemplateDocument newTemplate = CVTemplateMapper.instance.dtoToTemplate(cvTemplate);
+        final CVTemplateDocument parentTemplate = getCvTemplateById(cvTemplate.getId(), true);
+        final CVTemplateDocument newTemplate = CVTemplateMapper.instance.dtoToDocument(cvTemplate);
 
-        ValidationChecker.assertCvTemplateSectionsNamesAreUnique(newTemplate);
-        // TODO change method with logical executor
-        ValidationChecker.assertCvTemplateIsValid(newTemplate.getFields(), parentTemplate);
-
-        Executor.executeLogicOnFields(
-                newTemplate.getFields()
-        );
-
+        Executor.getInstance()
+                .setParentFields(parentTemplate.getFields())
+                .setChildFields(newTemplate.getFields())
+                .executeLogic(
+                        new FieldsIdValidationExecutor(),
+                        new DeletedFieldValidationExecutor()
+                );
 
         newTemplate.setId(null);
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);
