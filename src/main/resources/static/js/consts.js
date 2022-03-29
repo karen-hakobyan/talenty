@@ -1,1 +1,1 @@
-const BACKEND_URL = "http://localhost:7800"
+const BACKEND_URL = "https://api.talenty.duckdns.org"
