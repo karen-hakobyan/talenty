@@ -9,7 +9,7 @@ public class SubmittedFieldValueValidationExecutor implements LogicExecutor {
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
-        if (this.currentParentField.getFields() != null && field.getFields() != null) return field;
+        if (this.currentParentField.getFields() != null && (field == null || field.getFields() != null)) return field;
         if (field.getMetadata().containsKey("submitted_value"))
             ValidationChecker.assertSubmittedFieldIsValid(field, currentParentField);
         return field;

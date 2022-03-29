@@ -68,8 +68,10 @@ public class Executor {
             Arrays.stream(logicExecutors).forEach(logicExecutor -> {
                 if (logicExecutor != null) logicExecutor.execute(field);
             });
-            final List<FieldDocument> fieldFields = field.getFields();
-            if (fieldFields != null) executeLogicOnFields(fieldFields, logicExecutors);
+            if (field != null) {
+                final List<FieldDocument> fieldFields = field.getFields();
+                if (fieldFields != null) executeLogicOnFields(fieldFields, logicExecutors);
+            }
         });
     }
 

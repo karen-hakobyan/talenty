@@ -12,7 +12,7 @@ public class FieldsAutoCompleteExecutor implements LogicExecutor {
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
-        if (field.getFields() != null) return field;
+        if (field == null || field.getFields() != null) return field;
 
         final AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         if ("ROLE_JOB_SEEKER".equals(user.getRole())) {

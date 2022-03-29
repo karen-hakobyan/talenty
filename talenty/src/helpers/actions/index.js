@@ -63,6 +63,7 @@ export const cleanHrTemplateNewIds = data => {
                 ...(reviverValue.id.startsWith('0') ? {} : {id: reviverValue.id}),
                 ...(reviverValue.fields ? {fields: [...reviverValue.fields]} : {}),
                 metadata: reviverValue.metadata,
+                name: reviverValue.name
             }
         )
     })
