@@ -3,13 +3,18 @@ package com.talenty.service;
 import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
+import com.talenty.exceptions.NoSuchTemplateException;
+import com.talenty.logical_executors.CleanUpMetadataExecutor;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
+import com.talenty.logical_executors.MergeFieldsExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.SubmittedCvTemplateRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class SubmittedCvTemplateService {
@@ -40,4 +45,23 @@ public class SubmittedCvTemplateService {
         return submittedCvTemplateRepository.save(submittedTemplate);
     }
 
+    public SubmittedCVTemplate getCvTemplateById(final String id, final boolean withMetadata) {
+        Optional<SubmittedCVTemplateDocument> cvTemplateDocumentOptional = submittedCvTemplateRepository.findById(id);
+        if (cvTemplateDocumentOptional.isEmpty()) {
+            System.out.printf("Template with id '%s' is not found\n", id);
+            throw new NoSuchTemplateException();
+        }
+        final SubmittedCVTemplateDocument submittedCVTemplateDocument = cvTemplateDocumentOptional.get();
+
+        final CVTemplateDocument parentTemplate = cvTemplateService.getCvTemplateById(submittedCVTemplateDocument.getParentId(), true);
+        Executor.getInstance()
+                .setParentFields(parentTemplate.getFields())
+                .setChildFields(submittedCVTemplateDocument.getFields())
+                .executeLogic(
+                        new MergeFieldsExecutor(),
+                        !withMetadata ? new CleanUpMetadataExecutor() : null
+                );
+
+        return CVTemplateMapper.instance.documentToDto(submittedCVTemplateDocument);
+    }
 }

@@ -37,6 +37,14 @@ public class CVTemplateController {
         return ResponseEntity.ok(cvTemplateById);
     }
 
+    @GetMapping("/submitted")
+//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> getSubmittedCvTemplateById(@RequestParam final String id) {
+        final SubmittedCVTemplate cvTemplateById = submittedCvTemplateService.getCvTemplateById(id, true);
+        return ResponseEntity.ok(cvTemplateById);
+    }
+
     @GetMapping("/all")
     //    @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN')")
     @PreAuthorize("permitAll()")
