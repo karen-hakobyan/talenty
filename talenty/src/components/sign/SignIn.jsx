@@ -12,6 +12,7 @@ import {TEMPLATE_BUTTON_CREATE} from "../../shared/styles";
 import {
     FORGOT_PASSWORD_ROUTE,
     LANDING_PAGE_ROUTE,
+    SIGN_IN_ROUTE,
     SIGN_UP_ROUTE,
 } from "../../constants/routes";
 import {MAIN_PURPLE} from "../../constants/colors";
@@ -45,6 +46,7 @@ function SignIn() {
     const {search} = useLocation()
     const token = useMemo(() => search && search.split('=')[1], [search])
     const [isChangeToken,setISChangeToken]=useState(false)
+    
     useEffect(()=>{
         if(token.length!==0){
             setISChangeToken(true)
@@ -63,6 +65,7 @@ function SignIn() {
         }
         if(isValidToken){
             dispatch(setIsValidToken(null))
+            navigate(SIGN_IN_ROUTE)
             setISChangeToken(false)
         }
     },[isValidToken,dispatch,navigate])

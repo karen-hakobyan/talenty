@@ -1,5 +1,5 @@
-import {getJwt} from "../../components/dashboard/helper";
-import {LANDING_PAGE_ROUTE} from "../../constants/routes";
+import { getJwt } from "../../components/dashboard/helper";
+import { LANDING_PAGE_ROUTE } from "../../constants/routes";
 
 export function deleteFromTempleteById(templateData, id) {
     return JSON.parse(JSON.stringify(templateData), (key, value) => {
@@ -39,32 +39,28 @@ export const isValidRationalNumber = value => {
 export const cleanTemplateNewIds = (data) => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (key, reviver) => {
-        if (!reviver?.id) {
+        if (!reviver ? .id) {
             return reviver
         }
-        return (
-            {
-                ...(reviver.id.startsWith('0') ? {} : {id: reviver.id}),
-                ...(reviver.fields ? {fields: [...reviver.fields]} : {}),
-                ...(!reviver.fields && reviver.metadata.submitted_value ? {metadata: {submitted_value: reviver.metadata.submitted_value}} : {metadata: {}})
-            }
-        )
+        return ({
+            ...(reviver.id.startsWith('0') ? {} : { id: reviver.id }),
+            ...(reviver.fields ? { fields: [...reviver.fields] } : {}),
+            ...(!reviver.fields && reviver.metadata.submitted_value ? { metadata: { submitted_value: reviver.metadata.submitted_value } } : { metadata: {} })
+        })
     })
     return result
 }
 export const cleanHrTemplateNewIds = data => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (_, reviverValue) => {
-        if (!reviverValue?.id) {
+        if (!reviverValue ? .id) {
             return reviverValue
         }
-        return (
-            {
-                ...(reviverValue.id.startsWith('0') ? {} : {id: reviverValue.id}),
-                ...(reviverValue.fields ? {fields: [...reviverValue.fields]} : {}),
-                metadata: reviverValue.metadata,
-            }
-        )
+        return ({
+            ...(reviverValue.id.startsWith('0') ? {} : { id: reviverValue.id }),
+            ...(reviverValue.fields ? { fields: [...reviverValue.fields] } : {}),
+            metadata: reviverValue.metadata,
+        })
     })
     return result
 }
