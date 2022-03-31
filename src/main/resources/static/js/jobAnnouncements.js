@@ -4,7 +4,7 @@ let mainColumns = "<tr>" +
     "                </tr>"
 
 let row = "<tr>" +
-    "                    <td><a href='%link%' >%name%</a></td>" +
+    "                    <td>%previewButton%</td>" +
     "                    <td>%accepted%</td>" +
     "                </tr>"
 
@@ -17,11 +17,24 @@ function updateTable() {
     for (let jobAnnouncement of job_announcements) {
         let tempRow = row
         tempRow =
-            tempRow.replace("%name%", jobAnnouncement.name)
-                .replace("%link%", jobAnnouncement.id)
+            tempRow.replace("%previewButton%", getPreviewButton(jobAnnouncement))
                 .replace("%accepted%", getApproveRejectButtons(jobAnnouncement.id))
         table.innerHTML += tempRow
     }
+}
+
+function getPreviewButton(jobAnnouncement) {
+    let link = FRONTEND_URL + "/preview?id=" + jobAnnouncement.id
+    let name = jobAnnouncement.name
+    let previewOnClick = "onclick = redirect('" + link + "')"
+    return "<div>" +
+        "<button " + previewOnClick + ">" + name + "</button>" +
+        "</div>"
+}
+
+function redirect(link) {
+    window.open(link, '_blank');
+
 }
 
 function getApproveRejectButtons(id) {
