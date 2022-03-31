@@ -1,16 +1,25 @@
-import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useMemo, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Box} from "@mui/material";
 import TextField from "../../shared/components/Textfield";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
+import {selectDialogData} from "../../store/dialogs/selector";
+import BasicDatePicker from "../shared/DatePicker";
+import {validateDate} from "../createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection";
 
 export default function Title({data}) {
     const dispatch = useDispatch()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
-    return <Box>
+    const dialogData = useSelector(selectDialogData)
+    const deadline = useMemo(() => {
+        return dialogData.fields.find(el => el.name === 'Deadline')
+    }, [dialogData])
+    console.log(deadline)
+    return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection
             label={<Box>Title <span style={{color: '#8C0DF0'}}>*</span></Box>}
+            sx={{flex: 1}}
             Component={
                 <TextField
                     placeholder={data.metadata.placeholder}
@@ -20,5 +29,25 @@ export default function Title({data}) {
                 />
             }
         />
+        <JobSeekerSubsection
+            label={<Box>{deadline.name} *</Box>}
+            Component={
+                <BasicDatePicker
+                    placeholder="Deadline"
+                    value={deadline.metadata.submitted_value}
+                    onChange={
+                        (event) => {
+                            dispatch(changeDialogDataById({
+                                id: deadline.id,
+                                value: validateDate(event.toLocaleDateString()),
+                            }))
+                        }
+                    }
+                    pickerProps={{minDate: new Date()}}
+                    fieldStyle={{width: '300px'}}
+                />
+            }
+        />
     </Box>
+
 }
