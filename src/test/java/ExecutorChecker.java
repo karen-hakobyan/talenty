@@ -1,6 +1,5 @@
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
-import com.talenty.logical_executors.Executor;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -43,9 +42,9 @@ public class ExecutorChecker {
         sections.add(section);
         cv_template.setFields(sections);
 
-        Executor.executeLogicOnFields(
-                cv_template.getFields()
-        );
+//        Executor.executeLogicOnFields(
+//                cv_template.getFields()
+//        );
 
     }
 

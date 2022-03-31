@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/job_announcements")
@@ -31,6 +34,24 @@ public class JobAnnouncementController {
     public ResponseEntity<?> publishJobAnnouncement(@RequestBody final JobAnnouncement request) {
         final JobAnnouncement response = jobAnnouncementService.publish(request);
         return ResponseEntity.ok("set to pending state");
+    }
+
+    @GetMapping("/all_pending")
+    public ResponseEntity<?> getAllPending() {
+        final List<JobAnnouncement> allPending = jobAnnouncementService.findAllPending();
+        return ResponseEntity.ok(allPending);
+    }
+
+    @GetMapping("/approve")
+    public ResponseEntity<?> approveAnnouncement(@RequestParam final String id) {
+        final JobAnnouncement jobAnnouncement = jobAnnouncementService.approveAnnouncement(id);
+        return ResponseEntity.ok("approved");
+    }
+
+    @GetMapping("/reject")
+    public ResponseEntity<?> rejectAnnouncement(@RequestParam final String id) {
+        final JobAnnouncement jobAnnouncement = jobAnnouncementService.rejectAnnouncement(id);
+        return ResponseEntity.ok("declined");
     }
 
 }

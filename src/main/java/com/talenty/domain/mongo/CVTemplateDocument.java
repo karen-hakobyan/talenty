@@ -10,11 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 @Document("cv_templates")
-public class CVTemplateDocument {
-
-    @Id
-    private String id;
-    private String name;
-    private List<FieldDocument> fields;
-
+public class CVTemplateDocument extends BaseTemplateDocument {
 }

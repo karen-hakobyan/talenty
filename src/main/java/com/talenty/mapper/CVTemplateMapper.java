@@ -1,6 +1,7 @@
 package com.talenty.mapper;
 
 import com.talenty.domain.dto.CVTemplate;
+import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import org.mapstruct.Mapper;
@@ -11,10 +12,12 @@ public interface CVTemplateMapper {
 
     CVTemplateMapper instance = Mappers.getMapper(CVTemplateMapper.class);
 
+    CVTemplateDocument dtoToDocument(CVTemplate dto);
+
     CVTemplate documentToDto(CVTemplateDocument document);
 
-    CVTemplateDocument dtoToTemplate(CVTemplate cvTemplate);
+    SubmittedCVTemplateDocument dtoToDocument(SubmittedCVTemplate dto);
 
-    SubmittedCVTemplateDocument cvTemplateToSubmittedTemplate(CVTemplateDocument cvTemplate);
+    SubmittedCVTemplate documentToDto(SubmittedCVTemplateDocument document);
 
 }

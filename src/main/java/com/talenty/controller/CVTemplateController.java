@@ -2,6 +2,7 @@ package com.talenty.controller;
 
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.CVTemplate;
+import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.service.SubmittedCvTemplateService;
 import com.talenty.service.CVTemplateService;
@@ -32,7 +33,15 @@ public class CVTemplateController {
 //    @PreAuthorize("isAuthenticated()")
     @PreAuthorize("permitAll()")
     public ResponseEntity<?> getCvTemplateById(@RequestParam final String id) {
-        final CVTemplateDocument cvTemplateById = cvTemplateService.getCvTemplateById(id);
+        final CVTemplateDocument cvTemplateById = cvTemplateService.getCvTemplateById(id, false);
+        return ResponseEntity.ok(cvTemplateById);
+    }
+
+    @GetMapping("/submitted")
+//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> getSubmittedCvTemplateById(@RequestParam final String id) {
+        final SubmittedCVTemplate cvTemplateById = submittedCvTemplateService.getCvTemplateById(id, true);
         return ResponseEntity.ok(cvTemplateById);
     }
 
@@ -48,13 +57,13 @@ public class CVTemplateController {
 //        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createNewCvTemplate(@RequestBody final CVTemplate cvTemplate) {
-        cvTemplateService.createNewCvTemplate(cvTemplate);
+        final CVTemplate newCvTemplate = cvTemplateService.createNewCvTemplate(cvTemplate);
         return ResponseEntity.ok("created_new_cv_template");
     }
 
     @PostMapping("/save_submitted")
-    public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final CVTemplate cvTemplate) {
-        submittedCvTemplateService.saveSubmittedCvTemplate(cvTemplate);
+    public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate submittedCVTemplate) {
+        submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
         return ResponseEntity.ok("saved_submitted_cv_template");
     }
 
