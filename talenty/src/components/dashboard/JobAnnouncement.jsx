@@ -12,16 +12,17 @@ import Button from "../../shared/components/Button";
 import TemplateItem from "../cvTemplate/TemplateItem";
 import AddSection from "../dialogs/addSection";
 import {PINK} from "../../constants/colors";
+import {setDialogIsOpen, setDialogType} from "../../store/dialogs/slice";
 
 export default function JobAnnouncement() {
     const [isOpenMenuList, setIsOpenMenuList] = useState(false)
     const attachButton = useRef(null)
     const templateList = useSelector(selectTemplateList)
-    console.log(templateList)
     const dispatch = useDispatch()
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false)
     const templateData = useSelector(selectTemplateData)
     useEffect(() => {
+        console.log('mtav effecti mej')
         dispatch(getJobAnnouncement())
         return () => {
             dispatch(setAllTemplateData(null))
@@ -90,8 +91,11 @@ export default function JobAnnouncement() {
                         <AddSectionIconSVG/>
                         Add Section
                     </IconButton>
-                    <Button sx={TEMPLATE_BUTTON_CREATE}>
-                        Publish
+                    <Button sx={TEMPLATE_BUTTON_CREATE} onClick={() => {
+                        dispatch(setDialogType('announcementPreview'))
+                        dispatch(setDialogIsOpen(true))
+                    }}>
+                        Preview
                     </Button>
                 </Box>
             </Box>

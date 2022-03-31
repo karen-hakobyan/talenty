@@ -9,7 +9,7 @@ import isDialogDataInitial from "./helper";
 import {dialogTypes} from "./type";
 import {selectAuthLoading} from "../../store/auth/selector";
 import {ATTENTION_TYPES} from "./constants";
-import { Box } from "@mui/system";
+import {Box} from "@mui/system";
 import Loading from "../../assets/loading/loading.gif"
 
 
@@ -20,8 +20,7 @@ export default function Dialogs() {
     const dialogData = useSelector(selectDialogData);
     const dialogInitialData = useSelector(selectDialogInitialData);
     const [attentionIsOpen, setAttentionIsOpen] = useState(false);
-    const isAuthLoading = useSelector(state=>state.auth.loading)
-    console.log(isAuthLoading)
+    const isAuthLoading = useSelector(state => state.auth.loading)
     const tempComponentInfo = useMemo(() => {
         return dialogType ? dialogTypes[dialogType]({
             dialogData, setAttentionIsOpen, attentionIsOpen, dialogInitialData,
@@ -42,12 +41,12 @@ export default function Dialogs() {
     if (!dialogType && !isAuthLoading) {
         return null;
     }
-   
+
 
     return (
         <Dialog
             open={true}
-            
+
             onClose={ATTENTION_TYPES.includes(dialogType) ? () => {
                 if (isDialogDataInitial(dialogData, dialogInitialData)) {
                     dispatch(setDialogInitialState());
@@ -58,21 +57,21 @@ export default function Dialogs() {
             maxWidth={false}
             sx={{
                 borderRadius: "16px",
-                "& .css-1hju3x6-MuiPaper-root-MuiDialog-paper":isAuthLoading && {
-                    background:"transparent",
+                "& .css-1hju3x6-MuiPaper-root-MuiDialog-paper": isAuthLoading && {
+                    background: "transparent",
                     boxShadow: "none",
                 }
             }}
         >
             {isAuthLoading ? <Box sx={{
-                background:"transparent",
+                background: "transparent",
                 boxShadow: "none",
             }}>
                 <img style={{
-                    width:"140px",
-                    height:"140px",
-                }} src={Loading} />
-            </Box>: <TempComponent {...tempComponentInfo.props} />}
+                    width: "140px",
+                    height: "140px",
+                }} src={Loading}/>
+            </Box> : <TempComponent {...tempComponentInfo.props} />}
         </Dialog>
     );
 }
