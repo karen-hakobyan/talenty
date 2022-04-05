@@ -10,10 +10,10 @@ import {setDialogData, setDialogInitialData, setDialogIsOpen, setDialogType,} fr
 function onDelete(setData, item, data) {
     setData({
         ...data,
-        fields: item.id ? data.fields.map(el => el.name === item.name ? {
+        fields: !item.id.startsWith('0') ? data.fields.map(el => el.name === item.name ? {
             ...el,
             metadata: {...el.metadata, status: 'DELETED'}
-        } : el) : data.fields.filter(el => el.name !== item.name)
+        } : el) : data.fields.filter(el => el.id !== item.id)
     });
 }
 

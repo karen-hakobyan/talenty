@@ -3,7 +3,7 @@ import {DIALOG_TITLE_COLOR} from "../../../constants/colors";
 
 export default function Skill({data}) {
     console.log({skill: data})
-    return <Box sx={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+    return <Box sx={{display: 'flex', flexDirection: 'column', gap: '18px'}}>
         {data.fields.map(el => {
             if (!el.metadata.submitted_value) {
                 return null
@@ -22,10 +22,11 @@ export default function Skill({data}) {
                 <Box sx={{display: 'flex', gap: '14px'}}>
                     {
                         list.map(val => {
+                            console.log(val)
                             return <Box key={val} sx={{
-                                width: '50px',
-                                height: '50px',
-                                borderRadius: '50%',
+                                width: '121px',
+                                height: '24px',
+                                borderRadius: '50px',
                                 background: DIALOG_TITLE_COLOR,
                                 color: 'white',
                                 fontSize: "8px",
@@ -33,13 +34,10 @@ export default function Skill({data}) {
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                lineHeight: '12px',
                                 fontWeight: 900,
                             }}>
-                                <Box sx={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                                    {val.split(' ').map(el => {
-                                        return <Box>{el}</Box>
-                                    })}
-                                </Box>
+                                {val}
                             </Box>
                         })
                     }

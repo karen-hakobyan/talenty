@@ -5,7 +5,7 @@ export default function Title({generalInfoData, data}) {
     let deadline = generalInfoData.fields.find(el => el.name === 'Deadline')
     let deadlineValue = deadline ? deadline.metadata?.submitted_value?.split('/') : null
     if (!data.metadata.submitted_value) {
-        return null
+        return "here should be your announcement title and deadline"
     }
     return <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
         <Box sx={{
