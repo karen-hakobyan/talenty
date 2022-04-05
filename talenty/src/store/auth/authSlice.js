@@ -92,7 +92,6 @@ const authSlice = createSlice({
         },
         [ResetPassword.pending]: (state) => {
             state.loading = true
-
         },
         [ResetPassword.fulfilled]: (state, {payload}) => {
             state.loading = false
@@ -114,7 +113,7 @@ const authSlice = createSlice({
             state.isValidToken = false
             state.loading = false
         },
-        [ChangePassword.panding]: (state) => {
+        [ChangePassword.pending]: (state) => {
             state.loading = true
         },
         [ChangePassword.fulfilled]: (state) => {

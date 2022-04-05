@@ -12,8 +12,11 @@ export default function GridSection({data}) {
             mt: '64px',
         }}>
         {data.fields.map(el => {
+            if (!el.metadata.submitted_value) {
+                return null
+            }
             return (
-                <Box sx={{display: 'flex', gap: '4px'}} key={el.id}>
+                <Box sx={{display: 'flex', gap: '4px', alignItems: 'center'}} key={el.id}>
                     <Box sx={{width: '25px', height: '25px', borderRadius: '50%', background: DIALOG_TITLE_COLOR}}/>
                     <Box sx={{fontWeight: 400, fontFamily: 'Proxima Nova'}}>
                         {`${el.name}: ${el.metadata.submitted_value || ''}`}

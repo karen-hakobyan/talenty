@@ -8,6 +8,7 @@ import Other from "./Other";
 import {TEMPLATE_ITEM_BUTTON} from "../../../shared/styles";
 import {setDialogInitialState} from "../../../store/dialogs/slice";
 import {isRequiredFieldsFilled} from "../../../helpers/dialog";
+import {getJobAnnouncement, publishJobAnnouncement} from "../../../store/globalData/getTemplateActions";
 
 export default function AnnouncementPreview() {
     const data = useSelector(selectTemplateData)
@@ -16,7 +17,7 @@ export default function AnnouncementPreview() {
     return <Box sx={{width: '1142px', padding: '36px 24px', display: 'flex', flexDirection: 'column', gap: '68px'}}>
         <Box>
             {
-                data.fields.map(field => {
+                data.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
                     switch (field.name) {
                         case 'General Information': {
                             return <GeneralInfoAnnouncement data={field} key={field.id}/>
@@ -62,9 +63,12 @@ export default function AnnouncementPreview() {
                 }}
                 style={{textTransform: "none"}}
                 disabled={!isRequiredFieldsFilled(data)}
-                // onClick={() => {
-                //     onSave({dispatch, dialogData, templateData});
-                // }}
+                onClick={() => {
+                    dispatch(publishJobAnnouncement()).then(res => {
+                        dispatch(setDialogInitialState())
+                        dispatch(getJobAnnouncement())
+                    })
+                }}
             >
                 Publish
             </Button>

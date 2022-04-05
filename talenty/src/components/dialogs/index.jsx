@@ -46,7 +46,6 @@ export default function Dialogs() {
     return (
         <Dialog
             open={true}
-
             onClose={ATTENTION_TYPES.includes(dialogType) ? () => {
                 if (isDialogDataInitial(dialogData, dialogInitialData)) {
                     dispatch(setDialogInitialState());

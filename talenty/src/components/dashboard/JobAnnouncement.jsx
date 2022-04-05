@@ -22,7 +22,6 @@ export default function JobAnnouncement() {
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false)
     const templateData = useSelector(selectTemplateData)
     useEffect(() => {
-        console.log('mtav effecti mej')
         dispatch(getJobAnnouncement())
         return () => {
             dispatch(setAllTemplateData(null))
