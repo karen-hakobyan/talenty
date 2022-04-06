@@ -11,6 +11,8 @@ import {selectTemplateData} from "../../store/globalData/selector";
 import {onSave} from "./Body";
 import {isRequiredFieldsFilled} from "../../helpers/dialog";
 
+
+const restrictedAddFieldSections = ['General Information', 'Skills']
 export default function AnnouncementBody({
                                              dialogData,
                                              attentionIsOpen,
@@ -49,7 +51,7 @@ export default function AnnouncementBody({
             })}
         </Box>
         <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px", pt: '44px'}}>
-            {dialogData.name === 'Vacancy details' && <IconButton
+            {!restrictedAddFieldSections.includes(dialogData.name) && <IconButton
                 sx={{...TEMPLATE_ITEM_BUTTON, width: "179px"}}
                 onClick={() => {
                     setAddFieldIsOpen(true);

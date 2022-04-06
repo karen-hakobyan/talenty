@@ -7,6 +7,6 @@ export const dialogTypes = {
     setIsCompany: ({...props} = {}) => ({component: SetIsCompany, props}),
     body: (props) => ({component: Body, props}),
     announcement: (props) => ({component: AnnouncementBody, props}),
-    announcementPreview: (props) => ({component: AnnouncementPreview, props})
+    announcementPreview: (props) => ({component: AnnouncementPreview, props}),
 };
 
