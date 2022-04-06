@@ -83,7 +83,12 @@ export default function JobAnnouncement() {
                 </IconButton>
                 <Menu open={isOpenMenuList} anchorEl={attachButton.current} onClose={() => setIsOpenMenuList(false)}
                       anchorPosition={{top: 0, left: 0}}>
-                    <MenuItem>something</MenuItem>
+                    {templateList.map(el => {
+                        return <MenuItem key={el[0]} onClick={() => {
+                            dispatch(setAllTemplateData({...templateData, attachedCvTemplateId: el[0]}))
+                            setIsOpenMenuList(false)
+                        }}>{el[1]}</MenuItem>
+                    })}
                 </Menu>
                 <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end', gap: '16px'}}>
                     <IconButton sx={TEMPLATE_BUTTON_ADD} onClick={() => setAddSectionDialogIsOpen(true)}>

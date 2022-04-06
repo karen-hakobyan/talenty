@@ -4,7 +4,7 @@ import {
     getJobAnnouncement,
     getTemplateActions,
     getTemplateById,
-    getTemplateLists
+    getTemplateLists, publishJobAnnouncement
 } from "./getTemplateActions";
 import changeTemplateData, {
     addSectionContainer,
@@ -23,7 +23,7 @@ const initialState = {
     // maybe object that have sections controller's parents name and some index which will control decreasing height
     // pritom piti chlini miamit personal skill proffesional skill u language for publications it will be another story :D 
     sectionContainerController: null,
-
+    isPublished: {},
 };
 
 export const globalDataSlice = createSlice({
@@ -73,7 +73,10 @@ export const globalDataSlice = createSlice({
         },
         setAllTemplateData: (state, {payload}) => {
             state.templateData = payload
-        }
+        },
+        setIsPublished: (state, {payload}) => {
+            state.isPublished = payload
+        },
     },
     extraReducers: {
         [getTemplateActions.fulfilled]: (state, {payload}) => {
@@ -100,6 +103,15 @@ export const globalDataSlice = createSlice({
             state.templateData = payload
             state.templateInitialData = payload
         },
+        [publishJobAnnouncement.fulfilled]: (state, {payload}) => {
+            console.log(payload)
+            console.log('mtav publish announcement fullfilled')
+            state.isPublished = {open: true, status: 'ok'}
+        },
+        [publishJobAnnouncement.rejected]: (state, {payload}) => {
+            console.log('announcement publish rejected')
+            state.isPublished = {open: true, status: 'rejected'}
+        }
     }
 });
 
@@ -117,7 +129,8 @@ export const {
     setSectionContainerController,
     addPublicationsSection,
     setDeleteAddSection,
-    setAllTemplateData
+    setAllTemplateData,
+    setIsPublished,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

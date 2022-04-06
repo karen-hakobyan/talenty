@@ -86,6 +86,6 @@ export const publishJobAnnouncement = createAsyncThunk('globalData/publishJobAnn
         return response.data
     } catch (err) {
         console.log('announcment publish something went wrong issues')
-        thunkAPI.rejectWithValue('something went wrong announcement publish')
+        return thunkAPI.rejectWithValue('something went wrong')
     }
 })
