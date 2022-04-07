@@ -5,7 +5,7 @@ import {sectionContainerTypes} from "./typeComponents/sectionContainerTypes/type
 import {addPublicationsSection} from "../../store/globalData/slice";
 
 const ADD_BUTTON_STYLE = {
-    fontFamily: 'Proxima Nova',
+    fontFamily: "'Poppins', sans-serif",
     fontWeight: 600,
     fontSize: '14px',
     lineHeight: '22px',

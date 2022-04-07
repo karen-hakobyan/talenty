@@ -12,7 +12,7 @@ export default function TextField({sx, ...restProps}) {
                         fontSize: '16px',
                         lineHeight: '24px',
                         fontWeight: 400,
-                        fontFamily: 'Proxima Nova',
+                        fontFamily: "'Poppins', sans-serif",
                         opacity: 1,
                         color: '#8C8C8C',
                     }

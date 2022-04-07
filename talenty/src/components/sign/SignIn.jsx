@@ -18,11 +18,11 @@ import {
 import {MAIN_PURPLE} from "../../constants/colors";
 import BackgroundImage from "./BackgroundImage";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
-import { selectAuthModalInfo,  selectIsValidToken} from "../../store/auth/selector";
-import { setAuthModalInfo, setIsValidToken } from "../../store/auth/authSlice";
-import { ENTER_KEY } from "../../constants/keyCodes";
-import { FIELD_SIGN_IN } from "./helper";
-import { ConfirmUser } from "../../store/auth/ConfirmUser";
+import {selectAuthModalInfo, selectIsValidToken} from "../../store/auth/selector";
+import {setAuthModalInfo, setIsValidToken} from "../../store/auth/authSlice";
+import {ENTER_KEY} from "../../constants/keyCodes";
+import {FIELD_SIGN_IN} from "./helper";
+import {ConfirmUser} from "../../store/auth/ConfirmUser";
 
 const Logo = styled("div")(() => ({
     display: "flex",
@@ -38,7 +38,7 @@ function SignIn() {
         shouldFocusError: false,
     });
     const {errors} = formState;
-    const dialogInfo = useSelector(selectAuthModalInfo)  
+    const dialogInfo = useSelector(selectAuthModalInfo)
     const isValidToken = useSelector(selectIsValidToken)
     const dispatch = useDispatch()
     const [isChecked, setIsChecked] = useState(false);
@@ -51,30 +51,30 @@ function SignIn() {
         if(token.length!==0){
             setISChangeToken(true)
         }
-    },[isChangeToken,token])
-    useEffect(()=>{
-        if(token){
+    }, [isChangeToken, token])
+    useEffect(() => {
+        if (token) {
             dispatch(ConfirmUser(token))
         }
-    },[token,dispatch])
-    useEffect(()=>{
-        if(isValidToken===false){
+    }, [token, dispatch])
+    useEffect(() => {
+        if (isValidToken === false) {
             dispatch(setIsValidToken(null))
             navigate(LANDING_PAGE_ROUTE)
             setISChangeToken(false)
         }
-        if(isValidToken){
+        if (isValidToken) {
             dispatch(setIsValidToken(null))
             navigate(SIGN_IN_ROUTE)
             setISChangeToken(false)
         }
-    },[isValidToken,dispatch,navigate])
+    }, [isValidToken, dispatch, navigate])
 
 
-    if(isChangeToken && isValidToken===null){
+    if (isChangeToken && isValidToken === null) {
         return null
     }
-    
+
     return (
         <>
             <Dialog
@@ -101,7 +101,7 @@ function SignIn() {
                 <Box sx={{paddingLeft: "154px"}}>
                     <Box
                         sx={{
-                            fontFamily: "Proxima Nova",
+                            fontFamily: "'Poppins', sans-serif",
                             fontSize: "25px",
                             fontWeight: 600,
                             lineHeight: "25px",
@@ -120,19 +120,21 @@ function SignIn() {
                                 gap: "20px",
                             }}
                         >
-                            {FIELD_SIGN_IN.map(({objKey, label, isPassword, error,placeholder}) => {
+                            {FIELD_SIGN_IN.map(({objKey, label, isPassword, error, placeholder}) => {
                                 return (
                                     <SignInField
                                         key={objKey}
-                                        {...{objKey, label, isPassword, register, errors, error,placeholder}}
-                                         {...(isPassword ? {onKeyDown : (event)=>{
-                                        
-                                        if(event.key === ENTER_KEY){
-                                             handleSubmit((data) => {
-                                                 dispatch(Login({data, isChecked}))
-                                             })()    
-                                         }
-                                         }} : {})}
+                                        {...{objKey, label, isPassword, register, errors, error, placeholder}}
+                                        {...(isPassword ? {
+                                            onKeyDown: (event) => {
+
+                                                if (event.key === ENTER_KEY) {
+                                                    handleSubmit((data) => {
+                                                        dispatch(Login({data, isChecked}))
+                                                    })()
+                                                }
+                                            }
+                                        } : {})}
                                     />
                                 );
                             })}
@@ -174,7 +176,7 @@ function SignIn() {
                                     />
                                     <Box
                                         sx={{
-                                            fontFamily: "Proxima Nova",
+                                            fontFamily: "'Poppins', sans-serif",
                                             fontSize: "16px",
                                             fontWeight: 400,
                                             lineHeight: "24px",
@@ -189,7 +191,7 @@ function SignIn() {
                                     sx={{
                                         cursor: "pointer",
                                         color: "#2C5282",
-                                        fontFamily: "Proxima Nova",
+                                        fontFamily: "'Poppins', sans-serif",
                                         fontSize: "16px",
                                         fontWeight: 400,
                                         lineHeight: "19px",
@@ -216,7 +218,7 @@ function SignIn() {
                                     justifyContent: "center",
                                     gap: "6px",
                                     color: "#4C494F",
-                                    fontFamily: "Proxima Nova",
+                                    fontFamily: "'Poppins', sans-serif",
                                     fontSize: "16px",
                                     fontWeight: 400,
                                     lineHeight: "21px",
@@ -231,7 +233,7 @@ function SignIn() {
                                     sx={{
                                         cursor: "pointer",
                                         color: "#8C0DF0",
-                                        fontFamily: "Proxima Nova",
+                                        fontFamily: "'Poppins', sans-serif",
                                         fontWeight: 600,
                                         fontSize: "16px",
                                         lineHeight: "22px",

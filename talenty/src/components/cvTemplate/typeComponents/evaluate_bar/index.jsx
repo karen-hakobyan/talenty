@@ -37,7 +37,7 @@ export default function EveluateBar({data, isSectionContainer, dispatch, dialogD
                         <Box
                             key={el}
                             sx={{
-                                fontFamily: "Proxima Nova",
+                                fontFamily: "'Poppins', sans-serif",
                                 fontWeight: 400,
                                 color: "#4C494F",
                                 lineHeight: "24px",

@@ -16,7 +16,7 @@ const Container = styled("div")(({theme}) => ({
 }));
 
 const StyledSpan = styled("span")({
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 16,
@@ -38,7 +38,7 @@ const CssTextField = styled(TextField)({
     "&:hover": {borderColor: "#9c27b0"},
     color: TEXT,
     paddingTop: 1,
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "16px",
