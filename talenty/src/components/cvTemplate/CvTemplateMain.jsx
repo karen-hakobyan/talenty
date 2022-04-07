@@ -59,7 +59,7 @@ function CvTemplateMain() {
     const customInput = useRef(null)
     const container = useRef()
     const isEditing = useMemo(() => {
-        return templateList.some(el => el[0] === data?.id)
+        return templateList?.some(el => el[0] === data?.id)
     }, [templateList, data])
 
     useEffect(() => {
