@@ -30,7 +30,7 @@ const CustomInput = styled("input")(() => ({
     width: "100%",
     outline: "none",
     border: "none",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: 600,
     fontSize: "18px",
@@ -140,7 +140,7 @@ function CvTemplateMain() {
                     sx={{
                         fontWeight: 600,
                         color: PINK,
-                        fontFamily: "Proxima Nova",
+                        fontFamily: "'Poppins', sans-serif",
                         fontSize: "20px",
                     }}
                     variant="h5"

@@ -52,7 +52,7 @@ export default function JobAnnouncement() {
                 gap: '13px',
                 fontSize: '20px',
                 lineHeight: '20px',
-                fontFamily: 'Proxima Nova',
+                fontFamily: "'Poppins', sans-serif",
                 fontWeight: 400,
                 alignItems: 'center',
                 color: PINK,

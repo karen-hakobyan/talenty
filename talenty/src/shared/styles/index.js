@@ -1,4 +1,4 @@
-import { MAIN_PURPLE, TEXT, DIALOG_TITLE_COLOR } from "../../constants/colors";
+import {MAIN_PURPLE, TEXT, DIALOG_TITLE_COLOR} from "../../constants/colors";
 
 
 const TEMPLATE_ITEM_BUTTON = {
@@ -37,7 +37,7 @@ const TEMPLATE_ITEM_BUTTON_DISABLED = {
     border: "1px solid #EFEFEF",
     background: "#EFEFEF",
     cursor: "default",
-    "&:hover": { background: "#EFEFEF" },
+    "&:hover": {background: "#EFEFEF"},
 };
 
 const INPUT_LABEL = {
@@ -45,11 +45,11 @@ const INPUT_LABEL = {
     lineHeight: "24px",
     fontSize: "16px",
     marginBottom: "10px",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
 };
 
-const TEMPLATE_INPUT = { width: "421px" };
-const DISABLED_INPUT = { background: "#F5F5F5" };
+const TEMPLATE_INPUT = {width: "421px"};
+const DISABLED_INPUT = {background: "#F5F5F5"};
 const TEMPLATE_BUTTON_ADD = {
     display: "flex",
     width: "179px",
@@ -78,7 +78,7 @@ const HOME_PRIMARY_BUTTON = {
     ...TEMPLATE_BUTTON_CREATE,
     fontSize: "14px",
     fontWeight: 400,
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     lineHeight: "22px",
     width: "179px",
 };
@@ -98,7 +98,7 @@ const ADD_TEMPLATE_SECTION = {
     },
     fontSize: "14px",
     fontWeight: 400,
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     lineHeight: "22px",
     background: "#8C0DF0",
 };
@@ -107,7 +107,7 @@ const DIALOG_TITLE_CONTAINER = {
     lineHeight: "18px",
     fontWeight: 600,
     color: "#4C494F",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
 };
 
 const DIALOG_MAIN_CONTAINER = {
@@ -123,7 +123,7 @@ const DIALOG_ADD_SECTION_CONTAINER = {
     paddingLeft: "24px",
 };
 const GLOBAL_TEXT = {
-    fontFamily: 'Proxima Nova',
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 14,
@@ -142,7 +142,7 @@ const TEXT_FIELD = {
 };
 
 const INPUT_VALUE_STYLE = {
-    fontFamily: 'Proxima Nova',
+    fontFamily: "'Poppins', sans-serif",
     fontWeight: 400,
     fontSize: '16px',
     lineHeight: '24px',

@@ -22,7 +22,7 @@ export default function SectionGenerator({
                 {data.fields.map(el => {
                     if (el.metadata.status !== 'DELETED') {
                         return <Box sx={{
-                            fontFamily: 'Proxima Nova',
+                            fontFamily: "'Poppins', sans-serif",
                             fontWeight: 400,
                             fontSize: '16px',
                             lineHeight: '24px',

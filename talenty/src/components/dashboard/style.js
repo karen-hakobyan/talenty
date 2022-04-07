@@ -52,7 +52,7 @@ export const ICON_TEXT_CONTAINER = {
 };
 
 export const MAIN_TEXT_STYLE = {
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontWeight: 400,
     fontSize: "16px",
     lineHeight: "19px",
@@ -68,8 +68,8 @@ export const ITEM_CHILDREN_CONTAINER = {
 };
 
 export const CHILD_TEXT = {
-    fontFamily: "Proxima Nova",
-    fontSize: "14px",
+    fontFamily: "'Poppins', sans-serif",
+    fontSize: "12px",
     fontWeight: 400,
     lineHeight: "17px",
     letterSpacing: "0em",

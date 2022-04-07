@@ -14,7 +14,7 @@ export const H1 = styled("h1")({
     color: HEADER_TEXT,
     marginTop: 24,
     marginBottom: 10,
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
 });
 export const StyledDiv = styled(Box)({
     display: "flex",
@@ -23,7 +23,7 @@ export const StyledDiv = styled(Box)({
     alignItems: "left",
     width: "100%",
     mardinTop: 10,
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
 });
 export const MainStyledSpan = styled("span")({
     color: MAIN_PURPLE,
@@ -49,7 +49,7 @@ export const StyledBGImage = styled("div")({
 });
 
 export const StyledSpan = styled("span")({
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: 16,

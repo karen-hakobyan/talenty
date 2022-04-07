@@ -5,7 +5,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 const SignUpField = React.forwardRef(
-    ({register, value, isPassword, objKey, errors, error,placeholder, ...restProps}, ref) => {
+    ({register, value, isPassword, objKey, errors, error, placeholder, ...restProps}, ref) => {
         const [showPass, setShowPass] = useState(false)
 
         return (
@@ -14,7 +14,7 @@ const SignUpField = React.forwardRef(
                 {...{ref}}
             >
                 <Box sx={{
-                    fontFamily: "Proxima Nova",
+                    fontFamily: "'Poppins', sans-serif",
                     fontSize: "16px",
                     fontWeight: "400px",
                     lineHeight: "24px",
@@ -33,8 +33,8 @@ const SignUpField = React.forwardRef(
                         width: "466px",
                         ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                             borderColor: MAIN_PURPLE,
-                            "&::placeholder":{
-                                fontFamily: "Proxima Nova",
+                            "&::placeholder": {
+                                fontFamily: "'Poppins', sans-serif",
                                 fontStyle: "normal",
                                 fontWeight: "normal",
                                 fontSize: "16px",

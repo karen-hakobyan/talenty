@@ -13,7 +13,7 @@ export default function CurrentDate({data}) {
             }}
         />
         <Box
-            sx={{fontSize: '16px', lineHeight: '24px', fontWeight: 400, fontFamily: 'Proxima Nova'}}
+            sx={{fontSize: '16px', lineHeight: '24px', fontWeight: 400, fontFamily: "'Poppins', sans-serif"}}
         >{data.name}</Box>
     </Box>
 }

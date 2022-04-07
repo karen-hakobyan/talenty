@@ -14,7 +14,7 @@ export default function Skill({data}) {
                     fontSize: '16px',
                     lineHeight: '18px',
                     color: '#4C494F',
-                    fontFamily: 'Proxima Nova',
+                    fontFamily: "'Poppins', sans-serif",
                     fontWeight: 900
                 }}>
                     {el.name}
@@ -30,7 +30,7 @@ export default function Skill({data}) {
                                 background: DIALOG_TITLE_COLOR,
                                 color: 'white',
                                 fontSize: "8px",
-                                fontFamily: 'Proxima Nova',
+                                fontFamily: "'Poppins', sans-serif",
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',

@@ -18,7 +18,7 @@ const Container = styled("div")({
 });
 
 const H5 = styled("h5")(({theme}) => ({
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "16px",
@@ -30,7 +30,7 @@ const H5 = styled("h5")(({theme}) => ({
 
 const Inputs = styled("input")(({theme}) => ({
     background: "#FFFFFF",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "16px",
@@ -54,7 +54,7 @@ const Inputs = styled("input")(({theme}) => ({
     },
 }));
 const ErrorText = styled("p")({
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "14px",

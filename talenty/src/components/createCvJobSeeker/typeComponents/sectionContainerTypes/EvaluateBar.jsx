@@ -4,8 +4,8 @@ import {useEffect, useMemo, useRef} from "react";
 import {setDeleteAddSection, setEvaluateWidths, setTemplateData} from "../../../../store/globalData/slice";
 import {useDispatch, useSelector} from "react-redux";
 import {selectEvaluatesBarWidths} from "../../../../store/globalData/selector";
-import { DeleteSectionBtn } from "../../../../assets/icons/jobseeker";
-import { MAIN_PURPLE } from "../../../../constants/colors";
+import {DeleteSectionBtn} from "../../../../assets/icons/jobseeker";
+import {MAIN_PURPLE} from "../../../../constants/colors";
 
 const setExactWidth = (width, widths) => {
     console.log(widths)
@@ -16,7 +16,7 @@ const setExactWidth = (width, widths) => {
     }
 }
 // depend is value of skill or profficency level with depend we control whether field is disabled or not
-export default function EvaluateBar({data, depend, fields,id}) {
+export default function EvaluateBar({data, depend, fields, id}) {
     // console.log(fild,"EvaluateBar");
     // console.log(id,"EvaluateBar");
     const ref = useRef()
@@ -42,30 +42,30 @@ export default function EvaluateBar({data, depend, fields,id}) {
             dispatch(setEvaluateWidths(result))
         }
     }, [data, evaluateWidths, dispatch])
-   
+
 
     return <JobSeekerSubsection
         label={<Box
             sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <Box >Percentage</Box>
-                {fields.length !== 1 ?(<Box sx={{
-                     cursor:"pointer",
-                    fill:"#4C494F",
+            <Box>Percentage</Box>
+            {fields.length !== 1 ? (<Box sx={{
+                cursor: "pointer",
+                fill: "#4C494F",
+                transition: "all 0.5s",
+                "&:hover": {
+                    fill: MAIN_PURPLE,
                     transition: "all 0.5s",
-                    "&:hover":{
-                        fill: MAIN_PURPLE,
-                        transition: "all 0.5s",
-                    }
-                }}
-                onClick={()=>{
-                   dispatch(setDeleteAddSection({templateData,id}))
-               }}
-                > <DeleteSectionBtn style={{
-                    fill:"inherit"
-                }} /> </Box>): null}
+                }
+            }}
+                                         onClick={() => {
+                                             dispatch(setDeleteAddSection({templateData, id}))
+                                         }}
+            > <DeleteSectionBtn style={{
+                fill: "inherit"
+            }}/> </Box>) : null}
         </Box>}
         Component={<Box sx={{display: 'flex', flexDirection: 'column', gap: '6px'}}>
-            <Box  ref={ref} sx={{
+            <Box ref={ref} sx={{
                 position: 'relative',
                 width: '500px',
                 height: '40px',
@@ -86,7 +86,7 @@ export default function EvaluateBar({data, depend, fields,id}) {
             <Box sx={{display: 'flex', width: '500px', gap: '72px'}}>
                 {data.metadata.values.map(el => {
                     return <Box
-                        sx={{fontSize: '14px', lineHeight: '24px', fontFamily: 'Proxima Nova'}}
+                        sx={{fontSize: '14px', lineHeight: '24px', fontFamily: "'Poppins', sans-serif"}}
                         key={el}
                     >
                         {el}
