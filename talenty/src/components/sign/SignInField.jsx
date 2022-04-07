@@ -33,7 +33,7 @@ const SignInField = React.forwardRef(
             >
                 <Box
                     sx={{
-                        fontFamily: "Proxima Nova",
+                        fontFamily: "'Poppins', sans-serif",
                         fontSize: "16px",
                         fontWeight: "400px",
                         lineHeight: "24px",
@@ -57,13 +57,13 @@ const SignInField = React.forwardRef(
                             {
                                 borderColor: MAIN_PURPLE,
                             },
-                            "&::placeholder":{
-                                fontFamily: "Proxima Nova",
-                                fontStyle: "normal",
-                                fontWeight: "normal",
-                                fontSize: "16px",
-                                lineHeight: "24px",
-                            },
+                        "&::placeholder": {
+                            fontFamily: "'Poppins', sans-serif",
+                            fontStyle: "normal",
+                            fontWeight: "normal",
+                            fontSize: "16px",
+                            lineHeight: "24px",
+                        },
                     }}
                     {...register(objKey, error || {})}
                     placeholder={placeholder}

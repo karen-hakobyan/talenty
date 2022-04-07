@@ -18,7 +18,7 @@ export const DIALOG_TEXT = {
     textAlign: "center",
     fontSize: "16px",
     lineHeight: "26px",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
 };
 export const CHECKBOX_CONTAINER = {
     display: "flex",
@@ -36,7 +36,7 @@ export const butonStyleGenerator = (isCompany, isCompanyState) => ({
     alignItems: "center",
     width: "50%",
     height: "100%",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "16px",

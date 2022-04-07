@@ -9,7 +9,7 @@ export default function Title({generalInfoData, data}) {
     }
     return <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
         <Box sx={{
-            fontFamily: 'Proxima Nova',
+            fontFamily: "'Poppins', sans-serif",
             fontWeight: 900,
             fontSize: '24px',
             lineHeight: '29px',
@@ -22,7 +22,7 @@ export default function Title({generalInfoData, data}) {
                 color: '#FF0000',
                 fontSize: '20px',
                 lineHeight: '22px',
-                fontFamily: 'Proxima Nova',
+                fontFamily: "'Poppins', sans-serif",
                 fontWeight: 600,
             }}>
                 Deadline: {`${deadlineValue[0]} ${MONTH_VIA_KEY[deadlineValue[1]]} ${deadlineValue[2]}`}

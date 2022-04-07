@@ -14,7 +14,7 @@ export default function Photo({data}) {
                     justifyContent: 'center',
                     alignItems: 'flex-end'
                 }}>
-                        <AddPhotoSVG />
+                    <AddPhotoSVG/>
                 </Box>
                 <Box sx={{
                     width: '100%',
@@ -31,7 +31,7 @@ export default function Photo({data}) {
                         fontSize: '10px',
                         lineHeight: '12px',
                         fontWeight: 400,
-                        fontFamily: 'Proxima Nova',
+                        fontFamily: "'Poppins', sans-serif",
                         color: '#4C494F',
                     }}>Add Profile Photo<AddPhotoCameraSVG/></Box>
                 </Box>
