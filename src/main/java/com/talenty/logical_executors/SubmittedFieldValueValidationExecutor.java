@@ -2,20 +2,27 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.validation.ValidationChecker;
-import org.springframework.stereotype.Component;
 
-@Component
 public class SubmittedFieldValueValidationExecutor implements LogicExecutor {
+    private static final boolean NEED_PARENT_FIELD = true;
+    private FieldDocument currentParentField;
 
     @Override
-    public void execute(final FieldDocument... field) {
-        final FieldDocument parentField = field[0];
-        final FieldDocument tempField = field[1];
-        if (parentField.getFields() != null && tempField.getFields() != null) return;
+    public FieldDocument execute(final FieldDocument field) {
+        if (this.currentParentField.getFields() != null && (field == null || field.getFields() != null)) return field;
+        if (field.getMetadata().containsKey("submitted_value"))
+            ValidationChecker.assertSubmittedFieldIsValid(field, currentParentField);
+        return field;
+    }
 
-        final boolean doesSubmittedValueExists = tempField.getMetadata().containsKey("submitted_value");
+    @Override
+    public boolean needParentField() {
+        return NEED_PARENT_FIELD;
+    }
 
-        if (doesSubmittedValueExists) ValidationChecker.assertSubmittedFieldIsValid(tempField, parentField);
+    @Override
+    public void setCurrentParentField(final FieldDocument field) {
+        this.currentParentField = field;
     }
 
 }

@@ -1,4 +1,4 @@
-import {memo, useEffect, useState} from "react";
+import {memo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, Button, Dialog, IconButton} from "@mui/material";
 import {DIALOG_MAIN_CONTAINER, TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
@@ -11,6 +11,8 @@ import {selectTemplateData} from "../../store/globalData/selector";
 import {onSave} from "./Body";
 import {isRequiredFieldsFilled} from "../../helpers/dialog";
 
+
+const restrictedAddFieldSections = ['General Information', 'Skills']
 export default function AnnouncementBody({
                                              dialogData,
                                              attentionIsOpen,
@@ -44,12 +46,12 @@ export default function AnnouncementBody({
                 if (!TempComponent) {
                     return null
                 }
-                TempComponent = memo(TempComponent, (prev, next) => JSON.stringify(next) !== JSON.stringify(next))
+                TempComponent = memo(TempComponent)
                 return <TempComponent data={field} key={field.name}/>
             })}
         </Box>
         <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px", pt: '44px'}}>
-            <IconButton
+            {!restrictedAddFieldSections.includes(dialogData.name) && <IconButton
                 sx={{...TEMPLATE_ITEM_BUTTON, width: "179px"}}
                 onClick={() => {
                     setAddFieldIsOpen(true);
@@ -57,7 +59,7 @@ export default function AnnouncementBody({
             >
                 <AddFieldSVG/>
                 Add field
-            </IconButton>
+            </IconButton>}
             <Button
                 sx={{
                     ...TEMPLATE_ITEM_BUTTON,

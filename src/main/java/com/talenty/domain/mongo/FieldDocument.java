@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ public class FieldDocument {
             return false;
         }
         final FieldDocument other = (FieldDocument) obj;
-        return id.equals(other.getId());
+        return Objects.equals(id, other.getId());
     }
 
     @Override

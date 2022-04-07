@@ -1,12 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import {
     createCvHR,
     getJobAnnouncement,
     getTemplateActions,
     getTemplateById,
-    getTemplateLists
+    getTemplateLists, publishJobAnnouncement
 } from "./getTemplateActions";
-import changeTemplateData, { addSectionContainer, deleteAddSectionContainer } from "../../components/createCvJobSeeker/actions";
+import changeTemplateData, {
+    addSectionContainer,
+    deleteAddSectionContainer
+} from "../../components/createCvJobSeeker/actions";
+import {jobAnnouncementAjab} from "../../ajab";
 
 const initialState = {
     exactPage: 1,
@@ -19,15 +23,15 @@ const initialState = {
     // maybe object that have sections controller's parents name and some index which will control decreasing height
     // pritom piti chlini miamit personal skill proffesional skill u language for publications it will be another story :D 
     sectionContainerController: null,
-
+    isPublished: {},
 };
 
 export const globalDataSlice = createSlice({
     name: "globalData",
     initialState,
     reducers: {
-        setGlobalDataViaKey: (state, { payload }) => {
-            const { key, value } = payload;
+        setGlobalDataViaKey: (state, {payload}) => {
+            const {key, value} = payload;
             state[key] = value;
         },
         setNextPage: (state) => {
@@ -36,16 +40,16 @@ export const globalDataSlice = createSlice({
         setPrevPage: (state) => {
             state.exactPage = state.exactPage - 1
         },
-        setExactPage: (state, { payload }) => {
+        setExactPage: (state, {payload}) => {
             state.exactPage = payload
         },
-        setTemplateData: (state, { payload: { id, value } }) => {
+        setTemplateData: (state, {payload: {id, value}}) => {
             state.templateData = changeTemplateData(state.templateData, id, value)
         },
-        addSectionContainerAction: (state, { payload: id }) => {
+        addSectionContainerAction: (state, {payload: id}) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
-        addPublicationsSection: (state, { payload: { id, isBook } }) => {
+        addPublicationsSection: (state, {payload: {id, isBook}}) => {
             state.templateData = addSectionContainer(state.templateData, id, isBook)
         },
         setGlobalInitialData: (state) => {
@@ -55,43 +59,59 @@ export const globalDataSlice = createSlice({
             localStorage.clear()
             sessionStorage.clear()
         },
-        setLinksController: (state, { payload }) => {
+        setLinksController: (state, {payload}) => {
             state.linksController = payload
         },
-        setEvaluateWidths: (state, { payload }) => {
+        setEvaluateWidths: (state, {payload}) => {
             state.evaluateWidths = payload
         },
-        setSectionContainerController: (state, { payload }) => {
+        setSectionContainerController: (state, {payload}) => {
             state.sectionContainerController = payload
         },
-        setDeleteAddSection: (state, { payload }) => {
+        setDeleteAddSection: (state, {payload}) => {
             state.templateData = deleteAddSectionContainer(payload)
         },
-        setAllTemplateData: (state, { payload }) => {
+        setAllTemplateData: (state, {payload}) => {
             state.templateData = payload
-        }
+        },
+        setIsPublished: (state, {payload}) => {
+            state.isPublished = payload
+        },
     },
     extraReducers: {
-        [getTemplateActions.fulfilled]: (state, { payload }) => {
+        [getTemplateActions.fulfilled]: (state, {payload}) => {
             state.templateData = payload
             state.templateInitialData = payload
         },
-        [getJobAnnouncement.fulfilled]: (state, { payload }) => {
+        [getJobAnnouncement.fulfilled]: (state, {payload}) => {
             state.templateData = payload
+        },
+        [getJobAnnouncement.rejected]: (state) => {
+            console.log('hasav rejectedi mot')
+            state.templateData = jobAnnouncementAjab
         },
         [createCvHR.fulfilled]: (state) => {
             state.templateData = null;
         },
-        [getTemplateLists.fulfilled]: (state, { payload }) => {
+        [getTemplateLists.fulfilled]: (state, {payload}) => {
             state.templateList = payload
         },
         [getTemplateLists.rejected]: state => {
             state.templateList = []
         },
-        [getTemplateById.fulfilled]: (state, { payload }) => {
+        [getTemplateById.fulfilled]: (state, {payload}) => {
             state.templateData = payload
             state.templateInitialData = payload
         },
+        [publishJobAnnouncement.fulfilled]: (state, {payload}) => {
+            console.log(payload)
+            console.log('mtav publish announcement fullfilled')
+            state.isPublished = {open: true, status: 'ok'}
+        },
+        [publishJobAnnouncement.rejected]: (state, {payload}) => {
+            console.log('announcement publish rejected')
+            state.isPublished = {open: true, status: 'rejected'}
+        }
     }
 });
 
@@ -109,7 +129,8 @@ export const {
     setSectionContainerController,
     addPublicationsSection,
     setDeleteAddSection,
-    setAllTemplateData
+    setAllTemplateData,
+    setIsPublished,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

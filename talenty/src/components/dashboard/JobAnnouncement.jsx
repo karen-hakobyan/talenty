@@ -12,12 +12,12 @@ import Button from "../../shared/components/Button";
 import TemplateItem from "../cvTemplate/TemplateItem";
 import AddSection from "../dialogs/addSection";
 import {PINK} from "../../constants/colors";
+import {setDialogIsOpen, setDialogType} from "../../store/dialogs/slice";
 
 export default function JobAnnouncement() {
     const [isOpenMenuList, setIsOpenMenuList] = useState(false)
     const attachButton = useRef(null)
     const templateList = useSelector(selectTemplateList)
-    console.log(templateList)
     const dispatch = useDispatch()
     const [addSectionDialogIsOpen, setAddSectionDialogIsOpen] = useState(false)
     const templateData = useSelector(selectTemplateData)
@@ -81,17 +81,26 @@ export default function JobAnnouncement() {
                     <AttachCvIcon/>
                     Attach CV template
                 </IconButton>
-                <Menu open={isOpenMenuList} anchorEl={attachButton.current} onClose={() => setIsOpenMenuList(false)}
-                      anchorPosition={{top: 0, left: 0}}>
-                    <MenuItem>something</MenuItem>
-                </Menu>
+                {templateList?.length &&
+                    <Menu open={isOpenMenuList} anchorEl={attachButton.current} onClose={() => setIsOpenMenuList(false)}
+                          anchorPosition={{top: 0, left: 0}}>
+                        {templateList.map(el => {
+                            return <MenuItem key={el[0]} onClick={() => {
+                                dispatch(setAllTemplateData({...templateData, attachedCvTemplateId: el[0]}))
+                                setIsOpenMenuList(false)
+                            }}>{el[1]}</MenuItem>
+                        })}
+                    </Menu>}
                 <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end', gap: '16px'}}>
                     <IconButton sx={TEMPLATE_BUTTON_ADD} onClick={() => setAddSectionDialogIsOpen(true)}>
                         <AddSectionIconSVG/>
                         Add Section
                     </IconButton>
-                    <Button sx={TEMPLATE_BUTTON_CREATE}>
-                        Publish
+                    <Button sx={TEMPLATE_BUTTON_CREATE} onClick={() => {
+                        dispatch(setDialogType('announcementPreview'))
+                        dispatch(setDialogIsOpen(true))
+                    }}>
+                        Preview
                     </Button>
                 </Box>
             </Box>

@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import Login from "./Login";
-import { HR_ROLE } from "../../constants/role";
+import {HR_ROLE} from "../../constants/role";
 import Registration from "./Registration";
-import { errorMessage } from "../../helpers/errorMessage";
+import {errorMessage} from "../../helpers/errorMessage";
 import ResetPassword from "./ResetPassword";
-import { ValidateToken, ChangePassword } from "./ChangePassword";
-import { ConfirmUser } from "./ConfirmUser";
+import {ValidateToken, ChangePassword} from "./ChangePassword";
+import {ConfirmUser} from "./ConfirmUser";
+
 const initialState = {
     jwt: null,
     userInfo: null,
@@ -21,13 +22,13 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setIsCompany: (state, { payload }) => {
+        setIsCompany: (state, {payload}) => {
             state.isCompany = payload
         },
-        setUserInfo: (state, { payload }) => {
+        setUserInfo: (state, {payload}) => {
             state.userInfo = payload
         },
-        setJwt: (state, { payload }) => {
+        setJwt: (state, {payload}) => {
             state.jwt = payload
         },
         setAuthInitialState: (state) => {
@@ -38,10 +39,10 @@ const authSlice = createSlice({
             sessionStorage.clear()
             state.signOut = true
         },
-        setAuthModalInfo: (state, { payload }) => {
+        setAuthModalInfo: (state, {payload}) => {
             state.modalInfo = payload
         },
-        setAuthSignOut: (state, { payload }) => {
+        setAuthSignOut: (state, {payload}) => {
             state.signOut = payload
         },
         setAuthIsChangePass: (state) => {
@@ -50,12 +51,12 @@ const authSlice = createSlice({
         setAuthIsResetPassword: (state) => {
             state.isResetPassword = false
         },
-        setIsValidToken: (state, { payload }) => {
+        setIsValidToken: (state, {payload}) => {
             state.isValidToken = payload
         }
     },
     extraReducers: {
-        [Login.fulfilled]: (state, { payload: { jwtToken: jwt } }) => {
+        [Login.fulfilled]: (state, {payload: {jwtToken: jwt}}) => {
             state.jwt = jwt
             const userInfo = JSON.parse(atob(jwt.split(".")[1]))
             state.userInfo = userInfo
@@ -79,11 +80,11 @@ const authSlice = createSlice({
                 ]
             }
         },
-        [Registration.rejected]: (state, { payload }) => {
+        [Registration.rejected]: (state, {payload}) => {
             state.loading = false
             state.modalInfo = {
                 open: true,
-                message: ["Registration failed.", errorMessage[payload.response.data.message]],
+                message: ["Registration failed.", errorMessage[payload]],
             }
         },
         [Registration.pending]: (state) => {
@@ -91,14 +92,13 @@ const authSlice = createSlice({
         },
         [ResetPassword.pending]: (state) => {
             state.loading = true
-
         },
-        [ResetPassword.fulfilled]: (state, { payload }) => {
+        [ResetPassword.fulfilled]: (state, {payload}) => {
             state.loading = false
             state.isResetPassword = true
             state.modalInfo = "Check your email"
         },
-        [ResetPassword.rejected]: (state, { payload }) => {
+        [ResetPassword.rejected]: (state, {payload}) => {
             state.loading = false
             state.modalInfo = errorMessage[payload]
         },
@@ -109,18 +109,18 @@ const authSlice = createSlice({
             state.isValidToken = true
             state.loading = false
         },
-        [ValidateToken.rejected]: (state, { payload }) => {
+        [ValidateToken.rejected]: (state, {payload}) => {
             state.isValidToken = false
             state.loading = false
         },
-        [ChangePassword.panding]: (state) => {
+        [ChangePassword.pending]: (state) => {
             state.loading = true
         },
         [ChangePassword.fulfilled]: (state) => {
             state.loading = false
             state.isChangePassword = true
         },
-        [ChangePassword.rejected]: (state, { payload }) => {
+        [ChangePassword.rejected]: (state, {payload}) => {
             state.loading = false
             state.isChangePassword = false
         },
@@ -139,4 +139,11 @@ const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-export const { setAuthInitialState, setAuthModalInfo, setAuthSignOut, setAuthIsChangePass, setAuthIsResetPassword, setIsValidToken } = authSlice.actions
+export const {
+    setAuthInitialState,
+    setAuthModalInfo,
+    setAuthSignOut,
+    setAuthIsChangePass,
+    setAuthIsResetPassword,
+    setIsValidToken
+} = authSlice.actions

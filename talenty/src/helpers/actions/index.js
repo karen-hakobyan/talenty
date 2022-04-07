@@ -39,7 +39,7 @@ export const isValidRationalNumber = value => {
 export const cleanTemplateNewIds = (data) => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (key, reviver) => {
-        if (!reviver ? .id) {
+        if (!reviver?.id) {
             return reviver
         }
         return ({
@@ -53,13 +53,14 @@ export const cleanTemplateNewIds = (data) => {
 export const cleanHrTemplateNewIds = data => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (_, reviverValue) => {
-        if (!reviverValue ? .id) {
+        if (!reviverValue?.id) {
             return reviverValue
         }
         return ({
             ...(reviverValue.id.startsWith('0') ? {} : { id: reviverValue.id }),
             ...(reviverValue.fields ? { fields: [...reviverValue.fields] } : {}),
             metadata: reviverValue.metadata,
+            name: reviverValue.name
         })
     })
     return result

@@ -6,6 +6,7 @@ const Login = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             let response = await instance.post(LOGIN, payload.data)
+            console.log(response.data)
             if (payload.isChecked) {
                 localStorage.setItem('jwt', response.data.jwtToken)
             } else {
@@ -13,6 +14,7 @@ const Login = createAsyncThunk(
             }
             return response.data
         } catch (err) {
+            console.log('mtav steap jan ')
             return thunkAPI.rejectWithValue({})
         }
     }

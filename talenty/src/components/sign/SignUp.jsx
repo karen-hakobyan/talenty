@@ -28,14 +28,14 @@ import {
     FLEX_CONTAINER,
 } from "./style";
 import Registration from "../../store/auth/Registration";
-import { selectAuthModalInfo } from "../../store/auth/selector";
-import { setAuthModalInfo } from "../../store/auth/authSlice";
+import {selectAuthModalInfo} from "../../store/auth/selector";
+import {setAuthModalInfo} from "../../store/auth/authSlice";
 
 export default function SignUp() {
     const navigate = useNavigate();
     const [terms, setTerms] = useState(false);
     const [isCompany, setIsCompany] = useState(true);
-    const dialogInfo = useSelector(selectAuthModalInfo)  
+    const dialogInfo = useSelector(selectAuthModalInfo)
     const dispatch = useDispatch()
     const {
         register,
@@ -47,7 +47,7 @@ export default function SignUp() {
         mode: "onChange",
         shouldFocusError: false,
     });
-    
+
 
     const fields = useMemo(
         () => (isCompany ? FIELDS_COMPANY(watch) : FIELDS(watch)),
@@ -121,12 +121,12 @@ export default function SignUp() {
                             ))}
                         </Box>
                         {fields.map((el) => {
-                            let {name: value, isPassword, key: objKey, error,placeholder} = el;
+                            let {name: value, isPassword, key: objKey, error, placeholder} = el;
                             return (
                                 <SignUpField
-                                    {...{isPassword, register, value, objKey, errors, error,placeholder}}
+                                    {...{isPassword, register, value, objKey, errors, error, placeholder}}
                                     key={objKey}
-                                   
+
                                 />
                             );
                         })}
