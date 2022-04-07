@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/system";
@@ -7,16 +7,24 @@ import {PINK} from "../../constants/colors";
 import {AddSectionIconSVG, CreateCVTemplateSVG, ListSVG, TemplateNamePenSVG,} from "../../assets/icons/createTemplate";
 import TemplateItem from "./TemplateItem";
 import {setAllTemplateData} from "../../store/globalData/slice";
-import { selectTemplateData, selectTemplateInitialData, selectTemplateList} from "../../store/globalData/selector";
-import {DIALOG_ADD_SECTION_CONTAINER,    DIALOG_BUTTON_PURPLE,    FLEX_CONTAINER, GLOBAL_TEXT, TEMPLATE_BUTTON_ADD, TEMPLATE_BUTTON_CREATE, TEMPLATE_TITLE,} from "../../shared/styles";
+import {selectTemplateData, selectTemplateInitialData, selectTemplateList} from "../../store/globalData/selector";
+import {
+    DIALOG_ADD_SECTION_CONTAINER,
+    DIALOG_BUTTON_PURPLE,
+    FLEX_CONTAINER,
+    GLOBAL_TEXT,
+    TEMPLATE_BUTTON_ADD,
+    TEMPLATE_BUTTON_CREATE,
+    TEMPLATE_TITLE,
+} from "../../shared/styles";
 import AddSection from "../dialogs/addSection";
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
-import {createCvHR, getTemplateActions} from "../../store/globalData/getTemplateActions";
+import {createCvHR, getTemplateActions, getTemplateLists} from "../../store/globalData/getTemplateActions";
 import {compareObjects} from "../../helpers/compareTwoData";
 import Button from "../../shared/components/Button";
-import { isValidTemplateName, notValidTemplateName } from "./helper ";
+import {isValidTemplateName, notValidTemplateName} from "./helper ";
 
 const CustomInput = styled("input")(() => ({
     width: "100%",
@@ -35,11 +43,11 @@ const CustomInput = styled("input")(() => ({
     }
 }))
 
-const placeholderInput = "System Template"
+const placeholderInput = "Please, give a name to your CV template"
 
 function CvTemplateMain() {
     const [title, setTitle] = useState("");
-    const [isValidTemplateNameDialogOpen,setIsValidTemplateNameDialogOpen]= useState(false)
+    const [isValidTemplateNameDialogOpen, setIsValidTemplateNameDialogOpen] = useState(false)
     const data = useSelector(selectTemplateData)
     const userInfo = useSelector(selectAuthUserInfo)
     const [isTemplateNameText, setIsTemplateNameText] = useState(true);
@@ -50,7 +58,9 @@ function CvTemplateMain() {
     const templateList = useSelector(selectTemplateList)
     const customInput = useRef(null)
     const container = useRef()
-
+    const isEditing = useMemo(() => {
+        return templateList.some(el => el[0] === data?.id)
+    }, [templateList, data])
 
     useEffect(() => {
         if (userInfo === null) {
@@ -72,11 +82,11 @@ function CvTemplateMain() {
     if (!data) {
         return null;
     }
-   
+
     return (
         <Box
-        ref={container}
-         sx={{pr: "24px", pl: "24px", pb: "24px", maxHeight: 'calc(100vh - 80px)', overflow: 'scroll', flex: 1}}>
+            ref={container}
+            sx={{pr: "24px", pl: "24px", pb: "24px", maxHeight: 'calc(100vh - 80px)', overflow: 'scroll', flex: 1}}>
             <Dialog
                 open={isValidTemplateNameDialogOpen}
                 maxWidth={false}
@@ -86,24 +96,26 @@ function CvTemplateMain() {
                     setTimeout(() => customInput.current.focus())
                 }}
             >
-                <Box sx={{...DIALOG_ADD_SECTION_CONTAINER,...FLEX_CONTAINER,alignItems:"center"}}>
-                  <Box sx={TEMPLATE_TITLE} >Attention!!!</Box>  
-                  <Box sx={{...GLOBAL_TEXT,
-                    textAlign:"center",
-                    fontSize:"16px",
-                    color:"#000",
-                    lineHeight: "26px"
-                    }}>Your CV template can not get “{title.length === 0? "System Template":title}” name. <br/>Please, give another name.</Box>
-                  <Button sx={DIALOG_BUTTON_PURPLE}
-                    onClick={()=>{
-                        setIsValidTemplateNameDialogOpen(false)
-                        setIsTemplateNameText(false);
-                        customInput.current.scrollTo(0,0)
-                        setTimeout(() => customInput.current.focus());
-                    }}
-                   >Ok</Button>
+                <Box sx={{...DIALOG_ADD_SECTION_CONTAINER, ...FLEX_CONTAINER, alignItems: "center"}}>
+                    <Box sx={TEMPLATE_TITLE}>Attention!!!</Box>
+                    <Box sx={{
+                        ...GLOBAL_TEXT,
+                        textAlign: "center",
+                        fontSize: "16px",
+                        color: "#000",
+                        lineHeight: "26px"
+                    }}>Your CV template can not get “{title.length === 0 ? "System Template" : title}” name. <br/>Please,
+                        give another name.</Box>
+                    <Button sx={DIALOG_BUTTON_PURPLE}
+                            onClick={() => {
+                                setIsValidTemplateNameDialogOpen(false)
+                                setIsTemplateNameText(false);
+                                customInput.current.scrollTo(0, 0)
+                                setTimeout(() => customInput.current.focus());
+                            }}
+                    >Ok</Button>
                 </Box>
-                
+
             </Dialog>
             <Dialog
                 open={addSectionDialogIsOpen}
@@ -129,7 +141,7 @@ function CvTemplateMain() {
                     }}
                     variant="h5"
                 >
-                    Create CV Template
+                    {isEditing ? 'Edit CV template' : 'Create CV Template'}
                 </Typography>
             </Box>
             <Box
@@ -157,7 +169,6 @@ function CvTemplateMain() {
                     placeholder={placeholderInput}
                     value={title}
                     disabled={!!isTemplateNameText}
-
                     onChange={(e) => {
                         setTitle(e.target.value);
                     }}
@@ -172,9 +183,8 @@ function CvTemplateMain() {
                         }
                     }}
                 />
-
             </Box>
-            {data.fields.map((item) => (
+            {data.fields.filter(el => el).map((item) => (
                 item.metadata.status !== "DELETED" &&
                 <TemplateItem key={item.name} item={item} setData={(data) => dispatch(setAllTemplateData(data))}
                               data={data}/>
@@ -191,20 +201,18 @@ function CvTemplateMain() {
                 </IconButton>
                 <IconButton
                     sx={TEMPLATE_BUTTON_CREATE}
-                    onClick={() => {
-                        if(isValidTemplateName(templateList,title,notValidTemplateName)){
-                             dispatch(createCvHR(data))
-                        }else{
+                    onClick={async () => {
+                        if (isValidTemplateName(templateList, title, notValidTemplateName)) {
+                            await dispatch(createCvHR(data))
+                            await dispatch(getTemplateLists())
+                        } else {
                             setIsValidTemplateNameDialogOpen(true)
                         }
-                        
-
-                        
                     }}
                     disabled={compareObjects(unchangedData, data)}
                 >
                     <CreateCVTemplateSVG/>
-                    Create CV
+                    {isEditing ? 'Edit CV' : 'Create CV'}
                 </IconButton>
             </Box>
         </Box>

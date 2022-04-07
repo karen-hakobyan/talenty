@@ -9,7 +9,7 @@ import {
     RejectedSVG,
     WorkSVG
 } from "../../assets/icons/navigation";
-import {getTemplateById} from "../../store/globalData/getTemplateActions";
+import {getTemplateActions, getTemplateById} from "../../store/globalData/getTemplateActions";
 
 export const getJwt = () => {
     let jwt = localStorage.getItem("jwt");
@@ -65,7 +65,8 @@ export let navItemsGenerator = (templateList = [], dispatch = () => {
         text: 'CV template',
         children: [
             {
-                text: "Create new Cv", key: genId(), IconComponent: AddNewSubItem, action: (navigate) => {
+                text: "Create new Cv", key: genId(), IconComponent: AddNewSubItem, action: async (navigate) => {
+                    await dispatch(getTemplateActions())
                     navigate('template')
                 }
             },

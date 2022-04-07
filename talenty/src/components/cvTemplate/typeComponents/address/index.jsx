@@ -11,7 +11,6 @@ import SubSection from "../../../shared/subSection";
 
 export default function AddressGenerator({data, dispatch, dialogData, templateData}) {
 
-
     return (
         <SubSection
             label={data.name}
@@ -26,7 +25,7 @@ export default function AddressGenerator({data, dispatch, dialogData, templateDa
             checkboxComponent={
                 <Checkbox
                     onChange={() => {
-                        editCheckboxState({dispatch, dialogData, name: data.name});
+                        editCheckboxState({dispatch, dialogData, id: data.id});
                     }}
                     checked={data.metadata.required}
                     disabled={!data.metadata.required_editable}
@@ -39,8 +38,7 @@ export default function AddressGenerator({data, dispatch, dialogData, templateDa
                         onClick={() =>
                             onDelete({
                                 dispatch,
-                                item: data,
-                                data: templateData,
+                                id: data.id,
                                 dialogData,
                             })
                         }

@@ -40,10 +40,18 @@ export default function Navigation({maxWidth, minWidth}) {
     const templateList = useSelector(selectTemplateList)
     useEffect(() => {
         dispatch(getTemplateLists())
-    },[dispatch])
+    }, [dispatch])
     useEffect(() => {
-        setNavItemGeneratorState(navItemsGenerator(templateList, dispatch))
-    },[templateList, dispatch])
+        setNavItemGeneratorState((prev) => {
+            let temp = navItemsGenerator(templateList, dispatch)
+            return prev ? prev.map((el, index) => {
+                return {
+                    ...temp[index],
+                    open: !!el.open,
+                }
+            }) : temp
+        })
+    }, [templateList, dispatch])
 
     useEffect(() => {
         if (!isNavOpen) {
