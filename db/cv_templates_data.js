@@ -3,7 +3,7 @@ db.cv_templates.drop()
 let systemCVTemplate = {
     _id: ObjectId(),
     system: true,
-    name: "System CV Template",
+    name: "",
     fields: [{
         _id: ObjectId(),
         name: "Personal Info",
@@ -900,7 +900,7 @@ let systemCVTemplate = {
                     metadata: {
                         type: "section_container",
                         editable: false,
-                        deletable: false,
+                        deletable: true,
                         required: false,
                     },
                     fields: [{
@@ -912,7 +912,7 @@ let systemCVTemplate = {
                             maxLength: 100,
                             editable: false,
                             required_editable: true,
-                            deletable: true,
+                            deletable: false,
                             required: false,
                         },
                     },
