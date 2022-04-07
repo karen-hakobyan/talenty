@@ -30,7 +30,11 @@ public class JobAnnouncementService {
 
     public JobAnnouncement getSystemJobAnnouncement() {
         final JobAnnouncementDocument systemJobAnnouncement = jobAnnouncementRepository.findSystemJobAnnouncement();
-        Executor.getInstance().setChildFields(systemJobAnnouncement.getFields()).executeLogic(applicationContext.getBean(AdminValuesMergeExecutor.class));
+        Executor.getInstance()
+                .setChildFields(systemJobAnnouncement.getFields())
+                .executeLogic(
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
+                );
         return JobAnnouncementMapper.instance.documentToDto(systemJobAnnouncement);
     }
 
