@@ -36,17 +36,26 @@ public class JobAnnouncementService {
 
     public JobAnnouncement publish(final JobAnnouncement jobAnnouncement) {
         final JobAnnouncementDocument document = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
-        final Optional<JobAnnouncementDocument> parentTemplate = jobAnnouncementRepository.findById(document.getId());
+        final Optional<JobAnnouncementDocument> parentTemplateOptional = jobAnnouncementRepository.findById(document.getId());
 
-        if (parentTemplate.isEmpty()) {
+        if (parentTemplateOptional.isEmpty()) {
             System.out.printf("No such job announcement with id '%s'\n", document.getId());
             throw new NoSuchAnnouncementException();
         }
 
-        Executor.getInstance().setParentFields(parentTemplate.get().getFields()).setChildFields(document.getFields()).executeLogic(new RequiredFieldValidationExecutor(), new SubmittedFieldValueValidationExecutor());
+        final JobAnnouncementDocument parentTemplate = parentTemplateOptional.get();
+        Executor.getInstance()
+                .setParentFields(parentTemplate.getFields())
+                .setChildFields(document.getFields())
+                .executeLogic(
+                        new RequiredFieldValidationExecutor(),
+                        new SubmittedFieldValueValidationExecutor()
+                );
 
+        document.setId(null);
+        document.setParentId(parentTemplate.getId());
+        document.setStatus(JobAnnouncementStatus.PENDING);
         final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
-        saved.setId(null);
         return JobAnnouncementMapper.instance.documentToDto(saved);
     }
 
@@ -65,6 +74,11 @@ public class JobAnnouncementService {
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
     }
 
+    public JobAnnouncement rejectAnnouncement(final String id) {
+        final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.REJECTED);
+        return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
+    }
+
     private JobAnnouncementDocument changeAnnouncementStatus(final String id, final JobAnnouncementStatus status) {
         final Optional<JobAnnouncementDocument> byId = jobAnnouncementRepository.findById(id);
         if (byId.isEmpty()) {
@@ -76,8 +90,4 @@ public class JobAnnouncementService {
         return jobAnnouncementDocument;
     }
 
-    public JobAnnouncement rejectAnnouncement(final String id) {
-        final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.REJECTED);
-        return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
-    }
 }
