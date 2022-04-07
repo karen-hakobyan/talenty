@@ -43,7 +43,7 @@ const CustomInput = styled("input")(() => ({
     }
 }))
 
-const placeholderInput = "Please, give a name to your CV template"
+const placeholderInput = "System template"
 
 function CvTemplateMain() {
     const [title, setTitle] = useState("");
@@ -104,8 +104,12 @@ function CvTemplateMain() {
                         fontSize: "16px",
                         color: "#000",
                         lineHeight: "26px"
-                    }}>Your CV template can not get “{title.length === 0 ? "System Template" : title}” name. <br/>Please,
-                        give another name.</Box>
+                    }}>
+                        {
+                            title.length ? `Your CV template can not get “${title === "System Template" ? "System Template" : title}”
+                            name. <br/>Please, give another name.` : `Please, give a name to your CV template`
+                        }
+                    </Box>
                     <Button sx={DIALOG_BUTTON_PURPLE}
                             onClick={() => {
                                 setIsValidTemplateNameDialogOpen(false)

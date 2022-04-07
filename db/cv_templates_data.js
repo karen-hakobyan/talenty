@@ -3,7 +3,7 @@ db.cv_templates.drop()
 let systemCVTemplate = {
     _id: ObjectId(),
     system: true,
-    name: "",
+    name: "System template",
     fields: [{
         _id: ObjectId(),
         name: "Personal Info",
