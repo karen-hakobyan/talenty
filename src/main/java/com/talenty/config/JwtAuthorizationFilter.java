@@ -1,7 +1,6 @@
 package com.talenty.config;
 
 import com.talenty.domain.dto.user.AuthenticatedUser;
-import com.talenty.domain.mongo.UserDocument;
 import com.talenty.jwt.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -16,8 +15,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;

@@ -12,4 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "users")
 @TypeAlias("job_seeker")
 public class JobSeekerDocument extends UserDocument {
+
+    private String cvTemplateId;
+
 }

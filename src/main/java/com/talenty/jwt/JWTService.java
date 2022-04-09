@@ -1,5 +1,7 @@
 package com.talenty.jwt;
 
+import com.talenty.domain.mongo.HrDocument;
+import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.exceptions.InvalidJWTTokenException;
 import io.jsonwebtoken.Claims;
@@ -26,6 +28,29 @@ public class JWTService {
                 .claim("email", user.getEmail())
                 .claim("role", user.getRole())
                 .claim("verifiedAccount", user.isVerifiedAccount())
+                .signWith(KEY).compact();
+    }
+
+    public String generate(final HrDocument hr) {
+        return Jwts.builder()
+                .claim("id", hr.getId())
+                .claim("firstName", hr.getFirstName())
+                .claim("lastName", hr.getLastName())
+                .claim("email", hr.getEmail())
+                .claim("role", hr.getRole())
+                .claim("verifiedAccount", hr.isVerifiedAccount())
+                .signWith(KEY).compact();
+    }
+
+    public String generate(final JobSeekerDocument jobSeeker) {
+        return Jwts.builder()
+                .claim("id", jobSeeker.getId())
+                .claim("firstName", jobSeeker.getFirstName())
+                .claim("lastName", jobSeeker.getLastName())
+                .claim("email", jobSeeker.getEmail())
+                .claim("role", jobSeeker.getRole())
+                .claim("verifiedAccount", jobSeeker.isVerifiedAccount())
+                .claim("cvTemplateId", jobSeeker.getCvTemplateId())
                 .signWith(KEY).compact();
     }
 
