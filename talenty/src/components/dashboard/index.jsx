@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 import {Box} from "@mui/material";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import CvTemplateMain from "../cvTemplate/CvTemplateMain";
 import Header from "./Header";
@@ -8,12 +8,19 @@ import Navigation from "./Navigation";
 import {selectAuthJwt, selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 import JobAnnouncement from "./JobAnnouncement";
+import {getJwt} from "./helper";
+import {setAuthInitialState} from "../../store/auth/authSlice";
 
 export default function Dashboard() {
     const jwt = useSelector(selectAuthJwt)
     const userInfo = useSelector(selectAuthUserInfo)
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (!getJwt()) {
+            dispatch(setAuthInitialState())
+        }
+    }, [dispatch])
     useEffect(() => {
         if (userInfo === null) {
             navigate(LANDING_PAGE_ROUTE)

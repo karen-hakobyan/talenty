@@ -171,6 +171,22 @@ export default function SignUp() {
                     >
                         Sign up
                     </Button>
+                    <Box sx={{
+                        display: 'flex',
+                        gap: '6px',
+                        fontFamily: 'Poppins',
+                        fontWeight: 400,
+                        fontSize: '16px',
+                        lineHeight: '22px',
+                        color: '#4C494F',
+                        justifyContent: 'center',
+                        mt: '16px',
+                    }}>
+                        <Box>Already have an account?</Box>
+                        <Box sx={{color: '#8C0DF0', cursor: 'pointer'}} onClick={() => {
+                            navigate(SIGN_IN_ROUTE)
+                        }}>Sign in</Box>
+                    </Box>
                 </FormControl>
             </BackgroundImage>
         </Box>
