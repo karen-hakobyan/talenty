@@ -58,7 +58,7 @@ public class CVTemplateController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createNewCvTemplate(@RequestBody final CVTemplate cvTemplate) {
         final CVTemplate newCvTemplate = cvTemplateService.createNewCvTemplate(cvTemplate);
-        return ResponseEntity.ok("created_new_cv_template");
+        return ResponseEntity.ok(getAllCvTemplatesIds());
     }
 
     @PostMapping("/save_submitted")
