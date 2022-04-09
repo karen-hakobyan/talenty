@@ -60,7 +60,7 @@ export default function JobAnnouncement() {
                 <AnnouncementSVG/>
                 Add new job
             </Box>
-            {templateData.fields.map(el => {
+            {templateData.fields.filter(el => el).map(el => {
                 if (el.metadata.status === "DELETED") {
                     return null
                 }

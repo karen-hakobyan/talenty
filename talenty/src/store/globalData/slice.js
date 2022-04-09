@@ -90,8 +90,9 @@ export const globalDataSlice = createSlice({
             console.log('hasav rejectedi mot')
             state.templateData = jobAnnouncementAjab
         },
-        [createCvHR.fulfilled]: (state) => {
+        [createCvHR.fulfilled]: (state, {payload}) => {
             state.templateData = null;
+            state.templateList = payload
         },
         [getTemplateLists.fulfilled]: (state, {payload}) => {
             state.templateList = payload
