@@ -39,7 +39,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Employment terms",
                             metadata: {
-                                placeholder: "Employment terms",
                                 type: "employment_terms",
                                 deletable: false,
                                 required: false,
@@ -49,7 +48,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Job type",
                             metadata: {
-                                placeholder: "Job type",
                                 type: "job_type",
                                 deletable: false,
                                 required: false,
@@ -59,7 +57,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Job Category",
                             metadata: {
-                                placeholder: "Job Category",
                                 type: "job_category",
                                 deletable: false,
                                 required: false,
@@ -69,7 +66,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Candidate level",
                             metadata: {
-                                placeholder: "Candidate level",
                                 type: "candidate_level",
                                 deletable: false,
                                 required: false,
@@ -79,7 +75,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Country",
                             metadata: {
-                                placeholder: "Country",
                                 type: "country",
                                 deletable: false,
                                 required: false,
@@ -89,7 +84,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "City",
                             metadata: {
-                                placeholder: "City",
                                 type: "city",
                                 deletable: false,
                                 required: false,
@@ -119,7 +113,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "From",
                             metadata: {
-                                placeholder: "From",
                                 type: "salary",
                                 deletable: false,
                                 required: false,
@@ -129,7 +122,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "To",
                             metadata: {
-                                placeholder: "To",
                                 type: "salary",
                                 deletable: false,
                                 required: false,
@@ -139,7 +131,6 @@ let jobAnnouncement = {
                             _id: ObjectId(),
                             name: "Currency",
                             metadata: {
-                                placeholder: "Currency",
                                 type: "currency",
                                 deletable: false,
                                 required: false,
@@ -151,7 +142,6 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Deadline",
                     metadata: {
-                        placeholder: "Deadline",
                         type: "deadline",
                         maxLength: 100,
                         deletable: false,
@@ -173,7 +163,6 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Description",
                     metadata: {
-                        placeholder: "Description",
                         type: "description",
                         maxLength: 1000,
                         deletable: false,
@@ -184,7 +173,6 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Responsibilities",
                     metadata: {
-                        placeholder: "Responsibilities",
                         type: "description",
                         maxLength: 1000,
                         deletable: false,
@@ -195,7 +183,6 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Required qualifications",
                     metadata: {
-                        placeholder: "Required qualifications",
                         type: "description",
                         maxLength: 1000,
                         deletable: false,
@@ -215,7 +202,6 @@ let jobAnnouncement = {
             },
             fields: [{
                     _id: ObjectId(),
-                    name: "Professional skills",
                     metadata: {
                         placeholder: "Professional skills",
                         type: "professional_skill",
@@ -227,7 +213,6 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Personal skills",
                     metadata: {
-                        placeholder: "Personal skills",
                         type: "personal_skill",
                         deletable: false,
                         required: false,
