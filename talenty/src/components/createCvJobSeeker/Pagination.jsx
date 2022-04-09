@@ -1,4 +1,6 @@
 import {Box} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {setExactPage} from "../../store/globalData/slice";
 
 function fillArrForMap(count) {
     let arr = [];
@@ -19,16 +21,20 @@ let PAGINATION_ITEM_STYLE = (active) => ({
     alignItems: "center",
     fontSize: "20px",
     fontFamily: "'Poppins', sans-serif",
+    cursor: 'pointer'
 });
 
 export default function Pagination({pagesCount, exactPage}) {
     let arr = fillArrForMap(pagesCount - 1);
+    const dispatch = useDispatch()
     return pagesCount ? (
         <Box sx={{display: "flex", flex: 1}}>
             <Box sx={{flex: 1, display: "flex"}}>
                 {arr.map((el) => (
                     <Box sx={{display: "flex", alignItems: "center", flex: 1}} key={el}>
-                        <Box sx={PAGINATION_ITEM_STYLE(exactPage >= el)}>{el}</Box>
+                        <Box sx={PAGINATION_ITEM_STYLE(exactPage >= el)} onClick={() => {
+                            dispatch(setExactPage(+el))
+                        }}>{el}</Box>
                         {/*bellow lines stile*/}
                         {
                             el !== pagesCount ? (

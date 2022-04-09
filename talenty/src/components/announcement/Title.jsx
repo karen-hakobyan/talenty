@@ -6,7 +6,6 @@ import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 import {selectDialogData} from "../../store/dialogs/selector";
 import BasicDatePicker from "../shared/DatePicker";
-import {validateDate} from "../createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection";
 
 export default function Title({data}) {
     const dispatch = useDispatch()
@@ -34,14 +33,12 @@ export default function Title({data}) {
                 <BasicDatePicker
                     placeholder="Deadline"
                     value={deadline.metadata.submitted_value}
-                    onChange={
-                        (event) => {
-                            dispatch(changeDialogDataById({
-                                id: deadline.id,
-                                value: validateDate(event.toLocaleDateString()),
-                            }))
-                        }
-                    }
+                    closeAction={(value) => {
+                        dispatch(changeDialogDataById({
+                            id: deadline.id,
+                            value
+                        }))
+                    }}
                     pickerProps={{minDate: new Date()}}
                     fieldStyle={{width: '320px'}}
                 />

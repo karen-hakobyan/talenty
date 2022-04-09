@@ -15,7 +15,7 @@ export default function TextField({sx, ...restProps}) {
                         fontFamily: "'Poppins', sans-serif",
                         opacity: 1,
                         color: '#8C8C8C',
-                    }
+                    },
                 },
                 ...sx,
             }
