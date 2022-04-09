@@ -30,7 +30,7 @@ const RoutesMain = () => {
                 path={`${SIGN_UP_ROUTE}`}
                 element={<SignUp {...{isCompany}} />}
             />}
-            {!userInfo && <Route path={SIGN_IN_ROUTE} element={<SignIn />}/>}
+            {!userInfo && <Route path={SIGN_IN_ROUTE} element={<SignIn/>}/>}
             {!userInfo && <Route path={`${FORGOT_PASSWORD_ROUTE}`} element={<ForgotPassword/>}/>}
             {!userInfo && <Route path={LANDING_PAGE_ROUTE} element={<LandingPage/>}/>}
             <Route path="*" element={<NotFoundRoute/>}/>

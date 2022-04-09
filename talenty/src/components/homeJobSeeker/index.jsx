@@ -1,11 +1,21 @@
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
 import {Box} from "@mui/material";
 import {Route, Routes} from "react-router-dom";
 import Header from "./Header";
 import Home from "./Home";
 import {CREATE_CV} from "../../constants/routes";
 import CreateCvJobSeeker from "../createCvJobSeeker";
+import {setAuthInitialState} from "../../store/auth/authSlice";
+import {getJwt} from "../dashboard/helper";
 
 export default function HomeJobSeeker() {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (!getJwt()) {
+            dispatch(setAuthInitialState())
+        }
+    }, [dispatch])
     return (
         <Box>
             <Header/>

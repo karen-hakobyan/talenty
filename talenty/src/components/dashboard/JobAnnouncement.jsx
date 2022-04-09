@@ -79,9 +79,9 @@ export default function JobAnnouncement() {
             <Box sx={{display: 'flex'}}>
                 <IconButton sx={TEMPLATE_BUTTON_ADD} ref={attachButton} onClick={() => setIsOpenMenuList(true)}>
                     <AttachCvIcon/>
-                    Attach CV template
+                    {templateData?.attachedCvTemplateId ? templateList.find(el => el[0] === templateData?.attachedCvTemplateId)?.[1] || 'Attach CV template' : 'Attach CV template'}
                 </IconButton>
-                {templateList?.length &&
+                {!!templateList?.length &&
                     <Menu open={isOpenMenuList} anchorEl={attachButton.current} onClose={() => setIsOpenMenuList(false)}
                           anchorPosition={{top: 0, left: 0}}>
                         {templateList.map(el => {

@@ -15,7 +15,6 @@ export default function Title({data}) {
     const deadline = useMemo(() => {
         return dialogData.fields.find(el => el.name === 'Deadline')
     }, [dialogData])
-    console.log(deadline)
     return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection
             label={<Box>Title <span style={{color: '#8C0DF0'}}>*</span></Box>}
@@ -44,7 +43,7 @@ export default function Title({data}) {
                         }
                     }
                     pickerProps={{minDate: new Date()}}
-                    fieldStyle={{width: '300px'}}
+                    fieldStyle={{width: '320px'}}
                 />
             }
         />
