@@ -1,12 +1,12 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../constants/requests";
-import { getJwt } from "../../components/dashboard/helper";
-import { getUrls } from "../../request/get";
-import { cleanHrTemplateNewIds } from "../../helpers/actions";
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import {instance} from "../../constants/requests";
+import {getJwt} from "../../components/dashboard/helper";
+import {getUrls} from "../../request/get";
+import {cleanHrTemplateNewIds, cleanTemplateNewIds} from "../../helpers/actions";
 
-export const getTemplateActions = createAsyncThunk('globalData/getTemplateActions', async(_, thunkAPI) => {
+export const getTemplateActions = createAsyncThunk('globalData/getTemplateActions', async (_, thunkAPI) => {
     try {
-        instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
         const response = await instance.get(getUrls['getTemplates'])
         return response.data
     } catch {
@@ -16,9 +16,9 @@ export const getTemplateActions = createAsyncThunk('globalData/getTemplateAction
 
 export const getTemplateLists = createAsyncThunk(
     'globalData/getTemplateLists',
-    async(_, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.templateList)
             return Object.entries(response.data)
         } catch (err) {
@@ -29,11 +29,11 @@ export const getTemplateLists = createAsyncThunk(
 
 export const getTemplateById = createAsyncThunk(
     'globalData/getTemplateById',
-    async(id, thunkAPI) => {
+    async (id, thunkAPI) => {
         try {
             console.log(id)
             console.log('hasav by id')
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.templateById(id))
             console.log(response.data)
             return response.data
@@ -44,10 +44,10 @@ export const getTemplateById = createAsyncThunk(
 )
 export const saveJobSeekerCV = createAsyncThunk(
     'globalData/saveJobSeekerCV',
-    async(templateData, thunkAPI) => {
+    async (templateData, thunkAPI) => {
         try {
             console.log(cleanTemplateNewIds(templateData))
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.post('/cv_template/save_submitted', cleanTemplateNewIds(templateData))
             console.log(response)
         } catch (err) {
@@ -56,9 +56,9 @@ export const saveJobSeekerCV = createAsyncThunk(
     }
 )
 
-export const createCvHR = createAsyncThunk('globalData/createHRCV', async(templateData, thunkAPI) => {
+export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
     try {
-        instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
         const response = await instance.post('cv_template/create_new', cleanHrTemplateNewIds(templateData))
         return response.data
     } catch (err) {
@@ -68,7 +68,7 @@ export const createCvHR = createAsyncThunk('globalData/createHRCV', async(templa
 
 export const getJobAnnouncement = createAsyncThunk(
     'globalData/getJobAnnouncement',
-    async(_, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const response = await instance.get('/job_announcements/system')
             return response.data
