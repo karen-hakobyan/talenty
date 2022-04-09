@@ -68,7 +68,7 @@ export default function AnnouncementPreview() {
                     padding: '24px',
                 }}
             >
-                <Box sx={{flex: 1, display: 'flex', alignItems: 'center', fontFamily: 'Proxima Nova'}}>
+                <Box sx={{flex: 1, display: 'flex', alignItems: 'center', fontFamily: "'Poppins', sans-serif"}}>
                     {isPublished?.status === 'ok' ? "Congratulations your announcement was published" : 'Something went wrong'}
                 </Box>
                 <Button

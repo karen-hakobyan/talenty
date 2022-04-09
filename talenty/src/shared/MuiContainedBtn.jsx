@@ -17,7 +17,7 @@ function MuiContainedBtn({bgColor, children, onClick, Width}) {
                 marginTop: "26px",
                 transition: "all 0.4s",
                 cursor: "pointer",
-                fontFamily: "Proxima Nova",
+                fontFamily: "'Poppins', sans-serif",
                 fontStyle: "normal",
                 fontWeight: "normal",
                 fontSize: "16px",

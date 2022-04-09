@@ -7,8 +7,13 @@ new_object[system_cv_template_id] = system_cv_template.name
 let users = db.users.find({})
 
 users.forEach(user => {
-    db.users.update(
-        user,
-        {$unset: {"cv_templates": 1}}
-    )
+    if(user.role === "ROLE_HR_ADMIN") {
+        db.users.update(
+            user,
+            {
+                $set: {"cv_templates": new_object}
+            }
+        )
+    }
+
 })

@@ -1,5 +1,5 @@
-import {getJwt} from "../../components/dashboard/helper";
-import {LANDING_PAGE_ROUTE} from "../../constants/routes";
+import { getJwt } from "../../components/dashboard/helper";
+import { LANDING_PAGE_ROUTE } from "../../constants/routes";
 
 export function deleteFromTempleteById(templateData, id) {
     return JSON.parse(JSON.stringify(templateData), (key, value) => {
@@ -42,13 +42,11 @@ export const cleanTemplateNewIds = (data) => {
         if (!reviver?.id) {
             return reviver
         }
-        return (
-            {
-                ...(reviver.id.startsWith('0') ? {} : {id: reviver.id}),
-                ...(reviver.fields ? {fields: [...reviver.fields]} : {}),
-                ...(!reviver.fields && reviver.metadata.submitted_value ? {metadata: {submitted_value: reviver.metadata.submitted_value}} : {metadata: {}})
-            }
-        )
+        return ({
+            ...(reviver.id.startsWith('0') ? {} : { id: reviver.id }),
+            ...(reviver.fields ? { fields: [...reviver.fields] } : {}),
+            ...(!reviver.fields && reviver.metadata.submitted_value ? { metadata: { submitted_value: reviver.metadata.submitted_value } } : { metadata: {} })
+        })
     })
     return result
 }
@@ -58,14 +56,12 @@ export const cleanHrTemplateNewIds = data => {
         if (!reviverValue?.id) {
             return reviverValue
         }
-        return (
-            {
-                ...(reviverValue.id.startsWith('0') ? {} : {id: reviverValue.id}),
-                ...(reviverValue.fields ? {fields: [...reviverValue.fields]} : {}),
-                metadata: reviverValue.metadata,
-                name: reviverValue.name
-            }
-        )
+        return ({
+            ...(reviverValue.id.startsWith('0') ? {} : { id: reviverValue.id }),
+            ...(reviverValue.fields ? { fields: [...reviverValue.fields] } : {}),
+            metadata: reviverValue.metadata,
+            name: reviverValue.name
+        })
     })
     return result
 }

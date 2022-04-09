@@ -38,7 +38,8 @@ export default function Select({
         }}
         {...restProps}
     >
-        {placeHolder && <MenuItem value="none" disabled sx={{display: 'none',color:"#4C494F"}}>{placeHolder}</MenuItem>}
+        {placeHolder &&
+            <MenuItem value="none" disabled sx={{display: 'none', color: "#4C494F"}}>{placeHolder}</MenuItem>}
         {menuItems.map((el) => {
             return <MenuItem
                 value={el}
@@ -53,7 +54,7 @@ export default function Select({
                     color: '#4C494F',
                     fontSize: '16px',
                     fontWeight: 400,
-                    fontFamily: 'Proxima Nova',
+                    fontFamily: "'Poppins', sans-serif",
                     lineHeight: '24px',
                 }}
             >
@@ -115,7 +116,7 @@ export function MultipleSelect({
                     color: '#4C494F',
                     fontSize: '16px',
                     fontWeight: 400,
-                    fontFamily: 'Proxima Nova',
+                    fontFamily: "'Poppins', sans-serif",
                     lineHeight: '24px',
                 }}
             >

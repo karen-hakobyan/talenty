@@ -18,7 +18,7 @@ let PAGINATION_ITEM_STYLE = (active) => ({
     justifyContent: "center",
     alignItems: "center",
     fontSize: "20px",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
 });
 
 export default function Pagination({pagesCount, exactPage}) {

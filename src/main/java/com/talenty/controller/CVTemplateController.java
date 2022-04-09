@@ -67,4 +67,10 @@ public class CVTemplateController {
         return ResponseEntity.ok("saved_submitted_cv_template");
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity<?> editSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate editedCvTemplate) {
+        submittedCvTemplateService.edit(editedCvTemplate);
+        return ResponseEntity.ok("saved_submitted_cv_template");
+    }
+
 }

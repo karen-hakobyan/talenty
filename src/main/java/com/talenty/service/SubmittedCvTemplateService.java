@@ -28,7 +28,7 @@ public class SubmittedCvTemplateService {
         this.cvTemplateService = cvTemplateService;
     }
 
-    public SubmittedCVTemplateDocument saveSubmittedCvTemplate(final SubmittedCVTemplate submittedCVTemplate) {
+    public SubmittedCVTemplate saveSubmittedCvTemplate(final SubmittedCVTemplate submittedCVTemplate) {
         final CVTemplateDocument parentTemplate = cvTemplateService.getCvTemplateById(submittedCVTemplate.getId(), true);
 
         final SubmittedCVTemplateDocument submittedTemplate = CVTemplateMapper.instance.dtoToDocument(submittedCVTemplate);
@@ -42,7 +42,7 @@ public class SubmittedCvTemplateService {
                 );
         submittedTemplate.setId(null);
         submittedTemplate.setParentId(parentTemplate.getId());
-        return submittedCvTemplateRepository.save(submittedTemplate);
+        return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));
     }
 
     public SubmittedCVTemplate getCvTemplateById(final String id, final boolean withMetadata) {
@@ -63,5 +63,20 @@ public class SubmittedCvTemplateService {
                 );
 
         return CVTemplateMapper.instance.documentToDto(submittedCVTemplateDocument);
+    }
+
+    public SubmittedCVTemplate edit(final SubmittedCVTemplate cvTemplate) {
+        final CVTemplateDocument parentTemplate = cvTemplateService.getCvTemplateById(cvTemplate.getParentId(), true);
+
+        final SubmittedCVTemplateDocument submittedTemplate = CVTemplateMapper.instance.dtoToDocument(cvTemplate);
+        Executor.getInstance()
+                .setChildFields(submittedTemplate.getFields())
+                .setParentFields(parentTemplate.getFields())
+                .executeLogic(
+                        new FieldsIdValidationExecutor(),
+                        new RequiredFieldValidationExecutor(),
+                        new SubmittedFieldValueValidationExecutor()
+                );
+        return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));
     }
 }

@@ -1,6 +1,6 @@
-export const RADIO_LABEL= {
+export const RADIO_LABEL = {
     fontSize: '16px',
     lineHeight: '24px',
     fontWeight: '400px',
-    fontFamily: 'Proxima Nova',
+    fontFamily: "'Poppins', sans-serif",
 }

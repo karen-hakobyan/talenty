@@ -24,7 +24,7 @@ const Text = styled("span")(({theme}) => ({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
     fontSize: "16px",

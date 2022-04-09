@@ -7,7 +7,7 @@ export default function VacancyDetails({data}) {
                 return (
                     <Box sx={{display: 'flex', flexDirection: 'column', gap: '24px', color: '#4C494F'}} key={el.id}>
                         <Box sx={{
-                            fontFamily: 'Proxima Nova',
+                            fontFamily: "'Poppins', sans-serif",
                             fontSize: '16px',
                             lineHeight: '22px',
                             fontWeight: 900,
@@ -15,7 +15,7 @@ export default function VacancyDetails({data}) {
                             {el.name}
                         </Box>
                         <Box sx={{
-                            fontFamily: 'Proxima Nova',
+                            fontFamily: "'Poppins', sans-serif",
                             fontSize: '14px',
                             lineHeight: '20px',
                             fontWeight: 400,

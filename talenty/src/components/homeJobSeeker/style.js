@@ -31,7 +31,7 @@ export const MAIN_BOX_STYLE = {
 };
 
 export const SWITCH_TITLE = {
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontSize: "16px",
     fontWeight: 400,
     lineHeight: "19px",
@@ -50,7 +50,7 @@ export const SWITCH = {
 };
 
 export const USER_NAME = {
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: "22px",
@@ -59,7 +59,7 @@ export const USER_NAME = {
 }
 
 export const USER_EMAIL = {
-    fontFamily: "Proxima Nova",
+    fontFamily: "'Poppins', sans-serif",
     fontSize: "16px",
     lineHeight: "19px",
     color: COMET
