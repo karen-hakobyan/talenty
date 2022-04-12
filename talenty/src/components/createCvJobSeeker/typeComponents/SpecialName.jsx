@@ -17,6 +17,11 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
                         width: '500px', ...fieldStyle,
                     }
                 }
+                InputProps={{sx: {
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 onChange={(e) => {
                     setValue(e.target.value)
                 }}

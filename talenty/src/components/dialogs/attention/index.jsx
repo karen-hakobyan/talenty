@@ -22,6 +22,7 @@ export default function Attention({setAttentionIsOpen}) {
             >
                 <Box
                     sx={{
+                        fontFamily: "'Poppins', sans-serif",
                         textAlign: "center",
                         color: "#5D00A6",
                         fontSize: "18px",

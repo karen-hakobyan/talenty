@@ -16,6 +16,12 @@ export default function Description({data}) {
                 multiline
                 rows={3}
                 value={value}
+                InputProps={{sx: {
+                    height: "40px",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
             />

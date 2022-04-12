@@ -44,7 +44,11 @@ const SignInField = React.forwardRef(
                 </Box>
                 <TextField
                     InputProps={{
-                        sx: {height: "40px"}, endAdornment: isPassword ?
+                        sx: {
+                            height: "40px",
+                            fontFamily: "'Poppins', sans-serif",
+                            fontSize:15
+                        }, endAdornment: isPassword ?
                             <IconButton onClick={() => setShowPass(!showPass)}>
                                 {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small"/> :
                                     <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small"/>}
@@ -61,7 +65,7 @@ const SignInField = React.forwardRef(
                             fontFamily: "'Poppins', sans-serif",
                             fontStyle: "normal",
                             fontWeight: "normal",
-                            fontSize: "16px",
+                            fontSize: "15px",
                             lineHeight: "24px",
                         },
                     }}

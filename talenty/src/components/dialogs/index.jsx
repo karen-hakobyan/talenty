@@ -69,7 +69,7 @@ export default function Dialogs() {
                 <img style={{
                     width: "140px",
                     height: "140px",
-                }} src={Loading}/>
+                }} src={Loading} alt={"Loading"}/>
             </Box> : <TempComponent {...tempComponentInfo.props} />}
         </Dialog>
     );

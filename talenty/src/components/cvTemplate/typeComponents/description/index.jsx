@@ -22,6 +22,11 @@ export function DescriptionGenerator({data, isSectionContainer, dispatch, dialog
                     variant="outlined"
                     multiline
                     rows={4}
+                    InputProps={{sx: {
+                        height: "40px",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize:16,
+                }}}
                     sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}
                 />
             }

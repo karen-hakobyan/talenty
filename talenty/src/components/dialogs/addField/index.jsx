@@ -28,7 +28,12 @@ export default function AddField({dialogData, setIsOpen, withId}) {
                 <Box sx={INPUT_LABEL}>Field name</Box>
                 <TextField
                     placeholder="Add field name"
-                    InputProps={{sx: {height: "40px"}}}
+                    InputProps={{sx: {
+                        height: "40px",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize: "16px",
+                        lineHeight: "24px"
+                    }}}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     sx={{mb: 6, width: "100%", ...TEXT_FIELD}}

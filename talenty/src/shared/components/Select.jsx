@@ -13,12 +13,14 @@ export default function Select({
                                    ...restProps
                                }) {
     const [open, setOpen] = useState(false)
+    const [checked, setChecked] = useState(false)
     return <TextField
         sx={{
             width: textFieldWidth || '500px',
-            color: '#8C8C8C',
             '.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
-                color: '#8C8C8C',
+                color:value ==='none'? '#8C8C8C':"rgba(0, 0, 0, 0.87)",
+                fontFamily: "'Poppins', sans-serif",
+                fontSize:16
             },
             ...fieldStyle,
         }}
@@ -79,7 +81,9 @@ export function MultipleSelect({
             width: textFieldWidth || '500px',
             color: '#8C8C8C',
             '.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
-                color: '#8C8C8C',
+                color:value ==='none'? '#8C8C8C':"rgba(0, 0, 0, 0.87)",
+                fontFamily: "'Poppins', sans-serif",
+                fontSize:16
             },
             ...fieldStyle,
         }}

@@ -107,7 +107,7 @@ function CvTemplateMain() {
                     }}>
                         {
                             title.length ? `Your CV template can not get “${title === "System Template" ? "System Template" : title}”
-                            name. <br/>Please, give another name.` : `Please, give a name to your CV template`
+                            name. \n Please, give another name.` : `Please, give a name to your CV template`
                         }
                     </Box>
                     <Button sx={DIALOG_BUTTON_PURPLE}

@@ -1,4 +1,6 @@
-import {COMET, TEXT} from "../../constants/colors";
+import { border } from "@mui/system";
+import { COMET, TEXT } from "../../constants/colors";
+import Email from "../createCvJobSeeker/typeComponents/Email";
 
 export const CONTAINER_HEADER = {
     top: 0,
@@ -32,7 +34,7 @@ export const MAIN_BOX_STYLE = {
 
 export const SWITCH_TITLE = {
     fontFamily: "'Poppins', sans-serif",
-    fontSize: "16px",
+    fontSize: "15px",
     fontWeight: 400,
     lineHeight: "19px",
     letterSpacing: "0em",
@@ -60,7 +62,26 @@ export const USER_NAME = {
 
 export const USER_EMAIL = {
     fontFamily: "'Poppins', sans-serif",
-    fontSize: "16px",
+    fontSize: "15px",
     lineHeight: "19px",
-    color: COMET
+    color: COMET,
+    width: "200px",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    position: "relative",
+    "& .title": {
+        visibility: "hidden",
+        backgroundColor: "black",
+        color: "#fff",
+        position: "absolute",
+        zIndex: 1,
+    },
+    "&:hover .title": {
+        visibility: "visible",
+        overflow: "auto"
+    }
+}
+
+export const USER_EMAIL_TITLE = {
+
 }

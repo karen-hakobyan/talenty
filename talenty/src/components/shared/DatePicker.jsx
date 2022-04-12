@@ -23,8 +23,21 @@ export default function BasicDatePicker({
                 renderInput={(params) => {
                     return <TextField
                         {...params}
-                        sx={{width: '500px', ...fieldStyle}}
-                        inputProps={{...params.inputProps, placeholder}}
+                        sx={{
+                            width: '500px',
+                            fontFamily: "'Poppins', sans-serif",
+                        ...fieldStyle}}
+                        inputProps={{...params.inputProps, placeholder,sx:{
+                            fontFamily: "'Poppins', sans-serif",
+                            fontSize: "16px",
+                            lineHeight: "24px"
+                        }}}
+                        InputProps={{sx: {
+                            height: "40px",
+                            fontFamily: "'Poppins', sans-serif",
+                            fontSize: "16px",
+                            lineHeight: "24px"
+                        }}}
                     />
                 }}
             />

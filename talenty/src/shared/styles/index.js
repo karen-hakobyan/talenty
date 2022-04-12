@@ -1,12 +1,11 @@
-import {MAIN_PURPLE, TEXT, DIALOG_TITLE_COLOR} from "../../constants/colors";
-
+import { DIALOG_TITLE_COLOR, MAIN_PURPLE, TEXT } from "../../constants/colors";
 
 const TEMPLATE_ITEM_BUTTON = {
     display: "flex",
     gap: 1,
     fontSize: "14px",
     lineHeight: "22px",
-    fontWeight: 400,
+    fontFamily: "'Poppins', sans-serif",
     width: "94px",
     height: "34px",
     borderRadius: "6px",
@@ -37,27 +36,28 @@ const TEMPLATE_ITEM_BUTTON_DISABLED = {
     border: "1px solid #EFEFEF",
     background: "#EFEFEF",
     cursor: "default",
-    "&:hover": {background: "#EFEFEF"},
+    "&:hover": { background: "#EFEFEF" },
 };
 
 const INPUT_LABEL = {
     color: "#4C494F",
     lineHeight: "24px",
-    fontSize: "16px",
+    fontSize: 18,
     marginBottom: "10px",
     fontFamily: "'Poppins', sans-serif",
 };
 
-const TEMPLATE_INPUT = {width: "421px"};
-const DISABLED_INPUT = {background: "#F5F5F5"};
+const TEMPLATE_INPUT = { width: "421px" };
+const DISABLED_INPUT = { background: "#F5F5F5" };
 const TEMPLATE_BUTTON_ADD = {
+    fontFamily: "'Poppins', sans-serif",
     display: "flex",
     width: "179px",
     height: "34px",
     justifyContent: "center",
     alignItems: "center",
     gap: "9px",
-    fontSize: "14px",
+    fontSize: 16,
     borderRadius: "6px",
     border: "1px solid #ECECEC",
     cursor: "pointer",
@@ -73,6 +73,7 @@ const TEMPLATE_BUTTON_CREATE = {
         background: "#9F9F9F",
         color: "#FFF",
     },
+    textTransform: "none"
 };
 const HOME_PRIMARY_BUTTON = {
     ...TEMPLATE_BUTTON_CREATE,
@@ -97,7 +98,6 @@ const ADD_TEMPLATE_SECTION = {
         },
     },
     fontSize: "14px",
-    fontWeight: 400,
     fontFamily: "'Poppins', sans-serif",
     lineHeight: "22px",
     background: "#8C0DF0",
@@ -126,7 +126,7 @@ const GLOBAL_TEXT = {
     fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
-    fontSize: 14,
+    fontSize: 16,
     color: TEXT,
 };
 const LINE = {
@@ -165,6 +165,7 @@ const DIALOG_BUTTON_PURPLE = {
     },
     background: "#8C0DF0",
 }
+
 export {
     GLOBAL_TEXT,
     DIALOG_TITLE_CONTAINER,
@@ -184,5 +185,5 @@ export {
     HOME_PRIMARY_BUTTON,
     INPUT_VALUE_STYLE,
     DIALOG_BUTTON_PURPLE,
-    TEMPLATE_TITLE
+    TEMPLATE_TITLE,
 };
