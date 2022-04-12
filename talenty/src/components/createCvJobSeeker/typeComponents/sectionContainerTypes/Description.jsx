@@ -16,6 +16,11 @@ export default function Description({data}) {
                 multiline
                 rows={4}
                 value={value}
+                InputProps={{sx: {
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => {
                     setTimeout(() => {

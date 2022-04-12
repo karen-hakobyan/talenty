@@ -26,7 +26,11 @@ export default function DateGenerator({
                     disabled={disabledInput}
                     placeholder={data.metadata.placeholder}
                     sx={{...TEMPLATE_INPUT, ...(disabledInput ? DISABLED_INPUT : {})}}
-                    InputProps={{sx: {height: "40px"}}}
+                    InputProps={{sx: {
+                        height: "40px",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize:16,
+                }}}
                 />
             }
             checkboxComponent={

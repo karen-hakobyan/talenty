@@ -12,12 +12,18 @@ export default function City({data}) {
         Component={
             <TextField
                 sx={{width: '100%'}}
+
                 value={value}
                 onChange={
                     (event) => {
                         setValue(event.target.value)
                     }
                 }
+                InputProps={{sx: {
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 placeholder={data.metadata.placeholder}
                 onBlur={() => {
                     dispatch(changeDialogDataById({id: data.id, value}))

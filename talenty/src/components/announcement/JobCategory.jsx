@@ -11,6 +11,12 @@ export default function JobCategory({data}) {
             <Select
                 value={data.metadata.submitted_value}
                 textFieldWidth="100%"
+                InputProps={{sx: {
+                    height: "40px",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 menuItems={data.metadata.values}
                 placeHolder={data.metadata.placeholder}
                 onChange={(event) => {

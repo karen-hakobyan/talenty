@@ -13,6 +13,11 @@ export default function City({data}) {
             <TextField
                 placeholder={data.metadata.placeholder}
                 value={value}
+                InputProps={{sx: {
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 sx={{width: '500px'}}
                 onChange={(e) => {
                     setValue(e.target.value)

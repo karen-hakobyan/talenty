@@ -5,10 +5,15 @@ import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 
 export default function Description({data}) {
+    console.log(data)
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
     return <JobSeekerSubsection
-        label={data.metadata.required ? <Box>{data.name} *</Box> : data.name}
+        label={<Box sx={{
+            display:"flex",
+            alignItems:"center",
+        }}><Box>aaaaaaaa</Box><Box>aaaaaaaa</Box></Box>}
+        // data.metadata.required ? <Box>{data.name} *</Box> : data.name
         Component={
             <TextField
                 placeholder={data.metadata.placeholder}
@@ -17,7 +22,6 @@ export default function Description({data}) {
                 rows={3}
                 value={value}
                 InputProps={{sx: {
-                    height: "40px",
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: "16px",
                     lineHeight: "24px"

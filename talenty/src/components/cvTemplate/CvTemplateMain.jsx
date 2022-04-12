@@ -103,12 +103,16 @@ function CvTemplateMain() {
                         textAlign: "center",
                         fontSize: "16px",
                         color: "#000",
-                        lineHeight: "26px"
+                        lineHeight: "26px",
                     }}>
-                        {
-                            title.length ? `Your CV template can not get “${title === "System Template" ? "System Template" : title}”
-                            name. \n Please, give another name.` : `Please, give a name to your CV template`
-                        }
+                        {title.length? (<Box>
+                            {`Your CV template can not get “${title === "System Template" ? "System Template" : title}”
+                            name.`}
+                            <Box sx={{
+                                display:"block",
+                            }}>{"Please, give another name."}</Box>
+                            </Box>):
+                            (<Box>{`Please, give a name to your CV template`}</Box>)}
                     </Box>
                     <Button sx={DIALOG_BUTTON_PURPLE}
                             onClick={() => {

@@ -4,6 +4,7 @@ import {useDispatch} from "react-redux";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 
 export default function EmploymentTerms({data}) {
+    console.log(data)
     const dispatch = useDispatch()
     return <JobSeekerSubsection
         label={data.name}
