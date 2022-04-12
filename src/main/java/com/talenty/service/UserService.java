@@ -3,6 +3,8 @@ package com.talenty.service;
 import com.talenty.domain.dto.reset.ResetPasswordDetails;
 import com.talenty.domain.dto.user.UserLoginRequestDetails;
 import com.talenty.domain.dto.user.UserLoginResponseDetails;
+import com.talenty.domain.mongo.HrDocument;
+import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.TokenDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
@@ -16,6 +18,7 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -63,6 +66,11 @@ public class UserService {
         }
 
         System.out.printf("User with email '%s' has been successfully logged in\n", user.getEmail());
+        if (Objects.equals(user.getRole(), "ROLE_JOB_SEEKER")) {
+            return userBuilder.buildAuthenticatedUser((JobSeekerDocument) user);
+        } else if (Objects.equals(user.getRole(), "ROLE_HR_ADMIN")) {
+            return userBuilder.buildAuthenticatedUser((HrDocument) user);
+        }
         return userBuilder.buildAuthenticatedUser(user);
     }
 

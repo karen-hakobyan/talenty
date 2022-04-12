@@ -28,20 +28,17 @@ public class JobSeekerService {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JWTService jwtService;
 
     public JobSeekerService(final JobSeekerRepository jobSeekerRepository,
                             final EmailSender emailSender,
                             final TokenService tokenService,
                             final UserRepository userRepository,
-                            final PasswordEncoder passwordEncoder,
-                            final JWTService jwtService) {
+                            final PasswordEncoder passwordEncoder) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
@@ -78,6 +75,19 @@ public class JobSeekerService {
         }
 
         return currentJobSeeker.get();
+    }
+
+    public JobSeekerDocument addCvTemplate(final JobSeekerDocument currentJobSeeker, final String id) {
+        final Optional<JobSeekerDocument> byId = jobSeekerRepository.findById(currentJobSeeker.getId());
+        if (byId.isEmpty()) {
+            System.out.printf("User with id '%s' not found while getting current job seeker from authenticated user\n", currentJobSeeker.getId());
+            throw new UserNotFoundException();
+        }
+
+        final JobSeekerDocument jobSeekerDocument = byId.get();
+        jobSeekerDocument.setCvTemplateId(id);
+
+        return jobSeekerRepository.save(jobSeekerDocument);
     }
 
 }

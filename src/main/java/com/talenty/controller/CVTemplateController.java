@@ -75,8 +75,8 @@ public class CVTemplateController {
     public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate submittedCVTemplate) {
         final SubmittedCVTemplate savedTemplate = submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
         final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
-        currentJobSeeker.setCvTemplateId(savedTemplate.getId());
-        return ResponseEntity.ok(jwtService.generate(currentJobSeeker));
+        final JobSeekerDocument jobSeekerDocument = jobSeekerService.addCvTemplate(currentJobSeeker, savedTemplate.getId());
+        return ResponseEntity.ok(jwtService.generate(jobSeekerDocument));
     }
 
     @PostMapping("/edit")
