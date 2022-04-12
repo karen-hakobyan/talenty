@@ -25,8 +25,7 @@ export const addSectionContainer = (templateData, id, isBook) => {
                 if (!val?.id) {
                     return val
                 }
-                const metadata = {...val.metadata, submitted_value: ''}
-                delete metadata.status
+                const metadata = {...val.metadata, submitted_value: '', status: 'NEW'}
                 return {
                     ...val,
                     id: Math.random().toString(),
