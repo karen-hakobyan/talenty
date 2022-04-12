@@ -395,7 +395,7 @@ let systemCVTemplate = {
                     },
                     {
                         _id: ObjectId(),
-                        name: "From/to",
+                        name: "Start/End",
                         metadata: {
                             type: "section",
                             editable: false,
@@ -509,7 +509,7 @@ let systemCVTemplate = {
                     },
                     {
                         _id: ObjectId(),
-                        name: "From/to",
+                        name: "Start/End",
                         metadata: {
                             type: "section",
                             editable: false,
@@ -780,7 +780,7 @@ let systemCVTemplate = {
                 },
                     {
                         _id: ObjectId(),
-                        name: "Start-End",
+                        name: "Start/End",
                         metadata: {
                             type: "section",
                             editable: false,
@@ -792,7 +792,7 @@ let systemCVTemplate = {
                             _id: ObjectId(),
                             name: "Start",
                             metadata: {
-                                placeholder: "Start",
+                                placeholder: "From",
                                 type: "date",
                                 editable: false,
                                 deletable: false,
@@ -803,7 +803,7 @@ let systemCVTemplate = {
                                 name: "End",
                                 metadata: {
                                     type: "date",
-                                    placeholder: "End",
+                                    placeholder: "To",
                                     editable: false,
                                     deletable: false,
                                 },

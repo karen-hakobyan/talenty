@@ -15,6 +15,7 @@ import {
 import {getTemplateActions, saveJobSeekerCV} from "../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
+import AddButton from "./AddButton";
 
 export default function CreateCvJobSeeker() {
     const dispatch = useDispatch();
@@ -75,18 +76,7 @@ export default function CreateCvJobSeeker() {
                             gap: "12px",
                         }}
                     >
-                        {
-                            templateData?.fields[exactPage - 1].fields[0].metadata.type === 'section_container' && templateData?.fields[exactPage - 1].name !== 'Publications' &&
-                            <Button
-                                sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
-                                onClick={() => {
-                                    dispatch(addSectionContainerAction(templateData.fields[exactPage - 1].id))
-                                    dispatch(setSectionContainerController(null))
-                                }}
-                            >
-                                Add
-                            </Button>
-                        }
+                        <AddButton/>
                         {templateData?.fields && templateData.fields.length !== exactPage ? (
                             <Button
                                 sx={HOME_PRIMARY_BUTTON}

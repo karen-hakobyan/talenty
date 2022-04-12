@@ -60,7 +60,7 @@ export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templ
     try {
         instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
         const response = await instance.post('cv_template/create_new', cleanHrTemplateNewIds(templateData))
-        return response.data
+        return Object.entries(response.data)
     } catch (err) {
         console.log(err)
     }

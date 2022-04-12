@@ -142,6 +142,7 @@ let jobAnnouncement = {
                                 type: "currency",
                                 deletable: false,
                                 required: false,
+                                submitted_value: "USD",
                             },
                         },
                     ],

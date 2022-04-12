@@ -1,18 +1,23 @@
 package com.talenty.service;
 
+import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
+import com.talenty.exceptions.UserNotFoundException;
+import com.talenty.jwt.JWTService;
 import com.talenty.mapper.JobSeekerMapper;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.UserRepository;
 import com.talenty.validation.ValidationChecker;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,17 +28,20 @@ public class JobSeekerService {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JWTService jwtService;
 
     public JobSeekerService(final JobSeekerRepository jobSeekerRepository,
                             final EmailSender emailSender,
                             final TokenService tokenService,
                             final UserRepository userRepository,
-                            final PasswordEncoder passwordEncoder) {
+                            final PasswordEncoder passwordEncoder,
+                            final JWTService jwtService) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
@@ -56,6 +64,20 @@ public class JobSeekerService {
 
         System.out.printf("Successfully registered job seeker with email '%s'\n", savedJobSeeker.getEmail());
         return JobSeekerMapper.instance.documentToRegisterResponse(savedJobSeeker);
+    }
+
+    public JobSeekerDocument getCurrentJobSeeker() {
+        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+
+        final String currentJobSeekerId = authenticatedUser.getId();
+        final Optional<JobSeekerDocument> currentJobSeeker = jobSeekerRepository.findById(currentJobSeekerId);
+
+        if (currentJobSeeker.isEmpty()) {
+            System.out.printf("User with id '%s' not found while getting current job seeker from authenticated user\n", currentJobSeekerId);
+            throw new UserNotFoundException();
+        }
+
+        return currentJobSeeker.get();
     }
 
 }

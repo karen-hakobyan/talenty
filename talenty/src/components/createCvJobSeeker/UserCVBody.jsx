@@ -11,19 +11,19 @@ export default function UserCVBody({data}) {
     const dispatch = useDispatch()
     const sectionContainerController = useSelector(selectSectionContainerController)
     useEffect(() => {
-        if(data?.fields[0].metadata.type === 'section_container' && sectionContainerController?.name !== data.name && !UN_CLOSABLE_SECTION_CONTAINERS.includes(data.name)) {
+        if (data?.fields[0].metadata.type === 'section_container' && sectionContainerController?.name !== data.name && !UN_CLOSABLE_SECTION_CONTAINERS.includes(data.name)) {
             dispatch(setSectionContainerController({name: data.name, activeIndex: data.fields.length - 1}))
         }
-        if(UN_CLOSABLE_SECTION_CONTAINERS.includes(data.name)) {
+        if (UN_CLOSABLE_SECTION_CONTAINERS.includes(data.name)) {
             dispatch(setSectionContainerController(null))
         }
-    },[dispatch, sectionContainerController, data])
+    }, [dispatch, sectionContainerController, data])
 
     if (!data) {
         return null;
     }
 
-    if(data.name === 'Publications') {
+    if (data.name === 'Publications') {
         return <PublicationSection {...{data}} />
     }
 
@@ -34,16 +34,15 @@ export default function UserCVBody({data}) {
             if (!TempComponent) {
                 return null
             }
-            TempComponent = memo(TempComponent)
             return (
                 <Box sx={{
                     width: '100%',
-                    ...(TYPES_TAKES_WHOLE_ROW.includes(el.metadata.type) || (el.metadata.type === 'section' && el.fields[0].metadata.type !== 'expected_salary') ? {
+                    ...(TYPES_TAKES_WHOLE_ROW.includes(el.metadata.type) || (el.metadata.type === 'section' && el.fields[0].metadata.type !== 'salary') ? {
                         gridColumnStart: 1,
                         gridColumnEnd: 3,
                     } : {display: 'flex', justifyContent: index % 2 !== 0 ? 'flex-end' : 'flex-start'})
                 }} key={el.id}>
-                    <TempComponent data={el} {...{index}} fields={data.fields} sectionid = {data.id} />
+                    <TempComponent data={el} {...{index}} fields={data.fields} sectionid={data.id}/>
                 </Box>
             )
         })}

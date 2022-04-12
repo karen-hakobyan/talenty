@@ -208,7 +208,6 @@ function CvTemplateMain() {
                     onClick={async () => {
                         if (isValidTemplateName(templateList, title, notValidTemplateName)) {
                             await dispatch(createCvHR(data))
-                            await dispatch(getTemplateLists())
                         } else {
                             setIsValidTemplateNameDialogOpen(true)
                         }

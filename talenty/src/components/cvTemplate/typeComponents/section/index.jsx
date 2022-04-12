@@ -66,9 +66,7 @@ export default function SectionGenerator({
                 >
                     {data.fields.map((field) => {
                         let TempComponent = SUBSECTION_TYPES[field.metadata.type];
-                        if (TempComponent) {
-                            TempComponent = memo(TempComponent);
-                        } else {
+                        if (!TempComponent) {
                             return null;
                         }
 

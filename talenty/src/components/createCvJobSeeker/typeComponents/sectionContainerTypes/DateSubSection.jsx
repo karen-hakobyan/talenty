@@ -2,26 +2,28 @@ import {useDispatch} from "react-redux";
 import {setTemplateData} from "../../../../store/globalData/slice";
 import BasicDatePicker from "../../../shared/DatePicker";
 import {useEffect} from "react";
+import {changeDialogDataById} from "../../../../store/dialogs/slice";
 
 export default function DateSubSection({data, extra}) {
     const dispatch = useDispatch()
     useEffect(() => {
-        if(extra && extra.metadata.submitted_value && data.metadata.submitted_value) {
+        if (extra && extra.metadata.submitted_value && data.metadata.submitted_value) {
             dispatch(setTemplateData({
                 id: data.id,
                 value: undefined,
             }))
         }
-    },[extra, dispatch, data])
+    }, [extra, dispatch, data])
+
     return <BasicDatePicker
         placeholder={data.metadata.placeholder}
         value={data.metadata.submitted_value}
-        onChange={
-            (event) => dispatch(setTemplateData({
+        closeAction={(value) => {
+            dispatch(setTemplateData({
                 id: data.id,
-                value: validateDate(event.toLocaleDateString())
+                value
             }))
-        }
+        }}
         fieldStyle={{width: '242px'}}
         pickerProps={
             extra ? {disabled: !!extra.metadata.submitted_value} : {}
@@ -42,6 +44,5 @@ export function changeDateFormat(date) {
     let temp = result[0]
     result[0] = result[1]
     result[1] = temp
-    console.log(result)
     return result.join('/')
 }

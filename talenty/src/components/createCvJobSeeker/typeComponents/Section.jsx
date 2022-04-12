@@ -11,58 +11,10 @@ import TextField from "../../../shared/components/Textfield";
 import MilitaryId from "./MilitaryId";
 import Photo from "./Photo";
 import Select from "../../../shared/components/Select";
+import {compareObjects} from "../../../helpers/compareTwoData";
+import {memoizeTypeComponents} from "../../../helpers/memo";
 
-const salaryTypes = {
-    salary: Salary,
-    currency: SalaryType,
-}
-const licensesTypes = {
-    driving_license: MilitaryId,
-    military_id: MilitaryId,
-    add_photo: Photo,
-}
-export default function Section({data}) {
-    if (data.fields[0].metadata.type === 'social_link') {
-        return <SocialMedia {...{data}} />
-    }
-    if (data.fields[0].metadata.type === 'salary') {
-        return <ExpectedSalary {...{data}} />
-    }
-    return <PhotoLicenses {...{data}}/>
-}
-
-function PhotoLicenses({data}) {
-    return <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-        {data.fields.map(el => {
-            let TempComponent = licensesTypes[el.metadata.type]
-            TempComponent = memo(TempComponent)
-            return <TempComponent data={el} key={el.name}/>
-        })}
-    </Box>
-}
-
-function ExpectedSalary({data}) {
-    return <JobSeekerSubsection
-        label={data.name}
-        Component={
-            <Box sx={{display: 'flex', gap: '16px'}}>
-                {
-                    data.fields.map(el => {
-                        let TempComponent = salaryTypes[el.metadata.type]
-                        if (!TempComponent) {
-                            return null
-                        }
-                        TempComponent = memo(TempComponent)
-                        return <TempComponent data={el} key={el.id}  />
-                    })
-                }
-            </Box>
-
-        }
-    />
-}
-
-function SocialMedia({data}) {
+const SocialMedia = memo(function ({data}) {
     const dispatch = useDispatch()
     const linksController = useSelector(selectLinksController)
     useEffect(() => {
@@ -102,6 +54,61 @@ function SocialMedia({data}) {
             </Box>
         }
     />
+}, (prev, next) => {
+    return compareObjects(prev, next)
+})
+const salaryTypes = memoizeTypeComponents({
+    salary: Salary,
+    currency: SalaryType,
+})
+
+const ExpectedSalary = memo(function ExpectedSalary({data}) {
+    return <JobSeekerSubsection
+        label={data.name}
+        Component={
+            <Box sx={{display: 'flex', gap: '16px'}}>
+                {
+                    data.fields.map(el => {
+                        let TempComponent = salaryTypes[el.metadata.type]
+                        if (!TempComponent) {
+                            return null
+                        }
+                        return <TempComponent data={el} key={el.id}/>
+                    })
+                }
+            </Box>
+
+        }
+    />
+}, (prev, next) => {
+    return compareObjects(prev, next)
+})
+
+const licensesTypes = memoizeTypeComponents({
+    driving_license: MilitaryId,
+    military_id: MilitaryId,
+    add_photo: Photo,
+})
+
+const PhotoLicenses = memo(function ({data}) {
+    return <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+        {data.fields.map(el => {
+            let TempComponent = licensesTypes[el.metadata.type]
+            return <TempComponent data={el} key={el.name}/>
+        })}
+    </Box>
+}, (prev, next) => {
+    return compareObjects(prev, next)
+})
+
+export default function Section({data}) {
+    if (data.fields[0].metadata.type === 'social_link') {
+        return <SocialMedia {...{data}} />
+    }
+    if (data.fields[0].metadata.type === 'salary') {
+        return <ExpectedSalary {...{data}} />
+    }
+    return <PhotoLicenses {...{data}}/>
 }
 
 function Salary({data}) {

@@ -4,6 +4,9 @@ import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.CVTemplateDocument;
+import com.talenty.domain.mongo.JobSeekerDocument;
+import com.talenty.jwt.JWTService;
+import com.talenty.service.JobSeekerService;
 import com.talenty.service.SubmittedCvTemplateService;
 import com.talenty.service.CVTemplateService;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +20,17 @@ public class CVTemplateController {
 
     private final CVTemplateService cvTemplateService;
     private final SubmittedCvTemplateService submittedCvTemplateService;
+    private final JWTService jwtService;
+    private final JobSeekerService jobSeekerService;
 
-    public CVTemplateController(final CVTemplateService cvTemplateService, final SubmittedCvTemplateService submittedCvTemplateService) {
+    public CVTemplateController(final CVTemplateService cvTemplateService,
+                                final SubmittedCvTemplateService submittedCvTemplateService,
+                                final JWTService jwtService,
+                                final JobSeekerService jobSeekerService) {
         this.cvTemplateService = cvTemplateService;
         this.submittedCvTemplateService = submittedCvTemplateService;
+        this.jwtService = jwtService;
+        this.jobSeekerService = jobSeekerService;
     }
 
     @GetMapping("/system")
@@ -58,13 +68,15 @@ public class CVTemplateController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createNewCvTemplate(@RequestBody final CVTemplate cvTemplate) {
         final CVTemplate newCvTemplate = cvTemplateService.createNewCvTemplate(cvTemplate);
-        return ResponseEntity.ok(getAllCvTemplatesIds());
+        return ResponseEntity.ok(cvTemplateService.getAllCvTemplates());
     }
 
     @PostMapping("/save_submitted")
     public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate submittedCVTemplate) {
-        submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
-        return ResponseEntity.ok("saved_submitted_cv_template");
+        final SubmittedCVTemplate savedTemplate = submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
+        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
+        currentJobSeeker.setCvTemplateId(savedTemplate.getId());
+        return ResponseEntity.ok(jwtService.generate(currentJobSeeker));
     }
 
     @PostMapping("/edit")

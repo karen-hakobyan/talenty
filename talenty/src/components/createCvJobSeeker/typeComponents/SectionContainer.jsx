@@ -6,10 +6,9 @@ import {sectionContainerTypes} from "./sectionContainerTypes/types";
 import {SelectIconSVG} from "../../../assets/icons/createTemplate";
 import {INPUT_VALUE_STYLE} from "../../../shared/styles";
 import {setSectionContainerController} from "../../../store/globalData/slice";
-import { dependOfType } from "../helper";
+import {dependOfType} from "../helper";
 
 export const LINE_TYPES = ['description', 'url']
-
 export default function SectionContainer({data, index, fields}) {
     const dispatch = useDispatch()
     const controller = useSelector(selectSectionContainerController)
@@ -35,9 +34,9 @@ export default function SectionContainer({data, index, fields}) {
             }}
                  onClick={() => dispatch(setSectionContainerController({...controller, activeIndex: index}))}
             >
-                <Box sx={{...INPUT_VALUE_STYLE}}>{data.fields[0].metadata.submitted_value}</Box>
+                <Box sx={{...INPUT_VALUE_STYLE}}>{data.fields[0].metadata.submitted_value || data.fields[0].name}</Box>
                 <IconButton>
-                    <SelectIconSVG />
+                    <SelectIconSVG/>
                 </IconButton>
             </Box>
         )
@@ -54,7 +53,6 @@ export default function SectionContainer({data, index, fields}) {
                 if (!TempComponent) {
                     return null
                 }
-                TempComponent = memo(TempComponent)
                 return (
                     <Box sx={LINE_TYPES.includes(el.metadata.type) ? {
                         gridColumnStart: 1,
@@ -62,7 +60,7 @@ export default function SectionContainer({data, index, fields}) {
                     } : {display: 'flex', justifyContent: index % 2 === 0 ? 'flex-start' : 'flex-end'}} key={el.id}>
                         <TempComponent
                             data={el} {...(dependOfType.includes(el.metadata.type) ? {depend: data.fields[0].metadata.submitted_value} : {})}
-                            {...{fields,id:data.id}}
+                            {...{fields, id: data.id}}
                         />
                     </Box>
                 )
