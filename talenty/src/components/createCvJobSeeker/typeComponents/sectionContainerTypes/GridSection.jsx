@@ -1,9 +1,7 @@
 import {Box} from '@mui/material'
 import announcementTypes from "../../../announcement/announcementTypes";
-import {memo} from "react";
-import memoPropsAreEqual from "../../../../helpers/memo";
 
-function GridSection({data}) {
+export default function GridSection({data}) {
     return <Box
         sx={{
             width: '100%',
@@ -22,5 +20,3 @@ function GridSection({data}) {
         })}
     </Box>
 }
-
-export default memo(GridSection, memoPropsAreEqual)

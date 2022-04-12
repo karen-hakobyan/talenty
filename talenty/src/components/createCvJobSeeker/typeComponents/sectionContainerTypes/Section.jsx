@@ -20,7 +20,6 @@ export default function Section({data}) {
                         if (!TempComponent) {
                             return null
                         }
-                        TempComponent = memo(TempComponent)
                         return (
                             <Box
                                 key={el.id}
@@ -38,7 +37,7 @@ export default function Section({data}) {
                                     data={el}
                                     {
                                         ...(['To', 'End'].includes(el.name) ?
-                                            {extra: data.fields.find(el => ['Still studying', 'Still working','Still processing'].includes(el.name))} :
+                                            {extra: data.fields.find(el => ['Still studying', 'Still working', 'Still processing'].includes(el.name))} :
                                             {})
                                     }
                                 />

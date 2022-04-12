@@ -4,11 +4,10 @@ import {useEffect, useMemo, useRef} from "react";
 import {setDeleteAddSection, setEvaluateWidths, setTemplateData} from "../../../../store/globalData/slice";
 import {useDispatch, useSelector} from "react-redux";
 import {selectEvaluatesBarWidths} from "../../../../store/globalData/selector";
-import {DeleteSectionBtn} from "../../../../assets/icons/jobseeker";
+import {DeleteIcon} from "../../../../assets/icons/jobseeker";
 import {MAIN_PURPLE} from "../../../../constants/colors";
 
 const setExactWidth = (width, widths) => {
-    console.log(widths)
     for (let i = 0; i < widths.length - 1; i++) {
         if (width > widths[i].width && width < widths[i + 1].width) {
             return widths[i + 1].name;
@@ -17,8 +16,6 @@ const setExactWidth = (width, widths) => {
 }
 // depend is value of skill or profficency level with depend we control whether field is disabled or not
 export default function EvaluateBar({data, depend, fields, id}) {
-    // console.log(fild,"EvaluateBar");
-    // console.log(id,"EvaluateBar");
     const ref = useRef()
     const dispatch = useDispatch()
     const evaluateWidths = useSelector(selectEvaluatesBarWidths);
@@ -45,25 +42,29 @@ export default function EvaluateBar({data, depend, fields, id}) {
 
 
     return <JobSeekerSubsection
-        label={<Box
-            sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Box>Percentage</Box>
-            {fields.length !== 1 ? (<Box sx={{
-                cursor: "pointer",
-                fill: "#4C494F",
-                transition: "all 0.5s",
-                "&:hover": {
-                    fill: MAIN_PURPLE,
-                    transition: "all 0.5s",
+        label={
+            <Box
+                sx={{display: 'flex', justifyContent: 'space-between'}}>
+                <Box>Percentage</Box>
+                {fields.length !== 1 ? (
+                    <Box sx={{
+                        cursor: "pointer",
+                        fill: "#4C494F",
+                        transition: "all 0.5s",
+                        "&:hover": {
+                            fill: MAIN_PURPLE,
+                            transition: "all 0.5s",
+                        }
+                    }}
+                         onClick={() => {
+                             dispatch(setDeleteAddSection({templateData, id}))
+                         }}
+                    >
+                        <DeleteIcon/>
+                    </Box>
+                ) : null
                 }
-            }}
-                                         onClick={() => {
-                                             dispatch(setDeleteAddSection({templateData, id}))
-                                         }}
-            > <DeleteSectionBtn style={{
-                fill: "inherit"
-            }}/> </Box>) : null}
-        </Box>}
+            </Box>}
         Component={<Box sx={{display: 'flex', flexDirection: 'column', gap: '6px'}}>
             <Box ref={ref} sx={{
                 position: 'relative',

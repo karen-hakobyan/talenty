@@ -9,6 +9,8 @@ import Section from "./Section";
 import ProfessionalSkill from "./ProfessionalSkill";
 import Description from "./Description";
 import GridSection from "../createCvJobSeeker/typeComponents/sectionContainerTypes/GridSection";
+import React from 'react'
+import {memoizeTypeComponents} from "../../helpers/memo";
 
 const announcementTypes = {
     employment_terms: EmploymentTerms,
@@ -26,4 +28,5 @@ const announcementTypes = {
     personal_skill: ProfessionalSkill,
 }
 
-export default announcementTypes
+// memoizing all announcement type components this will solve input bluring issues
+export default memoizeTypeComponents(announcementTypes)

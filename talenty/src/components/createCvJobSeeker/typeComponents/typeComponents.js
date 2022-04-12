@@ -10,8 +10,7 @@ import SectionContainer from "./SectionContainer";
 import SubSection from "./sectionContainerTypes/Section";
 import Description from "./sectionContainerTypes/Description";
 import Section from './Section'
-import Photo from "./Photo";
-import MilitaryId from "./MilitaryId";
+import {memoizeTypeComponents} from "../../../helpers/memo";
 
 const typeComponents = {
     special_name: SpecialName,
@@ -21,9 +20,6 @@ const typeComponents = {
     date: Date,
     email: Email,
     gender: Gender,
-    driving_license: MilitaryId,
-    military_id: MilitaryId,
-    add_photo: Photo,
     section: Section,
     phone_number: Phone,
     description: Description,
@@ -40,4 +36,5 @@ export const TYPES_TAKES_WHOLE_ROW = [
     'description',
 ]
 
+// export default memoizeTypeComponents(typeComponents)
 export default typeComponents

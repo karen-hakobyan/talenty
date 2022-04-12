@@ -34,7 +34,6 @@ export default function UserCVBody({data}) {
             if (!TempComponent) {
                 return null
             }
-            TempComponent = memo(TempComponent)
             return (
                 <Box sx={{
                     width: '100%',

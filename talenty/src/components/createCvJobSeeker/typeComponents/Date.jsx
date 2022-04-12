@@ -3,6 +3,7 @@ import JobSeekerSubsection from "../JobSeekerSubsection";
 import {setTemplateData} from "../../../store/globalData/slice";
 import BasicDatePicker from "../../shared/DatePicker";
 import {validateDate} from "./sectionContainerTypes/DateSubSection";
+import {changeDialogDataById} from "../../../store/dialogs/slice";
 
 export default function Date({data}) {
     const dispatch = useDispatch()
@@ -12,14 +13,12 @@ export default function Date({data}) {
             <BasicDatePicker
                 placeholder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
-                onChange={
-                    (event) => {
-                        dispatch(setTemplateData({
-                            id: data.id,
-                            value: validateDate(event.toLocaleDateString()),
-                        }))
-                    }
-                }
+                closeAction={(value) => {
+                    dispatch(setTemplateData({
+                        id: data.id,
+                        value
+                    }))
+                }}
                 fieldStyle={{width: '500px'}}
             />
         }
