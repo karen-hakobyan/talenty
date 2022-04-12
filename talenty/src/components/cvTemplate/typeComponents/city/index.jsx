@@ -20,7 +20,11 @@ export default function CityGenerator({data, dispatch, dialogData, templateData}
                     disabled
                     variant="outlined"
                     sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT}}
-                    InputProps={{sx: {height: "40px"}}}
+                    InputProps={{sx: {
+                        height: "40px",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize:16,
+                }}}
                 />
             }
             checkboxComponent={

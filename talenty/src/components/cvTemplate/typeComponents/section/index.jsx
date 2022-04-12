@@ -4,7 +4,7 @@ import {memo} from "react";
 import {Checkbox} from "../../../shared/Checkbox";
 import {deleteOtherAction, editCheckboxState, editOtherCheckbox, onDelete} from "../../../../helpers/dialog";
 import {Box, IconButton} from "@mui/material";
-import {TEMPLATE_ITEM_BUTTON} from "../../../../shared/styles";
+import {selecFontFamily, TEMPLATE_ITEM_BUTTON} from "../../../../shared/styles";
 import {DeleteIconSVG} from "../../../../assets/icons/createTemplate";
 
 export default function SectionGenerator({
@@ -23,7 +23,6 @@ export default function SectionGenerator({
                     if (el.metadata.status !== 'DELETED') {
                         return <Box sx={{
                             fontFamily: "'Poppins', sans-serif",
-                            fontWeight: 400,
                             fontSize: '16px',
                             lineHeight: '24px',
                             color: '#4C494F',
@@ -66,7 +65,9 @@ export default function SectionGenerator({
                 >
                     {data.fields.map((field) => {
                         let TempComponent = SUBSECTION_TYPES[field.metadata.type];
-                        if (!TempComponent) {
+                        if (TempComponent) {
+                            TempComponent = memo(TempComponent);
+                        } else {
                             return null;
                         }
 

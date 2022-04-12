@@ -38,12 +38,6 @@ export default function BasicDatePicker({
                             fontSize: "16px",
                             lineHeight: "24px"
                         }}}
-                        InputProps={{sx: {
-                            height: "40px",
-                            fontFamily: "'Poppins', sans-serif",
-                            fontSize: "16px",
-                            lineHeight: "24px"
-                        }}}
                     />
                 }}
                 onClose={closeAction ? () => {
