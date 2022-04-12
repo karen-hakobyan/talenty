@@ -8,7 +8,7 @@ import {
 } from "./getTemplateActions";
 import changeTemplateData, {
     addSectionContainer,
-    deleteAddSectionContainer
+    deleteAddSectionContainer, deletePublications
 } from "../../components/createCvJobSeeker/actions";
 import {jobAnnouncementAjab} from "../../ajab";
 
@@ -77,6 +77,9 @@ export const globalDataSlice = createSlice({
         setIsPublished: (state, {payload}) => {
             state.isPublished = payload
         },
+        deletePublicationAction: (state, {payload}) => {
+            state.templateData = deletePublications({templateData: state.templateData, id: payload})
+        },
     },
     extraReducers: {
         [getTemplateActions.fulfilled]: (state, {payload}) => {
@@ -132,6 +135,7 @@ export const {
     setDeleteAddSection,
     setAllTemplateData,
     setIsPublished,
+    deletePublicationAction,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;

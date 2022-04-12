@@ -10,6 +10,7 @@ import {AddFieldSVG} from "../../assets/icons/createTemplate";
 import {selectTemplateData} from "../../store/globalData/selector";
 import {onSave} from "./Body";
 import {isRequiredFieldsFilled} from "../../helpers/dialog";
+import {compareObjects} from "../../helpers/compareTwoData";
 
 
 const restrictedAddFieldSections = ['General Information', 'Skills']
@@ -46,7 +47,6 @@ export default function AnnouncementBody({
                 if (!TempComponent) {
                     return null
                 }
-                TempComponent = memo(TempComponent)
                 return <TempComponent data={field} key={field.name}/>
             })}
         </Box>

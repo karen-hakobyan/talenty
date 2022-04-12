@@ -5,7 +5,7 @@ export default function changeTemplateData(data, id, value) {
             return reviverValue
         }
         if (reviverValue?.id === id) {
-            return {...reviverValue, metadata: {...reviverValue.metadata, submitted_value: value } }
+            return {...reviverValue, metadata: {...reviverValue.metadata, submitted_value: value}}
         }
         return reviverValue
     })
@@ -25,10 +25,12 @@ export const addSectionContainer = (templateData, id, isBook) => {
                 if (!val?.id) {
                     return val
                 }
+                const metadata = {...val.metadata, submitted_value: ''}
+                delete metadata.status
                 return {
                     ...val,
                     id: Math.random().toString(),
-                    metadata: {...val.metadata, submitted_value: '' },
+                    metadata,
                 }
             })
             reviverValue.fields.push(temp1)
@@ -37,16 +39,49 @@ export const addSectionContainer = (templateData, id, isBook) => {
     })
     return temp
 }
-export const deleteAddSectionContainer = ( {templateData,id}) => {
+export const deleteAddSectionContainer = ({templateData, id}) => {
     let result = JSON.stringify(templateData)
-    result = JSON.parse(result, (key, reviverValue) =>
-     {
-        if(!reviverValue?.id || reviverValue.metadata?.type !== 'section') {
+    result = JSON.parse(result, (key, reviverValue) => {
+        if (!reviverValue?.id || reviverValue.metadata?.type !== 'section') {
             return reviverValue
         }
         return {
             ...reviverValue,
             fields: reviverValue.fields.filter(el => el.id !== id)
+        }
+    })
+    return result
+}
+
+// below publication's section delete action
+export const deletePublications = ({templateData, id}) => {
+    let result = JSON.stringify(templateData)
+    result = JSON.parse(result, (key, reviver) => {
+        if (!reviver?.id || !reviver?.fields) {
+            return reviver
+        }
+        if (reviver?.fields.some(el => el.id === id)) {
+            if (id.startsWith('0')) {
+                return {
+                    ...reviver,
+                    fields: reviver?.fields.filter(el => el.id !== id)
+                }
+            } else {
+                return {
+                    ...reviver,
+                    fields: reviver?.fields.map(el => {
+                        return el.id === id ? {
+                            ...el,
+                            metadata: {
+                                ...el.metadata,
+                                status: 'DELETED'
+                            }
+                        } : el
+                    })
+                }
+            }
+        } else {
+            return reviver
         }
     })
     return result
