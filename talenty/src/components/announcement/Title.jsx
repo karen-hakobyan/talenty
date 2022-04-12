@@ -22,6 +22,12 @@ export default function Title({data}) {
                 <TextField
                     placeholder={data.metadata.placeholder}
                     sx={{width: '100%'}} value={value}
+                    InputProps={{sx: {
+                        height: "40px",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize: "16px",
+                        lineHeight: "24px"
+                    }}}
                     onChange={(event) => setValue(event.target.value)}
                     onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
                 />

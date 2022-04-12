@@ -1,4 +1,4 @@
-import {MAIN_PURPLE} from "../../constants/colors";
+import { MAIN_PURPLE } from "../../constants/colors";
 
 export const FLEX_CONTAINER = {
     width: "580px",
@@ -16,18 +16,18 @@ export const BOTTOM_ITEMS = {
 };
 export const DIALOG_TEXT = {
     textAlign: "center",
-    fontSize: "16px",
+    fontSize: "15px",
     lineHeight: "26px",
     fontFamily: "'Poppins', sans-serif",
 };
 export const CHECKBOX_CONTAINER = {
     display: "flex",
     alignItems: "center",
-    span: {p: 0},
+    span: { p: 0 },
     mb: 2,
 };
 export const CHECKBOX_STYLE = {
-    "& .MuiSvgIcon-root": {fontSize: 28, color: MAIN_PURPLE},
+    "& .MuiSvgIcon-root": { fontSize: 28, color: MAIN_PURPLE },
 };
 
 export const butonStyleGenerator = (isCompany, isCompanyState) => ({
@@ -43,29 +43,29 @@ export const butonStyleGenerator = (isCompany, isCompanyState) => ({
     lineHeight: "24px",
     cursor: "pointer",
     borderRadius: "4px",
-    background: isCompanyState
-        ? isCompany
-            ? MAIN_PURPLE
-            : "transparent"
-        : !isCompany
-            ? MAIN_PURPLE
-            : "transparent",
-    color: isCompanyState
-        ? isCompany
-            ? "#FFF"
-            : MAIN_PURPLE
-        : !isCompany
-            ? "#FFF"
-            : MAIN_PURPLE,
+    background: isCompanyState ?
+        isCompany ?
+        MAIN_PURPLE :
+        "transparent" :
+        !isCompany ?
+        MAIN_PURPLE :
+        "transparent",
+    color: isCompanyState ?
+        isCompany ?
+        "#FFF" :
+        MAIN_PURPLE :
+        !isCompany ?
+        "#FFF" :
+        MAIN_PURPLE,
     transition: "all, 0.5s",
     "&:hover": {
-        background: isCompanyState
-            ? isCompany
-                ? "#7204c9"
-                : "transparent"
-            : !isCompany
-                ? "#7204c9"
-                : "transparent",
+        background: isCompanyState ?
+            isCompany ?
+            "#7204c9" :
+            "transparent" :
+            !isCompany ?
+            "#7204c9" :
+            "transparent",
         transition: "all, 0.5s",
     },
 });

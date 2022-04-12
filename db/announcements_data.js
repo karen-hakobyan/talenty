@@ -118,8 +118,8 @@ let jobAnnouncement = {
                         {
                             _id: ObjectId(),
                             name: "From",
-                            placeholder: "From",
                             metadata: {
+                                placeholder: "From",
                                 type: "salary",
                                 deletable: false,
                                 required: false,

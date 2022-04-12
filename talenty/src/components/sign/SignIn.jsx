@@ -103,7 +103,7 @@ function SignIn() {
                         sx={{
                             fontFamily: "'Poppins', sans-serif",
                             fontSize: "25px",
-                            fontWeight: 600,
+                            fontWeight: 400,
                             lineHeight: "25px",
                             letterSpacing: "0.04em",
                             color: "#2F2F2F",
@@ -177,7 +177,7 @@ function SignIn() {
                                     <Box
                                         sx={{
                                             fontFamily: "'Poppins', sans-serif",
-                                            fontSize: "16px",
+                                            fontSize: 14,
                                             fontWeight: 400,
                                             lineHeight: "24px",
                                             letterSpacing: "0em",

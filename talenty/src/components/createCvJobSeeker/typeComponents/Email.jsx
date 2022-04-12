@@ -12,7 +12,14 @@ export default function Email({data}) {
         inputComponent={
             <TextField
                 placeholder={data.metadata.placeholder}
-                sx={{width: '500px'}}
+                sx={{
+                    width: '500px',
+                }}
+                InputProps={{sx: {
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "16px",
+                    lineHeight: "24px"
+                }}}
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
                 onBlur={() => {

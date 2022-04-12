@@ -49,7 +49,9 @@ export default function Home() {
                                 sx={{display: "flex", flexDirection: "column", gap: "12px"}}
                             >
                                 <Box sx={{...USER_NAME}}>{firstName} {lastName}</Box>
-                                <Box sx={{...USER_EMAIL}}>{email}</Box>
+                                <Box sx={{...USER_EMAIL}} >{email}
+                                    <Box className="title" >{email}</Box>
+                                </Box>
                             </Box>
                         </Box>
                         <Box sx={{mt: "50px"}}>input</Box>

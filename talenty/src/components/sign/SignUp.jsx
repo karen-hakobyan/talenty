@@ -142,6 +142,7 @@ export default function SignUp() {
                                     variant="body1"
                                     sx={{
                                         ...GLOBAL_TEXT,
+                                        fontSize:14,
                                         mt: 3,
                                     }}
                                 >
@@ -176,7 +177,7 @@ export default function SignUp() {
                         gap: '6px',
                         fontFamily: 'Poppins',
                         fontWeight: 400,
-                        fontSize: '16px',
+                        fontSize: 15,
                         lineHeight: '22px',
                         color: '#4C494F',
                         justifyContent: 'center',

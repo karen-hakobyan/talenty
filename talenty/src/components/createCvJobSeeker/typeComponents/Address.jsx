@@ -11,6 +11,11 @@ export default function Address({data}) {
         label={data.name}
         Component={
             <TextField
+            InputProps={{sx: {
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: "16px",
+                lineHeight: "24px"
+            }}}
                 placeholder={data.metadata.placeholder}
                 sx={{width: '500px'}}
                 onChange={(e) => {

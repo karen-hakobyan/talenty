@@ -25,7 +25,7 @@ const Title = styled(Typography)(({theme}) => ({
     maxWidth: 317,
     fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
-    fontWeight: 600,
+    fontWeight: 400,
     fontSize: 25,
     letterSpacing: "0.04em",
     marginBottom: 18,
@@ -37,7 +37,7 @@ const Text = styled(Typography)(({theme}) => ({
     fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: "normal",
-    fontSize: "16px",
+    fontSize: "15px",
     lineHeight: "22px",
     color: TEXT,
 }));
