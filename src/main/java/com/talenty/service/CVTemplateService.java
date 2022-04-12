@@ -55,7 +55,7 @@ public class CVTemplateService {
                 .executeLogic(
                         new FieldsAutoCompleteExecutor(),
                         applicationContext.getBean(AdminValuesMergeExecutor.class),
-                        !withMetaData ? new CleanUpMetadataExecutor() : null
+                        !withMetaData ? new CleanUpMetadataExecutor(false, "editable", "deletable", "required", "required_editable") : null
                 );
 
         return cvTemplateDocument;
