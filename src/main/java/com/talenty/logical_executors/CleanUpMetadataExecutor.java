@@ -2,26 +2,41 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.mongo.FieldDocument;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CleanUpMetadataExecutor implements LogicExecutor {
 
-    private final String[] REMOVABLE_FIELDS = {"editable", "deletable", "required", "required_editable"};
+    private final List<String> fields;
+    private final boolean deleteExcept;
+
+    public CleanUpMetadataExecutor(final boolean deleteExcept, final String... args) {
+        this.fields = List.of(args);
+        this.deleteExcept = deleteExcept;
+    }
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
         final AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         if ("ROLE_JOB_SEEKER".equals(user.getRole())) {
             final Map<String, Object> metadata = field.getMetadata();
-            Arrays.stream(REMOVABLE_FIELDS).forEach(metadata::remove);
+            if (!deleteExcept) {
+                for (final String s : fields) metadata.remove(s);
+                return field;
+            }
+
+            final List<String> anotherFields = new ArrayList<>();
+            for (final Map.Entry<String, Object> entry : metadata.entrySet()) {
+                final String key = entry.getKey();
+                if (!fields.contains(key)) anotherFields.add(key);
+            }
+            for (final String s : anotherFields) metadata.remove(s);
+
         }
         return field;
     }
