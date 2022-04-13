@@ -42,10 +42,20 @@ export const cleanTemplateNewIds = (data) => {
         if (!reviver?.id) {
             return reviver
         }
+
+        let metadata = {}
+        if (!reviver.fields && reviver.metadata.submitted_value) {
+            metadata.submitted_value = reviver.metadata.submitted_value
+        }
+        if (reviver.metadata?.status) {
+            metadata.status = reviver.metadata.status
+        }
+
         return ({
+            metadata,
             ...(reviver.id.startsWith('0') ? {} : {id: reviver.id}),
             ...(reviver.fields ? {fields: [...reviver.fields]} : {}),
-            ...(!reviver.fields && reviver.metadata.submitted_value ? {metadata: {submitted_value: reviver.metadata.submitted_value}} : {metadata: {}}),
+            // ...(!reviver.fields && reviver.metadata.submitted_value ? {metadata: {submitted_value: reviver.metadata.submitted_value}} : {metadata: {}}),
         })
     })
     return result

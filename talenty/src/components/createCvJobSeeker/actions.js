@@ -44,10 +44,29 @@ export const deleteAddSectionContainer = ({templateData, id}) => {
         if (!reviverValue?.id || reviverValue.metadata?.type !== 'section') {
             return reviverValue
         }
-        return {
-            ...reviverValue,
-            fields: reviverValue.fields.filter(el => el.id !== id)
+        if (id.startsWith('0')) {
+            return {
+                ...reviverValue,
+                fields: reviverValue.fields.filter(el => el.id !== id)
+            }
+        } else {
+            return {
+                ...reviverValue,
+                fields: reviverValue.fields.map(el => {
+                    if (el.id === id) {
+                        return {
+                            ...el,
+                            metadata: {
+                                ...el.metadata,
+                                status: 'DELETED',
+                            }
+                        }
+                    }
+                    return el
+                })
+            }
         }
+
     })
     return result
 }

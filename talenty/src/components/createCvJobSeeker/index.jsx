@@ -17,6 +17,7 @@ import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 import AddButton from "./AddButton";
 import {setJwt} from "../../store/auth/authSlice";
+import {cleanTemplateNewIds} from "../../helpers/actions";
 
 export default function CreateCvJobSeeker() {
     const navigate = useNavigate()
@@ -106,7 +107,11 @@ export default function CreateCvJobSeeker() {
                             <Button
                                 sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
                                 onClick={async () => {
-                                    await dispatch(userInfo.cvTemplateId ? editJobSeekerCv(templateData) : saveJobSeekerCV(templateData))
+                                    const data = cleanTemplateNewIds(templateData)
+                                    await dispatch(userInfo.cvTemplateId ? editJobSeekerCv({
+                                        data,
+                                        parentId: templateData.parentId
+                                    }) : saveJobSeekerCV(data))
                                     navigate('/')
                                 }}
                             >

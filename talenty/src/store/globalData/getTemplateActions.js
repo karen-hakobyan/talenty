@@ -58,9 +58,12 @@ export const saveJobSeekerCV = createAsyncThunk(
     async (templateData, thunkAPI) => {
         try {
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-            const response = await instance.post('/cv_template/save_submitted', cleanTemplateNewIds(templateData))
+            console.log('zapros gnac ?')
+            let data = cleanTemplateNewIds(templateData)
+            const response = await instance.post('/cv_template/save_submitted', data)
             return response.data
         } catch (err) {
+            return thunkAPI.rejectWithValue('reject in save job seeker sv')
             console.log(err)
         }
     }
@@ -71,12 +74,12 @@ export const editJobSeekerCv = createAsyncThunk(
         try {
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.post('/cv_template/edit', {
-                ...cleanTemplateNewIds(templateData),
+                ...templateData.data,
                 parentId: templateData.parentId
             })
             return response.data
         } catch (err) {
-            thunkAPI.rejectWithValue('error during edit cv')
+            return thunkAPI.rejectWithValue('error during edit cv')
             console.log('error during edit cv template jobSeeker')
         }
 
