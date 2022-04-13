@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
-    createCvHR, getEditedUserCv,
+    createCvHR, editJobSeekerCv, getEditedUserCv,
     getJobAnnouncement,
     getTemplateActions,
     getTemplateById,
@@ -122,13 +122,22 @@ export const globalDataSlice = createSlice({
         [saveJobSeekerCV.fulfilled]: (state, {payload}) => {
             state.newJwt = payload
             let userInfo = JSON.parse(atob(payload.split(".")[1]))
-            state.templateData = {...state.templateData, id: userInfo.cvTemplateId}
+            state.templateData = null
+            state.exactPage = 1
             if (localStorage.getItem('jwt')) {
                 localStorage.setItem('jwt', payload)
             } else {
                 localStorage.setItem('jwt', payload)
             }
-        }
+        },
+        [editJobSeekerCv.rejected]: (state, {payload}) => {
+            state.exactPage = 1;
+            state.templateData = null
+        },
+        [editJobSeekerCv.fulfilled]: (state) => {
+            console.log('edit cv template fullfilled')
+            state.exactPage = 1;
+        },
     }
 });
 

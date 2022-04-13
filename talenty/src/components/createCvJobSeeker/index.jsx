@@ -1,6 +1,7 @@
-import {Box} from "@mui/material";
-import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {Box} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 import {ArrowBack, ArrowRight} from "../../assets/icons/jobseeker";
 import Button from "../../shared/components/Button";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
@@ -18,6 +19,7 @@ import AddButton from "./AddButton";
 import {setJwt} from "../../store/auth/authSlice";
 
 export default function CreateCvJobSeeker() {
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
     const templateData = useSelector((state) => state.globalData.templateData)
@@ -42,6 +44,8 @@ export default function CreateCvJobSeeker() {
         if (templateData === null) {
             dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
         }
+
+
     }, [dispatch, templateData])
 
     if (!templateData) {
@@ -101,8 +105,9 @@ export default function CreateCvJobSeeker() {
                         ) : (
                             <Button
                                 sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
-                                onClick={() => {
-                                    dispatch(userInfo.cvTemplateId ? editJobSeekerCv(templateData) : saveJobSeekerCV(templateData))
+                                onClick={async () => {
+                                    await dispatch(userInfo.cvTemplateId ? editJobSeekerCv(templateData) : saveJobSeekerCV(templateData))
+                                    navigate('/')
                                 }}
                             >
                                 {userInfo.cvTemplateId ? 'Edit' : 'Save'}
