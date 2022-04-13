@@ -579,7 +579,7 @@ let systemCVTemplate = {
                 metadata: {
                     type: "section_container",
                     editable: false,
-                    deletable: false,
+                    deletable: true,
                     required: false,
                 },
                 fields: [{
