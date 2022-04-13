@@ -46,6 +46,7 @@ export const getEditedUserCv = createAsyncThunk(
         try {
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.userEditedCV(id))
+            console.log(response.data)
             return response.data
         } catch (err) {
             console.log('error during get user edited cv')
@@ -66,11 +67,16 @@ export const saveJobSeekerCV = createAsyncThunk(
 )
 export const editJobSeekerCv = createAsyncThunk(
     'globalData/editJobSeekerCv',
-    async (templateData) => {
+    async (templateData, thunkAPI) => {
         try {
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-            const response = await instance.post('/cv_template/edit', cleanTemplateNewIds(templateData))
+            const response = await instance.post('/cv_template/edit', {
+                ...cleanTemplateNewIds(templateData),
+                parentId: templateData.parentId
+            })
+            return response.data
         } catch (err) {
+            thunkAPI.rejectWithValue('error during edit cv')
             console.log('error during edit cv template jobSeeker')
         }
 
