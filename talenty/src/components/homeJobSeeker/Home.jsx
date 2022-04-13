@@ -11,7 +11,7 @@ import {MAIN_PURPLE} from "../../constants/colors";
 export default function Home() {
     const navigate = useNavigate();
     const {email, firstName, lastName} = useSelector(selectAuthUserInfo)
-
+    const userInfo = useSelector((state) => state.auth.userInfo)
     return (
         <Box sx={{pt: "52px", pl: "60px", pr: "60px"}}>
             <Box sx={{display: "flex", gap: "20px"}}>
@@ -49,8 +49,8 @@ export default function Home() {
                                 sx={{display: "flex", flexDirection: "column", gap: "12px"}}
                             >
                                 <Box sx={{...USER_NAME}}>{firstName} {lastName}</Box>
-                                <Box sx={{...USER_EMAIL}} >{email}
-                                    <Box className="title" >{email}</Box>
+                                <Box sx={{...USER_EMAIL}}>{email}
+                                    <Box className="title">{email}</Box>
                                 </Box>
                             </Box>
                         </Box>
@@ -76,7 +76,7 @@ export default function Home() {
                                     navigate('create-cv');
                                 }}
                             >
-                                Create CV
+                                {userInfo.cvTemplateId ? 'Edit CV' : 'Create CV'}
                             </Button>
                         </Box>
                     </Box>

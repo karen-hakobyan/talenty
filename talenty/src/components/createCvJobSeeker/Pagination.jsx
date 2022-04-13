@@ -60,7 +60,9 @@ export default function Pagination({pagesCount, exactPage}) {
                     </Box>
                 ))}
             </Box>
-            <Box sx={PAGINATION_ITEM_STYLE(pagesCount === exactPage)}>
+            <Box sx={PAGINATION_ITEM_STYLE(pagesCount === exactPage)}
+                 onClick={() => dispatch(setExactPage(pagesCount))}
+            >
                 {pagesCount}
             </Box>
         </Box>
