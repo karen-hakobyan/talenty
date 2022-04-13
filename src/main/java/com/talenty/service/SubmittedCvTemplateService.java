@@ -39,7 +39,7 @@ public class SubmittedCvTemplateService {
                         new FieldsIdValidationExecutor(),
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor(),
-                        new CleanUpMetadataExecutor(true, "submitted_value")
+                        new CleanUpMetadataExecutor(true, "submitted_value", "status")
                 );
         submittedTemplate.setId(null);
         submittedTemplate.setParentId(parentTemplate.getId());
