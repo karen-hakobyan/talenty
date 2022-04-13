@@ -12,6 +12,7 @@ export const POST_SIGN_UP_HR = `/register/hr`;
 export const POST_SIGN_UP_JOB_SEEKER = `/register/jobseeker`;
 export const All_TEMPLATES = '/cv_template/all'
 export const TEMPLATE_BY_ID = (id) => `/cv_template?id=${id}`
+export const GET_EDITED_USER_CV = (id) => `/cv_template/submitted?id=${id}`
 export const LOGIN = `/login`;
 export const getForgotPassword = (email) => {
     return `/reset/password?email=${email}`

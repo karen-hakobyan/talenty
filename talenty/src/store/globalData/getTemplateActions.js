@@ -31,29 +31,50 @@ export const getTemplateById = createAsyncThunk(
     'globalData/getTemplateById',
     async (id, thunkAPI) => {
         try {
-            console.log(id)
             console.log('hasav by id')
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.templateById(id))
-            console.log(response.data)
             return response.data
         } catch (err) {
             console.log('error during get template by id')
         }
     }
 )
+export const getEditedUserCv = createAsyncThunk(
+    'globalData/getEditedUserCv',
+    async (id) => {
+        try {
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+            const response = await instance.get(getUrls.userEditedCV(id))
+            return response.data
+        } catch (err) {
+            console.log('error during get user edited cv')
+        }
+    },
+)
 export const saveJobSeekerCV = createAsyncThunk(
     'globalData/saveJobSeekerCV',
     async (templateData, thunkAPI) => {
         try {
-            console.log(cleanTemplateNewIds(templateData))
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.post('/cv_template/save_submitted', cleanTemplateNewIds(templateData))
-            console.log(response)
+            return response.data
         } catch (err) {
             console.log(err)
         }
     }
+)
+export const editJobSeekerCv = createAsyncThunk(
+    'globalData/editJobSeekerCv',
+    async (templateData) => {
+        try {
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+            const response = await instance.post('/cv_template/edit', cleanTemplateNewIds(templateData))
+        } catch (err) {
+            console.log('error during edit cv template jobSeeker')
+        }
+
+    },
 )
 
 export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {

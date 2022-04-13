@@ -30,6 +30,7 @@ const authSlice = createSlice({
         },
         setJwt: (state, {payload}) => {
             state.jwt = payload
+            state.userInfo = JSON.parse(atob(payload.split(".")[1]))
         },
         setAuthInitialState: (state) => {
             for (let key in initialState) {
@@ -145,5 +146,6 @@ export const {
     setAuthSignOut,
     setAuthIsChangePass,
     setAuthIsResetPassword,
-    setIsValidToken
+    setIsValidToken,
+    setJwt
 } = authSlice.actions
