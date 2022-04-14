@@ -8,7 +8,7 @@ import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
 import {MAIN_PURPLE} from "../../constants/colors";
 import {useEffect} from "react";
-import {setAllTemplateData, setGlobalInitialData} from "../../store/globalData/slice";
+import {setAllTemplateData, setExactPage} from "../../store/globalData/slice";
 
 export default function Home() {
     const dispatch = useDispatch()
@@ -17,6 +17,7 @@ export default function Home() {
     const userInfo = useSelector((state) => state.auth.userInfo)
     useEffect(() => {
         dispatch(setAllTemplateData(null))
+        dispatch(setExactPage(1))
     }, [dispatch])
     return (
         <Box sx={{pt: "52px", pl: "60px", pr: "60px"}}>

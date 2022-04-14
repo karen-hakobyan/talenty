@@ -45,8 +45,6 @@ export default function CreateCvJobSeeker() {
         if (templateData === null) {
             dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
         }
-
-
     }, [dispatch, templateData])
 
     if (!templateData) {

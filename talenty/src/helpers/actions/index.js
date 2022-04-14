@@ -36,6 +36,7 @@ export const isValidRationalNumber = value => {
     }
     return !isNaN(+value)
 }
+
 export const cleanTemplateNewIds = (data) => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (key, reviver) => {
@@ -56,9 +57,8 @@ export const cleanTemplateNewIds = (data) => {
 
         return ({
             metadata,
-            ...(reviver.id.startsWith('0') ? {} : {id: reviver.id}),
+            ...(reviver.id.startsWith('0') ? {name: reviver.name} : {id: reviver.id}),
             ...(reviver.fields ? {fields: [...reviver.fields]} : {}),
-            // ...(!reviver.fields && reviver.metadata.submitted_value ? {metadata: {submitted_value: reviver.metadata.submitted_value}} : {metadata: {}}),
         })
     })
     return result

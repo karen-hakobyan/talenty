@@ -121,8 +121,6 @@ export const globalDataSlice = createSlice({
         },
         [saveJobSeekerCV.fulfilled]: (state, {payload}) => {
             state.newJwt = payload
-            let userInfo = JSON.parse(atob(payload.split(".")[1]))
-            state.templateData = null
             state.exactPage = 1
             if (localStorage.getItem('jwt')) {
                 localStorage.setItem('jwt', payload)

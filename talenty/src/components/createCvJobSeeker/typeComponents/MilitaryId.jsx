@@ -13,9 +13,9 @@ export default function MilitaryId({data}) {
             <Box sx={{display: 'flex'}}>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Radio
-                        checked={data.metadata.submitted_value === true}
+                        checked={data.metadata.submitted_value === 'Yes'}
                         onChange={() => {
-                            dispatch(setTemplateData({id: data.id, value: true}))
+                            dispatch(setTemplateData({id: data.id, value: 'Yes'}))
                         }}
                     />
                     <Box
@@ -31,9 +31,9 @@ export default function MilitaryId({data}) {
                 </Box>
                 <Box sx={{display: 'flex', alignItems: 'center'}}>
                     <Radio
-                        checked={data.metadata.submitted_value === false}
+                        checked={data.metadata.submitted_value === 'No'}
                         onChange={() => {
-                            dispatch(setTemplateData({id: data.id, value: false}))
+                            dispatch(setTemplateData({id: data.id, value: 'No'}))
                         }}
                     />
                     <Box

@@ -58,7 +58,6 @@ export const saveJobSeekerCV = createAsyncThunk(
     async (templateData, thunkAPI) => {
         try {
             instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
-            console.log('zapros gnac ?')
             let data = cleanTemplateNewIds(templateData)
             const response = await instance.post('/cv_template/save_submitted', data)
             return response.data
