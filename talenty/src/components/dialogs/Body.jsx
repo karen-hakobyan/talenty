@@ -44,7 +44,7 @@ export default function Body({
 
             <SharedTemplateHeader title={dialogData.name}/>
             <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px", pt: '44px'}}>
-                {dialogData.fields.map((field) => {
+                {dialogData.fields.filter(el=>el.metadata.status !== "DELETED").map((field) => {
 
                     let TempComponent = typeComponents[field.metadata.type];
                     if (!TempComponent) {
