@@ -13,7 +13,7 @@ export default function LanguageLevelContainer({data, fields, id, depend}) {
         label={<Box
             sx={{display: 'flex', justifyContent: 'space-between'}}>
             <Box>{data.name}</Box>
-            {fields.length !== 1 ? (<Box sx={{
+            {fields.filter(el => el.metadata.status !== 'DELETED').length !== 1 ? (<Box sx={{
                 cursor: "pointer",
                 fill: "#4C494F",
                 transition: "all 0.5s",
@@ -25,9 +25,12 @@ export default function LanguageLevelContainer({data, fields, id, depend}) {
                     transition: "all 0.5s",
                 }
             }}
-                                         onClick={() => {
-                                             dispatch(setDeleteAddSection({templateData, id}))
-                                         }}
+                                                                                        onClick={() => {
+                                                                                            dispatch(setDeleteAddSection({
+                                                                                                templateData,
+                                                                                                id
+                                                                                            }))
+                                                                                        }}
             > <DeleteIcon/> </Box>) : null}
         </Box>}
         Component={

@@ -314,42 +314,41 @@ public class ValidationChecker {
 
     // Considering both, field and section validation
     public static void assertDeletedFieldIsValid(final FieldDocument parentField) {
-        if (!parentField.getMetadata().containsKey("type")) {
-            System.out.println("Field must contain 'type' key");
-            throw new InvalidFieldException();
-        }
-
-        if (!parentField.getMetadata().containsKey("deletable")) {
-            System.out.println("Field must contain 'deletable' key");
-            throw new InvalidFieldException();
-        }
-
-        if (!((Boolean) parentField.getMetadata().get("deletable"))) {
-            System.out.println("Not deleteable field can`t be deleted");
-            throw new InvalidFieldException();
-        }
+//         if (!parentField.getMetadata().containsKey("type")) {
+//             System.out.println("Field must contain 'type' key");
+//             throw new InvalidFieldException();
+//         }
+//
+//         if (!parentField.getMetadata().containsKey("deletable")) {
+//             System.out.println("Field must contain 'deletable' key");
+//             throw new InvalidFieldException();
+//         }
+//
+//         if (!((Boolean) parentField.getMetadata().get("deletable"))) {
+//             System.out.println("Not deleteable field can`t be deleted");
+//             throw new InvalidFieldException();
+//         }
     }
 
     // Considering both, field and section validation
     public static void assertNewFieldIsValid(final FieldDocument newField) {
-        if (!newField.getMetadata().containsKey("type")) {
-            System.out.println("Field must contain 'type' key");
-            throw new InvalidFieldException();
-        }
+//         if (!newField.getMetadata().containsKey("type")) {
+//             System.out.println("Field must contain 'type' key");
+//             throw new InvalidFieldException();
+//         }
 
-        if (Objects.equals(newField.getMetadata().get("type"), "section") && (newField.getFields() == null || newField.getFields().size() == 0)) {
-            System.out.println("Section can't be empty (at least one field is required)");
-            throw new InvalidSectionException();
-        } else if (newField.getFields() != null) {
-            newField.setId(String.valueOf(new ObjectId()));
-            return;
-        }
+//         if (Objects.equals(newField.getMetadata().get("type"), "section") && (newField.getFields() == null || newField.getFields().size() == 0)) {
+//             System.out.println("Section can't be empty (at least one field is required)");
+//             throw new InvalidSectionException();
+//         } else if (newField.getFields() != null) {
+//             newField.setId(String.valueOf(new ObjectId()));
+//             return;
+//         }
 
-        if (!Objects.equals(newField.getMetadata().get("type"), "simple_input")) {
-            System.out.println("New field`s type can only be 'simple_input'");
-            throw new InvalidFieldException();
-        }
+//         if (!Objects.equals(newField.getMetadata().get("type"), "simple_input")) {
+//             System.out.println("New field`s type can only be 'simple_input'");
+//             throw new InvalidFieldException();
+//         }
         newField.setId(String.valueOf(new ObjectId()));
     }
-
 }
