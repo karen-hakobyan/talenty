@@ -1,4 +1,4 @@
-import {memo, useMemo} from "react";
+import {useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, IconButton} from "@mui/material";
 import {selectSectionContainerController} from "../../../store/globalData/selector";
@@ -9,6 +9,7 @@ import {setSectionContainerController} from "../../../store/globalData/slice";
 import {dependOfType} from "../helper";
 
 export const LINE_TYPES = ['description', 'url']
+
 export default function SectionContainer({data, index, fields}) {
     const dispatch = useDispatch()
     const controller = useSelector(selectSectionContainerController)

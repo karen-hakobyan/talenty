@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectAuthUserInfo} from "../../store/auth/selector";
 import {useNavigate} from "react-router-dom";
 import {Box, Button, Switch} from "@mui/material";
@@ -7,11 +7,18 @@ import {HOME_PRIMARY_BUTTON} from "../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
 import {MAIN_PURPLE} from "../../constants/colors";
+import {useEffect} from "react";
+import {setAllTemplateData, setExactPage} from "../../store/globalData/slice";
 
 export default function Home() {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const {email, firstName, lastName} = useSelector(selectAuthUserInfo)
-
+    const userInfo = useSelector((state) => state.auth.userInfo)
+    useEffect(() => {
+        dispatch(setAllTemplateData(null))
+        dispatch(setExactPage(1))
+    }, [dispatch])
     return (
         <Box sx={{pt: "52px", pl: "60px", pr: "60px"}}>
             <Box sx={{display: "flex", gap: "20px"}}>
@@ -49,8 +56,8 @@ export default function Home() {
                                 sx={{display: "flex", flexDirection: "column", gap: "12px"}}
                             >
                                 <Box sx={{...USER_NAME}}>{firstName} {lastName}</Box>
-                                <Box sx={{...USER_EMAIL}} >{email}
-                                    <Box className="title" >{email}</Box>
+                                <Box sx={{...USER_EMAIL}}>{email}
+                                    <Box className="title">{email}</Box>
                                 </Box>
                             </Box>
                         </Box>
@@ -76,7 +83,7 @@ export default function Home() {
                                     navigate('create-cv');
                                 }}
                             >
-                                Create CV
+                                {userInfo.cvTemplateId ? 'Edit CV' : 'Create CV'}
                             </Button>
                         </Box>
                     </Box>

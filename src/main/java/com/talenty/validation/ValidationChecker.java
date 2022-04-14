@@ -351,5 +351,4 @@ public class ValidationChecker {
         }
         newField.setId(String.valueOf(new ObjectId()));
     }
-
 }

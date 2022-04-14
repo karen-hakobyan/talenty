@@ -1,5 +1,5 @@
-import { getJwt } from "../../components/dashboard/helper";
-import { LANDING_PAGE_ROUTE } from "../../constants/routes";
+import {getJwt} from "../../components/dashboard/helper";
+import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 
 export function deleteFromTempleteById(templateData, id) {
     return JSON.parse(JSON.stringify(templateData), (key, value) => {
@@ -36,16 +36,29 @@ export const isValidRationalNumber = value => {
     }
     return !isNaN(+value)
 }
+
 export const cleanTemplateNewIds = (data) => {
     let result = JSON.stringify(data)
     result = JSON.parse(result, (key, reviver) => {
         if (!reviver?.id) {
             return reviver
         }
+
+        let metadata = {}
+        if (!reviver.fields && reviver.metadata.submitted_value) {
+            metadata.submitted_value = reviver.metadata.submitted_value
+        }
+        if (reviver.metadata?.status) {
+            metadata.status = reviver.metadata.status
+        }
+        if (reviver.metadata?.type && reviver.metadata?.status === 'NEW') {
+            metadata.type = reviver.metadata.type
+        }
+
         return ({
-            ...(reviver.id.startsWith('0') ? {} : { id: reviver.id }),
-            ...(reviver.fields ? { fields: [...reviver.fields] } : {}),
-            ...(!reviver.fields && reviver.metadata.submitted_value ? { metadata: { submitted_value: reviver.metadata.submitted_value } } : { metadata: {} })
+            metadata,
+            ...(reviver.id.startsWith('0') ? {name: reviver.name} : {id: reviver.id}),
+            ...(reviver.fields ? {fields: [...reviver.fields]} : {}),
         })
     })
     return result
@@ -57,8 +70,8 @@ export const cleanHrTemplateNewIds = data => {
             return reviverValue
         }
         return ({
-            ...(reviverValue.id.startsWith('0') ? {} : { id: reviverValue.id }),
-            ...(reviverValue.fields ? { fields: [...reviverValue.fields] } : {}),
+            ...(reviverValue.id.startsWith('0') ? {} : {id: reviverValue.id}),
+            ...(reviverValue.fields ? {fields: [...reviverValue.fields]} : {}),
             metadata: reviverValue.metadata,
             name: reviverValue.name
         })

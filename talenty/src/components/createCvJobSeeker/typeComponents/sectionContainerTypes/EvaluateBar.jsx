@@ -46,7 +46,7 @@ export default function EvaluateBar({data, depend, fields, id}) {
             <Box
                 sx={{display: 'flex', justifyContent: 'space-between'}}>
                 <Box>Percentage</Box>
-                {fields.length !== 1 ? (
+                {fields.filter(el => el.metadata.status !== "DELETED").length !== 1 ? (
                     <Box sx={{
                         cursor: "pointer",
                         fill: "#4C494F",

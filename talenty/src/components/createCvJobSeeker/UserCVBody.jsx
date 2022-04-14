@@ -29,7 +29,7 @@ export default function UserCVBody({data}) {
 
     return <Box
         sx={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', justifyContent: 'space-between', rowGap: '38px'}}>
-        {data?.fields.map((el, index) => {
+        {data?.fields.filter(el => el.metadata.status !== 'DELETED').map((el, index) => {
             let TempComponent = typeComponents[el.metadata.type]
             if (!TempComponent) {
                 return null

@@ -1,10 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
-    createCvHR,
+    createCvHR, editJobSeekerCv, getEditedUserCv,
     getJobAnnouncement,
     getTemplateActions,
     getTemplateById,
-    getTemplateLists, publishJobAnnouncement
+    getTemplateLists, publishJobAnnouncement, saveJobSeekerCV
 } from "./getTemplateActions";
 import changeTemplateData, {
     addSectionContainer,
@@ -24,6 +24,7 @@ const initialState = {
     // pritom piti chlini miamit personal skill proffesional skill u language for publications it will be another story :D 
     sectionContainerController: null,
     isPublished: {},
+    newJwt: null,
 };
 
 export const globalDataSlice = createSlice({
@@ -59,6 +60,9 @@ export const globalDataSlice = createSlice({
             localStorage.clear()
             sessionStorage.clear()
         },
+        removeNewJwt: (state) => {
+            state.newJwt = null
+        },
         setLinksController: (state, {payload}) => {
             state.linksController = payload
         },
@@ -89,8 +93,10 @@ export const globalDataSlice = createSlice({
         [getJobAnnouncement.fulfilled]: (state, {payload}) => {
             state.templateData = payload
         },
+        [getEditedUserCv.fulfilled]: (state, {payload}) => {
+            state.templateData = payload
+        },
         [getJobAnnouncement.rejected]: (state) => {
-            console.log('hasav rejectedi mot')
             state.templateData = jobAnnouncementAjab
         },
         [createCvHR.fulfilled]: (state, {payload}) => {
@@ -108,14 +114,28 @@ export const globalDataSlice = createSlice({
             state.templateInitialData = payload
         },
         [publishJobAnnouncement.fulfilled]: (state, {payload}) => {
-            console.log(payload)
-            console.log('mtav publish announcement fullfilled')
             state.isPublished = {open: true, status: 'ok'}
         },
         [publishJobAnnouncement.rejected]: (state, {payload}) => {
-            console.log('announcement publish rejected')
             state.isPublished = {open: true, status: 'rejected'}
-        }
+        },
+        [saveJobSeekerCV.fulfilled]: (state, {payload}) => {
+            state.newJwt = payload
+            state.exactPage = 1
+            if (localStorage.getItem('jwt')) {
+                localStorage.setItem('jwt', payload)
+            } else {
+                localStorage.setItem('jwt', payload)
+            }
+        },
+        [editJobSeekerCv.rejected]: (state, {payload}) => {
+            state.exactPage = 1;
+            state.templateData = null
+        },
+        [editJobSeekerCv.fulfilled]: (state) => {
+            console.log('edit cv template fullfilled')
+            state.exactPage = 1;
+        },
     }
 });
 
@@ -136,6 +156,7 @@ export const {
     setAllTemplateData,
     setIsPublished,
     deletePublicationAction,
+    removeNewJwt,
 } = globalDataSlice.actions;
 
 export default globalDataSlice.reducer;
