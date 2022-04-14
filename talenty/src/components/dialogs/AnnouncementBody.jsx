@@ -37,9 +37,9 @@ export default function AnnouncementBody({
         <Dialog open={attentionIsOpen} onClose={() => setAttentionIsOpen(false)}>
             <Attention {...{setAttentionIsOpen}} />
         </Dialog>
-
+        
         <Box sx={{display: "grid", gap: "24px", pt: '44px'}}>
-            {dialogData.fields.map(field => {
+            {dialogData.fields.filter(el=>el.metadata.status !== "DELETED").map(field => {
                 if (field.name === 'Deadline') {
                     return null
                 }

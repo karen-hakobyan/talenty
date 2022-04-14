@@ -1,19 +1,30 @@
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {TextField, Box} from "@mui/material";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
+import { DeleteIcon } from "../../assets/icons/jobseeker";
+import { onDelete } from "../../helpers/dialog";
+import { selectDialogData } from "../../store/dialogs/selector";
 
 export default function Description({data}) {
-    console.log(data)
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
+    const dialogData = useSelector(selectDialogData);
+    const id=data.id
     return <JobSeekerSubsection
-        label={<Box sx={{
-            display:"flex",
-            alignItems:"center",
-        }}><Box>aaaaaaaa</Box><Box>aaaaaaaa</Box></Box>}
-        // data.metadata.required ? <Box>{data.name} *</Box> : data.name
+    label={<Box sx={{
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"space-between"
+    }}><Box>{data.metadata.required ? <Box>{data.name} *</Box> : data.name}</Box>
+    {data.metadata.deletable?(<Box sx={{
+        cursor: "pointer"
+    }}
+    onClick={()=>{
+        onDelete({dialogData,id, dispatch})
+    }}
+    >{<DeleteIcon/> }</Box>):null}</Box>}
         Component={
             <TextField
                 placeholder={data.metadata.placeholder}
@@ -21,11 +32,6 @@ export default function Description({data}) {
                 multiline
                 rows={3}
                 value={value}
-                InputProps={{sx: {
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: "16px",
-                    lineHeight: "24px"
-                }}}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
             />
