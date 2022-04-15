@@ -1,10 +1,10 @@
-import { setDialogData } from "../../store/dialogs/slice";
+import {setDialogData} from "../../store/dialogs/slice";
 
 const deleteFilterer = (id) => (el) => el.id !== id
 
-export function onDelete({ dispatch, dialogData, id }) {
+export function onDelete({dispatch, dialogData, id}) {
     const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (key, value) => {
-        if (value ? .fields && value ? .fields.some(deleteFilterer(id))) {
+        if (value?.fields && value?.fields.some(deleteFilterer(id))) {
             return {
                 ...value,
                 fields: id.startsWith('0') ? value.fields.filter(el => el.id !== id) : value.fields.map(el => el.id === id ? {
@@ -22,18 +22,18 @@ export function onDelete({ dispatch, dialogData, id }) {
     dispatch(setDialogData(updatedDialogData));
 }
 
-export function isDisabled({ templateData, value }) {
+export function isDisabled({templateData, value}) {
     const result =
-        templateData.fields[0] ? .metadata.type === "section_container" ?
-        templateData.fields[0] :
-        templateData;
+        templateData.fields[0]?.metadata.type === "section_container" ?
+            templateData.fields[0] :
+            templateData;
     return result.fields.some((el) => el.name === value) || value.length === 0;
 }
 
-export function editOtherCheckbox({ dispatch, dialogData, id }) {
+export function editOtherCheckbox({dispatch, dialogData, id}) {
     let updatedDialogData = JSON.stringify(dialogData)
     updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
-        if (!reviverValue ? .id || reviverValue.id !== id) {
+        if (!reviverValue?.id || reviverValue.id !== id) {
             return reviverValue
         }
         return {
@@ -47,33 +47,33 @@ export function editOtherCheckbox({ dispatch, dialogData, id }) {
     dispatch(setDialogData(updatedDialogData))
 }
 
-export function deleteOtherAction({ dispatch, dialogData, id }) {
+export function deleteOtherAction({dispatch, dialogData, id}) {
     let updatedDialogData = JSON.stringify(dialogData)
     updatedDialogData = JSON.parse(updatedDialogData, (key, reviverValue) => {
-        if (!reviverValue ? .id || reviverValue.id !== id) {
+        if (!reviverValue?.id || reviverValue.id !== id) {
             return reviverValue
         }
         return {
             ...reviverValue,
-            metadata: {...reviverValue.metadata, status: "DELETED" }
+            metadata: {...reviverValue.metadata, status: "DELETED"}
         }
     })
     dispatch(setDialogData(updatedDialogData))
 }
 
 export function editCheckboxState({
-    dispatch,
-    dialogData,
-    id,
-}) {
+                                      dispatch,
+                                      dialogData,
+                                      id,
+                                  }) {
     const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (_, reviverValue) => {
-        if (!reviverValue ? .id) {
+        if (!reviverValue?.id) {
             return reviverValue
         }
         if (reviverValue.id === id) {
             return {
                 ...reviverValue,
-                metadata: {...reviverValue.metadata, required: !reviverValue.metadata.required }
+                metadata: {...reviverValue.metadata, required: !reviverValue.metadata.required}
             }
         }
         return reviverValue
@@ -81,14 +81,14 @@ export function editCheckboxState({
     dispatch(setDialogData(updatedDialogData));
 }
 
-export function editLinkCheckboxState({ dialogData, id, dispatch }) {
+export function editLinkCheckboxState({dialogData, id, dispatch}) {
     const dialogDataJSON = JSON.stringify(dialogData);
 
     const updatedDialogData = JSON.parse(dialogDataJSON, (key, value) => {
         if (value.id === id) {
             return {
                 ...value,
-                metadata: {...value.metadata, required: !value.metadata.required },
+                metadata: {...value.metadata, required: !value.metadata.required},
             };
         } else {
             return value;
