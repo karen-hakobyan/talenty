@@ -21,7 +21,7 @@ const labelStyle = {
 const Select = ({sx = {}, disabled, placeHolder, ...restProps}) => {
     return (
         <FormControl size="small">
-            <InputLabel sx={{labelStyle}}>
+            <InputLabel sx={{...labelStyle}}>
                 {placeHolder || "Choose the gender"}
             </InputLabel>
             <MuiSelect
@@ -29,7 +29,11 @@ const Select = ({sx = {}, disabled, placeHolder, ...restProps}) => {
                 "& .css-10i54m9-MuiFormControl-root-MuiTextField-root .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input":{
                     color:"rgba(0,0,0,.87)",
                     fontFamily: "'Poppins', sans-serif",
+                },
+                ".MuiInputBase-root.Mui-disabled" :{
+                    color: "rgba(0, 0, 0, 0.38)"
                 }
+
             }}
 
                 IconComponent={SelectIconSVG}

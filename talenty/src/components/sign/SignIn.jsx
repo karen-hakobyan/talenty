@@ -237,7 +237,7 @@ function SignIn() {
                                         cursor: "pointer",
                                         color: "#8C0DF0",
                                         fontFamily: "'Poppins', sans-serif",
-                                        fontWeight: 600,
+                                        fontWeight: 400,
                                         fontSize: "16px",
                                         lineHeight: "22px",
                                     }}
