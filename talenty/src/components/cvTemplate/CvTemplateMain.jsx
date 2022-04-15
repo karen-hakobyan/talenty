@@ -21,10 +21,10 @@ import AddSection from "../dialogs/addSection";
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
-import {createCvHR, getTemplateActions, getTemplateLists} from "../../store/globalData/getTemplateActions";
+import {createCvHR, getTemplateActions} from "../../store/globalData/getTemplateActions";
 import {compareObjects} from "../../helpers/compareTwoData";
 import Button from "../../shared/components/Button";
-import {isValidTemplateName, notValidTemplateName} from "./helper ";
+import {isValidTemplateName, notValidTemplateName} from "./helper";
 
 const CustomInput = styled("input")(() => ({
     width: "100%",
@@ -105,13 +105,13 @@ function CvTemplateMain() {
                         color: "#000",
                         lineHeight: "26px",
                     }}>
-                        {title.length? (<Box>
-                            {`Your CV template can not get “${title === "System Template" ? "System Template" : title}”
+                        {title.length ? (<Box>
+                                {`Your CV template can not get “${title === "System Template" ? "System Template" : title}”
                             name.`}
-                            <Box sx={{
-                                display:"block",
-                            }}>{"Please, give another name."}</Box>
-                            </Box>):
+                                <Box sx={{
+                                    display: "block",
+                                }}>{"Please, give another name."}</Box>
+                            </Box>) :
                             (<Box>{`Please, give a name to your CV template`}</Box>)}
                     </Box>
                     <Button sx={DIALOG_BUTTON_PURPLE}

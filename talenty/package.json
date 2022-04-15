@@ -24,6 +24,7 @@
         "eslint-plugin-react-hooks": "^4.3.0",
         "luxon": "^2.2.0",
         "moment": "^2.29.1",
+        "mui-rte": "^2.0.1",
         "normalize.css": "^8.0.1",
         "npm": "^8.2.0",
         "react": "^17.0.2",
