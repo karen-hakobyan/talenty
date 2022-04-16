@@ -75,8 +75,7 @@ public class SubmittedCvTemplateService {
                 .executeLogic(
                         new FieldsIdValidationExecutor(),
                         new RequiredFieldValidationExecutor(),
-                        new SubmittedFieldValueValidationExecutor(),
-                        new CleanUpMetadataExecutor(true, "submitted_value")
+                        new SubmittedFieldValueValidationExecutor()
                 );
         return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));
     }

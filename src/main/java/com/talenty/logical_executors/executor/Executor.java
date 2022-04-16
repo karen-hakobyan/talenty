@@ -6,6 +6,7 @@ import com.talenty.validation.ValidationChecker;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Executor {
@@ -42,23 +43,52 @@ public class Executor {
         int parentFieldIndex = 0;
         for (int i = 0; i < childFields.size(); ++i) {
             final FieldDocument tempChildField = childFields.get(i);
-            if (!Objects.equals(tempChildField.getMetadata().get("status"), "NEW")) {
-                final FieldDocument tempParentField = parentFields.get(parentFieldIndex++);
+            boolean isSectionContainer = false;
+            boolean isNew = false;
+            boolean isNewSectionContainerField = false;
 
-                for (final LogicExecutor logicExecutor : logicExecutors) {
-                    if (logicExecutor == null) continue;
-                    if (logicExecutor.needParentField()) logicExecutor.setCurrentParentField(tempParentField);
-                    final FieldDocument executedField = logicExecutor.execute(tempChildField);
-                    childFields.set(i, executedField);
-                }
-
-                final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-                final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
-                if (tempChildFieldFields != null && tempParentFieldFields != null)
-                    executeLogicOnFields(tempChildFieldFields, tempParentFieldFields, logicExecutors);
-            } else {
-                ValidationChecker.assertNewFieldIsValid(tempChildField);
+            final Map<String, Object> childMetadata = tempChildField.getMetadata();
+            if (childMetadata.containsKey("type") && Objects.equals(childMetadata.get("type"), "section_container")) {
+                isSectionContainer = true;
             }
+
+            if (childMetadata.containsKey("type") && Objects.equals(childMetadata.get("status"), "NEW_SECTION_CONTAINER_FIELD")) {
+                isNewSectionContainerField = true;
+            }
+
+            if (childMetadata.containsKey("status") && Objects.equals(childMetadata.get("status"), "NEW")) {
+                isNew = true;
+            }
+
+            if (isSectionContainer) {
+                ValidationChecker.assertSectionContainerIsValid(tempChildField, parentFields.get(parentFields.size() - 1));
+                return;
+            }
+
+            if (isNewSectionContainerField) {
+                ValidationChecker.assertSubmittedFieldIsValid(tempChildField, parentFields.get(parentFields.size() - 1));
+                return;
+            }
+
+            if (isNew) {
+                ValidationChecker.assertNewFieldIsValid(tempChildField);
+                return;
+            }
+
+            final FieldDocument tempParentField = parentFields.get(parentFieldIndex++);
+
+            for (final LogicExecutor logicExecutor : logicExecutors) {
+                if (logicExecutor == null) continue;
+                if (logicExecutor.needParentField()) logicExecutor.setCurrentParentField(tempParentField);
+                final FieldDocument executedField = logicExecutor.execute(tempChildField);
+                childFields.set(i, executedField);
+            }
+
+            final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
+            final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
+            if (tempChildFieldFields != null && tempParentFieldFields != null)
+                executeLogicOnFields(tempChildFieldFields, tempParentFieldFields, logicExecutors);
+
         }
     }
 

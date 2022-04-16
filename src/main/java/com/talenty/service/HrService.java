@@ -8,6 +8,7 @@ import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
+import com.talenty.exceptions.InvalidAuthenticationWithJwt;
 import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.mapper.HrMapper;
@@ -74,7 +75,14 @@ public class HrService {
     }
 
     public HrDocument getCurrentHr() {
-        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        AuthenticatedUser authenticatedUser = null;
+
+        try {
+            authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        } catch (final Exception e) {
+            System.out.printf("Something wrong with authentication creds: %s\n", SecurityContextHolder.getContext().getAuthentication().getCredentials());
+            throw new InvalidAuthenticationWithJwt();
+        }
 
         final String currentHrId = authenticatedUser.getId();
         final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);
