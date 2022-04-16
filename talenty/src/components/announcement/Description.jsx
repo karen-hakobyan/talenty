@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, TextField} from "@mui/material";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
@@ -6,8 +6,12 @@ import {changeDialogDataById} from "../../store/dialogs/slice";
 import {DeleteIcon} from "../../assets/icons/jobseeker";
 import {onDelete} from "../../helpers/dialog";
 import {selectDialogData} from "../../store/dialogs/selector";
+import {convertToRaw} from "draft-js";
+import MUIRichTextEditor from "mui-rte";
 
+const defaultValue = '{"blocks":[{"key":"b91t9","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
 export default function Description({data}) {
+    const editorRef = useRef()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
     const dialogData = useSelector(selectDialogData);
@@ -26,17 +30,41 @@ export default function Description({data}) {
                     onClick={() => {
                         onDelete({dialogData, id, dispatch})
                     }}
-                >{<DeleteIcon/>}</Box>) : null}</Box>}
-        Component={
-            <TextField
-                placeholder={data.metadata.placeholder}
-                variant="outlined"
-                multiline
-                rows={3}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
-            />
+                >
+                    <DeleteIcon/>
+                </Box>
+            ) : null}
+        </Box>
         }
+        Component={data.metadata.required ? <TextField
+            placeholder={data.metadata.placeholder}
+            variant="outlined"
+            multiline
+            rows={3}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
+        /> : <Box sx={{
+            border: '1px solid #D9D9D9',
+            borderRadius: '4px',
+            minHeight: '152px',
+            p: '0px 30px',
+            width: '1038px',
+
+        }}>
+            <MUIRichTextEditor
+                ref={editorRef}
+                controls={['title', 'italic', 'bold', 'underline', 'numberList', 'bulletList']}
+                defaultValue={value}
+                onChange={(editorState) => {
+                    const result = convertToRaw(editorState.getCurrentContent())
+                    console.log(JSON.stringify(result))
+                }}
+                onBlur={
+                    () => {
+                    }
+                }
+            />
+        </Box>}
     />
 }
