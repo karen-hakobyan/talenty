@@ -1,4 +1,4 @@
-import {memo, useState} from "react";
+import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, Button, Dialog, IconButton} from "@mui/material";
 import {DIALOG_MAIN_CONTAINER, TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
@@ -10,7 +10,6 @@ import {AddFieldSVG} from "../../assets/icons/createTemplate";
 import {selectTemplateData} from "../../store/globalData/selector";
 import {onSave} from "./Body";
 import {isRequiredFieldsFilled} from "../../helpers/dialog";
-import {compareObjects} from "../../helpers/compareTwoData";
 
 
 const restrictedAddFieldSections = ['General Information', 'Skills']

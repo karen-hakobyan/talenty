@@ -9,8 +9,7 @@ import Section from "./Section";
 import ProfessionalSkill from "./ProfessionalSkill";
 import Description from "./Description";
 import GridSection from "../createCvJobSeeker/typeComponents/sectionContainerTypes/GridSection";
-import React from 'react'
-import {memoizeTypeComponents} from "../../helpers/memo";
+import { memoizeTypeComponents } from "../../helpers/memo";
 
 const announcementTypes = {
     employment_terms: EmploymentTerms,

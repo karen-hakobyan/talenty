@@ -172,7 +172,7 @@ function ForgotPassword() {
                                             <Box sx={{
                                                 color: MAIN_PURPLE,
                                                 cursor: "pointer",
-                                                fontWeight: 600
+                                                fontWeight: 400
                                             }}
                                                  onClick={() => navigate(SIGN_UP_ROUTE)}
                                             >

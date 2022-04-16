@@ -11,19 +11,18 @@ import {Checkbox} from "../../../shared/Checkbox";
 import SubSection from "../../../shared/subSection";
 
 export function DescriptionGenerator({data, isSectionContainer, dispatch, dialogData, templateData}) {
-
     return (
         <SubSection
             label={data.name}
             inputComponent={
                 <TextField
                     placeholder={data?.metadata.placeholder}
+                    // placeholder="edugiahgdsu"
                     disabled
                     variant="outlined"
                     multiline
                     rows={4}
                     InputProps={{sx: {
-                        height: "40px",
                         fontFamily: "'Poppins', sans-serif",
                         fontSize:16,
                 }}}

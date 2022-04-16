@@ -4,7 +4,7 @@ import {DISABLED_INPUT, TEMPLATE_INPUT} from "../../../../shared/styles";
 export default function ExpectedSalary({data}) {
     return (
         <TextField
-            placeholder={data?.name}
+            placeholder={data?.metadata.placeholder}
             disabled
             variant="outlined"
             sx={{...TEMPLATE_INPUT, ...DISABLED_INPUT, width: "321px"}}
