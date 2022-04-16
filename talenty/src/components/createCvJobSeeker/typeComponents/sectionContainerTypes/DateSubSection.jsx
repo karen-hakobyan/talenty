@@ -2,7 +2,6 @@ import {useDispatch} from "react-redux";
 import {setTemplateData} from "../../../../store/globalData/slice";
 import BasicDatePicker from "../../../shared/DatePicker";
 import {useEffect} from "react";
-import {changeDialogDataById} from "../../../../store/dialogs/slice";
 
 export default function DateSubSection({data, extra}) {
     const dispatch = useDispatch()

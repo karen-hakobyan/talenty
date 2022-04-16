@@ -1,5 +1,4 @@
-import {All_TEMPLATES, GET_EDITED_USER_CV, GET_TEMPLATES, instance, TEMPLATE_BY_ID} from "../../constants/requests";
-import {getJwt} from "../../components/dashboard/helper";
+import { All_TEMPLATES, GET_EDITED_USER_CV, GET_TEMPLATES, TEMPLATE_BY_ID } from "../../constants/requests";
 
 export const getUrls = {
     getTemplates: GET_TEMPLATES,

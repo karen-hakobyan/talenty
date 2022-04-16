@@ -1,6 +1,5 @@
 import {Box} from '@mui/material'
 import {sectionContainerTypes} from "./types";
-import {memo} from "react";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
 
 export default function Section({data}) {

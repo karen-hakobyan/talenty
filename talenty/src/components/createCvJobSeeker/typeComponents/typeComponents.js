@@ -10,7 +10,6 @@ import SectionContainer from "./SectionContainer";
 import SubSection from "./sectionContainerTypes/Section";
 import Description from "./sectionContainerTypes/Description";
 import Section from './Section'
-import {memoizeTypeComponents} from "../../../helpers/memo";
 
 const typeComponents = {
     special_name: SpecialName,

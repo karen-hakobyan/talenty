@@ -4,7 +4,7 @@ import {memo} from "react";
 import {Checkbox} from "../../../shared/Checkbox";
 import {deleteOtherAction, editCheckboxState, editOtherCheckbox, onDelete} from "../../../../helpers/dialog";
 import {Box, IconButton} from "@mui/material";
-import {selecFontFamily, TEMPLATE_ITEM_BUTTON} from "../../../../shared/styles";
+import { TEMPLATE_ITEM_BUTTON} from "../../../../shared/styles";
 import {DeleteIconSVG} from "../../../../assets/icons/createTemplate";
 
 export default function SectionGenerator({

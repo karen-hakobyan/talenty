@@ -1,5 +1,4 @@
 import {Box} from "@mui/material";
-import {useEffect, useState} from "react";
 import {generalInfoTypes} from "./generalInfoTypes/generalInfoTypes";
 
 export default function GeneralInfo({data}) {

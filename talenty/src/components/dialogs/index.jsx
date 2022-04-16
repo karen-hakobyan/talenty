@@ -7,7 +7,6 @@ import {
 import {setDialogInitialState} from "../../store/dialogs/slice";
 import isDialogDataInitial from "./helper";
 import {dialogTypes} from "./type";
-import {selectAuthLoading} from "../../store/auth/selector";
 import {ATTENTION_TYPES} from "./constants";
 import {Box} from "@mui/system";
 import Loading from "../../assets/loading/loading.gif"

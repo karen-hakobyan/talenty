@@ -1,6 +1,4 @@
-import { border } from "@mui/system";
 import { COMET, TEXT } from "../../constants/colors";
-import Email from "../createCvJobSeeker/typeComponents/Email";
 
 export const CONTAINER_HEADER = {
     top: 0,

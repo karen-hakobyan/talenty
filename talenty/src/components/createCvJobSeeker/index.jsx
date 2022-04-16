@@ -10,7 +10,6 @@ import {removeNewJwt, setExactPage, setNextPage, setPrevPage,} from "../../store
 import {
     editJobSeekerCv, getEditedUserCv,
     getTemplateActions,
-    getTemplateById,
     saveJobSeekerCV
 } from "../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
@@ -45,7 +44,7 @@ export default function CreateCvJobSeeker() {
         if (templateData === null) {
             dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
         }
-    }, [dispatch, templateData])
+    }, [dispatch, templateData,userInfo])
 
     if (!templateData) {
         return null;
