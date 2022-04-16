@@ -2,8 +2,7 @@ import {useDispatch} from "react-redux";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import {setTemplateData} from "../../../store/globalData/slice";
 import BasicDatePicker from "../../shared/DatePicker";
-import {validateDate} from "./sectionContainerTypes/DateSubSection";
-import {changeDialogDataById} from "../../../store/dialogs/slice";
+
 
 export default function Date({data}) {
     const dispatch = useDispatch()

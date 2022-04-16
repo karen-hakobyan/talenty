@@ -13,7 +13,6 @@ export default function Select({
                                    ...restProps
                                }) {
     const [open, setOpen] = useState(false)
-    const [checked, setChecked] = useState(false)
     return <TextField
         sx={{
             width: textFieldWidth || '500px',

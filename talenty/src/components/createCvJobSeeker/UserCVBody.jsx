@@ -1,4 +1,4 @@
-import {memo, useEffect} from "react";
+import { useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box} from "@mui/material";
 import typeComponents, {TYPES_TAKES_WHOLE_ROW} from "./typeComponents/typeComponents";
