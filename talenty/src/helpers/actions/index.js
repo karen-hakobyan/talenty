@@ -50,8 +50,6 @@ export const cleanTemplateNewIds = (data) => {
         }
         if (reviver.metadata?.status) {
             metadata.status = reviver.metadata.status
-        }
-        if (reviver.metadata?.type && reviver.metadata?.status === 'NEW') {
             metadata.type = reviver.metadata.type
         }
 

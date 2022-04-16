@@ -20,7 +20,7 @@ export default function PublicationSection({data}) {
     </Box>
 }
 
-function GeneratePublicationsBlock({fields, isBook, id, templateData}) {
+function GeneratePublicationsBlock({fields, isBook, id}) {
     const dispatch = useDispatch()
     return (
         <Box sx={{display: 'flex', flexDirection: 'column', gap: '28px', position: 'relative'}}>

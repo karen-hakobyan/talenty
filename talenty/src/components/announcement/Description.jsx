@@ -9,7 +9,17 @@ import {selectDialogData} from "../../store/dialogs/selector";
 import {convertToRaw} from "draft-js";
 import MUIRichTextEditor from "mui-rte";
 
-const defaultValue = '{"blocks":[{"key":"b91t9","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}'
+const defaultValue = {
+    "blocks": [{
+        "key": "b91t9",
+        "text": "salkdfjalskdfljksd",
+        "type": "unstyled",
+        "depth": 0,
+        "inlineStyleRanges": [],
+        "entityRanges": [],
+        "data": {}
+    }], "entityMap": {}
+}
 export default function Description({data}) {
     const editorRef = useRef()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
@@ -44,21 +54,24 @@ export default function Description({data}) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
-        /> : <Box sx={{
-            border: '1px solid #D9D9D9',
-            borderRadius: '4px',
-            minHeight: '152px',
-            p: '0px 30px',
-            width: '1038px',
-
-        }}>
+        /> : <Box
+            sx={{
+                border: '1px solid #D9D9D9',
+                borderRadius: '4px',
+                minHeight: '152px',
+                p: '0px 30px',
+                width: '1038px',
+            }}
+            onClick={() => {
+                editorRef.current.focus()
+            }}
+        >
             <MUIRichTextEditor
                 ref={editorRef}
                 controls={['title', 'italic', 'bold', 'underline', 'numberList', 'bulletList']}
-                defaultValue={value}
+                defaultValue={JSON.stringify(defaultValue)}
                 onChange={(editorState) => {
                     const result = convertToRaw(editorState.getCurrentContent())
-                    console.log(JSON.stringify(result))
                 }}
                 onBlur={
                     () => {

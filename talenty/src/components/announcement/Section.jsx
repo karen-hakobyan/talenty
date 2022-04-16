@@ -74,6 +74,7 @@ export default function Section({data}) {
                         <TextField
                             sx={{width: '226px'}}
                             value={toValue}
+                            placeholder={to.metadata.placeholder}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {
@@ -81,7 +82,6 @@ export default function Section({data}) {
                                     }
                                 }
                             }
-                            placeholder={to.name}
                             onBlur={() => {
                                 dispatch(changeDialogDataById({id: to.id, value: toValue}))
                             }}
@@ -91,7 +91,7 @@ export default function Section({data}) {
                 <JobSeekerSubsection label={<Box sx={{opacity: 0}} children='something'/>}
                                      Component={
                                          <Select
-                                             placeHolder="Rate"
+                                             placeHolder={currency.metadata.placeholder}
                                              textFieldWidth={'99px'}
                                              menuItems={currency.metadata.values}
                                              value={currency.metadata.submitted_value}

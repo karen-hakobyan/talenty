@@ -19,13 +19,26 @@ export const addSectionContainer = (templateData, id, isBook) => {
         if (!reviverValue?.id) {
             return reviverValue
         }
+
         if (reviverValue?.id === id) {
-            let temp1 = JSON.stringify(reviverValue.fields[isBook ? 1 : 0])
+            let temp1
+            // bellow condition because publication's section could have two article section or book section container
+            if (reviverValue.fields[0].name === "Book section" || reviverValue.fields[0].name === "Article section") {
+                temp1 = JSON.stringify(reviverValue.fields.find((el) => {
+                    return isBook ? el.name === 'Book section' : el.name === 'Article section'
+                }))
+            } else {
+                temp1 = JSON.stringify(reviverValue.fields[0])
+            }
+
             temp1 = JSON.parse(temp1, (key, val) => {
                 if (!val?.id) {
                     return val
                 }
-                const metadata = {...val.metadata, submitted_value: '', status: 'NEW'}
+                const metadata = {...val.metadata, submitted_value: '', status: 'NEW_SECTION_CONTAINER_FIELD'}
+                if (val.metadata.type === 'section_container') {
+                    metadata.status = 'NEW'
+                }
                 return {
                     ...val,
                     id: Math.random().toString(),
@@ -44,27 +57,9 @@ export const deleteAddSectionContainer = ({templateData, id}) => {
         if (!reviverValue?.id || reviverValue.metadata?.type !== 'section') {
             return reviverValue
         }
-        if (id.startsWith('0')) {
-            return {
-                ...reviverValue,
-                fields: reviverValue.fields.filter(el => el.id !== id)
-            }
-        } else {
-            return {
-                ...reviverValue,
-                fields: reviverValue.fields.map(el => {
-                    if (el.id === id) {
-                        return {
-                            ...el,
-                            metadata: {
-                                ...el.metadata,
-                                status: 'DELETED',
-                            }
-                        }
-                    }
-                    return el
-                })
-            }
+        return {
+            ...reviverValue,
+            fields: reviverValue.fields.filter(el => el.id !== id)
         }
 
     })
@@ -79,24 +74,9 @@ export const deletePublications = ({templateData, id}) => {
             return reviver
         }
         if (reviver?.fields.some(el => el.id === id)) {
-            if (id.startsWith('0')) {
-                return {
-                    ...reviver,
-                    fields: reviver?.fields.filter(el => el.id !== id)
-                }
-            } else {
-                return {
-                    ...reviver,
-                    fields: reviver?.fields.map(el => {
-                        return el.id === id ? {
-                            ...el,
-                            metadata: {
-                                ...el.metadata,
-                                status: 'DELETED'
-                            }
-                        } : el
-                    })
-                }
+            return {
+                ...reviver,
+                fields: reviver?.fields.filter(el => el.id !== id)
             }
         } else {
             return reviver
