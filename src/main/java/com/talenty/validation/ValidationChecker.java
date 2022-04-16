@@ -6,6 +6,8 @@ import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.*;
+import com.talenty.logical_executors.SectionContainerFieldsTypesValidationExecutor;
+import com.talenty.logical_executors.executor.Executor;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.lookups.v1.PhoneNumber;
@@ -351,4 +353,22 @@ public class ValidationChecker {
         }
         newField.setId(String.valueOf(new ObjectId()));
     }
+
+    public static void assertSectionContainerIsValid(final FieldDocument tempChildField, final FieldDocument parent) {
+        final List<FieldDocument> childFields = tempChildField.getFields();
+        final List<FieldDocument> parentFields = parent.getFields();
+        if (childFields.size() != parentFields.size()) {
+            System.out.println("Section container must contain same fields as parent section container");
+            throw new InvalidSectionContainerFieldsSize();
+        }
+
+        Executor.getInstance()
+                .setChildFields(childFields)
+                .setParentFields(parentFields)
+                .executeLogic(
+                        new SectionContainerFieldsTypesValidationExecutor()
+                );
+
+    }
+
 }
