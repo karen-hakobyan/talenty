@@ -52,7 +52,7 @@ const DISABLED_INPUT = { background: "#F5F5F5" };
 const TEMPLATE_BUTTON_ADD = {
     fontFamily: "'Poppins', sans-serif",
     display: "flex",
-    width: "179px",
+    // width: "179px",
     height: "34px",
     justifyContent: "center",
     alignItems: "center",
