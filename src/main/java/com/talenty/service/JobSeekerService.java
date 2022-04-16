@@ -7,8 +7,8 @@ import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
+import com.talenty.exceptions.InvalidAuthenticationWithJwt;
 import com.talenty.exceptions.UserNotFoundException;
-import com.talenty.jwt.JWTService;
 import com.talenty.mapper.JobSeekerMapper;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.UserRepository;
@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,17 +27,20 @@ public class JobSeekerService {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public JobSeekerService(final JobSeekerRepository jobSeekerRepository,
                             final EmailSender emailSender,
                             final TokenService tokenService,
                             final UserRepository userRepository,
-                            final PasswordEncoder passwordEncoder) {
+                            final PasswordEncoder passwordEncoder,
+                            final AuthenticatedUserService authenticatedUserService) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
@@ -64,8 +66,13 @@ public class JobSeekerService {
     }
 
     public JobSeekerDocument getCurrentJobSeeker() {
-        final AuthenticatedUser authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        final Optional<AuthenticatedUser> currentUserOptional = authenticatedUserService.getCurrentUser();
+        if (currentUserOptional.isEmpty()) {
+            System.out.printf("Something wrong with authentication creds: %s\n", SecurityContextHolder.getContext().getAuthentication().getCredentials());
+            throw new InvalidAuthenticationWithJwt();
+        }
 
+        final AuthenticatedUser authenticatedUser = currentUserOptional.get();
         final String currentJobSeekerId = authenticatedUser.getId();
         final Optional<JobSeekerDocument> currentJobSeeker = jobSeekerRepository.findById(currentJobSeekerId);
 

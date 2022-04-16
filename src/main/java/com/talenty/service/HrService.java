@@ -29,7 +29,7 @@ public class HrService {
     private final TokenService tokenService;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-    private final CVTemplateRepository cvTemplateRepository;
+    private final AuthenticatedUserService authenticatedUserService;
 
     public HrService(final UserRepository userRepository,
                      final CompanyRepository companyRepository,
@@ -37,14 +37,14 @@ public class HrService {
                      final TokenService tokenService,
                      final EmailSender emailSender,
                      final PasswordEncoder passwordEncoder,
-                     final CVTemplateRepository cvTemplateRepository) {
+                     final AuthenticatedUserService authenticatedUserService) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
         this.tokenService = tokenService;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
-        this.cvTemplateRepository = cvTemplateRepository;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
     public HrRegisterResponseDetails register(final HrRegisterRequestDetails request) {
@@ -75,14 +75,14 @@ public class HrService {
     }
 
     public HrDocument getCurrentHr() {
-        AuthenticatedUser authenticatedUser = null;
+        final Optional<AuthenticatedUser> currentUserOptional = authenticatedUserService.getCurrentUser();
 
-        try {
-            authenticatedUser = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
-        } catch (final Exception e) {
+        if (currentUserOptional.isEmpty()) {
             System.out.printf("Something wrong with authentication creds: %s\n", SecurityContextHolder.getContext().getAuthentication().getCredentials());
             throw new InvalidAuthenticationWithJwt();
         }
+
+        final AuthenticatedUser authenticatedUser = currentUserOptional.get();
 
         final String currentHrId = authenticatedUser.getId();
         final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);

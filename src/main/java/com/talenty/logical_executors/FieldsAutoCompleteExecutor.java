@@ -2,19 +2,34 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.mongo.FieldDocument;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.talenty.exceptions.InvalidAuthenticationWithJwt;
+import com.talenty.service.AuthenticatedUserService;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 
+@Component
 public class FieldsAutoCompleteExecutor implements LogicExecutor {
+
+    private final AuthenticatedUserService authenticatedUserService;
+
+    public FieldsAutoCompleteExecutor(final AuthenticatedUserService authenticatedUserService) {
+        this.authenticatedUserService = authenticatedUserService;
+    }
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
         if (field == null || field.getFields() != null) return field;
 
-        final AuthenticatedUser user = (AuthenticatedUser) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        final Optional<AuthenticatedUser> currentUserOptional = authenticatedUserService.getCurrentUser();
+        if (currentUserOptional.isEmpty()) {
+            System.out.println("Invalid auth with jwt while autocompleting fields");
+            throw new InvalidAuthenticationWithJwt();
+        }
+
+        final AuthenticatedUser user = currentUserOptional.get();
+
         if ("ROLE_JOB_SEEKER".equals(user.getRole())) {
             final Map<String, Object> metadata = field.getMetadata();
             final String type = field.getMetadata().get("type").toString();
@@ -46,7 +61,7 @@ public class FieldsAutoCompleteExecutor implements LogicExecutor {
     }
 
     @Override
-    public void setCurrentParentField(FieldDocument field) {
+    public void setCurrentParentField(final FieldDocument field) {
     }
 
 }
