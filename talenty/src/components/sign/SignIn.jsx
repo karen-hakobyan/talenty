@@ -247,16 +247,6 @@ function SignIn() {
                             </Box>
                         </Box>
                     </FormControl>
-                    <Box sx={{width: '200px',}}>
-                        <MUIRichTextEditor
-                            controls={['numberList', 'bulletList']}
-                            placeHolder={'type something'}
-                            onChange={(editorState) => {
-                                console.log(editorState.getCurrentContent().getAllEntities())
-                            }}
-                            defaultValue={contentOne}
-                        />
-                    </Box>
                 </Box>
             </BackgroundImage>
         </>
