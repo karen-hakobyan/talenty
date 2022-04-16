@@ -38,8 +38,7 @@ public class SubmittedCvTemplateService {
                 .executeLogic(
                         new FieldsIdValidationExecutor(),
                         new RequiredFieldValidationExecutor(),
-                        new SubmittedFieldValueValidationExecutor(),
-                        new CleanUpMetadataExecutor(true, "submitted_value", "status")
+                        new SubmittedFieldValueValidationExecutor()
                 );
         submittedTemplate.setId(null);
         submittedTemplate.setParentId(parentTemplate.getId());
