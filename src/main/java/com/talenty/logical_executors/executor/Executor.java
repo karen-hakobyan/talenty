@@ -45,10 +45,15 @@ public class Executor {
             final FieldDocument tempChildField = childFields.get(i);
             boolean isSectionContainer = false;
             boolean isNew = false;
+            boolean isNewSectionContainerField = false;
 
             final Map<String, Object> childMetadata = tempChildField.getMetadata();
             if (childMetadata.containsKey("type") && Objects.equals(childMetadata.get("type"), "section_container")) {
                 isSectionContainer = true;
+            }
+
+            if (childMetadata.containsKey("type") && Objects.equals(childMetadata.get("status"), "NEW_SECTION_CONTAINER_FIELD")) {
+                isNewSectionContainerField = true;
             }
 
             if (childMetadata.containsKey("status") && Objects.equals(childMetadata.get("status"), "NEW")) {
@@ -57,6 +62,11 @@ public class Executor {
 
             if (isSectionContainer) {
                 ValidationChecker.assertSectionContainerIsValid(tempChildField, parentFields.get(parentFields.size() - 1));
+                return;
+            }
+
+            if (isNewSectionContainerField) {
+                ValidationChecker.assertSubmittedFieldIsValid(tempChildField, parentFields.get(parentFields.size() - 1));
                 return;
             }
 
