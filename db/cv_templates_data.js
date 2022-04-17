@@ -967,7 +967,7 @@ let systemCVTemplate = {
                     _id: ObjectId(),
                     name: "Book section",
                     metadata: {
-                        type: "section_container container",
+                        type: "section_container",
                         status: "NEW",
                         editable: false,
                         deletable: true,
