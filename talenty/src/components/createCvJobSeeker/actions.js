@@ -35,9 +35,10 @@ export const addSectionContainer = (templateData, id, isBook) => {
                 if (!val?.id) {
                     return val
                 }
-                const metadata = {...val.metadata, submitted_value: '', status: 'NEW_SECTION_CONTAINER_FIELD'}
-                if (val.metadata.type === 'section_container') {
+                const metadata = {...val.metadata, submitted_value: '', status: 'NEW'}
+                if (val.metadata.type !== 'section_container') {
                     metadata.status = 'NEW'
+                    metadata.inside_container = true
                 }
                 return {
                     ...val,

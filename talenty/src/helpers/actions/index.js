@@ -52,6 +52,9 @@ export const cleanTemplateNewIds = (data) => {
             metadata.status = reviver.metadata.status
             metadata.type = reviver.metadata.type
         }
+        if (reviver.metadata?.inside_container) {
+            metadata.inside_container = true
+        }
 
         return ({
             metadata,
