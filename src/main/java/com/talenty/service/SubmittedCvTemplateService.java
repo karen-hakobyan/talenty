@@ -60,7 +60,6 @@ public class SubmittedCvTemplateService {
                 .setChildFields(submittedCVTemplateDocument.getFields())
                 .executeLogic(
                         new MergeFieldsExecutor()
-//                        !withMetadata ? new CleanUpMetadataExecutor(false, "editable", "deletable", "required", "required_editable") : null
                 );
 
         return CVTemplateMapper.instance.documentToDto(submittedCVTemplateDocument);

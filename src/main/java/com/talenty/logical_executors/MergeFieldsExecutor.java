@@ -18,7 +18,9 @@ public class MergeFieldsExecutor implements LogicExecutor {
                 return field;
             }
         } else {
-            fullMetadata.put("submitted_value", field.getMetadata().get("submitted_value"));
+            if (fullMetadata.containsKey("submitted_value")) {
+                fullMetadata.put("submitted_value", field.getMetadata().get("submitted_value"));
+            }
         }
         field.setMetadata(fullMetadata);
         return field;

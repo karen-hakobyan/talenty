@@ -37,7 +37,7 @@ public class ValidationChecker {
 
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
         // we are sure, that 'submitted_value' exists if required. Checked by RequiredFieldValidationExecutor.
-        final String submittedValue = (String) submittedField.getMetadata().get("submitted_value").toString();
+        final String submittedValue = String.valueOf(submittedField.getMetadata().get("submitted_value"));
         final String type = (String) parentField.getMetadata().get("type");
         final Map<String, Object> parentMetadata = parentField.getMetadata();
 
@@ -361,16 +361,6 @@ public class ValidationChecker {
             System.out.println("Section container must contain same fields as parent section container");
             throw new InvalidSectionContainerFieldsSize();
         }
-
-        Executor.getInstance()
-                .setChildFields(childFields)
-                .setParentFields(parentFields)
-                .executeLogic(
-                        new SectionContainerFieldsTypesValidationExecutor(),
-                        new SubmittedFieldValueValidationExecutor(),
-                        new CleanUpMetadataExecutor(true, "submitted_value", "type")
-                );
-
     }
 
 }

@@ -58,26 +58,46 @@ public class Executor {
                     ValidationChecker.assertNewFieldIsValid(tempChildField);
                     tempChildField.setId(String.valueOf(new ObjectId()));
                     childMetadata.remove("status");
-                    List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
+                    final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
                     if (tempChildFieldFields != null)
                         executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
                     continue;
                 }
             } else if (Objects.equals(role, "ROLE_JOB_SEEKER")) {
                 final boolean isSectionContainer = Objects.equals(childMetadata.get("type"), "section_container");
-                final boolean isSectionContainerField = Objects.equals(childMetadata.get("status"), "NEW_SECTION_CONTAINER_FIELD");
-                if (isSectionContainer && isNew) {
-                    ValidationChecker.assertSectionContainerIsValid(tempChildField, parentFields.get(0));
-                    childMetadata.remove("status");
+                final boolean isSectionContainerFieldNew = Objects.equals(childMetadata.get("status"), "NEW_SECTION_CONTAINER_FIELD");
+                boolean isSectionContainerField = false;
+                if (childMetadata.containsKey("inside_container")) {
+                    isSectionContainerField = Boolean.parseBoolean(childMetadata.get("inside_container").toString());
+                }
+
+                if ((isSectionContainer && isNew) || (isSectionContainerField && isSectionContainerFieldNew)) {
                     tempChildField.setId(String.valueOf(new ObjectId()));
-                    continue;
-                } else if (isSectionContainer) {
-                    makeSectionContainer(tempChildField, parentFields.get(0));
+                    childMetadata.remove("status");
+                    final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
+                    if (tempChildFieldFields != null)
+                        executeLogicOnFields(tempChildFieldFields, parentFields.get(0).getFields(), role, logicExecutors);
                     continue;
                 }
 
-                if (isSectionContainerField && isNew) {
-                    tempChildField.setId(String.valueOf(new ObjectId()));
+                if (isSectionContainer) {
+                    final MergeFieldsExecutor mergeFieldsExecutor = new MergeFieldsExecutor();
+                    mergeFieldsExecutor.setCurrentParentField(parentFields.get(0));
+                    mergeFieldsExecutor.execute(tempChildField);
+                    Executor.getInstance()
+                            .setParentFields(parentFields.get(0).getFields())
+                            .setChildFields(tempChildField.getFields())
+                            .executeLogic(
+                                    new MergeFieldsExecutor()
+                            );
+                    continue;
+                }
+
+                if (isSectionContainerField) {
+                    final MergeFieldsExecutor mergeFieldsExecutor = new MergeFieldsExecutor();
+                    mergeFieldsExecutor.setCurrentParentField(parentFields.get(0));
+                    mergeFieldsExecutor.execute(tempChildField);
+                    continue;
                 }
 
             }
@@ -97,21 +117,6 @@ public class Executor {
                 executeLogicOnFields(tempChildFieldFields, tempParentFieldFields, role, logicExecutors);
 
         }
-    }
-
-    private void makeSectionContainer(final FieldDocument tempChildField, final FieldDocument parent) {
-        final MergeFieldsExecutor mergeFieldsExecutor = new MergeFieldsExecutor();
-        mergeFieldsExecutor.setCurrentParentField(parent);
-        mergeFieldsExecutor.execute(tempChildField);
-
-        Executor.getInstance()
-                .setChildFields(tempChildField.getFields())
-                .setParentFields(parent.getFields())
-                .executeLogic(
-                        new MergeFieldsExecutor()
-                );
-
-
     }
 
     private void executeLogicOnFields(final List<FieldDocument> fields,

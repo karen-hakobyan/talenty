@@ -587,6 +587,7 @@ let systemCVTemplate = {
                         name: "Skill",
                         metadata: {
                             type: "professional_skill",
+                            inside_container: true,
                             placeholder: "Skill name",
                             maxLength: 100,
                             editable: false,
@@ -600,6 +601,7 @@ let systemCVTemplate = {
                         name: "Evaluate bar",
                         metadata: {
                             type: "simple_evaluate_bar",
+                            inside_container: true,
                             editable: false,
                             required_editable: true,
                             deletable: false,
