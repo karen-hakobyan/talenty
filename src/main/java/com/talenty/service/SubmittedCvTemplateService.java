@@ -38,7 +38,8 @@ public class SubmittedCvTemplateService {
                 .executeLogic(
                         new FieldsIdValidationExecutor(),
                         new RequiredFieldValidationExecutor(),
-                        new SubmittedFieldValueValidationExecutor()
+                        new SubmittedFieldValueValidationExecutor(),
+                        new CleanUpMetadataExecutor(true, "submitted_value")
                 );
         submittedTemplate.setId(null);
         submittedTemplate.setParentId(parentTemplate.getId());
@@ -58,8 +59,7 @@ public class SubmittedCvTemplateService {
                 .setParentFields(parentTemplate.getFields())
                 .setChildFields(submittedCVTemplateDocument.getFields())
                 .executeLogic(
-                        new MergeFieldsExecutor(),
-                        !withMetadata ? new CleanUpMetadataExecutor(false, "editable", "deletable", "required", "required_editable") : null
+                        new MergeFieldsExecutor()
                 );
 
         return CVTemplateMapper.instance.documentToDto(submittedCVTemplateDocument);

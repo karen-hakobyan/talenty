@@ -27,20 +27,17 @@ public class JobSeekerService {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticatedUserService authenticatedUserService;
 
     public JobSeekerService(final JobSeekerRepository jobSeekerRepository,
                             final EmailSender emailSender,
                             final TokenService tokenService,
                             final UserRepository userRepository,
-                            final PasswordEncoder passwordEncoder,
-                            final AuthenticatedUserService authenticatedUserService) {
+                            final PasswordEncoder passwordEncoder) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticatedUserService = authenticatedUserService;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
@@ -66,7 +63,7 @@ public class JobSeekerService {
     }
 
     public JobSeekerDocument getCurrentJobSeeker() {
-        final Optional<AuthenticatedUser> currentUserOptional = authenticatedUserService.getCurrentUser();
+        final Optional<AuthenticatedUser> currentUserOptional = AuthenticatedUserService.getCurrentUser();
         if (currentUserOptional.isEmpty()) {
             System.out.printf("Something wrong with authentication creds: %s\n", SecurityContextHolder.getContext().getAuthentication().getCredentials());
             throw new InvalidAuthenticationWithJwt();

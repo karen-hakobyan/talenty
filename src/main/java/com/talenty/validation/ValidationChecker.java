@@ -6,7 +6,9 @@ import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.*;
+import com.talenty.logical_executors.CleanUpMetadataExecutor;
 import com.talenty.logical_executors.SectionContainerFieldsTypesValidationExecutor;
+import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
@@ -35,7 +37,7 @@ public class ValidationChecker {
 
     public static boolean assertSubmittedFieldIsValid(final FieldDocument submittedField, final FieldDocument parentField) {
         // we are sure, that 'submitted_value' exists if required. Checked by RequiredFieldValidationExecutor.
-        final String submittedValue = (String) submittedField.getMetadata().get("submitted_value").toString();
+        final String submittedValue = String.valueOf(submittedField.getMetadata().get("submitted_value"));
         final String type = (String) parentField.getMetadata().get("type");
         final Map<String, Object> parentMetadata = parentField.getMetadata();
 
@@ -343,7 +345,6 @@ public class ValidationChecker {
             System.out.println("Section can't be empty (at least one field is required)");
             throw new InvalidSectionException();
         } else if (newField.getFields() != null) {
-            newField.setId(String.valueOf(new ObjectId()));
             return;
         }
 
@@ -351,7 +352,6 @@ public class ValidationChecker {
             System.out.println("New field`s type can only be 'simple_input'");
             throw new InvalidFieldException();
         }
-        newField.setId(String.valueOf(new ObjectId()));
     }
 
     public static void assertSectionContainerIsValid(final FieldDocument tempChildField, final FieldDocument parent) {
@@ -361,14 +361,6 @@ public class ValidationChecker {
             System.out.println("Section container must contain same fields as parent section container");
             throw new InvalidSectionContainerFieldsSize();
         }
-
-        Executor.getInstance()
-                .setChildFields(childFields)
-                .setParentFields(parentFields)
-                .executeLogic(
-                        new SectionContainerFieldsTypesValidationExecutor()
-                );
-
     }
 
 }

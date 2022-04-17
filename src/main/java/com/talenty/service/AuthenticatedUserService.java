@@ -9,7 +9,7 @@ import java.util.Optional;
 @Service
 public class AuthenticatedUserService {
 
-    public Optional<AuthenticatedUser> getCurrentUser() {
+    public static Optional<AuthenticatedUser> getCurrentUser() {
         final AuthenticatedUser authenticatedUser;
 
         try {

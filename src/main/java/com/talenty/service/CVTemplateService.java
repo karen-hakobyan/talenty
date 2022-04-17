@@ -35,7 +35,7 @@ public class CVTemplateService {
     }
 
     public CVTemplate getSystemCvTemplate() {
-        return CVTemplateMapper.instance.documentToDto(getCvTemplateById(getSystemCvTemplateId(), false));
+        return CVTemplateMapper.instance.documentToDto(getCvTemplateById(getSystemCvTemplateId(), true));
     }
 
     public String getSystemCvTemplateId() {
@@ -53,9 +53,8 @@ public class CVTemplateService {
         Executor.getInstance()
                 .setChildFields(cvTemplateDocument.getFields())
                 .executeLogic(
-                        applicationContext.getBean(FieldsAutoCompleteExecutor.class),
-                        applicationContext.getBean(AdminValuesMergeExecutor.class),
-                        !withMetaData ? new CleanUpMetadataExecutor(false, "editable", "deletable", "required", "required_editable") : null
+                        new FieldsAutoCompleteExecutor(),
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
                 );
 
         return cvTemplateDocument;
