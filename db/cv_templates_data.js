@@ -350,6 +350,7 @@ let systemCVTemplate = {
                 name: "Education and Training section",
                 metadata: {
                     type: "section_container",
+                    status: "NEW",
                     editable: false,
                     deletable: false,
                     required: false,
@@ -359,6 +360,8 @@ let systemCVTemplate = {
                         name: "University/Organization",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "University/Organization",
                             maxLength: 100,
                             editable: false,
@@ -372,6 +375,8 @@ let systemCVTemplate = {
                         name: "Location",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Country/City",
                             maxLength: 100,
                             editable: false,
@@ -385,6 +390,8 @@ let systemCVTemplate = {
                         name: "Degree/Specialization",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Degree/Specialization",
                             maxLength: 100,
                             editable: false,
@@ -398,6 +405,8 @@ let systemCVTemplate = {
                         name: "Start/End",
                         metadata: {
                             type: "section",
+                            status: "NEW",
+                            inside_container: true,
                             editable: false,
                             required_editable: true,
                             deletable: true,
@@ -407,7 +416,9 @@ let systemCVTemplate = {
                                 _id: ObjectId(),
                                 name: "Start",
                                 metadata: {
+                                    status: "NEW",
                                     type: "date",
+                                    inside_container: true,
                                     placeholder: "From",
                                     editable: false,
                                     deletable: false,
@@ -417,7 +428,9 @@ let systemCVTemplate = {
                                 _id: ObjectId(),
                                 name: "End",
                                 metadata: {
+                                    status: "NEW",
                                     type: "date",
+                                    inside_container: true,
                                     placeholder: "To",
                                     editable: false,
                                     deletable: false,
@@ -427,7 +440,9 @@ let systemCVTemplate = {
                                 _id: ObjectId(),
                                 name: "Still studying",
                                 metadata: {
+                                    status: "NEW",
                                     type: "current_date",
+                                    inside_container: true,
                                     editable: false,
                                     deletable: false,
                                     visibility: "ROLE_JOB_SEEKER",
@@ -439,7 +454,9 @@ let systemCVTemplate = {
                         _id: ObjectId(),
                         name: "Education details",
                         metadata: {
+                            status: "NEW",
                             type: "description",
+                            inside_container: true,
                             placeholder: "Education details",
                             maxLength: 1000,
                             editable: false,
@@ -464,6 +481,7 @@ let systemCVTemplate = {
                 name: "Work Experience section",
                 metadata: {
                     type: "section_container",
+                    status: "NEW",
                     editable: false,
                     deletable: false,
                     required: false,
@@ -473,6 +491,8 @@ let systemCVTemplate = {
                         name: "Company",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Company name",
                             maxLength: 100,
                             editable: false,
@@ -486,6 +506,8 @@ let systemCVTemplate = {
                         name: "Location",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Country/City",
                             maxLength: 100,
                             editable: false,
@@ -499,6 +521,8 @@ let systemCVTemplate = {
                         name: "Position",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Position",
                             maxLength: 100,
                             editable: false,
@@ -512,6 +536,8 @@ let systemCVTemplate = {
                         name: "Start/End",
                         metadata: {
                             type: "section",
+                            status: "NEW",
+                            inside_container: true,
                             editable: false,
                             required_editable: true,
                             deletable: true,
@@ -522,6 +548,8 @@ let systemCVTemplate = {
                                 name: "Start",
                                 metadata: {
                                     type: "date",
+                                    status: "NEW",
+                                    inside_container: true,
                                     placeholder: "Start",
                                     editable: false,
                                     deletable: false,
@@ -532,6 +560,8 @@ let systemCVTemplate = {
                                 name: "End",
                                 metadata: {
                                     type: "date",
+                                    status: "NEW",
+                                    inside_container: true,
                                     placeholder: "End",
                                     editable: false,
                                     deletable: false,
@@ -542,6 +572,8 @@ let systemCVTemplate = {
                                 name: "Still working",
                                 metadata: {
                                     type: "current_date",
+                                    status: "NEW",
+                                    inside_container: true,
                                     editable: false,
                                     deletable: false,
                                     visibility: "ROLE_JOB_SEEKER",
@@ -554,6 +586,7 @@ let systemCVTemplate = {
                         name: "Job details",
                         metadata: {
                             type: "description",
+                            inside_container: true,
                             placeholder: "Job details",
                             maxLength: 1000,
                             editable: false,
@@ -578,6 +611,7 @@ let systemCVTemplate = {
                 name: "Professional skill section",
                 metadata: {
                     type: "section_container",
+                    status: "NEW",
                     editable: false,
                     deletable: true,
                     required: false,
@@ -586,6 +620,7 @@ let systemCVTemplate = {
                         _id: ObjectId(),
                         name: "Skill",
                         metadata: {
+                            status: "NEW",
                             type: "professional_skill",
                             inside_container: true,
                             placeholder: "Skill name",
@@ -601,6 +636,7 @@ let systemCVTemplate = {
                         name: "Evaluate bar",
                         metadata: {
                             type: "simple_evaluate_bar",
+                            status: "NEW",
                             inside_container: true,
                             editable: false,
                             required_editable: true,
@@ -625,6 +661,7 @@ let systemCVTemplate = {
                 name: "Personal skill section",
                 metadata: {
                     type: "section_container",
+                    status: "NEW",
                     editable: false,
                     deletable: false,
                     required: false,
@@ -633,7 +670,9 @@ let systemCVTemplate = {
                         _id: ObjectId(),
                         name: "Skill",
                         metadata: {
+                            status: "NEW",
                             type: "personal_skill",
+                            inside_container: true,
                             placeholder: "Skill name",
                             maxLength: 100,
                             editable: false,
@@ -647,6 +686,8 @@ let systemCVTemplate = {
                         name: "Evaluate bar",
                         metadata: {
                             type: "simple_evaluate_bar",
+                            status: "NEW",
+                            inside_container: true,
                             editable: false,
                             required_editable: true,
                             deletable: false,
@@ -670,6 +711,7 @@ let systemCVTemplate = {
                 name: "Language section",
                 metadata: {
                     type: "section_container",
+                    status: "NEW",
                     editable: false,
                     deletable: false,
                     required: false,
@@ -679,6 +721,8 @@ let systemCVTemplate = {
                         name: "Language",
                         metadata: {
                             type: "language",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Choose language",
                             maxLength: 20,
                             editable: false,
@@ -692,7 +736,9 @@ let systemCVTemplate = {
                         name: "Proficiency level",
                         metadata: {
                             type: "language_evaluate_bar",
+                            status: "NEW",
                             editable: false,
+                            inside_container: true,
                             required_editable: true,
                             deletable: false,
                             required: false,
@@ -763,6 +809,7 @@ let systemCVTemplate = {
                 name: "Project/Product section",
                 metadata: {
                     type: "section_container",
+                    status: "NEW",
                     editable: false,
                     deletable: false,
                     required: false,
@@ -772,6 +819,8 @@ let systemCVTemplate = {
                         name: "Projects/Products",
                         metadata: {
                             type: "text",
+                            status: "NEW",
+                            inside_container: true,
                             placeholder: "Projects/Products name",
                             maxLength: 100,
                             editable: false,
@@ -785,6 +834,8 @@ let systemCVTemplate = {
                         name: "Start/End",
                         metadata: {
                             type: "section",
+                            status: "NEW",
+                            inside_container: true,
                             editable: false,
                             required_editable: true,
                             deletable: true,
@@ -795,6 +846,8 @@ let systemCVTemplate = {
                                 name: "Start",
                                 metadata: {
                                     placeholder: "From",
+                                    status: "NEW",
+                                    inside_container: true,
                                     type: "date",
                                     editable: false,
                                     deletable: false,
@@ -804,7 +857,9 @@ let systemCVTemplate = {
                                 _id: ObjectId(),
                                 name: "End",
                                 metadata: {
+                                    status: "NEW",
                                     type: "date",
+                                    inside_container: true,
                                     placeholder: "To",
                                     editable: false,
                                     deletable: false,
@@ -815,7 +870,9 @@ let systemCVTemplate = {
                                 name: "Still processing",
                                 metadata: {
                                     type: "current_date",
+                                    status: "NEW",
                                     editable: false,
+                                    inside_container: true,
                                     deletable: false,
                                     visibility: "ROLE_JOB_SEEKER",
                                 },
@@ -826,7 +883,9 @@ let systemCVTemplate = {
                         _id: ObjectId(),
                         name: "URL",
                         metadata: {
+                            status: "NEW",
                             type: "url",
+                            inside_container: true,
                             placeholder: "URL",
                             maxLength: 100,
                             editable: false,
@@ -839,7 +898,9 @@ let systemCVTemplate = {
                         _id: ObjectId(),
                         name: "Description",
                         metadata: {
+                            status: "NEW",
                             type: "description",
+                            inside_container: true,
                             placeholder: "Job details",
                             maxLength: 1000,
                             editable: false,
@@ -864,6 +925,7 @@ let systemCVTemplate = {
                     name: "Article section",
                     metadata: {
                         type: "section_container",
+                        status: "NEW",
                         editable: false,
                         deletable: false,
                         required: false,
@@ -873,6 +935,8 @@ let systemCVTemplate = {
                             name: "Article Name",
                             metadata: {
                                 type: "text",
+                                status: "NEW",
+                                inside_container: true,
                                 placeholder: "Article Name",
                                 maxLength: 100,
                                 editable: false,
@@ -885,6 +949,8 @@ let systemCVTemplate = {
                             _id: ObjectId(),
                             metadata: {
                                 type: "url",
+                                status: "NEW",
+                                inside_container: true,
                                 placeholder: "URL",
                                 maxLength: 100,
                                 editable: false,
@@ -901,6 +967,7 @@ let systemCVTemplate = {
                     name: "Book section",
                     metadata: {
                         type: "section_container",
+                        status: "NEW",
                         editable: false,
                         deletable: true,
                         required: false,
@@ -910,6 +977,8 @@ let systemCVTemplate = {
                             name: "Book Name",
                             metadata: {
                                 type: "text",
+                                status: "NEW",
+                                inside_container: true,
                                 placeholder: "Book name",
                                 maxLength: 100,
                                 editable: false,
@@ -923,6 +992,8 @@ let systemCVTemplate = {
                             metadata: {
                                 type: "url",
                                 placeholder: "URL",
+                                status: "NEW",
+                                inside_container: true,
                                 maxLength: 100,
                                 editable: false,
                                 required_editable: true,

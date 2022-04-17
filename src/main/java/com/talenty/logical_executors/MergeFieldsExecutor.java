@@ -2,6 +2,7 @@ package com.talenty.logical_executors;
 
 import com.talenty.domain.mongo.FieldDocument;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MergeFieldsExecutor implements LogicExecutor {
@@ -11,18 +12,20 @@ public class MergeFieldsExecutor implements LogicExecutor {
     @Override
     public FieldDocument execute(final FieldDocument field) {
         final Map<String, Object> fullMetadata = currentParentField.getMetadata();
+        final Map<String, Object> resultMap = new HashMap<>(fullMetadata);
+
         field.setName(currentParentField.getName());
-        if (fullMetadata.containsKey("autocomplete")) {
-            if ((Boolean) fullMetadata.get("autocomplete")) {
-                field.setMetadata(fullMetadata);
+        if (resultMap.containsKey("autocomplete")) {
+            if ((Boolean) resultMap.get("autocomplete")) {
+                field.setMetadata(resultMap);
                 return field;
             }
         } else {
-            if (fullMetadata.containsKey("submitted_value")) {
-                fullMetadata.put("submitted_value", field.getMetadata().get("submitted_value"));
+            if (field.getMetadata().containsKey("submitted_value")) {
+                resultMap.put("submitted_value", field.getMetadata().get("submitted_value"));
             }
         }
-        field.setMetadata(fullMetadata);
+        field.setMetadata(resultMap);
         return field;
     }
 
