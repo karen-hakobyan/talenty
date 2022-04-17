@@ -347,7 +347,7 @@ let systemCVTemplate = {
             },
             fields: [{
                 _id: ObjectId(),
-                name: "Education and Training section",
+                name: "Education and Training section container",
                 metadata: {
                     type: "section_container",
                     status: "NEW",
@@ -478,7 +478,7 @@ let systemCVTemplate = {
             },
             fields: [{
                 _id: ObjectId(),
-                name: "Work Experience section",
+                name: "Work Experience section container",
                 metadata: {
                     type: "section_container",
                     status: "NEW",
@@ -586,6 +586,7 @@ let systemCVTemplate = {
                         name: "Job details",
                         metadata: {
                             type: "description",
+                            status: "NEW",
                             inside_container: true,
                             placeholder: "Job details",
                             maxLength: 1000,
@@ -608,7 +609,7 @@ let systemCVTemplate = {
             },
             fields: [{
                 _id: ObjectId(),
-                name: "Professional skill section",
+                name: "Professional skill section container",
                 metadata: {
                     type: "section_container",
                     status: "NEW",
@@ -658,7 +659,7 @@ let systemCVTemplate = {
             },
             fields: [{
                 _id: ObjectId(),
-                name: "Personal skill section",
+                name: "Personal skill section container",
                 metadata: {
                     type: "section_container",
                     status: "NEW",
@@ -708,7 +709,7 @@ let systemCVTemplate = {
             },
             fields: [{
                 _id: ObjectId(),
-                name: "Language section",
+                name: "Language section container",
                 metadata: {
                     type: "section_container",
                     status: "NEW",
@@ -806,7 +807,7 @@ let systemCVTemplate = {
             },
             fields: [{
                 _id: ObjectId(),
-                name: "Project/Product section",
+                name: "Project/Product section container",
                 metadata: {
                     type: "section_container",
                     status: "NEW",
@@ -922,7 +923,7 @@ let systemCVTemplate = {
             },
             fields: [{
                     _id: ObjectId(),
-                    name: "Article section",
+                    name: "Article section container",
                     metadata: {
                         type: "section_container",
                         status: "NEW",
