@@ -53,7 +53,7 @@ public class CVTemplateService {
         Executor.getInstance()
                 .setChildFields(cvTemplateDocument.getFields())
                 .executeLogic(
-                        new FieldsAutoCompleteExecutor(),
+                        applicationContext.getBean(FieldsAutoCompleteExecutor.class),
                         applicationContext.getBean(AdminValuesMergeExecutor.class),
                         !withMetaData ? new CleanUpMetadataExecutor(false, "editable", "deletable", "required", "required_editable") : null
                 );
