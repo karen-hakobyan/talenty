@@ -29,22 +29,19 @@ public class HrService {
     private final TokenService tokenService;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticatedUserService authenticatedUserService;
 
     public HrService(final UserRepository userRepository,
                      final CompanyRepository companyRepository,
                      final HrRepository hrRepository,
                      final TokenService tokenService,
                      final EmailSender emailSender,
-                     final PasswordEncoder passwordEncoder,
-                     final AuthenticatedUserService authenticatedUserService) {
+                     final PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.hrRepository = hrRepository;
         this.tokenService = tokenService;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
-        this.authenticatedUserService = authenticatedUserService;
     }
 
     public HrRegisterResponseDetails register(final HrRegisterRequestDetails request) {
@@ -75,7 +72,7 @@ public class HrService {
     }
 
     public HrDocument getCurrentHr() {
-        final Optional<AuthenticatedUser> currentUserOptional = authenticatedUserService.getCurrentUser();
+        final Optional<AuthenticatedUser> currentUserOptional = AuthenticatedUserService.getCurrentUser();
 
         if (currentUserOptional.isEmpty()) {
             System.out.printf("Something wrong with authentication creds: %s\n", SecurityContextHolder.getContext().getAuthentication().getCredentials());

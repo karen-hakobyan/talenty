@@ -4,25 +4,17 @@ import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.exceptions.InvalidAuthenticationWithJwt;
 import com.talenty.service.AuthenticatedUserService;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
 
-@Component
 public class FieldsAutoCompleteExecutor implements LogicExecutor {
-
-    private final AuthenticatedUserService authenticatedUserService;
-
-    public FieldsAutoCompleteExecutor(final AuthenticatedUserService authenticatedUserService) {
-        this.authenticatedUserService = authenticatedUserService;
-    }
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
         if (field == null || field.getFields() != null) return field;
 
-        final Optional<AuthenticatedUser> currentUserOptional = authenticatedUserService.getCurrentUser();
+        final Optional<AuthenticatedUser> currentUserOptional = AuthenticatedUserService.getCurrentUser();
         if (currentUserOptional.isEmpty()) {
             System.out.println("Invalid auth with jwt while autocompleting fields");
             throw new InvalidAuthenticationWithJwt();

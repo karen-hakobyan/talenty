@@ -6,7 +6,9 @@ import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.*;
+import com.talenty.logical_executors.CleanUpMetadataExecutor;
 import com.talenty.logical_executors.SectionContainerFieldsTypesValidationExecutor;
+import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
@@ -343,7 +345,6 @@ public class ValidationChecker {
             System.out.println("Section can't be empty (at least one field is required)");
             throw new InvalidSectionException();
         } else if (newField.getFields() != null) {
-            newField.setId(String.valueOf(new ObjectId()));
             return;
         }
 
@@ -351,7 +352,6 @@ public class ValidationChecker {
             System.out.println("New field`s type can only be 'simple_input'");
             throw new InvalidFieldException();
         }
-        newField.setId(String.valueOf(new ObjectId()));
     }
 
     public static void assertSectionContainerIsValid(final FieldDocument tempChildField, final FieldDocument parent) {
@@ -366,7 +366,9 @@ public class ValidationChecker {
                 .setChildFields(childFields)
                 .setParentFields(parentFields)
                 .executeLogic(
-                        new SectionContainerFieldsTypesValidationExecutor()
+                        new SectionContainerFieldsTypesValidationExecutor(),
+                        new SubmittedFieldValueValidationExecutor(),
+                        new CleanUpMetadataExecutor(true, "submitted_value", "type")
                 );
 
     }

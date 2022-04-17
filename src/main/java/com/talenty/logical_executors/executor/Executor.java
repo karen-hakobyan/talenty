@@ -1,13 +1,14 @@
 package com.talenty.logical_executors.executor;
 
+import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.mongo.FieldDocument;
-import com.talenty.logical_executors.LogicExecutor;
+import com.talenty.exceptions.UserNotFoundException;
+import com.talenty.logical_executors.*;
+import com.talenty.service.AuthenticatedUserService;
 import com.talenty.validation.ValidationChecker;
+import org.bson.types.ObjectId;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Executor {
 
@@ -29,50 +30,56 @@ public class Executor {
     }
 
     public void executeLogic(final LogicExecutor... logicExecutors) {
+        final Optional<AuthenticatedUser> currentUserOptional = AuthenticatedUserService.getCurrentUser();
+        if (currentUserOptional.isEmpty()) {
+            System.out.println("Empty user can't execute logic on fields");
+            throw new UserNotFoundException();
+        }
         if (childFields == null) {
             System.out.println("Child template is required");
             return;
         }
         if (parentFields == null) executeLogicOnFields(childFields, logicExecutors);
-        else executeLogicOnFields(childFields, parentFields, logicExecutors);
+        else executeLogicOnFields(childFields, parentFields, currentUserOptional.get().getRole(), logicExecutors);
     }
 
     private void executeLogicOnFields(final List<FieldDocument> childFields,
                                       final List<FieldDocument> parentFields,
+                                      final String role,
                                       final LogicExecutor... logicExecutors) {
         int parentFieldIndex = 0;
         for (int i = 0; i < childFields.size(); ++i) {
             final FieldDocument tempChildField = childFields.get(i);
-            boolean isSectionContainer = false;
-            boolean isNew = false;
-            boolean isNewSectionContainerField = false;
 
             final Map<String, Object> childMetadata = tempChildField.getMetadata();
-            if (childMetadata.containsKey("type") && Objects.equals(childMetadata.get("type"), "section_container")) {
-                isSectionContainer = true;
-            }
+            final boolean isNew = Objects.equals(childMetadata.get("status"), "NEW");
+            if (Objects.equals(role, "ROLE_HR_ADMIN")) {
+                if (isNew) {
+                    ValidationChecker.assertNewFieldIsValid(tempChildField);
+                    tempChildField.setId(String.valueOf(new ObjectId()));
+                    childMetadata.remove("status");
+                    List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
+                    if (tempChildFieldFields != null)
+                        executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
+                    continue;
+                }
+            } else if (Objects.equals(role, "ROLE_JOB_SEEKER")) {
+                final boolean isSectionContainer = Objects.equals(childMetadata.get("type"), "section_container");
+                final boolean isSectionContainerField = Objects.equals(childMetadata.get("status"), "NEW_SECTION_CONTAINER_FIELD");
+                if (isSectionContainer && isNew) {
+                    ValidationChecker.assertSectionContainerIsValid(tempChildField, parentFields.get(0));
+                    childMetadata.remove("status");
+                    tempChildField.setId(String.valueOf(new ObjectId()));
+                    continue;
+                } else if (isSectionContainer) {
+                    makeSectionContainer(tempChildField, parentFields.get(0));
+                    continue;
+                }
 
-            if (childMetadata.containsKey("type") && Objects.equals(childMetadata.get("status"), "NEW_SECTION_CONTAINER_FIELD")) {
-                isNewSectionContainerField = true;
-            }
+                if (isSectionContainerField && isNew) {
+                    tempChildField.setId(String.valueOf(new ObjectId()));
+                }
 
-            if (childMetadata.containsKey("status") && Objects.equals(childMetadata.get("status"), "NEW")) {
-                isNew = true;
-            }
-
-            if (isSectionContainer) {
-                ValidationChecker.assertSectionContainerIsValid(tempChildField, parentFields.get(parentFields.size() - 1));
-                return;
-            }
-
-            if (isNewSectionContainerField) {
-                ValidationChecker.assertSubmittedFieldIsValid(tempChildField, parentFields.get(parentFields.size() - 1));
-                return;
-            }
-
-            if (isNew) {
-                ValidationChecker.assertNewFieldIsValid(tempChildField);
-                return;
             }
 
             final FieldDocument tempParentField = parentFields.get(parentFieldIndex++);
@@ -87,9 +94,24 @@ public class Executor {
             final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
             final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
             if (tempChildFieldFields != null && tempParentFieldFields != null)
-                executeLogicOnFields(tempChildFieldFields, tempParentFieldFields, logicExecutors);
+                executeLogicOnFields(tempChildFieldFields, tempParentFieldFields, role, logicExecutors);
 
         }
+    }
+
+    private void makeSectionContainer(final FieldDocument tempChildField, final FieldDocument parent) {
+        final MergeFieldsExecutor mergeFieldsExecutor = new MergeFieldsExecutor();
+        mergeFieldsExecutor.setCurrentParentField(parent);
+        mergeFieldsExecutor.execute(tempChildField);
+
+        Executor.getInstance()
+                .setChildFields(tempChildField.getFields())
+                .setParentFields(parent.getFields())
+                .executeLogic(
+                        new MergeFieldsExecutor()
+                );
+
+
     }
 
     private void executeLogicOnFields(final List<FieldDocument> fields,
