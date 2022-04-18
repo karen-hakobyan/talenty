@@ -9,20 +9,21 @@ import {selectDialogData} from "../../store/dialogs/selector";
 import {convertToRaw} from "draft-js";
 import MUIRichTextEditor from "mui-rte";
 
-const defaultValue = {
-    "blocks": [{
-        "key": "b91t9",
-        "text": "salkdfjalskdfljksd",
-        "type": "unstyled",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
-    }], "entityMap": {}
-}
+// const defaultValue = {
+//     "blocks": [{
+//         "key": "b91t9",
+//         "text": "salkdfjalskdfljksd",
+//         "type": "unstyled",
+//         "depth": 0,
+//         "inlineStyleRanges": [],
+//         "entityRanges": [],
+//         "data": {}
+//     }], "entityMap": {}
+// }
 export default function Description({data}) {
     const editorRef = useRef()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
+    const [editorState, setEditorState] = useState(value)
     const dispatch = useDispatch()
     const dialogData = useSelector(selectDialogData);
     const id = data.id
@@ -59,7 +60,10 @@ export default function Description({data}) {
                 border: '1px solid #D9D9D9',
                 borderRadius: '4px',
                 minHeight: '152px',
-                p: '0px 30px',
+                pt: '0px',
+                pl: '30px',
+                pr: '30px',
+                pb: '15px',
                 width: '1038px',
             }}
             onClick={() => {
@@ -69,12 +73,14 @@ export default function Description({data}) {
             <MUIRichTextEditor
                 ref={editorRef}
                 controls={['title', 'italic', 'bold', 'underline', 'numberList', 'bulletList']}
-                defaultValue={JSON.stringify(defaultValue)}
+                defaultValue={value}
                 onChange={(editorState) => {
                     const result = convertToRaw(editorState.getCurrentContent())
+                    setEditorState(JSON.stringify(result))
                 }}
                 onBlur={
                     () => {
+                        dispatch(changeDialogDataById({id: data.id, value: editorState}))
                     }
                 }
             />

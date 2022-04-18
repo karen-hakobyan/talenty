@@ -1,4 +1,5 @@
 import {Box} from '@mui/material'
+import MUIRichTextEditor from "mui-rte";
 
 export default function VacancyDetails({data}) {
     return <Box sx={{mt: '44px', display: 'flex', flexDirection: 'column', gap: '32px'}}>
@@ -20,7 +21,15 @@ export default function VacancyDetails({data}) {
                             lineHeight: '20px',
                             fontWeight: 400,
                         }}>
-                            {el.metadata.submitted_value}
+                            {/*{el.metadata.submitted_value}*/}
+                            {el.metadata.required ? el.metadata.submitted_value :
+                                <Box sx={{pl: '30px'}}>
+                                    <MUIRichTextEditor
+                                        readOnly defaultValue={el.metadata.submitted_value}
+                                        controls={[]}
+                                    />
+                                </Box>
+                            }
                         </Box>
                     </Box>
                 )

@@ -6,8 +6,8 @@ import {AddIcon, DeleteIcon} from "../../assets/icons/jobseeker";
 import {addPublicationsSection, deletePublicationAction} from "../../store/globalData/slice";
 
 export default function PublicationSection({data}) {
-    const articles = data.fields.filter(el => el.name === 'Article section');
-    const books = data.fields.filter(el => el.name !== 'Article section');
+    const articles = data.fields.filter(el => el.name === 'Article section container');
+    const books = data.fields.filter(el => el.name !== 'Article section container');
 
     return <Box sx={{display: 'flex'}}>
         {/*articles below*/}
