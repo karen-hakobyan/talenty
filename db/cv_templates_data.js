@@ -67,7 +67,7 @@ let systemCVTemplate = {
                     name: "Phone Number",
                     metadata: {
                         type: "phone_number",
-                        placeholder: "77 123 456",
+                        placeholder: "+374 77 123 456",
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -965,7 +965,7 @@ let systemCVTemplate = {
                 },
                 {
                     _id: ObjectId(),
-                    name: "Book section",
+                    name: "Book section container",
                     metadata: {
                         type: "section_container",
                         status: "NEW",
