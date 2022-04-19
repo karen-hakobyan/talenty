@@ -87,14 +87,18 @@ public class Executor {
         }
 
         if (Objects.equals(role, "ROLE_HR_ADMIN")) {
-            if (isNew && (!isSectionContainer || !isSectionContainerField)) {
-                ValidationChecker.assertNewFieldIsValid(tempChildField);
-                tempChildField.setId(String.valueOf(new ObjectId()));
-                childMetadata.remove("status");
-                final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-                if (tempChildFieldFields != null)
-                    executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
+            if (isSectionContainer || isSectionContainerField) {
                 return true;
+            } else {
+                if (isNew) {
+                    ValidationChecker.assertNewFieldIsValid(tempChildField);
+                    tempChildField.setId(String.valueOf(new ObjectId()));
+                    childMetadata.remove("status");
+                    final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
+                    if (tempChildFieldFields != null)
+                        executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
+                    return true;
+                }
             }
         } else if (Objects.equals(role, "ROLE_JOB_SEEKER")) {
             if ((isSectionContainer && isNew) || (isSectionContainerField && isNew)) {
