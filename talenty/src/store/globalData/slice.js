@@ -50,8 +50,8 @@ export const globalDataSlice = createSlice({
         addSectionContainerAction: (state, {payload: id}) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
-        addPublicationsSection: (state, {payload: {id, isBook}}) => {
-            state.templateData = addSectionContainer(state.templateData, id, isBook)
+        addPublicationsSection: (state, {payload: {id}}) => {
+            state.templateData = addSectionContainer(state.templateData, id)
         },
         setGlobalInitialData: (state) => {
             for (let key in initialState) {

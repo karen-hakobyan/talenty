@@ -21,15 +21,15 @@ export const addSectionContainer = (templateData, id, isBook) => {
         }
 
         if (reviverValue?.id === id) {
-            let temp1
+            let temp1 = JSON.stringify(reviverValue.fields[0])
             // bellow condition because publication's section could have two article section or book section container
-            if (reviverValue.fields[0].name === "Book section container" || reviverValue.fields[0].name === "Article section container") {
-                temp1 = JSON.stringify(reviverValue.fields.find((el) => {
-                    return isBook ? el.name === 'Book section container' : el.name === 'Article section container'
-                }))
-            } else {
-                temp1 = JSON.stringify(reviverValue.fields[0])
-            }
+            // if (reviverValue.fields[0].name === "Book section container" || reviverValue.fields[0].name === "Article section container") {
+            //     temp1 = JSON.stringify(reviverValue.fields.find((el) => {
+            //         return isBook ? el.name === 'Book section container' : el.name === 'Article section container'
+            //     }))
+            // } else {
+            //     temp1 = JSON.stringify(reviverValue.fields[0])
+            // }
 
             temp1 = JSON.parse(temp1, (key, val) => {
                 if (!val?.id) {
