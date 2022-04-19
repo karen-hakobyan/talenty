@@ -12,7 +12,7 @@ export default function Title({generalInfoData, data}) {
             fontFamily: "'Poppins', sans-serif",
             fontWeight: 900,
             fontSize: '24px',
-            lineHeight: '29px',
+            lineHeight: '36px',
             color: '#5D00A6',
             letterSpacing: '0.02em',
         }}>{data.metadata.submitted_value}</Box>
@@ -22,8 +22,8 @@ export default function Title({generalInfoData, data}) {
                 color: '#FF0000',
                 fontSize: '20px',
                 lineHeight: '22px',
-                fontFamily: "'Poppins', sans-serif",
-                fontWeight: 600,
+                fontFamily: "Poppins",
+                fontWeight: 900,
             }}>
                 Deadline: {`${deadlineValue[0]} ${MONTH_VIA_KEY[deadlineValue[1]]} ${deadlineValue[2]}`}
             </Box>

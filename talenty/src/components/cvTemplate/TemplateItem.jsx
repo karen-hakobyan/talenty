@@ -41,7 +41,6 @@ function TemplateItem({item, setData, isAnnouncement, data}) {
                     onClick={() => {
                         onDelete(setData, item, data);
                     }}
-                    disabled={!item.metadata.deletable}
                     sx={
                         item.metadata.deletable
                             ? TEMPLATE_ITEM_BUTTON

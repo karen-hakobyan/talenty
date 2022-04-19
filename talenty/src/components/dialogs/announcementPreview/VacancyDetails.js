@@ -8,9 +8,9 @@ export default function VacancyDetails({data}) {
                 return (
                     <Box sx={{display: 'flex', flexDirection: 'column', gap: '24px', color: '#4C494F'}} key={el.id}>
                         <Box sx={{
-                            fontFamily: "'Poppins', sans-serif",
+                            fontFamily: "Poppins",
                             fontSize: '16px',
-                            lineHeight: '22px',
+                            lineHeight: '18px',
                             fontWeight: 900,
                         }}>
                             {el.name}
@@ -23,9 +23,10 @@ export default function VacancyDetails({data}) {
                         }}>
                             {/*{el.metadata.submitted_value}*/}
                             {el.metadata.required ? el.metadata.submitted_value :
-                                <Box sx={{pl: '30px'}}>
+                                <Box sx={{mt: '-8px', pl: '31px'}}>
                                     <MUIRichTextEditor
-                                        readOnly defaultValue={el.metadata.submitted_value}
+                                        readOnly
+                                        defaultValue={el.metadata.submitted_value}
                                         controls={[]}
                                     />
                                 </Box>

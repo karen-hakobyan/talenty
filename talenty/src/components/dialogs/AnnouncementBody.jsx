@@ -36,9 +36,9 @@ export default function AnnouncementBody({
         <Dialog open={attentionIsOpen} onClose={() => setAttentionIsOpen(false)}>
             <Attention {...{setAttentionIsOpen}} />
         </Dialog>
-        
+
         <Box sx={{display: "grid", gap: "24px", pt: '44px'}}>
-            {dialogData.fields.filter(el=>el.metadata.status !== "DELETED").map(field => {
+            {dialogData.fields.filter(el => el.metadata.status !== "DELETED").map(field => {
                 if (field.name === 'Deadline') {
                     return null
                 }
@@ -63,7 +63,6 @@ export default function AnnouncementBody({
                 sx={{
                     ...TEMPLATE_ITEM_BUTTON,
                     textTransform: "none",
-                    // width: "179px",
                     color: "#FFFFFF",
                     "&:hover": {
                         background: "#8C0DF0",
@@ -85,6 +84,3 @@ export default function AnnouncementBody({
     </Box>
 }
 
-// export default memo(AnnouncementBody, (prev, next) => {
-//     return JSON.stringify(prev) !== JSON.stringify(next)
-// })
