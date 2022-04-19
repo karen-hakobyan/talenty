@@ -38,12 +38,16 @@ export const isValidRationalNumber = value => {
 }
 
 export const cleanTemplateNewIds = (data) => {
-    let result = JSON.stringify(data)
+    // clean upper sections that do not have fields totally
+    let temp = {
+        ...data,
+        fields: data.fields.filter(el => el.fields.length)
+    }
+    let result = JSON.stringify(temp)
     result = JSON.parse(result, (key, reviver) => {
         if (!reviver?.id) {
             return reviver
         }
-
         let metadata = {}
         if (!reviver.fields && reviver.metadata.submitted_value) {
             metadata.submitted_value = reviver.metadata.submitted_value

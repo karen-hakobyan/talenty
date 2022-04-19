@@ -8,18 +8,8 @@ import {onDelete} from "../../helpers/dialog";
 import {selectDialogData} from "../../store/dialogs/selector";
 import {convertToRaw} from "draft-js";
 import MUIRichTextEditor from "mui-rte";
+import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
 
-// const defaultValue = {
-//     "blocks": [{
-//         "key": "b91t9",
-//         "text": "salkdfjalskdfljksd",
-//         "type": "unstyled",
-//         "depth": 0,
-//         "inlineStyleRanges": [],
-//         "entityRanges": [],
-//         "data": {}
-//     }], "entityMap": {}
-// }
 export default function Description({data}) {
     const editorRef = useRef()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
@@ -32,8 +22,10 @@ export default function Description({data}) {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between"
-        }}><Box>{data.metadata.required ? <Box>{data.name} *</Box> : data.name}</Box>
-            {data.metadata.deletable ? (
+        }}><Box>{data.metadata.required ?
+            <Box>{data.name}<RequiredSVG style={{marginBottom: '10px'}}/></Box> : data.name}</Box>
+            {/*if have only one field do not give chance to delete it*/}
+            {data.metadata.deletable && dialogData.fields.length !== 1 ? (
                 <Box
                     sx={{
                         cursor: "pointer"
@@ -76,7 +68,11 @@ export default function Description({data}) {
                 defaultValue={value}
                 onChange={(editorState) => {
                     const result = convertToRaw(editorState.getCurrentContent())
-                    setEditorState(JSON.stringify(result))
+                    if (result.blocks.length !== 1 || result.blocks[0].text) {
+                        setEditorState(JSON.stringify(result))
+                    } else {
+                        setEditorState('')
+                    }
                 }}
                 onBlur={
                     () => {

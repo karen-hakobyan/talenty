@@ -13,13 +13,10 @@ export default function Section({data, generalInfoData}) {
         <Box sx={{width: '25px', height: '25px', borderRadius: '50%', background: DIALOG_TITLE_COLOR}}/>
         <Box sx={{fontWeight: 400, fontFamily: "'Poppins', sans-serif"}}>
             Salary: {data.fields.reduce(
-            (acc, {metadata}) => {
-                return acc ?
-                    metadata.submitted_value ?
-                        `${acc}-${metadata.submitted_value}` :
-                        ''
-                    :
-                    metadata.submitted_value || ''
+            (acc, {metadata, name}) => {
+                return metadata.submitted_value ?
+                    `${acc} ${['Currency', 'Type'].includes(name) ? metadata.submitted_value : name + ' ' + metadata.submitted_value}` :
+                    ''
             }, '')}
         </Box>
     </Box>

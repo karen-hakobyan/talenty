@@ -10,6 +10,7 @@ import {isRequiredFieldsFilled} from "../../../helpers/dialog";
 import {useCallback} from "react";
 import {getJobAnnouncement, publishJobAnnouncement} from "../../../store/globalData/getTemplateActions";
 import {setIsPublished} from "../../../store/globalData/slice";
+import {cleanTemplateNewIds} from "../../../helpers/actions";
 
 const activeButtonStyle = {
     ...TEMPLATE_ITEM_BUTTON,
@@ -56,7 +57,7 @@ export default function AnnouncementPreview() {
                 })
             }
         </Box>
-        <Dialog open={isPublished?.open} onClose={() => closePublishDialog()} maxWidth={false}>
+        <Dialog open={!!isPublished?.open} onClose={() => closePublishDialog()} maxWidth={false}>
             <Box
                 sx={{
                     width: '400px',
@@ -98,7 +99,8 @@ export default function AnnouncementPreview() {
                 style={{textTransform: "none"}}
                 disabled={!isRequiredFieldsFilled(data)}
                 onClick={() => {
-                    dispatch(publishJobAnnouncement(data))
+                    let payload = cleanTemplateNewIds(data)
+                    dispatch(publishJobAnnouncement(payload))
                 }}
             >
                 Publish
