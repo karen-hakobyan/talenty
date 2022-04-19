@@ -6,7 +6,7 @@ let jobAnnouncement = {
     name: "System Job Announcement",
     // status: "CONFIRMED",
     status: "PENDING",
-    attachedCvTemplateId: "test",
+    attachedCvTemplateId: null,
     fields: [{
             _id: ObjectId(),
             name: "General Information",
@@ -215,6 +215,7 @@ let jobAnnouncement = {
             },
             fields: [{
                     _id: ObjectId(),
+                    name: "Professional skills",
                     metadata: {
                         placeholder: "Professional skills",
                         type: "professional_skill",
@@ -226,7 +227,7 @@ let jobAnnouncement = {
                     _id: ObjectId(),
                     name: "Personal skills",
                     metadata: {
-                        placeholder: "Professional skills",
+                        placeholder: "Personal skills",
                         type: "personal_skill",
                         deletable: false,
                         required: false,
