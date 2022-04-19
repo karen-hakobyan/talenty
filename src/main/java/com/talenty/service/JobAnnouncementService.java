@@ -5,6 +5,7 @@ import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
+import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
@@ -40,7 +41,7 @@ public class JobAnnouncementService {
 
     public JobAnnouncement publish(final JobAnnouncement jobAnnouncement) {
         final JobAnnouncementDocument document = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
-        final Optional<JobAnnouncementDocument> parentTemplateOptional = jobAnnouncementRepository.findById(document.getId());
+        final Optional<JobAnnouncementDocument> parentTemplateOptional = findById(document.getId());
 
         if (parentTemplateOptional.isEmpty()) {
             System.out.printf("No such job announcement with id '%s'\n", document.getId());
@@ -48,6 +49,7 @@ public class JobAnnouncementService {
         }
 
         final JobAnnouncementDocument parentTemplate = parentTemplateOptional.get();
+
         Executor.getInstance()
                 .setParentFields(parentTemplate.getFields())
                 .setChildFields(document.getFields())
@@ -71,6 +73,20 @@ public class JobAnnouncementService {
             result.add(JobAnnouncementMapper.instance.documentToDto(e));
         });
         return result;
+    }
+
+    public Optional<JobAnnouncementDocument> findById(final String id) {
+        final Optional<JobAnnouncementDocument> announcement = jobAnnouncementRepository.findById(id);
+        if (announcement.isEmpty()) {
+            return Optional.empty();
+        }
+        final JobAnnouncementDocument jobAnnouncementDocument = announcement.get();
+        Executor.getInstance()
+                .setChildFields(jobAnnouncementDocument.getFields())
+                .executeLogic(
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
+                );
+        return Optional.of(jobAnnouncementDocument);
     }
 
     public JobAnnouncement approveAnnouncement(final String id) {
