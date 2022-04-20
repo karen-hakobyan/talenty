@@ -1,5 +1,5 @@
 import {Box, Button, Dialog, IconButton} from "@mui/material";
-import {memo, useState} from "react";
+import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AddFieldSVG} from "../../assets/icons/createTemplate";
 import {
@@ -16,6 +16,7 @@ import typeComponents from "../cvTemplate/typeComponents";
 import AddField from "./addField";
 import Attention from "./attention";
 import SharedTemplateHeader from "../../shared/components/TemplateHeader";
+import SectionContainer from "../cvTemplate/typeComponents/section_container";
 
 export default function Body({
                                  dialogData,
@@ -44,13 +45,17 @@ export default function Body({
 
             <SharedTemplateHeader title={dialogData.name}/>
             <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px", pt: '44px'}}>
-                {dialogData.fields.filter(el=>el.metadata.status !== "DELETED").map((field) => {
-
+                {dialogData.fields.filter(el => el.metadata.status !== "DELETED").map((field) => {
+                    // article section and book section new logic hr
+                    if (field.name === 'Article section' || field.name === 'Book section') {
+                        return <SectionContainer data={field.fields[0]} templateData={templateData}
+                                                 dialogData={dialogData} dispatch={dispatch} isPublication
+                                                 key={field.id}/>
+                    }
                     let TempComponent = typeComponents[field.metadata.type];
                     if (!TempComponent) {
                         return <h1>they have changed again some type</h1>;
                     }
-                    TempComponent = memo(TempComponent);
 
                     return (
                         field.metadata.status !== 'DELETED' &&
@@ -64,7 +69,7 @@ export default function Body({
 
                 {/* section adding part */}
                 <Box sx={{display: "flex", justifyContent: "flex-end", gap: "16px"}}>
-                    <IconButton
+                    {dialogData.name !== 'Publications' && <IconButton
                         sx={{...TEMPLATE_ITEM_BUTTON, width: "179px"}}
                         onClick={() => {
                             setAddFieldIsOpen(true);
@@ -72,7 +77,7 @@ export default function Body({
                     >
                         <AddFieldSVG/>
                         Add field
-                    </IconButton>
+                    </IconButton>}
                     <Button
                         onClick={() => {
                             onSave({dispatch, dialogData, templateData});
