@@ -6,9 +6,9 @@ import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.jwt.JWTService;
+import com.talenty.service.CVTemplateService;
 import com.talenty.service.JobSeekerService;
 import com.talenty.service.SubmittedCvTemplateService;
-import com.talenty.service.CVTemplateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +83,12 @@ public class CVTemplateController {
     public ResponseEntity<?> editSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate editedCvTemplate) {
         submittedCvTemplateService.edit(editedCvTemplate);
         return ResponseEntity.ok("saved_submitted_cv_template");
+    }
+
+    @GetMapping("/delete")
+    public ResponseEntity<?> deleteCreatedCvTemplateById(@RequestParam final String id) {
+        final BasicDBObject allCvTemplatesIds = cvTemplateService.deleteCreatedCvTemplateById(id);
+        return ResponseEntity.ok(allCvTemplatesIds);
     }
 
 }

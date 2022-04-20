@@ -8,7 +8,7 @@ export default function GeneralInfo({data}) {
             if (!TempComponent) {
                 return null
             }
-            return <TempComponent data={el} generalInfoData={data}/>
+            return <TempComponent data={el} generalInfoData={data} key={el.id}/>
         })}
     </Box>
 }

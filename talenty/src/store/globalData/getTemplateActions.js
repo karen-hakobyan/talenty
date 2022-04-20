@@ -89,7 +89,8 @@ export const createCvHR = createAsyncThunk('globalData/createHRCV', async(templa
         const response = await instance.post('cv_template/create_new', cleanHrTemplateNewIds(templateData))
         return Object.entries(response.data)
     } catch (err) {
-        console.log(err)
+        console.log('error during create new cv')
+        return thunkAPI.rejectWithValue('something went wrong')
     }
 })
 
@@ -106,13 +107,12 @@ export const getJobAnnouncement = createAsyncThunk(
         }
 
     })
-export const getDeleteHrCv = createAsyncThunk(
-    'deleteHrCv',
-    async(payload, thunkAPI) => {
+export const deleteHrCv = createAsyncThunk(
+    'globalData/deleteHrCv',
+    async(id, thunkAPI) => {
         try {
-            const response = await instance.get(getDeleteHrCvId(payload))
-            console.log(response.data);
-            return response.data
+            const response = await instance.get(getDeleteHrCvId(id))
+            return Object.entries(response.data)
         } catch (error) {
             console.log('error during get announcements')
             return thunkAPI.rejectWithValue(error)

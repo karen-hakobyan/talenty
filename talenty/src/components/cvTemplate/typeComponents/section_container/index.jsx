@@ -11,6 +11,7 @@ export default function SectionContainer({
                                              dialogData,
                                              templateData,
                                              dispatch,
+                                             isPublication,
                                          }) {
     if (!data) {
         return null;
@@ -47,6 +48,7 @@ export default function SectionContainer({
                                 dispatch,
                                 dialogData,
                                 id: data.id,
+                                isPublication: isPublication,
                             })
                         }
                     >

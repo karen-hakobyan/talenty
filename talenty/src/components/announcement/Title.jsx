@@ -6,6 +6,7 @@ import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 import {selectDialogData} from "../../store/dialogs/selector";
 import BasicDatePicker from "../shared/DatePicker";
+import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
 
 export default function Title({data}) {
     const dispatch = useDispatch()
@@ -16,25 +17,27 @@ export default function Title({data}) {
     }, [dialogData])
     return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection
-            label={<Box>Title <span style={{color: '#8C0DF0'}}>*</span></Box>}
+            label={<Box>Title <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
             sx={{flex: 1}}
             Component={
                 <TextField
                     placeholder={data.metadata.placeholder}
                     sx={{width: '100%'}} value={value}
-                    InputProps={{sx: {
-                        height: "40px",
-                        fontFamily: "'Poppins', sans-serif",
-                        fontSize: "16px",
-                        lineHeight: "24px"
-                    }}}
+                    InputProps={{
+                        sx: {
+                            height: "40px",
+                            fontFamily: "'Poppins', sans-serif",
+                            fontSize: "16px",
+                            lineHeight: "24px"
+                        }
+                    }}
                     onChange={(event) => setValue(event.target.value)}
                     onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
                 />
             }
         />
         <JobSeekerSubsection
-            label={<Box>{deadline.name} *</Box>}
+            label={<Box>{deadline.name} <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
             Component={
                 <BasicDatePicker
                     placeholder="Deadline"

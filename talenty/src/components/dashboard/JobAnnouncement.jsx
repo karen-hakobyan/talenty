@@ -32,7 +32,12 @@ export default function JobAnnouncement() {
         return null
     }
     return (
-        <Box sx={{flex: 1, display: 'flex', flexDirection: 'column', p: '24px 32px'}}>
+        <Box sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            p: '24px 32px',
+        }}>
             <Dialog
                 open={addSectionDialogIsOpen}
                 maxWidth={false}
@@ -60,27 +65,30 @@ export default function JobAnnouncement() {
                 <AnnouncementSVG/>
                 Add new job
             </Box>
-            {templateData.fields.filter(el => el).map(el => {
-                if (el.metadata.status === "DELETED") {
-                    return null
-                }
-                return <TemplateItem
-                    key={el.name}
-                    item={el}
-                    setData={(data) => {
-                        dispatch(setAllTemplateData(data))
-                    }}
-                    isAnnouncement
-                    data={templateData}
-                />
-            })}
-            <Box sx={{flex: 1}}/>
+            {/* calc title bottom and also header action and padding top and bottom to give height 34 24 24 24 80 for header for now*/}
+            <Box sx={{height: 'calc(100vh - 210px)', overflow: 'scroll', pb: '24px'}}>
+                {templateData.fields.filter(el => el).map(el => {
+                    if (el.metadata.status === "DELETED") {
+                        return null
+                    }
+                    return <TemplateItem
+                        key={el.name}
+                        item={el}
+                        setData={(data) => {
+                            dispatch(setAllTemplateData(data))
+                        }}
+                        isAnnouncement
+                        data={templateData}
+                    />
+                })}
+            </Box>
             {/*below actions*/}
-            <Box sx={{display: 'flex'}}>
-                <IconButton sx={TEMPLATE_BUTTON_ADD} ref={attachButton} onClick={() => setIsOpenMenuList(true)}>
-                    <AttachCvIcon/>
-                    {templateData?.attachedCvTemplateId ? templateList.find(el => el[0] === templateData?.attachedCvTemplateId)?.[1] || 'Attach CV template' : 'Attach CV template'}
-                </IconButton>
+            <Box sx={{display: 'flex', mt: '24px'}}>
+                {!!templateList?.length &&
+                    <IconButton sx={TEMPLATE_BUTTON_ADD} ref={attachButton} onClick={() => setIsOpenMenuList(true)}>
+                        <AttachCvIcon/>
+                        {templateData?.attachedCvTemplateId ? templateList.find(el => el[0] === templateData?.attachedCvTemplateId)?.[1] || 'Attach CV template' : 'Attach CV template'}
+                    </IconButton>}
                 {!!templateList?.length &&
                     <Menu open={isOpenMenuList} anchorEl={attachButton.current} onClose={() => setIsOpenMenuList(false)}
                           anchorPosition={{top: 0, left: 0}}>

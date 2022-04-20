@@ -2,28 +2,26 @@ import {Box} from '@mui/material'
 import {DIALOG_TITLE_COLOR} from "../../../constants/colors";
 
 export default function Skill({data}) {
-    console.log({skill: data})
     return <Box sx={{display: 'flex', flexDirection: 'column', gap: '18px'}}>
-        {data.fields.map(el => {
+        {data.fields.map((el) => {
             if (!el.metadata.submitted_value) {
                 return null
             }
             let list = el.metadata.submitted_value.split("$$")
-            return <Box sx={{display: 'flex', flexDirection: 'column', gap: '27px', mt: '32px'}}>
+            return <Box sx={{display: 'flex', flexDirection: 'column', gap: '27px', mt: '32px'}} key={el.id}>
                 <Box sx={{
-                    fontSize: '16px',
-                    lineHeight: '18px',
+                    fontSize: '8px',
+                    lineHeight: '12px',
                     color: '#4C494F',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontWeight: 900
+                    fontFamily: "Poppins",
+                    fontWeight: 500
                 }}>
                     {el.name}
                 </Box>
                 <Box sx={{display: 'flex', gap: '14px'}}>
                     {
-                        list.map(val => {
-                            console.log(val)
-                            return <Box key={val} sx={{
+                        list.map((val, index) => {
+                            return <Box key={index} sx={{
                                 width: '121px',
                                 height: '24px',
                                 borderRadius: '50px',

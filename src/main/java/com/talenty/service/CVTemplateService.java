@@ -2,15 +2,14 @@ package com.talenty.service;
 
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.CVTemplate;
-import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
+import com.talenty.domain.mongo.HrDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
-import com.talenty.logical_executors.CleanUpMetadataExecutor;
 import com.talenty.logical_executors.DeletedFieldValidationExecutor;
+import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.logical_executors.FieldsIdValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
-import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.CVTemplateRepository;
 import com.talenty.validation.ValidationChecker;
@@ -85,6 +84,16 @@ public class CVTemplateService {
 
     public BasicDBObject getAllCvTemplates() {
         return hrService.getCurrentHr().getCvTemplates();
+    }
+
+    public BasicDBObject deleteCreatedCvTemplateById(final String id) {
+        final HrDocument currentHr = hrService.getCurrentHr();
+        currentHr.deleteCvTemplate(id);
+        hrService.save(currentHr);
+
+        //TODO if count ==0 delete from db, else set status "DELETED"
+
+        return currentHr.getCvTemplates();
     }
 
 }

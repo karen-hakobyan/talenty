@@ -75,27 +75,32 @@ public class Executor {
                                    final String role,
                                    final LogicExecutor[] logicExecutors) {
         final Map<String, Object> childMetadata = tempChildField.getMetadata();
+
         final boolean isNew = Objects.equals(childMetadata.get("status"), "NEW");
+        boolean isSectionContainer = false;
+        if (parentFields != null && parentFields.get(0) != null) {
+            isSectionContainer = Objects.equals(parentFields.get(0).getMetadata().get("type"), "section_container");
+        }
+        boolean isSectionContainerField = false;
+        if (childMetadata.containsKey("inside_container")) {
+            isSectionContainerField = Boolean.parseBoolean(String.valueOf(childMetadata.get("inside_container")));
+        }
+
         if (Objects.equals(role, "ROLE_HR_ADMIN")) {
-            if (isNew) {
-                ValidationChecker.assertNewFieldIsValid(tempChildField);
-                tempChildField.setId(String.valueOf(new ObjectId()));
-                childMetadata.remove("status");
-                final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-                if (tempChildFieldFields != null)
-                    executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
+            if (isSectionContainer || isSectionContainerField) {
                 return true;
+            } else {
+                if (isNew) {
+                    ValidationChecker.assertNewFieldIsValid(tempChildField);
+                    tempChildField.setId(String.valueOf(new ObjectId()));
+                    childMetadata.remove("status");
+                    final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
+                    if (tempChildFieldFields != null)
+                        executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
+                    return true;
+                }
             }
         } else if (Objects.equals(role, "ROLE_JOB_SEEKER")) {
-            boolean isSectionContainer = false;
-            if (parentFields != null && parentFields.get(0) != null) {
-                isSectionContainer = Objects.equals(parentFields.get(0).getMetadata().get("type"), "section_container");
-            }
-            boolean isSectionContainerField = false;
-            if (childMetadata.containsKey("inside_container")) {
-                isSectionContainerField = Boolean.parseBoolean(String.valueOf(childMetadata.get("inside_container")));
-            }
-
             if ((isSectionContainer && isNew) || (isSectionContainerField && isNew)) {
                 tempChildField.setId(String.valueOf(new ObjectId()));
                 childMetadata.remove("status");

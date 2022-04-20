@@ -1,13 +1,13 @@
 import {setDialogData} from "../../store/dialogs/slice";
 
-const deleteFilterer = (id) => (el) => el.id !== id
+const isIncludedField = (id) => (el) => el.id === id
 
-export function onDelete({dispatch, dialogData, id}) {
+export function onDelete({dispatch, dialogData, id, isPublication}) {
     const updatedDialogData = JSON.parse(JSON.stringify(dialogData), (key, value) => {
-        if (value?.fields && value?.fields.some(deleteFilterer(id))) {
+        if (value?.fields && value?.fields.some(isIncludedField(id))) {
             return {
                 ...value,
-                fields: id.startsWith('0') ? value.fields.filter(el => el.id !== id) : value.fields.map(el => el.id === id ? {
+                fields: id.startsWith('0') || isPublication ? value.fields.filter(el => el.id !== id) : value.fields.map(el => el.id === id ? {
                     ...el,
                     metadata: {
                         ...el.metadata,

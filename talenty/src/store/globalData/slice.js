@@ -1,16 +1,22 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
-    createCvHR, editJobSeekerCv, getEditedUserCv,
+    createCvHR,
+    deleteHrCv,
+    editJobSeekerCv,
+    getEditedUserCv,
     getJobAnnouncement,
     getTemplateActions,
     getTemplateById,
-    getTemplateLists, publishJobAnnouncement, saveJobSeekerCV
+    getTemplateLists,
+    publishJobAnnouncement,
+    saveJobSeekerCV
 } from "./getTemplateActions";
 import changeTemplateData, {
     addSectionContainer,
-    deleteAddSectionContainer, deletePublications
+    deleteAddSectionContainer,
+    deletePublications
 } from "../../components/createCvJobSeeker/actions";
-import {jobAnnouncementAjab} from "../../ajab";
+import { jobAnnouncementAjab } from "../../ajab";
 
 const initialState = {
     exactPage: 1,
@@ -31,8 +37,8 @@ export const globalDataSlice = createSlice({
     name: "globalData",
     initialState,
     reducers: {
-        setGlobalDataViaKey: (state, {payload}) => {
-            const {key, value} = payload;
+        setGlobalDataViaKey: (state, { payload }) => {
+            const { key, value } = payload;
             state[key] = value;
         },
         setNextPage: (state) => {
@@ -41,17 +47,17 @@ export const globalDataSlice = createSlice({
         setPrevPage: (state) => {
             state.exactPage = state.exactPage - 1
         },
-        setExactPage: (state, {payload}) => {
+        setExactPage: (state, { payload }) => {
             state.exactPage = payload
         },
-        setTemplateData: (state, {payload: {id, value}}) => {
+        setTemplateData: (state, { payload: { id, value } }) => {
             state.templateData = changeTemplateData(state.templateData, id, value)
         },
-        addSectionContainerAction: (state, {payload: id}) => {
+        addSectionContainerAction: (state, { payload: id }) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
-        addPublicationsSection: (state, {payload: {id, isBook}}) => {
-            state.templateData = addSectionContainer(state.templateData, id, isBook)
+        addPublicationsSection: (state, { payload: { id } }) => {
+            state.templateData = addSectionContainer(state.templateData, id)
         },
         setGlobalInitialData: (state) => {
             for (let key in initialState) {
@@ -63,63 +69,63 @@ export const globalDataSlice = createSlice({
         removeNewJwt: (state) => {
             state.newJwt = null
         },
-        setLinksController: (state, {payload}) => {
+        setLinksController: (state, { payload }) => {
             state.linksController = payload
         },
-        setEvaluateWidths: (state, {payload}) => {
+        setEvaluateWidths: (state, { payload }) => {
             state.evaluateWidths = payload
         },
-        setSectionContainerController: (state, {payload}) => {
+        setSectionContainerController: (state, { payload }) => {
             state.sectionContainerController = payload
         },
-        setDeleteAddSection: (state, {payload}) => {
+        setDeleteAddSection: (state, { payload }) => {
             state.templateData = deleteAddSectionContainer(payload)
         },
-        setAllTemplateData: (state, {payload}) => {
+        setAllTemplateData: (state, { payload }) => {
             state.templateData = payload
         },
-        setIsPublished: (state, {payload}) => {
+        setIsPublished: (state, { payload }) => {
             state.isPublished = payload
         },
-        deletePublicationAction: (state, {payload}) => {
-            state.templateData = deletePublications({templateData: state.templateData, id: payload})
+        deletePublicationAction: (state, { payload }) => {
+            state.templateData = deletePublications({ templateData: state.templateData, id: payload })
         },
     },
     extraReducers: {
-        [getTemplateActions.fulfilled]: (state, {payload}) => {
+        [getTemplateActions.fulfilled]: (state, { payload }) => {
             state.templateData = payload
             state.templateInitialData = payload
         },
-        [getJobAnnouncement.fulfilled]: (state, {payload}) => {
+        [getJobAnnouncement.fulfilled]: (state, { payload }) => {
             state.templateData = payload
         },
-        [getEditedUserCv.fulfilled]: (state, {payload}) => {
+        [getEditedUserCv.fulfilled]: (state, { payload }) => {
             state.templateData = payload
         },
         [getJobAnnouncement.rejected]: (state) => {
             state.templateData = jobAnnouncementAjab
         },
-        [createCvHR.fulfilled]: (state, {payload}) => {
+        [createCvHR.fulfilled]: (state, { payload }) => {
             state.templateData = null;
             state.templateList = payload
         },
-        [getTemplateLists.fulfilled]: (state, {payload}) => {
+        [getTemplateLists.fulfilled]: (state, { payload }) => {
             state.templateList = payload
         },
         [getTemplateLists.rejected]: state => {
             state.templateList = []
         },
-        [getTemplateById.fulfilled]: (state, {payload}) => {
+        [getTemplateById.fulfilled]: (state, { payload }) => {
             state.templateData = payload
             state.templateInitialData = payload
         },
-        [publishJobAnnouncement.fulfilled]: (state, {payload}) => {
-            state.isPublished = {open: true, status: 'ok'}
+        [publishJobAnnouncement.fulfilled]: (state, { payload }) => {
+            state.isPublished = { open: true, status: 'ok' }
         },
-        [publishJobAnnouncement.rejected]: (state, {payload}) => {
-            state.isPublished = {open: true, status: 'rejected'}
+        [publishJobAnnouncement.rejected]: (state, { payload }) => {
+            state.isPublished = { open: true, status: 'rejected' }
         },
-        [saveJobSeekerCV.fulfilled]: (state, {payload}) => {
+        [saveJobSeekerCV.fulfilled]: (state, { payload }) => {
             state.newJwt = payload
             state.exactPage = 1
             if (localStorage.getItem('jwt')) {
@@ -128,7 +134,7 @@ export const globalDataSlice = createSlice({
                 localStorage.setItem('jwt', payload)
             }
         },
-        [editJobSeekerCv.rejected]: (state, {payload}) => {
+        [editJobSeekerCv.rejected]: (state, { payload }) => {
             state.exactPage = 1;
             state.templateData = null
         },
@@ -136,6 +142,13 @@ export const globalDataSlice = createSlice({
             console.log('edit cv template fullfilled')
             state.exactPage = 1;
         },
+        [deleteHrCv.rejected]: (state) => {
+            // state.templateList = payload
+        },
+        [deleteHrCv.fulfilled]: (state, { payload }) => {
+            state.templateList = payload
+        },
+
     }
 });
 
