@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../constants/requests";
+import { getDeleteHrCvId, instance } from "../../constants/requests";
 import { getJwt } from "../../components/dashboard/helper";
 import { getUrls } from "../../request/get";
 import { cleanHrTemplateNewIds, cleanTemplateNewIds } from "../../helpers/actions";
@@ -103,6 +103,19 @@ export const getJobAnnouncement = createAsyncThunk(
             console.log(thunkAPI)
             console.log('error during get announcements')
             return thunkAPI.rejectWithValue()
+        }
+
+    })
+export const getDeleteHrCv = createAsyncThunk(
+    'deleteHrCv',
+    async(payload, thunkAPI) => {
+        try {
+            const response = await instance.get(getDeleteHrCvId(payload))
+            console.log(response.data);
+            return response.data
+        } catch (error) {
+            console.log('error during get announcements')
+            return thunkAPI.rejectWithValue(error)
         }
 
     })

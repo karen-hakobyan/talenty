@@ -17,6 +17,7 @@ import {useNavigate} from "react-router-dom";
 import {getTemplateLists} from "../../store/globalData/getTemplateActions";
 import {useDispatch, useSelector} from "react-redux";
 import {selectTemplateList} from "../../store/globalData/selector";
+import { DeleteIconSVG } from "../../assets/icons/createTemplate";
 
 function navChildDoor({setNavItemGeneratorState, isTextShown, key}) {
     if (isTextShown) {
@@ -112,7 +113,7 @@ export default function Navigation({maxWidth, minWidth}) {
                                     <Box sx={ITEM_CHILDREN_CONTAINER}>
                                         {isTextShown &&
                                             open &&
-                                            children.map(({text, key, IconComponent, action}) => {
+                                            children.map(({text, key, IconComponent, action},index) => {
                                                 return (
                                                     <Box sx={CHILD_ICON_TEXT_CONTAINER} {...{key}} {...(action ? {
                                                         onClick: () => {
@@ -121,6 +122,7 @@ export default function Navigation({maxWidth, minWidth}) {
                                                     } : {})}>
                                                         {IconComponent && <IconComponent/>}
                                                         <Box sx={CHILD_TEXT}>{text}</Box>
+                                                        {index!==0?<Box><DeleteIconSVG/></Box>:null}
                                                     </Box>
                                                 );
                                             })}
