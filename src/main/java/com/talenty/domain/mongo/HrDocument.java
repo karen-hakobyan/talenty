@@ -26,4 +26,8 @@ public class HrDocument extends UserDocument {
         cvTemplates.append(id, name);
     }
 
+    public void deleteCvTemplate(final String id) {
+        cvTemplates.remove(id);
+    }
+
 }
