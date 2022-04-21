@@ -67,11 +67,13 @@ public class JobAnnouncementService {
         document.setId(null);
         document.setParentId(parentTemplate.getId());
         document.setStatus(JobAnnouncementStatus.PENDING);
-        document.setAttachedCvTemplateId(jobAnnouncement.getAttachedCvTemplateId());
         final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
 
         final HrDocument currentHr = hrService.getCurrentHr();
-        currentHr.addJobAnnouncement(saved.getId(), jobAnnouncement.getName());
+        final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
+        jobAnnouncementInHr.append("name", saved.getName());
+        jobAnnouncementInHr.append("status", saved.getStatus());
+        currentHr.addJobAnnouncement(saved.getId(), jobAnnouncementInHr);
         hrService.save(currentHr);
 
         return JobAnnouncementMapper.instance.documentToDto(saved);

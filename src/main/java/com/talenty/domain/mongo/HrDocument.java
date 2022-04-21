@@ -25,7 +25,7 @@ public class HrDocument extends UserDocument {
     @Field("job_announcements")
     private BasicDBObject jobAnnouncements = new BasicDBObject();
 
-    public void addJobAnnouncement(final String id, final String name) {
+    public void addJobAnnouncement(final String id, final BasicDBObject name) {
         jobAnnouncements.append(id, name);
     }
 
