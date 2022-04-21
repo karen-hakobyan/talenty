@@ -13,12 +13,12 @@ export default function ProfessionalSkill({data}) {
         Component={
             <MultipleSelect
                 menuItems={data.metadata.values || ['1', '2', '3']}
-                value={value ? value.split('$$') : []}
+                value={value ? value.split('&&') : []}
                 placeHolder={data.metadata.placeholder}
                 textFieldWidth='100%'
                 onChange={(event) => {
                     if (event.target.value.length === new Set(event.target.value).size) {
-                        setValue(event.target.value.join('$$'))
+                        setValue(event.target.value.join('&&'))
                     }
                 }}
                 selectProps={{

@@ -7,7 +7,7 @@ export default function Skill({data}) {
             if (!el.metadata.submitted_value) {
                 return null
             }
-            let list = el.metadata.submitted_value.split("$$")
+            let list = el.metadata.submitted_value.split("&&")
             return <Box sx={{display: 'flex', flexDirection: 'column', gap: '27px', mt: '32px'}} key={el.id}>
                 <Box sx={{
                     fontSize: '8px',
