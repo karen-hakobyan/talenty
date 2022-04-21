@@ -100,7 +100,11 @@ export default function AnnouncementPreview() {
                 disabled={!isRequiredFieldsFilled(data)}
                 onClick={() => {
                     let payload = cleanTemplateNewIds(data)
-                    dispatch(publishJobAnnouncement(payload))
+                    dispatch(publishJobAnnouncement({
+                        ...payload,
+                        name: payload.fields[0].fields[0].metadata.submitted_value,
+                        attachedCvTemplateId: data.attachedCvTemplateId
+                    }))
                 }}
             >
                 Publish
