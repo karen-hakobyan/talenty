@@ -22,3 +22,4 @@ export const getValidateToken = (token) => {
 }
 export const postChangePassword = (token) => `/reset/password?token=${token}`
 export const getConfirmUser = (token) => `/confirm?token=${token}`
+export const getDeleteHrCvId = (id) => `/cv_template/delete?id=${id}`

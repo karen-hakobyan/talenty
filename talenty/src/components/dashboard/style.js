@@ -1,4 +1,4 @@
-import {WIDTH_TRANSITION} from "./helper";
+import { WIDTH_TRANSITION } from "./helper";
 
 export const CONTAINER_HEADER = {
     height: "80px",
@@ -26,7 +26,7 @@ export const MAIN_OPENER = (isNavOpen) => ({
     position: "absolute",
     cursor: "pointer",
     right: "-14px",
-    ...(!isNavOpen ? {transform: "rotate(180deg)"} : {}),
+    ...(!isNavOpen ? { transform: "rotate(180deg)" } : {}),
 });
 
 export const NAV_GENERATOR_CONTAINER = {
@@ -80,5 +80,4 @@ export const CHILD_ICON_TEXT_CONTAINER = {
     display: "flex",
     gap: "12px",
     alignItems: "center",
-    cursor: 'pointer'
 };
