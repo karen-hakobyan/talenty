@@ -22,6 +22,17 @@ public class HrDocument extends UserDocument {
     @Field("cv_templates")
     private BasicDBObject cvTemplates = new BasicDBObject();
 
+    @Field("job_announcements")
+    private BasicDBObject jobAnnouncements = new BasicDBObject();
+
+    public void addJobAnnouncement(final String id, final String name) {
+        jobAnnouncements.append(id, name);
+    }
+
+    public void deleteJobAnnouncement(final String id) {
+        jobAnnouncements.remove(id);
+    }
+
     public void addCvTemplate(final String id, final String name) {
         cvTemplates.append(id, name);
     }

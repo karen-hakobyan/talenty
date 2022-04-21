@@ -140,9 +140,9 @@ let jobAnnouncement = {
                             name: "Currency",
                             metadata: {
                                 type: "currency",
+                                placeholder: "USD",
                                 deletable: false,
                                 required: false,
-                                submitted_value: "USD",
                             },
                         },
                     ],
@@ -153,7 +153,7 @@ let jobAnnouncement = {
                     metadata: {
                         placeholder: "Deadline",
                         type: "deadline",
-                        maxLength: 100,
+                        maxLength: 8,
                         deletable: false,
                         required: true,
                     },
