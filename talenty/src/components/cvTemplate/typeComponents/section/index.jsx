@@ -14,7 +14,7 @@ export default function SectionGenerator({
                                          }) {
     // photo military id driving license
     if (data.name === 'Other') {
-        if (data.fields.some((el) => el.metadata.status !== 'DELETED')) {
+        if (data.fields.filter(el => el).some((el) => el.metadata.status !== 'DELETED')) {
             // above condition's purpose is for show nothing if all fields were deleted
             return <Box sx={{mt: '60px', display: 'flex', flexDirection: 'column', gap: '68px'}}>
                 {data.fields.map(el => {
