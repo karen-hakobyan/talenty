@@ -1,5 +1,5 @@
 import Select from "../../shared/components/Select";
-import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
+import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
 import {useDispatch} from "react-redux";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 

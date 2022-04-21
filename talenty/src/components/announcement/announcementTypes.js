@@ -8,8 +8,8 @@ import City from "./City";
 import Section from "./Section";
 import ProfessionalSkill from "./ProfessionalSkill";
 import Description from "./Description";
-import GridSection from "../createCvJobSeeker/typeComponents/sectionContainerTypes/GridSection";
-import { memoizeTypeComponents } from "../../helpers/memo";
+import GridSection from "../job-seeker/createCvJobSeeker/typeComponents/sectionContainerTypes/GridSection";
+import {memoizeTypeComponents} from "../../helpers/memo";
 
 const announcementTypes = {
     employment_terms: EmploymentTerms,

@@ -3,7 +3,10 @@ import DatePicker from '@mui/lab/DatePicker';
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import {LocalizationProvider} from "@mui/lab";
 import TextField from "../../shared/components/Textfield";
-import {changeDateFormat, validateDate} from "../createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection";
+import {
+    changeDateFormat,
+    validateDate
+} from "../job-seeker/createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection";
 
 export default function BasicDatePicker({
                                             fieldProps = {},
@@ -32,12 +35,15 @@ export default function BasicDatePicker({
                         sx={{
                             width: '500px',
                             fontFamily: "'Poppins', sans-serif",
-                        ...fieldStyle}}
-                        inputProps={{...params.inputProps, placeholder,sx:{
-                            fontFamily: "'Poppins', sans-serif",
-                            fontSize: "16px",
-                            lineHeight: "24px"
-                        }}}
+                            ...fieldStyle
+                        }}
+                        inputProps={{
+                            ...params.inputProps, placeholder, sx: {
+                                fontFamily: "'Poppins', sans-serif",
+                                fontSize: "16px",
+                                lineHeight: "24px"
+                            }
+                        }}
                     />
                 }}
                 onClose={closeAction ? () => {

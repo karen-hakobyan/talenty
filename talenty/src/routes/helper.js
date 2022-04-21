@@ -1,6 +1,6 @@
 import Dashboard from "../components/dashboard";
 import {genId} from "../components/dashboard/helper";
-import HomeJobSeeker from "../components/homeJobSeeker";
+import HomeJobSeeker from "../components/job-seeker/homeJobSeeker";
 
 import {
     DASHBOARD_ROUTE,

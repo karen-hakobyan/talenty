@@ -13,10 +13,9 @@ import {
 } from "./getTemplateActions";
 import changeTemplateData, {
     addSectionContainer,
-    deleteAddSectionContainer,
-    deletePublications
-} from "../../components/createCvJobSeeker/actions";
-import { jobAnnouncementAjab } from "../../ajab";
+    deleteAddSectionContainer, deletePublications
+} from "../../components/job-seeker/createCvJobSeeker/actions";
+import {jobAnnouncementAjab} from "../../ajab";
 
 const initialState = {
     exactPage: 1,

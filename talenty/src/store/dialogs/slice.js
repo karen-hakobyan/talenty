@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import changeTemplateData from "../../components/createCvJobSeeker/actions";
+import changeTemplateData from "../../components/job-seeker/createCvJobSeeker/actions";
 
 const initialState = {
     isOpen: false,

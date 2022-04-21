@@ -6,3 +6,4 @@ export const LANDING_PAGE_ROUTE = "/";
 export const HOME_PAGE_ROUTE = "/home-page/";
 export const CREATE_CV = "/create-cv";
 export const NOT_FOUND = "/not-found"
+export const PROFILE = '/profile'

@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, TextField} from "@mui/material";
-import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
+import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 import {DeleteIcon} from "../../assets/icons/jobseeker";
 import {onDelete} from "../../helpers/dialog";

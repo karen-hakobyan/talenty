@@ -2,7 +2,7 @@ import {useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box} from "@mui/material";
 import TextField from "../../shared/components/Textfield";
-import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
+import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 import {selectDialogData} from "../../store/dialogs/selector";
 import BasicDatePicker from "../shared/DatePicker";

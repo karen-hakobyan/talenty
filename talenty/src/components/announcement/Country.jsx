@@ -1,4 +1,4 @@
-import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
+import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
 import Select from "../../shared/components/Select";
 import {COUNTRY_NAMES} from "../../helpers/country";
 import {useDispatch} from "react-redux";

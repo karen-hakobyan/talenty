@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {Box, Radio} from "@mui/material";
-import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
-import {RADIO_LABEL} from "../createCvJobSeeker/style";
+import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
+import {RADIO_LABEL} from "../job-seeker/createCvJobSeeker/style";
 import {changeDialogDataById} from "../../store/dialogs/slice";
 import TextField from "../../shared/components/Textfield";
 import Select from "../../shared/components/Select";
