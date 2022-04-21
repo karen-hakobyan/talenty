@@ -33,7 +33,7 @@ public class JobAnnouncementController {
     @PostMapping("/publish")
     public ResponseEntity<?> publishJobAnnouncement(@RequestBody final JobAnnouncement request) {
         final JobAnnouncement response = jobAnnouncementService.publish(request);
-        return ResponseEntity.ok("set to pending state");
+        return ResponseEntity.ok(jobAnnouncementService.getAllJobAnnouncements());
     }
 
     @GetMapping("/all_pending")

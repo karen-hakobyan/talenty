@@ -1123,8 +1123,6 @@ let test_cv_template = {
                             maxLength: 3,
                             editable: false,
                             deletable: false,
-                            values: ["USD"],
-                            submitted_value: "USD",
                         },
                     },
                 ],
