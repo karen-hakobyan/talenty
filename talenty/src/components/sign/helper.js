@@ -4,7 +4,7 @@ export const FIELDS = (watch) => [{
         key: "firstName",
         error: {
             required: "This field is required",
-            maxLength: { value: 50, message: "max length should be 50." },
+            maxLength: { value: 50, message: "Max length for first name" },
             pattern: {
                 value: /^[A-Z]/,
                 message: "First letter should be uppercase",
@@ -16,7 +16,7 @@ export const FIELDS = (watch) => [{
         placeholder: "Smith",
         key: "lastName",
         error: {
-            maxLength: { value: 50, message: "max length should be 50." },
+            maxLength: { value: 50, message: "Max length for last name" },
             required: "This field is required",
             pattern: {
                 value: /^[A-Z]/,
@@ -30,6 +30,7 @@ export const FIELDS = (watch) => [{
         key: "email",
         error: {
             required: "This field is required",
+            maxLength: { value: 50, message: "Max length for email" },
             pattern: {
                 value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 message: "The email is invalid",
@@ -81,6 +82,7 @@ export const FIELD_SIGN_IN = [{
                 message: "The email is invalid",
             },
             required: "The field is Required",
+            maxLength: { value: 50, message: "Max length for email" },
         },
     },
     {
@@ -90,6 +92,14 @@ export const FIELD_SIGN_IN = [{
         isPassword: "true",
         error: {
             required: "The field is Required",
+            minLength: {
+                value: 8,
+                message: "Password should contain min 8, max 12 characters",
+            },
+            maxLength: {
+                value: 12,
+                message: "Password should contain min 8, max 12 characters",
+            },
         },
     },
 ];
@@ -100,7 +110,7 @@ export const FIELDS_COMPANY = (watch) => [{
         key: "companyName",
         error: {
             required: "This field is required",
-            maxLength: { value: 100, message: "Max length for company name is 100" },
+            maxLength: { value: 100, message: "Max length for company name" },
         },
     },
     ...FIELDS(watch),

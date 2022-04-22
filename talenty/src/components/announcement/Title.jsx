@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box} from "@mui/material";
 import TextField from "../../shared/components/Textfield";
@@ -7,14 +7,22 @@ import {changeDialogDataById} from "../../store/dialogs/slice";
 import {selectDialogData} from "../../store/dialogs/selector";
 import BasicDatePicker from "../shared/DatePicker";
 import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
+import { validate } from "./helper";
 
 export default function Title({data}) {
     const dispatch = useDispatch()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
+    const [err, setErr]= useState({
+        error: false,
+        massage: ""
+    })
     const dialogData = useSelector(selectDialogData)
     const deadline = useMemo(() => {
         return dialogData.fields.find(el => el.name === 'Deadline')
     }, [dialogData])
+    useEffect(()=>{
+            setErr(validate({name:data.name,value,maxLength:data.metadata.maxLength}))
+    },[value,data.metadata.type,data.metadata.maxLength,data.name])
     return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection
             label={<Box>Title <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
@@ -22,7 +30,10 @@ export default function Title({data}) {
             Component={
                 <TextField
                     placeholder={data.metadata.placeholder}
-                    sx={{width: '100%'}} value={value}
+                    sx={{width: '100%'}} 
+                    value={value}
+                    error={err?.error}
+                    helperText={err.massage}
                     InputProps={{
                         sx: {
                             height: "40px",
@@ -40,7 +51,7 @@ export default function Title({data}) {
             label={<Box>{deadline.name} <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
             Component={
                 <BasicDatePicker
-                    placeholder="Deadline"
+                    placeholder={deadline.metadata.placeholder}
                     value={deadline.metadata.submitted_value}
                     closeAction={(value) => {
                         dispatch(changeDialogDataById({
