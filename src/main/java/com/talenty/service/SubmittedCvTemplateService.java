@@ -1,6 +1,7 @@
 package com.talenty.service;
 
 import com.talenty.domain.dto.SubmittedCVTemplate;
+import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
@@ -21,11 +22,14 @@ public class SubmittedCvTemplateService {
 
     private final SubmittedCvTemplateRepository submittedCvTemplateRepository;
     private final CVTemplateService cvTemplateService;
+    private final JobSeekerService jobSeekerService;
 
     public SubmittedCvTemplateService(final SubmittedCvTemplateRepository submittedCvTemplateRepository,
-                                      final CVTemplateService cvTemplateService) {
+                                      final CVTemplateService cvTemplateService,
+                                      final JobSeekerService jobSeekerService) {
         this.submittedCvTemplateRepository = submittedCvTemplateRepository;
         this.cvTemplateService = cvTemplateService;
+        this.jobSeekerService = jobSeekerService;
     }
 
     public SubmittedCVTemplate saveSubmittedCvTemplate(final SubmittedCVTemplate submittedCVTemplate) {
@@ -41,8 +45,10 @@ public class SubmittedCvTemplateService {
                         new SubmittedFieldValueValidationExecutor(),
                         new CleanUpMetadataExecutor(true, "submitted_value")
                 );
+        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
         submittedTemplate.setId(null);
         submittedTemplate.setParentId(parentTemplate.getId());
+        submittedTemplate.setOwnerId(currentJobSeeker.getId());
         return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));
     }
 

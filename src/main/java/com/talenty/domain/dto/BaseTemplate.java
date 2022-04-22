@@ -13,5 +13,6 @@ public class BaseTemplate {
     private String id;
     private String name;
     private List<Field> fields;
+    private String ownerId;
 
 }

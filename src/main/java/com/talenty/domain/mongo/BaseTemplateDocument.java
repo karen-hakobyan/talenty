@@ -16,5 +16,6 @@ public class BaseTemplateDocument {
     private String id;
     private String name;
     private List<FieldDocument> fields;
+    private String ownerId;
 
 }

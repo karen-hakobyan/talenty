@@ -64,12 +64,14 @@ public class JobAnnouncementService {
                         new SubmittedFieldValueValidationExecutor()
                 );
 
+        final HrDocument currentHr = hrService.getCurrentHr();
         document.setId(null);
         document.setParentId(parentTemplate.getId());
         document.setStatus(JobAnnouncementStatus.PENDING);
+        document.setOwnerId(currentHr.getId());
         final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
 
-        final HrDocument currentHr = hrService.getCurrentHr();
+
         final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
         jobAnnouncementInHr.append("name", saved.getName());
         jobAnnouncementInHr.append("status", saved.getStatus());

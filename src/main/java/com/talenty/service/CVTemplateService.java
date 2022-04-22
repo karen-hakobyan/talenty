@@ -72,10 +72,11 @@ public class CVTemplateService {
                         new DeletedFieldValidationExecutor()
                 );
 
+        final HrDocument currentHr = hrService.getCurrentHr();
         newTemplate.setId(null);
+        newTemplate.setOwnerId(currentHr.getId());
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);
 
-        final HrDocument currentHr = hrService.getCurrentHr();
         currentHr.addCvTemplate(savedNewTemplate.getId(), cvTemplate.getName());
         hrService.save(currentHr);
 
