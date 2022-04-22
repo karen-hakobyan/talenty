@@ -46,11 +46,11 @@ public class JobAnnouncementService {
     }
 
     public JobAnnouncement publish(final JobAnnouncement jobAnnouncement) {
-        final JobAnnouncementDocument document = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
-        final Optional<JobAnnouncementDocument> parentTemplateOptional = findById(document.getId());
+        final JobAnnouncementDocument newAnnouncement = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
+        final Optional<JobAnnouncementDocument> parentTemplateOptional = findById(newAnnouncement.getId());
 
         if (parentTemplateOptional.isEmpty()) {
-            System.out.printf("No such job announcement with id '%s'\n", document.getId());
+            System.out.printf("No such job announcement with id '%s'\n", newAnnouncement.getId());
             throw new NoSuchAnnouncementException();
         }
 
@@ -58,27 +58,27 @@ public class JobAnnouncementService {
 
         Executor.getInstance()
                 .setParentFields(parentTemplate.getFields())
-                .setChildFields(document.getFields())
+                .setChildFields(newAnnouncement.getFields())
                 .executeLogic(
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor()
                 );
 
         final HrDocument currentHr = hrService.getCurrentHr();
-        document.setId(null);
-        document.setParentId(parentTemplate.getId());
-        document.setStatus(JobAnnouncementStatus.PENDING);
-        document.setOwnerId(currentHr.getId());
-        final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
-
+        newAnnouncement.setId(null);
+        newAnnouncement.setParentId(parentTemplate.getId());
+        newAnnouncement.setStatus(JobAnnouncementStatus.PENDING);
+        newAnnouncement.setOwnerId(currentHr.getId());
+        newAnnouncement.setCompanyId(currentHr.getCompanyId());
+        final JobAnnouncementDocument savedNewAnnouncement = jobAnnouncementRepository.save(newAnnouncement);
 
         final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
-        jobAnnouncementInHr.append("name", saved.getName());
-        jobAnnouncementInHr.append("status", saved.getStatus());
-        currentHr.addJobAnnouncement(saved.getId(), jobAnnouncementInHr);
+        jobAnnouncementInHr.append("name", savedNewAnnouncement.getName());
+        jobAnnouncementInHr.append("status", savedNewAnnouncement.getStatus());
+        currentHr.addJobAnnouncement(savedNewAnnouncement.getId(), jobAnnouncementInHr);
         hrService.save(currentHr);
 
-        return JobAnnouncementMapper.instance.documentToDto(saved);
+        return JobAnnouncementMapper.instance.documentToDto(savedNewAnnouncement);
     }
 
     public BasicDBObject getAllJobAnnouncements() {

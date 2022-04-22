@@ -75,6 +75,7 @@ public class CVTemplateService {
         final HrDocument currentHr = hrService.getCurrentHr();
         newTemplate.setId(null);
         newTemplate.setOwnerId(currentHr.getId());
+        newTemplate.setCompanyId(currentHr.getCompanyId());
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);
 
         currentHr.addCvTemplate(savedNewTemplate.getId(), cvTemplate.getName());
