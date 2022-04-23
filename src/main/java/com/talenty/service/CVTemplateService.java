@@ -16,6 +16,7 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -85,17 +86,24 @@ public class CVTemplateService {
     }
 
     public BasicDBObject getAllCvTemplates() {
-        return hrService.getCurrentHr().getCvTemplates();
+        final HrDocument currentHr = hrService.getCurrentHr();
+        final String companyId = currentHr.getCompanyId();
+        final List<CVTemplateDocument> allByCompanyId = cvTemplateRepository.findAllByCompanyId(companyId);
+
+        final BasicDBObject allCvTemplates = new BasicDBObject();
+        allByCompanyId.forEach(e -> {
+            e.setFields(null);
+            allCvTemplates.append(e.getId(), e.getName());
+        });
+
+        return allCvTemplates;
     }
 
     public BasicDBObject deleteCreatedCvTemplateById(final String id) {
-        final HrDocument currentHr = hrService.getCurrentHr();
-        currentHr.deleteCvTemplate(id);
-        hrService.save(currentHr);
-
         //TODO if count ==0 delete from db, else set status "DELETED"
+        cvTemplateRepository.deleteById(id);
 
-        return currentHr.getCvTemplates();
+        return getAllCvTemplates();
     }
 
 }

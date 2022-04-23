@@ -137,6 +137,7 @@ public class JobAnnouncementService {
 
         final BasicDBObject allConfirmedJobs = new BasicDBObject();
         allByCompanyId.forEach(e -> {
+            e.setFields(null);
             allConfirmedJobs.append(e.getId(), e.getName());
         });
 
