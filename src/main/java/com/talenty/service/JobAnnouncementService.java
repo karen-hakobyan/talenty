@@ -2,6 +2,7 @@ package com.talenty.service;
 
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
+import com.talenty.domain.mongo.CurrentJobDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
@@ -130,17 +131,18 @@ public class JobAnnouncementService {
         return jobAnnouncementDocument;
     }
 
-    public BasicDBObject getAllConfirmedJobAnnouncements() {
+    public CurrentJobDocument getAllConfirmedJobAnnouncements() {
         final HrDocument currentHr = hrService.getCurrentHr();
         final String companyId = currentHr.getCompanyId();
         final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, JobAnnouncementStatus.CONFIRMED);
 
-        final BasicDBObject allConfirmedJobs = new BasicDBObject();
+
+
         allByCompanyId.forEach(e -> {
             e.setFields(null);
-            allConfirmedJobs.append(e.getId(), e.getName());
+            currentHr.setJobAnnouncementsInfo(e.getId(), e.getName(),e.getFields().);
         });
 
-        return allConfirmedJobs;
+        return currentHr.getJobAnnouncementsInfo();
     }
 }
