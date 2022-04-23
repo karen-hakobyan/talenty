@@ -23,7 +23,7 @@ export default function Title({generalInfoData, data}) {
                 fontSize: '20px',
                 lineHeight: '22px',
                 fontFamily: "Poppins",
-                fontWeight: 900,
+                fontWeight: 700,
             }}>
                 Deadline: {`${deadlineValue[0]} ${MONTH_VIA_KEY[deadlineValue[1]]} ${deadlineValue[2]}`}
             </Box>
