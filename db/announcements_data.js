@@ -153,7 +153,7 @@ let jobAnnouncement = {
                 metadata: {
                     placeholder: "Deadline",
                     type: "deadline",
-                    maxLength: 8,
+                    maxLength: 10,
                     deletable: false,
                     required: true,
                 },
