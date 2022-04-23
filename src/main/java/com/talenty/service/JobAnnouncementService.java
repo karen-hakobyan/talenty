@@ -76,14 +76,9 @@ public class JobAnnouncementService {
         final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
         jobAnnouncementInHr.append("name", savedNewAnnouncement.getName());
         jobAnnouncementInHr.append("status", savedNewAnnouncement.getStatus());
-        currentHr.addJobAnnouncement(savedNewAnnouncement.getId(), jobAnnouncementInHr);
         hrService.save(currentHr);
 
         return JobAnnouncementMapper.instance.documentToDto(savedNewAnnouncement);
-    }
-
-    public BasicDBObject getAllJobAnnouncements() {
-        return hrService.getCurrentHr().getJobAnnouncements();
     }
 
     public List<JobAnnouncement> findAllPending() {
@@ -137,10 +132,10 @@ public class JobAnnouncementService {
         final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, JobAnnouncementStatus.CONFIRMED);
 
 
-
+        //TODO Add deadline and Country
         allByCompanyId.forEach(e -> {
             e.setFields(null);
-            currentHr.setJobAnnouncementsInfo(e.getId(), e.getName(),e.getFields().);
+            currentHr.setJobAnnouncementsInfo(e.getId(), e.getName(),);
         });
 
         return currentHr.getJobAnnouncementsInfo();
