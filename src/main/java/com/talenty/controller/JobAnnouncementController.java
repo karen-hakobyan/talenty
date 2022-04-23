@@ -1,5 +1,6 @@
 package com.talenty.controller;
 
+import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.service.JobAnnouncementService;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +53,12 @@ public class JobAnnouncementController {
     public ResponseEntity<?> rejectAnnouncement(@RequestParam final String id) {
         final JobAnnouncement jobAnnouncement = jobAnnouncementService.rejectAnnouncement(id);
         return ResponseEntity.ok("declined");
+    }
+
+    @GetMapping("/all_confirmed")
+    public ResponseEntity<?> getAllConfirmed() {
+        final BasicDBObject allConfirmedJobAnnouncements = jobAnnouncementService.getAllConfirmedJobAnnouncements();
+        return ResponseEntity.ok((allConfirmedJobAnnouncements));
     }
 
 }

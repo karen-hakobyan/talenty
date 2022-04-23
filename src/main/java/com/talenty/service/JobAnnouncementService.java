@@ -130,4 +130,16 @@ public class JobAnnouncementService {
         return jobAnnouncementDocument;
     }
 
+    public BasicDBObject getAllConfirmedJobAnnouncements() {
+        final HrDocument currentHr = hrService.getCurrentHr();
+        final String companyId = currentHr.getCompanyId();
+        final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, JobAnnouncementStatus.CONFIRMED);
+
+        final BasicDBObject allConfirmedJobs = new BasicDBObject();
+        allByCompanyId.forEach(e -> {
+            allConfirmedJobs.append(e.getId(), e.getName());
+        });
+
+        return allConfirmedJobs;
+    }
 }
