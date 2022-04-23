@@ -45,7 +45,7 @@ export default function Body({
 
             <SharedTemplateHeader title={dialogData.name}/>
             <Box sx={{display: "grid", gridTemplateColumns: "auto", gap: "24px", pt: '44px'}}>
-                {dialogData.fields.filter(el => el.metadata.status !== "DELETED").map((field) => {
+                {dialogData.fields.filter(el => el && el?.metadata.status !== "DELETED").map((field) => {
                     // article section and book section new logic hr
                     if (field.name === 'Article section' || field.name === 'Book section') {
                         return <SectionContainer data={field.fields[0]} templateData={templateData}
