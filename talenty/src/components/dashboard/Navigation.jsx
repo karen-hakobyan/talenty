@@ -85,7 +85,7 @@ export default function Navigation({maxWidth, minWidth}) {
             />
             <Box sx={NAV_GENERATOR_CONTAINER}>
                 {navItemGeneratorState.map(
-                    ({IconComponent, key, text, open, action, children}) => {
+                    ({IconComponent, key, text, open, action, children},navIndex) => {
                         return (
                             <Box
                                 {...{key}}
@@ -117,12 +117,19 @@ export default function Navigation({maxWidth, minWidth}) {
                                                 return (
                                                     <Box sx={CHILD_ICON_TEXT_CONTAINER} {...{key}} >
                                                         {IconComponent && <IconComponent/>}
-                                                        <Box sx={{...CHILD_TEXT,  cursor: 'pointer'}}{...(action ? {
+                                                        <Box sx={{
+                                                            ...CHILD_TEXT,  
+                                                            cursor: 'pointer', 
+                                                            width:index!==0? "72px":null,
+                                                            overflow:"hidden",
+                                                            textOverflow:"ellipsis"
+
+                                                        }}{...(action ? {
                                                          onClick: () => {
                                                             action(navigate)
                                                          }
                                                         } : {})}>{text}</Box>
-                                                        {index!==0?<Box sx={{
+                                                        {navIndex===navItemGeneratorState.length-1 && index!==0?<Box sx={{
                                                             ml:"15px",
                                                             cursor: "pointer"
                                                         }}

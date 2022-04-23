@@ -10,11 +10,10 @@ export default function Skill({data}) {
             let list = el.metadata.submitted_value.split("&&")
             return <Box sx={{display: 'flex', flexDirection: 'column', gap: '27px', mt: '32px'}} key={el.id}>
                 <Box sx={{
-                    fontSize: '8px',
-                    lineHeight: '12px',
-                    color: '#4C494F',
                     fontFamily: "Poppins",
-                    fontWeight: 500
+                    fontSize: '16px',
+                    lineHeight: '18px',
+                    fontWeight: 900,
                 }}>
                     {el.name}
                 </Box>
