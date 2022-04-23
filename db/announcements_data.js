@@ -120,7 +120,7 @@ let jobAnnouncement = {
                         name: "From",
                         metadata: {
                             placeholder: "From",
-                            type: "date",
+                            type: "salary",
                             deletable: false,
                             required: false,
                         },
@@ -130,7 +130,7 @@ let jobAnnouncement = {
                         name: "To",
                         metadata: {
                             placeholder: "To",
-                            type: "date",
+                            type: "salary",
                             deletable: false,
                             required: false,
                         },
