@@ -1,13 +1,13 @@
-import {selectTemplateData} from "../../../store/globalData/selector";
-import {Box, Button, Dialog} from '@mui/material'
+import {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {Box, Button, Dialog} from '@mui/material'
+import {selectTemplateData} from "../../../store/globalData/selector";
 import GeneralInfoAnnouncement from "./GeneralInfo";
 import VacancyDetails from "./VacancyDetails";
 import Skill from "./Skills";
 import {TEMPLATE_ITEM_BUTTON} from "../../../shared/styles";
 import {setDialogInitialState} from "../../../store/dialogs/slice";
 import {isRequiredFieldsFilled} from "../../../helpers/dialog";
-import {useCallback} from "react";
 import {getJobAnnouncement, publishJobAnnouncement} from "../../../store/globalData/getTemplateActions";
 import {setIsPublished} from "../../../store/globalData/slice";
 import {cleanTemplateNewIds} from "../../../helpers/actions";
@@ -36,6 +36,16 @@ export default function AnnouncementPreview() {
         }
         dispatch(setIsPublished({}))
     }, [dispatch, isPublished])
+
+    useEffect(() => {
+        if (!data) {
+            dispatch(setDialogInitialState())
+        }
+    }, [data])
+
+    if (!data) {
+        return null
+    }
     return <Box sx={{width: '1142px', padding: '36px 24px', display: 'flex', flexDirection: 'column', gap: '68px'}}>
         <Box>
             {
@@ -100,7 +110,11 @@ export default function AnnouncementPreview() {
                 disabled={!isRequiredFieldsFilled(data)}
                 onClick={() => {
                     let payload = cleanTemplateNewIds(data)
-                    dispatch(publishJobAnnouncement(payload))
+                    dispatch(publishJobAnnouncement({
+                        ...payload,
+                        name: payload.fields[0].fields[0].metadata.submitted_value,
+                        attachedCvTemplateId: data.attachedCvTemplateId
+                    }))
                 }}
             >
                 Publish

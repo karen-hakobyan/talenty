@@ -43,7 +43,19 @@ public class ValidationChecker {
 
         if (parentMetadata.containsKey("values")) {
             final ArrayList<String> values = (ArrayList<String>) parentMetadata.get("values");
-            if (values.contains(submittedValue)) return true;
+            if (submittedValue.contains("&&")) {
+                final String[] submittedValues = submittedValue.split("&&");
+                boolean allInList = true;
+                for (final String value : submittedValues) {
+                    if (!values.contains(value)) {
+                        allInList = false;
+                        break;
+                    }
+                }
+                if (allInList) return true;
+            } else if (values.contains(submittedValue)) {
+                return true;
+            }
         }
 
         switch (type) {
@@ -125,7 +137,6 @@ public class ValidationChecker {
             }
 
             case "city":
-            case "title":
             case "special_name": {
                 assertLengthIsValid(submittedField, parentField);
                 assertNameIsValid(submittedValue);
@@ -151,6 +162,11 @@ public class ValidationChecker {
             case "current_date":
             case "driving_license": {
                 assertSingleChoiceFieldIsValid(submittedValue);
+                break;
+            }
+
+            case "title": {
+                System.out.printf("There is no need of validation for type %s\n", type);
                 break;
             }
 

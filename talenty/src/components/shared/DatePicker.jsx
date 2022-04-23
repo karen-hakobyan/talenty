@@ -35,14 +35,18 @@ export default function BasicDatePicker({
                         sx={{
                             width: '500px',
                             fontFamily: "'Poppins', sans-serif",
-                            ...fieldStyle
+                            ...fieldStyle,
+                            "& input.Mui-disabled": {
+                                textFillColor: "rgba(0, 0, 0, 0.87)"
+                            }
                         }}
                         inputProps={{
                             ...params.inputProps, placeholder, sx: {
                                 fontFamily: "'Poppins', sans-serif",
                                 fontSize: "16px",
                                 lineHeight: "24px"
-                            }
+                            },
+                            disabled: true,
                         }}
                     />
                 }}

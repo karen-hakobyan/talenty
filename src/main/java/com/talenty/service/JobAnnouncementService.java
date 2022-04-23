@@ -1,11 +1,12 @@
 package com.talenty.service;
 
+import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
+import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
-import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
@@ -23,10 +24,15 @@ public class JobAnnouncementService {
 
     private final JobAnnouncementRepository jobAnnouncementRepository;
     private final ApplicationContext applicationContext;
+    private final HrService hrService;
 
-    public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository, final ApplicationContext applicationContext) {
+
+    public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository,
+                                  final ApplicationContext applicationContext,
+                                  final HrService hrService) {
         this.jobAnnouncementRepository = jobAnnouncementRepository;
         this.applicationContext = applicationContext;
+        this.hrService = hrService;
     }
 
     public JobAnnouncement getSystemJobAnnouncement() {
@@ -62,7 +68,19 @@ public class JobAnnouncementService {
         document.setParentId(parentTemplate.getId());
         document.setStatus(JobAnnouncementStatus.PENDING);
         final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
+
+        final HrDocument currentHr = hrService.getCurrentHr();
+        final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
+        jobAnnouncementInHr.append("name", saved.getName());
+        jobAnnouncementInHr.append("status", saved.getStatus());
+        currentHr.addJobAnnouncement(saved.getId(), jobAnnouncementInHr);
+        hrService.save(currentHr);
+
         return JobAnnouncementMapper.instance.documentToDto(saved);
+    }
+
+    public BasicDBObject getAllJobAnnouncements() {
+        return hrService.getCurrentHr().getJobAnnouncements();
     }
 
     public List<JobAnnouncement> findAllPending() {
