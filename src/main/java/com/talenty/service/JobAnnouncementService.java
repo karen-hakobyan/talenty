@@ -3,12 +3,14 @@ package com.talenty.service;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
-import com.talenty.domain.mongo.CurrentJobDocument;
+import com.talenty.domain.dto.JobAnnouncementBasicInfo;
+import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
+import com.talenty.logical_executors.MakeBasicJobAnnouncementInformationExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -133,19 +136,37 @@ public class JobAnnouncementService {
         return jobAnnouncementDocument;
     }
 
-    public CurrentJobDocument getAllConfirmedJobAnnouncements() {
+    public List<JobAnnouncementBasicInfo> getAllConfirmedJobAnnouncements() {
         final HrDocument currentHr = hrService.getCurrentHr();
         final String companyId = currentHr.getCompanyId();
         final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, JobAnnouncementStatus.CONFIRMED);
+        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
 
+        //TODO temporary solution getting info from sections
+        for (final JobAnnouncementDocument jobAnnouncementDocument : allByCompanyId) {
+            final JobAnnouncementBasicInfo temp = makeBasicInfo(jobAnnouncementDocument);
+            result.add(temp);
+        }
 
-        //TODO Add deadline and Country
-//        allByCompanyId.forEach(e -> {
-//            e.setFields(null);
-//            currentHr.setJobAnnouncementsInfo(e.getId(), e.getName(),);
-//        });
+        return result;
+    }
 
-//        return currentHr.getJobAnnouncementsInfo();
-        return null;
+    private JobAnnouncementBasicInfo makeBasicInfo(final JobAnnouncementDocument jobAnnouncementDocument) {
+        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+        if (jobAnnouncementOptional.isEmpty()) {
+            System.out.printf("Couldn't find parent announcement with id '%s'\n", jobAnnouncementDocument.getParentId());
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
+        final JobAnnouncementBasicInfo dto = new JobAnnouncementBasicInfo();
+        dto.setId(jobAnnouncementDocument.getId());
+        dto.setName(jobAnnouncement.getName());
+        Executor.getInstance()
+                .setChildFields(jobAnnouncementDocument.getFields().get(0).getFields())
+                .setParentFields(jobAnnouncement.getFields().get(0).getFields())
+                .executeLogic(
+                        new MakeBasicJobAnnouncementInformationExecutor(dto)
+                );
+        return dto;
     }
 }

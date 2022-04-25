@@ -1,4 +1,4 @@
-package com.talenty.domain.mongo;
+package com.talenty.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,12 +8,11 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class CurrentJobDocument {
+public class JobAnnouncementBasicInfo {
 
-    @Id
     private String id;
     private String name;
-    private Date deadline;
+    private String deadline;
     private String country;
 
 }

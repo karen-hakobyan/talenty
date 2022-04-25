@@ -1,8 +1,7 @@
 package com.talenty.controller;
 
-import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
-import com.talenty.domain.mongo.CurrentJobDocument;
+import com.talenty.domain.dto.JobAnnouncementBasicInfo;
 import com.talenty.service.JobAnnouncementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,7 +57,7 @@ public class JobAnnouncementController {
 
     @GetMapping("/all_confirmed")
     public ResponseEntity<?> getAllConfirmed() {
-        final CurrentJobDocument allConfirmedJobAnnouncements = jobAnnouncementService.getAllConfirmedJobAnnouncements();
+        final List<JobAnnouncementBasicInfo> allConfirmedJobAnnouncements = jobAnnouncementService.getAllConfirmedJobAnnouncements();
         return ResponseEntity.ok((allConfirmedJobAnnouncements));
     }
 
