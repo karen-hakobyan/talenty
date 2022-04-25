@@ -21,7 +21,7 @@ export default function Title({data}) {
         return dialogData.fields.find(el => el.name === 'Deadline')
     }, [dialogData])
     useEffect(()=>{
-            setErr(validate({name:data.name,value,maxLength:data.metadata.maxLength}))
+            setErr(validate({name:data.name,value,maxLength:data.metadata.maxLength,uppercase:true}))
     },[value,data.metadata.type,data.metadata.maxLength,data.name])
     return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection

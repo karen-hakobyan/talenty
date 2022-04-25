@@ -35,6 +35,7 @@ export default function BasicDatePicker({
                         sx={{
                             width: '500px',
                             fontFamily: "'Poppins', sans-serif",
+                            fontWeight: 600,
                             ...fieldStyle,
                             "& input.Mui-disabled": {
                                 textFillColor: "rgba(0, 0, 0, 0.87)"

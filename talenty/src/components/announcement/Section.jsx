@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {Box, Radio} from "@mui/material";
 import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
@@ -7,12 +7,36 @@ import {changeDialogDataById} from "../../store/dialogs/slice";
 import TextField from "../../shared/components/Textfield";
 import Select from "../../shared/components/Select";
 import {isValidRationalNumber} from "../../helpers/actions";
+import { validationNumber } from "./helper";
 
 export default function Section({data}) {
     const dispatch = useDispatch()
     const [type, from, to, currency] = data.fields
     const [fromValue, setFromValue] = useState(from.metadata.submitted_value || '')
     const [toValue, setToValue] = useState(to.metadata.submitted_value || '')
+    const [toErr, setToErr] = useState({
+        positon: "",
+        error:false,
+        massage: "" 
+    })
+    const [fromErr, setFromErr] = useState({
+        positon: "",
+        error:false,
+        massage: "" 
+    })
+    useEffect(()=>{
+        if(fromValue){
+            setFromErr(validationNumber({from:fromValue,to:toValue,maxLength:10,isValidetion:"from"}))
+        }
+    },[fromValue,toValue])
+    useEffect(()=>{
+        if(toValue){
+            setToErr(validationNumber({from:fromValue,to:toValue,maxLength:10,isValidetion:"to"}))
+        }
+    },[fromValue,toValue])
+    console.log(toErr,"to");
+    console.log(fromErr,"from");
+    console.log(typeof toValue);
 
     return <JobSeekerSubsection
         label={data.name}
@@ -55,6 +79,8 @@ export default function Section({data}) {
                             sx={{width: '226px'}}
                             placeholder={from.metadata.placeholder}
                             value={fromValue}
+                            error={fromErr?.error}
+                            helperText={to.positon==='fromAndTo'?toErr.massage:fromErr.massage}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {
@@ -75,6 +101,8 @@ export default function Section({data}) {
                             sx={{width: '226px'}}
                             value={toValue}
                             placeholder={to.metadata.placeholder}
+                            error={toErr?.error}
+                            helperText={toErr.massage}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {

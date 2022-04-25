@@ -14,14 +14,15 @@ export default function City({data}) {
     })
     const dispatch = useDispatch()
     useEffect(()=>{
-        setErr(validate({value,type:data.metadata.type,maxLength:data.metadata.maxLength}))
-    },[value,data.metadata.type,data.metadata.maxLength])
+             setErr(validate({name:data.name,value,maxLength:data.metadata.maxLength,uppercase:true}))
+    	},[value,data.metadata.type,data.metadata.maxLength,data.name])
     return <JobSeekerSubsection
         label={data.name}
         Component={
             <TextField
                 sx={{width: '100%'}}
-
+                error={err?.error}
+                helperText={err.massage}
                 value={value}
                 onChange={
                     (event) => {
