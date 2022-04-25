@@ -1,5 +1,6 @@
 package com.talenty.domain.mongo;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,6 +32,6 @@ public class HrDocument extends UserDocument {
     }
 
     @Field("job_announcements")
-    private CurrentJobDocument jobAnnouncementsInfo = new CurrentJobDocument();
+    private BasicDBList jobAnnouncements = new BasicDBList();
 
 }

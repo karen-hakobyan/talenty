@@ -1,5 +1,6 @@
 package com.talenty.service;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.mongo.CurrentJobDocument;
@@ -74,8 +75,12 @@ public class JobAnnouncementService {
         final JobAnnouncementDocument savedNewAnnouncement = jobAnnouncementRepository.save(newAnnouncement);
 
         final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
+        jobAnnouncementInHr.append("id", savedNewAnnouncement.getId());
         jobAnnouncementInHr.append("name", savedNewAnnouncement.getName());
         jobAnnouncementInHr.append("status", savedNewAnnouncement.getStatus());
+        BasicDBList jobAnnouncementList = currentHr.getJobAnnouncements();
+        if (jobAnnouncementList == null) jobAnnouncementList = new BasicDBList();
+        jobAnnouncementList.add(jobAnnouncementInHr);
         hrService.save(currentHr);
 
         return JobAnnouncementMapper.instance.documentToDto(savedNewAnnouncement);
@@ -107,11 +112,13 @@ public class JobAnnouncementService {
 
     public JobAnnouncement approveAnnouncement(final String id) {
         final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.CONFIRMED);
+        hrService.updateAnnouncementStatus(document);
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
     }
 
     public JobAnnouncement rejectAnnouncement(final String id) {
         final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.REJECTED);
+        hrService.updateAnnouncementStatus(document);
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
     }
 
@@ -133,11 +140,12 @@ public class JobAnnouncementService {
 
 
         //TODO Add deadline and Country
-        allByCompanyId.forEach(e -> {
-            e.setFields(null);
-            currentHr.setJobAnnouncementsInfo(e.getId(), e.getName(),);
-        });
+//        allByCompanyId.forEach(e -> {
+//            e.setFields(null);
+//            currentHr.setJobAnnouncementsInfo(e.getId(), e.getName(),);
+//        });
 
-        return currentHr.getJobAnnouncementsInfo();
+//        return currentHr.getJobAnnouncementsInfo();
+        return null;
     }
 }
