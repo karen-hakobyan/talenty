@@ -7,7 +7,8 @@ export function onDelete({dispatch, dialogData, id, isPublication}) {
         if (value?.fields && value?.fields.some(isIncludedField(id))) {
             return {
                 ...value,
-                fields: id.startsWith('0') || isPublication ? value.fields.filter(el => el.id !== id) : value.fields.map(el => el.id === id ? {
+                // because of that that in our fields after deletion will add some non logic nulls who should additional handle it
+                fields: id.startsWith('0') || isPublication ? value.fields.filter(el => el.id !== id) : value.fields.map(el => el && el.id === id ? {
                     ...el,
                     metadata: {
                         ...el.metadata,

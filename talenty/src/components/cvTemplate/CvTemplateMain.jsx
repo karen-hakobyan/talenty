@@ -210,8 +210,12 @@ function CvTemplateMain() {
                 <IconButton
                     sx={TEMPLATE_BUTTON_CREATE}
                     onClick={async () => {
-                        if (isValidTemplateName(templateList, title, notValidTemplateName)) {
-                            await dispatch(createCvHR(data))
+                        if (isValidTemplateName(templateList, title, notValidTemplateName, data.id)) {
+                            if (isEditing) {
+                                console.log('pending')
+                            } else {
+                                await dispatch(createCvHR(data))
+                            }
                         } else {
                             setIsValidTemplateNameDialogOpen(true)
                         }

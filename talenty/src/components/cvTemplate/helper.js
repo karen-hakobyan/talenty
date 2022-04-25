@@ -1,12 +1,12 @@
 export const notValidTemplateName = ["systemtemplate", "templatesystem"]
-export const isValidTemplateName = (arr, name, notValidTemplateNames) => {
+export const isValidTemplateName = (arr, name, notValidTemplateNames, templateId) => {
     let validInfo = true;
     let result = name.replaceAll(' ', '').toLocaleLowerCase()
     if (notValidTemplateNames.includes(result) || name === "") {
         return false
     }
-    arr.forEach(([, el]) => {
-        if (el === name) {
+    arr.forEach(([id, el]) => {
+        if (el === name && id !== templateId) {
             validInfo = false
         }
     })
