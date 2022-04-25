@@ -2,6 +2,7 @@ package com.talenty.controller;
 
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.dto.JobAnnouncementBasicInfo;
+import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.service.JobAnnouncementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,7 +40,13 @@ public class JobAnnouncementController {
 
     @GetMapping("/all_pending")
     public ResponseEntity<?> getAllPending() {
-        final List<JobAnnouncement> allPending = jobAnnouncementService.findAllPending();
+        final List<JobAnnouncementBasicInfo> allPending = jobAnnouncementService.getAllJobAnnouncementsByStatus(JobAnnouncementStatus.PENDING);
+        return ResponseEntity.ok(allPending);
+    }
+
+    @GetMapping("/all_pendings")
+    public ResponseEntity<?> getAllPendings() {
+        final List<JobAnnouncementBasicInfo> allPending = jobAnnouncementService.findAllPendings();
         return ResponseEntity.ok(allPending);
     }
 
@@ -57,7 +64,7 @@ public class JobAnnouncementController {
 
     @GetMapping("/all_confirmed")
     public ResponseEntity<?> getAllConfirmed() {
-        final List<JobAnnouncementBasicInfo> allConfirmedJobAnnouncements = jobAnnouncementService.getAllConfirmedJobAnnouncements();
+        final List<JobAnnouncementBasicInfo> allConfirmedJobAnnouncements = jobAnnouncementService.getAllJobAnnouncementsByStatus(JobAnnouncementStatus.CONFIRMED);
         return ResponseEntity.ok((allConfirmedJobAnnouncements));
     }
 

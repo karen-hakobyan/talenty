@@ -4,7 +4,6 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.dto.JobAnnouncementBasicInfo;
-import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
@@ -19,10 +18,7 @@ import com.talenty.repository.JobAnnouncementRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobAnnouncementService {
@@ -75,6 +71,11 @@ public class JobAnnouncementService {
         newAnnouncement.setStatus(JobAnnouncementStatus.PENDING);
         newAnnouncement.setOwnerId(currentHr.getId());
         newAnnouncement.setCompanyId(currentHr.getCompanyId());
+        final Map<String, Object> parentMetadata = parentTemplate.getMetadata();
+        final HashMap<String, Object> newMetadata = new HashMap<>();
+        if (parentMetadata != null && !parentMetadata.isEmpty()) newMetadata.putAll(parentMetadata);
+        newMetadata.put("editable", false);
+        newAnnouncement.setMetadata(newMetadata);
         final JobAnnouncementDocument savedNewAnnouncement = jobAnnouncementRepository.save(newAnnouncement);
 
         final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
@@ -89,12 +90,21 @@ public class JobAnnouncementService {
         return JobAnnouncementMapper.instance.documentToDto(savedNewAnnouncement);
     }
 
-    public List<JobAnnouncement> findAllPending() {
-        final List<JobAnnouncement> result = new ArrayList<>();
+//    public List<JobAnnouncementBasicInfo> findAllPendings() {
+//        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
+//        final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.PENDING);
+//        allByStatus.forEach(e -> result.add(makeBasicInfo(e)));
+//        return result;
+//    }
+
+    public List<JobAnnouncementBasicInfo> findAllPendings() {
+        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
         final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.PENDING);
         allByStatus.forEach(e -> {
-            e.setFields(null);
-            result.add(JobAnnouncementMapper.instance.documentToDto(e));
+            final JobAnnouncementBasicInfo temp = new JobAnnouncementBasicInfo();
+            temp.setName(e.getName());
+            temp.setId(e.getId());
+            result.add(temp);
         });
         return result;
     }
@@ -115,6 +125,11 @@ public class JobAnnouncementService {
 
     public JobAnnouncement approveAnnouncement(final String id) {
         final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.CONFIRMED);
+        final Map<String, Object> metadata = document.getMetadata();
+        final Map<String, Object> newMetadata = new HashMap<>();
+        if (metadata != null && !metadata.isEmpty()) newMetadata.putAll(metadata);
+        newMetadata.put("editable", true);
+        document.setMetadata(newMetadata);
         hrService.updateAnnouncementStatus(document);
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
     }
@@ -136,10 +151,10 @@ public class JobAnnouncementService {
         return jobAnnouncementDocument;
     }
 
-    public List<JobAnnouncementBasicInfo> getAllConfirmedJobAnnouncements() {
+    public List<JobAnnouncementBasicInfo> getAllJobAnnouncementsByStatus(final JobAnnouncementStatus status) {
         final HrDocument currentHr = hrService.getCurrentHr();
         final String companyId = currentHr.getCompanyId();
-        final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, JobAnnouncementStatus.CONFIRMED);
+        final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, status);
         final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
 
         //TODO temporary solution getting info from sections
@@ -147,7 +162,6 @@ public class JobAnnouncementService {
             final JobAnnouncementBasicInfo temp = makeBasicInfo(jobAnnouncementDocument);
             result.add(temp);
         }
-
         return result;
     }
 
@@ -160,7 +174,7 @@ public class JobAnnouncementService {
         final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
         final JobAnnouncementBasicInfo dto = new JobAnnouncementBasicInfo();
         dto.setId(jobAnnouncementDocument.getId());
-        dto.setName(jobAnnouncement.getName());
+        dto.setName(jobAnnouncementDocument.getName());
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields().get(0).getFields())
                 .setParentFields(jobAnnouncement.getFields().get(0).getFields())
