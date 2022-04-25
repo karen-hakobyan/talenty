@@ -10,5 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CVTemplateDocument extends BaseTemplateDocument {
 
     private String companyId;
+    private Boolean system;
 
 }
