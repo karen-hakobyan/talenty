@@ -116,7 +116,7 @@ public class CVTemplateService {
         }
 
         final CVTemplateDocument cvTemplateDocument = byId.get();
-//        if (cvTemplateDocument.getSystem()) return;
+        if (cvTemplateDocument.getSystem()) return;
 
         final Map<String, Object> metadata = cvTemplateDocument.getMetadata();
         final Map<String, Object> newMetadata = new HashMap<>();
