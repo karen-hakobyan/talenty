@@ -1,12 +1,12 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getDeleteHrCvId, instance } from "../../constants/requests";
-import { getJwt } from "../../components/dashboard/helper";
-import { getUrls } from "../../request/get";
-import { cleanHrTemplateNewIds, cleanTemplateNewIds } from "../../helpers/actions";
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import {getDeleteHrCvId, instance} from "../../constants/requests";
+import {getJwt} from "../../components/dashboard/helper";
+import {getUrls} from "../../request/get";
+import {cleanHrTemplateNewIds, cleanTemplateNewIds} from "../../helpers/actions";
 
-export const getTemplateActions = createAsyncThunk('globalData/getTemplateActions', async(_, thunkAPI) => {
+export const getTemplateActions = createAsyncThunk('globalData/getTemplateActions', async (_, thunkAPI) => {
     try {
-        instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
         const response = await instance.get(getUrls['getTemplates'])
         return response.data
     } catch {
@@ -16,9 +16,9 @@ export const getTemplateActions = createAsyncThunk('globalData/getTemplateAction
 
 export const getTemplateLists = createAsyncThunk(
     'globalData/getTemplateLists',
-    async(_, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.templateList)
             return Object.entries(response.data)
         } catch (err) {
@@ -29,10 +29,10 @@ export const getTemplateLists = createAsyncThunk(
 
 export const getTemplateById = createAsyncThunk(
     'globalData/getTemplateById',
-    async(id, thunkAPI) => {
+    async (id, thunkAPI) => {
         try {
             console.log('hasav by id')
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.templateById(id))
             return response.data
         } catch (err) {
@@ -42,9 +42,9 @@ export const getTemplateById = createAsyncThunk(
 )
 export const getEditedUserCv = createAsyncThunk(
     'globalData/getEditedUserCv',
-    async(id) => {
+    async (id) => {
         try {
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.get(getUrls.userEditedCV(id))
             console.log(response.data)
             return response.data
@@ -55,9 +55,9 @@ export const getEditedUserCv = createAsyncThunk(
 )
 export const saveJobSeekerCV = createAsyncThunk(
     'globalData/saveJobSeekerCV',
-    async(templateData, thunkAPI) => {
+    async (templateData, thunkAPI) => {
         try {
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             let data = cleanTemplateNewIds(templateData)
             const response = await instance.post('/cv_template/save_submitted', data)
             return response.data
@@ -68,9 +68,9 @@ export const saveJobSeekerCV = createAsyncThunk(
 )
 export const editJobSeekerCv = createAsyncThunk(
     'globalData/editJobSeekerCv',
-    async(templateData, thunkAPI) => {
+    async (templateData, thunkAPI) => {
         try {
-            instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+            instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
             const response = await instance.post('/cv_template/edit', {
                 ...templateData.data,
                 parentId: templateData.parentId
@@ -83,9 +83,9 @@ export const editJobSeekerCv = createAsyncThunk(
     },
 )
 
-export const createCvHR = createAsyncThunk('globalData/createHRCV', async(templateData, thunkAPI) => {
+export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templateData, thunkAPI) => {
     try {
-        instance.defaults.headers = { Authorization: `Bearer ${getJwt()}` }
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
         const response = await instance.post('cv_template/create_new', cleanHrTemplateNewIds(templateData))
         return Object.entries(response.data)
     } catch (err) {
@@ -94,9 +94,20 @@ export const createCvHR = createAsyncThunk('globalData/createHRCV', async(templa
     }
 })
 
+export const editCvHr = createAsyncThunk('globalData/editCvHr', async (templateData, thunkAPI) => {
+    try {
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+        const response = await instance.post('cv_template/edit_cv', cleanHrTemplateNewIds(templateData))
+        console.log('ok cv edit hr')
+    } catch (err) {
+        console.log('error during edit cv HR')
+    }
+})
+
+
 export const getJobAnnouncement = createAsyncThunk(
     'globalData/getJobAnnouncement',
-    async(_, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const response = await instance.get('/job_announcements/system')
             return response.data
@@ -109,7 +120,7 @@ export const getJobAnnouncement = createAsyncThunk(
     })
 export const deleteHrCv = createAsyncThunk(
     'globalData/deleteHrCv',
-    async(id, thunkAPI) => {
+    async (id, thunkAPI) => {
         try {
             const response = await instance.get(getDeleteHrCvId(id))
             return Object.entries(response.data)
@@ -120,7 +131,7 @@ export const deleteHrCv = createAsyncThunk(
 
     })
 
-export const publishJobAnnouncement = createAsyncThunk('globalData/publishJobAnnouncement', async(data, thunkAPI) => {
+export const publishJobAnnouncement = createAsyncThunk('globalData/publishJobAnnouncement', async (data, thunkAPI) => {
     try {
         const response = await instance.post('/job_announcements/publish', data)
         return response.data

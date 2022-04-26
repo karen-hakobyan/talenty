@@ -1,6 +1,6 @@
 import SubSection from "../../../shared/subSection";
 import SUBSECTION_TYPES from "./helper.js";
-import {memo} from "react";
+import {memo, useEffect} from "react";
 import {Checkbox} from "../../../shared/Checkbox";
 import {deleteOtherAction, editCheckboxState, editOtherCheckbox, onDelete} from "../../../../helpers/dialog";
 import {Box, IconButton} from "@mui/material";
@@ -12,6 +12,12 @@ export default function SectionGenerator({
                                              dispatch,
                                              dialogData,
                                          }) {
+
+    useEffect(() => {
+        if (data.name === 'Other' && data.fields.every(el => el.metadata.status === 'DELETED')) {
+            deleteOtherAction({dispatch, dialogData, id: data.id})
+        }
+    }, [data, dispatch])
     // photo military id driving license
     if (data.name === 'Other') {
         if (data.fields.filter(el => el).some((el) => el.metadata.status !== 'DELETED')) {

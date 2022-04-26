@@ -7,160 +7,159 @@ let jobAnnouncement = {
     // status: "CONFIRMED",
     status: "PENDING",
     attachedCvTemplateId: null,
-    fields: [
-        {
+    fields: [{
+        _id: ObjectId(),
+        name: "General Information",
+        metadata: {
+            type: "section",
+            deletable: false,
+            editable: true,
+            display: "fold",
+        },
+        fields: [{
             _id: ObjectId(),
-            name: "General Information",
+            name: "Title",
             metadata: {
-                type: "section",
+                type: "title",
+                placeholder: "Title",
+                maxLength: 100,
                 deletable: false,
-                editable: true,
-                display: "fold",
+                required: true,
             },
-            fields: [{
+        },
+            {
                 _id: ObjectId(),
-                name: "Title",
+                name: "Collection",
                 metadata: {
-                    type: "title",
-                    placeholder: "Title",
-                    maxLength: 100,
+                    type: "grid_section",
+                    editable: false,
+                    deletable: true,
+                },
+                fields: [{
+                    _id: ObjectId(),
+                    name: "Employment terms",
+                    metadata: {
+                        placeholder: "Employment terms",
+                        type: "employment_terms",
+                        deletable: false,
+                        required: false,
+                    },
+                },
+                    {
+                        _id: ObjectId(),
+                        name: "Job type",
+                        metadata: {
+                            placeholder: "Job type",
+                            type: "job_type",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                    {
+                        _id: ObjectId(),
+                        name: "Job Category",
+                        metadata: {
+                            placeholder: "Job Category",
+                            type: "job_category",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                    {
+                        _id: ObjectId(),
+                        name: "Candidate level",
+                        metadata: {
+                            placeholder: "Candidate level",
+                            type: "candidate_level",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                    {
+                        _id: ObjectId(),
+                        name: "Country",
+                        metadata: {
+                            placeholder: "Country",
+                            type: "country",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                    {
+                        _id: ObjectId(),
+                        name: "City",
+                        metadata: {
+                            placeholder: "City",
+                            type: "city",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                ],
+            },
+            {
+                _id: ObjectId(),
+                name: "Salary",
+                metadata: {
+                    type: "section",
+                    deletable: false,
+                    required: false,
+                },
+                fields: [{
+                    _id: ObjectId(),
+                    name: "Type",
+                    metadata: {
+                        type: "salary_type",
+                        deletable: false,
+                        required: false,
+                        values: ["Net", "Gross"],
+                    },
+                },
+                    {
+                        _id: ObjectId(),
+                        name: "From",
+                        metadata: {
+                            placeholder: "From",
+                            type: "salary",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                    {
+                        _id: ObjectId(),
+                        name: "To",
+                        metadata: {
+                            placeholder: "To",
+                            type: "salary",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                    {
+                        _id: ObjectId(),
+                        name: "Currency",
+                        metadata: {
+                            type: "currency",
+                            placeholder: "USD",
+                            deletable: false,
+                            required: false,
+                        },
+                    },
+                ],
+            },
+            {
+                _id: ObjectId(),
+                name: "Deadline",
+                metadata: {
+                    placeholder: "Deadline",
+                    type: "deadline",
+                    maxLength: 10,
                     deletable: false,
                     required: true,
                 },
             },
-                {
-                    _id: ObjectId(),
-                    name: "Collection",
-                    metadata: {
-                        type: "grid_section",
-                        editable: false,
-                        deletable: true,
-                    },
-                    fields: [{
-                        _id: ObjectId(),
-                        name: "Employment terms",
-                        metadata: {
-                            placeholder: "Employment terms",
-                            type: "employment_terms",
-                            deletable: false,
-                            required: false,
-                        },
-                    },
-                        {
-                            _id: ObjectId(),
-                            name: "Job type",
-                            metadata: {
-                                placeholder: "Job type",
-                                type: "job_type",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Job Category",
-                            metadata: {
-                                placeholder: "Job Category",
-                                type: "job_category",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Candidate level",
-                            metadata: {
-                                placeholder: "Candidate level",
-                                type: "candidate_level",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Country",
-                            metadata: {
-                                placeholder: "Country",
-                                type: "country",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "City",
-                            metadata: {
-                                placeholder: "City",
-                                type: "city",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                    ],
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Salary",
-                    metadata: {
-                        type: "section",
-                        deletable: false,
-                        required: false,
-                    },
-                    fields: [{
-                        _id: ObjectId(),
-                        name: "Type",
-                        metadata: {
-                            type: "salary_type",
-                            deletable: false,
-                            required: false,
-                            values: ["Net", "Gross"],
-                        },
-                    },
-                        {
-                            _id: ObjectId(),
-                            name: "From",
-                            metadata: {
-                                placeholder: "From",
-                                type: "salary",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "To",
-                            metadata: {
-                                placeholder: "To",
-                                type: "salary",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                        {
-                            _id: ObjectId(),
-                            name: "Currency",
-                            metadata: {
-                                type: "currency",
-                                placeholder: "USD",
-                                deletable: false,
-                                required: false,
-                            },
-                        },
-                    ],
-                },
-                {
-                    _id: ObjectId(),
-                    name: "Deadline",
-                    metadata: {
-                        placeholder: "Deadline",
-                        type: "deadline",
-                        maxLength: 8,
-                        deletable: false,
-                        required: true,
-                    },
-                },
-            ],
-        },
+        ],
+    },
         {
             _id: ObjectId(),
             name: "Vacancy details",
@@ -237,9 +236,6 @@ let jobAnnouncement = {
             ],
         },
     ],
-    metadata: {
-        editable: true
-    },
 };
 
 db.job_announcements.insert(jobAnnouncement);

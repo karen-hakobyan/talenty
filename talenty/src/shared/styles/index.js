@@ -61,6 +61,7 @@ const TEMPLATE_BUTTON_ADD = {
     borderRadius: "6px",
     border: "1px solid #ECECEC",
     cursor: "pointer",
+    padding: "0 8px"
 };
 const TEMPLATE_BUTTON_CREATE = {
     ...TEMPLATE_BUTTON_ADD,
