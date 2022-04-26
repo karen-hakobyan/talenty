@@ -21,7 +21,7 @@ import AddSection from "../dialogs/addSection";
 import {ENTER_KEY} from "../../constants/keyCodes";
 import {selectAuthUserInfo} from "../../store/auth/selector";
 import {LANDING_PAGE_ROUTE} from "../../constants/routes";
-import {createCvHR, getTemplateActions} from "../../store/globalData/getTemplateActions";
+import {createCvHR, editCvHr, getTemplateActions} from "../../store/globalData/getTemplateActions";
 import {compareObjects} from "../../helpers/compareTwoData";
 import Button from "../../shared/components/Button";
 import {isValidTemplateName, notValidTemplateName} from "./helper";
@@ -212,7 +212,7 @@ function CvTemplateMain() {
                     onClick={async () => {
                         if (isValidTemplateName(templateList, title, notValidTemplateName, data.id)) {
                             if (isEditing) {
-                                console.log('pending')
+                                dispatch(editCvHr(data))
                             } else {
                                 await dispatch(createCvHR(data))
                             }

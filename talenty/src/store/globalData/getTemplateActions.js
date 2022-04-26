@@ -94,13 +94,16 @@ export const createCvHR = createAsyncThunk('globalData/createHRCV', async (templ
     }
 })
 
-export const editCvHr = createAsyncThunk('globalData/editHrCv', async (templateData, thunkAPI) => {
+export const editCvHr = createAsyncThunk('globalData/editCvHr', async (templateData, thunkAPI) => {
     try {
-
+        instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+        const response = await instance.post('cv_template/edit_cv', cleanHrTemplateNewIds(templateData))
+        console.log('ok cv edit hr')
     } catch (err) {
-
+        console.log('error during edit cv HR')
     }
 })
+
 
 export const getJobAnnouncement = createAsyncThunk(
     'globalData/getJobAnnouncement',
