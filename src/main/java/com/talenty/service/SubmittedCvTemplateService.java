@@ -6,11 +6,7 @@ import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-import com.talenty.logical_executors.CleanUpMetadataExecutor;
-import com.talenty.logical_executors.FieldsIdValidationExecutor;
-import com.talenty.logical_executors.MergeFieldsExecutor;
-import com.talenty.logical_executors.RequiredFieldValidationExecutor;
-import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
+import com.talenty.logical_executors.*;
 import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.SubmittedCvTemplateRepository;
@@ -99,7 +95,7 @@ public class SubmittedCvTemplateService {
         if (parentMetadata != null && parentMetadata.containsKey("count")) {
             final Object countInString = parentMetadata.get("count");
             if (countInString != null) {
-                int count = Integer.parseInt(countInString.toString());
+                double count = Double.parseDouble(countInString.toString());
                 if (count > 0) {
                     cvTemplate.setId(null);
                 }
@@ -108,11 +104,12 @@ public class SubmittedCvTemplateService {
                         .setParentFields(parentTemplate.getFields())
                         .executeLogic(
                                 new FieldsIdValidationExecutor(),
-                                new RequiredFieldValidationExecutor(),
-                                new SubmittedFieldValueValidationExecutor()
+                                new DeletedFieldValidationExecutor()
                         );
+                cvTemplate.setOwnerId(parentTemplate.getOwnerId());
+                cvTemplate.setCompanyId(parentTemplate.getCompanyId());
+                cvTemplate.setMetadata(Map.of("editable", true, "count", 0));
                 return CVTemplateMapper.instance.documentToDto(cvTemplateService.save(cvTemplate));
-
             }
         }
         return null;
