@@ -37,7 +37,7 @@ function updateTypeList() {
 }
 
 function updateJobAnnouncements() {
-    job_announcements = JSON.parse(httpGet(BACKEND_URL + "/job_announcements/all_pending"))
+    job_announcements = JSON.parse(httpGet(BACKEND_URL + "/job_announcements/all_pendings"))
     if (!job_announcements) {
         job_announcements = []
     }

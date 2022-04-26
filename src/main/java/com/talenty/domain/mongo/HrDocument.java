@@ -1,5 +1,6 @@
 package com.talenty.domain.mongo;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,17 +23,6 @@ public class HrDocument extends UserDocument {
     @Field("cv_templates")
     private BasicDBObject cvTemplates = new BasicDBObject();
 
-    @Field("job_announcements")
-    private BasicDBObject jobAnnouncements = new BasicDBObject();
-
-    public void addJobAnnouncement(final String id, final BasicDBObject name) {
-        jobAnnouncements.append(id, name);
-    }
-
-    public void deleteJobAnnouncement(final String id) {
-        jobAnnouncements.remove(id);
-    }
-
     public void addCvTemplate(final String id, final String name) {
         cvTemplates.append(id, name);
     }
@@ -40,5 +30,8 @@ public class HrDocument extends UserDocument {
     public void deleteCvTemplate(final String id) {
         cvTemplates.remove(id);
     }
+
+    @Field("job_announcements")
+    private BasicDBList jobAnnouncements = new BasicDBList();
 
 }

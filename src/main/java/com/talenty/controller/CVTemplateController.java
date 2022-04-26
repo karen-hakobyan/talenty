@@ -85,6 +85,12 @@ public class CVTemplateController {
         return ResponseEntity.ok("saved_submitted_cv_template");
     }
 
+    @PostMapping("/edit_cv")
+    public ResponseEntity<?> editCvTemplate(@RequestBody final CVTemplate editedCvTemplate) {
+        submittedCvTemplateService.edit(editedCvTemplate);
+        return ResponseEntity.ok("saved_submitted_cv_template");
+    }
+
     @GetMapping("/delete")
     public ResponseEntity<?> deleteCreatedCvTemplateById(@RequestParam final String id) {
         final BasicDBObject allCvTemplatesIds = cvTemplateService.deleteCreatedCvTemplateById(id);

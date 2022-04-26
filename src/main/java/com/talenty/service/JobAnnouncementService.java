@@ -1,12 +1,15 @@
 package com.talenty.service;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.JobAnnouncement;
+import com.talenty.domain.dto.JobAnnouncementBasicInfo;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
+import com.talenty.logical_executors.MakeBasicJobAnnouncementInformationExecutor;
 import com.talenty.logical_executors.RequiredFieldValidationExecutor;
 import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
 import com.talenty.logical_executors.executor.Executor;
@@ -15,9 +18,7 @@ import com.talenty.repository.JobAnnouncementRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobAnnouncementService {
@@ -46,11 +47,11 @@ public class JobAnnouncementService {
     }
 
     public JobAnnouncement publish(final JobAnnouncement jobAnnouncement) {
-        final JobAnnouncementDocument document = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
-        final Optional<JobAnnouncementDocument> parentTemplateOptional = findById(document.getId());
+        final JobAnnouncementDocument newAnnouncement = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
+        final Optional<JobAnnouncementDocument> parentTemplateOptional = findById(newAnnouncement.getId());
 
         if (parentTemplateOptional.isEmpty()) {
-            System.out.printf("No such job announcement with id '%s'\n", document.getId());
+            System.out.printf("No such job announcement with id '%s'\n", newAnnouncement.getId());
             throw new NoSuchAnnouncementException();
         }
 
@@ -58,37 +59,52 @@ public class JobAnnouncementService {
 
         Executor.getInstance()
                 .setParentFields(parentTemplate.getFields())
-                .setChildFields(document.getFields())
+                .setChildFields(newAnnouncement.getFields())
                 .executeLogic(
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor()
                 );
 
-        document.setId(null);
-        document.setParentId(parentTemplate.getId());
-        document.setStatus(JobAnnouncementStatus.PENDING);
-        final JobAnnouncementDocument saved = jobAnnouncementRepository.save(document);
-
         final HrDocument currentHr = hrService.getCurrentHr();
+        newAnnouncement.setId(null);
+        newAnnouncement.setParentId(parentTemplate.getId());
+        newAnnouncement.setStatus(JobAnnouncementStatus.PENDING);
+        newAnnouncement.setOwnerId(currentHr.getId());
+        newAnnouncement.setCompanyId(currentHr.getCompanyId());
+        final Map<String, Object> parentMetadata = parentTemplate.getMetadata();
+        final HashMap<String, Object> newMetadata = new HashMap<>();
+        if (parentMetadata != null && !parentMetadata.isEmpty()) newMetadata.putAll(parentMetadata);
+        newMetadata.put("editable", false);
+        newAnnouncement.setMetadata(newMetadata);
+        final JobAnnouncementDocument savedNewAnnouncement = jobAnnouncementRepository.save(newAnnouncement);
+
         final BasicDBObject jobAnnouncementInHr = new BasicDBObject();
-        jobAnnouncementInHr.append("name", saved.getName());
-        jobAnnouncementInHr.append("status", saved.getStatus());
-        currentHr.addJobAnnouncement(saved.getId(), jobAnnouncementInHr);
+        jobAnnouncementInHr.append("id", savedNewAnnouncement.getId());
+        jobAnnouncementInHr.append("name", savedNewAnnouncement.getName());
+        jobAnnouncementInHr.append("status", savedNewAnnouncement.getStatus());
+        BasicDBList jobAnnouncementList = currentHr.getJobAnnouncements();
+        if (jobAnnouncementList == null) jobAnnouncementList = new BasicDBList();
+        jobAnnouncementList.add(jobAnnouncementInHr);
         hrService.save(currentHr);
 
-        return JobAnnouncementMapper.instance.documentToDto(saved);
+        return JobAnnouncementMapper.instance.documentToDto(savedNewAnnouncement);
     }
 
-    public BasicDBObject getAllJobAnnouncements() {
-        return hrService.getCurrentHr().getJobAnnouncements();
-    }
+//    public List<JobAnnouncementBasicInfo> findAllPendings() {
+//        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
+//        final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.PENDING);
+//        allByStatus.forEach(e -> result.add(makeBasicInfo(e)));
+//        return result;
+//    }
 
-    public List<JobAnnouncement> findAllPending() {
-        final List<JobAnnouncement> result = new ArrayList<>();
+    public List<JobAnnouncementBasicInfo> findAllPendings() {
+        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
         final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.PENDING);
         allByStatus.forEach(e -> {
-            e.setFields(null);
-            result.add(JobAnnouncementMapper.instance.documentToDto(e));
+            final JobAnnouncementBasicInfo temp = new JobAnnouncementBasicInfo();
+            temp.setName(e.getName());
+            temp.setId(e.getId());
+            result.add(temp);
         });
         return result;
     }
@@ -109,11 +125,18 @@ public class JobAnnouncementService {
 
     public JobAnnouncement approveAnnouncement(final String id) {
         final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.CONFIRMED);
+        final Map<String, Object> metadata = document.getMetadata();
+        final Map<String, Object> newMetadata = new HashMap<>();
+        if (metadata != null && !metadata.isEmpty()) newMetadata.putAll(metadata);
+        newMetadata.put("editable", true);
+        document.setMetadata(newMetadata);
+        hrService.updateAnnouncementStatus(document);
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
     }
 
     public JobAnnouncement rejectAnnouncement(final String id) {
         final JobAnnouncementDocument document = changeAnnouncementStatus(id, JobAnnouncementStatus.REJECTED);
+        hrService.updateAnnouncementStatus(document);
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(document));
     }
 
@@ -128,4 +151,36 @@ public class JobAnnouncementService {
         return jobAnnouncementDocument;
     }
 
+    public List<JobAnnouncementBasicInfo> getAllJobAnnouncementsByStatus(final JobAnnouncementStatus status) {
+        final HrDocument currentHr = hrService.getCurrentHr();
+        final String companyId = currentHr.getCompanyId();
+        final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, status);
+        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
+
+        //TODO temporary solution getting info from sections
+        for (final JobAnnouncementDocument jobAnnouncementDocument : allByCompanyId) {
+            final JobAnnouncementBasicInfo temp = makeBasicInfo(jobAnnouncementDocument);
+            result.add(temp);
+        }
+        return result;
+    }
+
+    private JobAnnouncementBasicInfo makeBasicInfo(final JobAnnouncementDocument jobAnnouncementDocument) {
+        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+        if (jobAnnouncementOptional.isEmpty()) {
+            System.out.printf("Couldn't find parent announcement with id '%s'\n", jobAnnouncementDocument.getParentId());
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
+        final JobAnnouncementBasicInfo dto = new JobAnnouncementBasicInfo();
+        dto.setId(jobAnnouncementDocument.getId());
+        dto.setName(jobAnnouncementDocument.getName());
+        Executor.getInstance()
+                .setChildFields(jobAnnouncementDocument.getFields().get(0).getFields())
+                .setParentFields(jobAnnouncement.getFields().get(0).getFields())
+                .executeLogic(
+                        new MakeBasicJobAnnouncementInformationExecutor(dto)
+                );
+        return dto;
+    }
 }

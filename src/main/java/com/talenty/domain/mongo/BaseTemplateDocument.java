@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,5 +17,7 @@ public class BaseTemplateDocument {
     private String id;
     private String name;
     private List<FieldDocument> fields;
+    private String ownerId;
+    private Map<String, Object> metadata;
 
 }

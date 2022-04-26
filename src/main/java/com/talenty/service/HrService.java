@@ -1,10 +1,13 @@
 package com.talenty.service;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.hr.HrRegisterResponseDetails;
 import com.talenty.domain.mongo.CompanyDocument;
 import com.talenty.domain.mongo.HrDocument;
+import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
@@ -18,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -94,6 +99,39 @@ public class HrService {
 
     public HrDocument save(final HrDocument hr) {
         return hrRepository.save(hr);
+    }
+
+    public void updateAnnouncementStatus(final JobAnnouncementDocument jobAnnouncement) {
+        boolean found = false;
+        final HrDocument owner = getHrById(jobAnnouncement.getOwnerId());
+        final BasicDBList jobAnnouncementsInHr = owner.getJobAnnouncements();
+        for (final Object o : jobAnnouncementsInHr) {
+            try {
+                final LinkedHashMap<String, Object> jobAnnouncementInList = (LinkedHashMap<String, Object>) o;
+                if (Objects.equals(jobAnnouncementInList.get("id"), jobAnnouncement.getId())) {
+                    jobAnnouncementInList.put("status", jobAnnouncement.getStatus());
+                    found = true;
+                    break;
+                }
+            } catch (final ClassCastException e) {
+                System.out.println("Something went wrong while casting Object to basicDbObject");
+            }
+        }
+        if (found) hrRepository.save(owner);
+        else {
+            System.out.printf("Didn't found job announcement with id: %s in the hr's list, this looks strange, please handle it (delete job announcement or write it into hr if it's not here mistakenly)!\n", jobAnnouncement.getId());
+        }
+    }
+
+    public HrDocument getHrById(final String id) {
+        final Optional<HrDocument> hrOptional = hrRepository.findById(id);
+
+        if (hrOptional.isEmpty()) {
+            System.out.printf("No hr found with id: %s\n", id);
+            throw new UserNotFoundException();
+        }
+
+        return hrOptional.get();
     }
 
 }

@@ -3,7 +3,6 @@ package com.talenty.domain.mongo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
 import java.util.Map;
@@ -35,4 +34,5 @@ public class FieldDocument {
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }
