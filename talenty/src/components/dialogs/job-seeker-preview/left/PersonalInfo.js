@@ -36,13 +36,16 @@ export default function PersonalInfo({data}) {
         <Box sx={PREVIEW_TEXT_STYLE}>
             {address.metadata.submitted_value} {country.metadata.submitted_value} {city.metadata.submitted_value}
         </Box>
-        <Box sx={PREVIEW_TEXT_STYLE}>
+        {salary.fields[0].metadata.submitted_value && <Box sx={PREVIEW_TEXT_STYLE}>
             {salary.fields[0].metadata.submitted_value} {salary.fields[1].metadata.submitted_value}
-        </Box>
-        <Box sx={PREVIEW_TEXT_STYLE}>
-            {other.fields[1].name}-{other.fields[1].metadata.submitted_value ? 'Yes' : 'No'}{' '}
-            {other.fields[2].name}-{other.fields[1].metadata.submitted_value ? 'Yes' : 'No'}
-        </Box>
+        </Box>}
+        {
+            other.fields.some(el => el.metadata.submitted_value) &&
+            <Box sx={PREVIEW_TEXT_STYLE}>
+                {other.fields[1].metadata.submitted_value && other.fields[1].name + '-Yes'}{' '}
+                {other.fields[2].metadata.submitted_value && other.fields[2].name + '-Yes'}
+            </Box>
+        }
         <Box sx={{display: 'flex', flexWrap: 'wrap', gap: '24px', mt: '12px'}}>
             {links.fields.map(el => {
                 if (!el.metadata.submitted_value) {

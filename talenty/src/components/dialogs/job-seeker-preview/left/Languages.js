@@ -2,7 +2,9 @@ import {Box} from "@mui/material";
 import {PREVIEW_TITLE} from "../constants";
 
 export default function Languages({data}) {
-    console.log(data)
+    if (data.fields[0].fields.every(el => !el.metadata.submitted_value)) {
+        return null
+    }
     return <Box sx={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
         <Box sx={PREVIEW_TITLE}>Languages</Box>
         {data.fields.map(el => {

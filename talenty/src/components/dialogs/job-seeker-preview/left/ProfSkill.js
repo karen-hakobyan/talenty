@@ -2,6 +2,10 @@ import {Box} from "@mui/material";
 import {PREVIEW_TITLE} from "../constants";
 
 export default function ProfSkills({data}) {
+    console.log(data)
+    if (data.fields[0].fields.some(el => !el.metadata.submitted_value)) {
+        return null
+    }
     return <Box sx={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
         <Box sx={PREVIEW_TITLE}>{data.name}</Box>
         <Box sx={{display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'}}>
