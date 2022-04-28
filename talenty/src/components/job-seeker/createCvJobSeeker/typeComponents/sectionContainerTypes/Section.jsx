@@ -1,8 +1,24 @@
+import { useEffect, useState } from 'react';
 import {Box} from '@mui/material'
 import {sectionContainerTypes} from "./types";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
+import { validetionDate } from '../../../../../helpers/validation/validation';
 
 export default function Section({data}) {
+    // console.log(data)
+    const [start,end,stillWorking] = data.fields
+    const [err, setErr]= useState({
+        error: false,
+        massage: ""
+    })
+    useEffect(()=>{
+        setErr(validetionDate({
+            startValue:start.metadata.submitted_value?start.metadata.submitted_value:"",
+            endValue:end.metadata.submitted_value?end.metadata.submitted_value:"",
+            isStillWorking:stillWorking.metadata.submitted_value?stillWorking.metadata.submitted_value:false
+        }))
+    },[start,end,stillWorking])
+
     return <Box sx={{width: '500px'}}>
         <JobSeekerSubsection
             label={data.name}
@@ -33,6 +49,7 @@ export default function Section({data}) {
                                 }}
                             >
                                 <TempComponent
+                                    err={err}
                                     data={el}
                                     {
                                         ...(['To', 'End'].includes(el.name) ?

@@ -120,7 +120,7 @@ export default function Navigation({maxWidth, minWidth}) {
                                                         <Box sx={{
                                                             ...CHILD_TEXT,  
                                                             cursor: 'pointer', 
-                                                            width:index!==0? "72px":null,
+                                                            width:index!==0? "85px":null,
                                                             overflow:"hidden",
                                                             textOverflow:"ellipsis"
 
@@ -130,7 +130,7 @@ export default function Navigation({maxWidth, minWidth}) {
                                                          }
                                                         } : {})}>{text}</Box>
                                                         {navIndex===navItemGeneratorState.length-1 && index!==0?<Box sx={{
-                                                            ml:"15px",
+                                                            ml:"1px",
                                                             cursor: "pointer"
                                                         }}
                                                         onClick={()=>{

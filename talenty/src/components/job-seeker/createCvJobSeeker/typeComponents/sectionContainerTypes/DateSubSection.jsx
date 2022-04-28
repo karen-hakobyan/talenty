@@ -3,7 +3,8 @@ import {setTemplateData} from "../../../../../store/globalData/slice";
 import BasicDatePicker from "../../../../shared/DatePicker";
 import {useEffect} from "react";
 
-export default function DateSubSection({data, extra}) {
+export default function 
+DateSubSection({data, extra,err}) {
     const dispatch = useDispatch()
     useEffect(() => {
         if (extra && extra.metadata.submitted_value && data.metadata.submitted_value) {
@@ -13,8 +14,9 @@ export default function DateSubSection({data, extra}) {
             }))
         }
     }, [extra, dispatch, data])
-
     return <BasicDatePicker
+        name={data.name}
+        err={err}
         placeholder={data.metadata.placeholder}
         value={data.metadata.submitted_value}
         closeAction={(value) => {

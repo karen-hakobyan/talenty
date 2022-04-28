@@ -82,13 +82,13 @@ public class CVTemplateController {
     @PostMapping("/edit")
     public ResponseEntity<?> editSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate editedCvTemplate) {
         submittedCvTemplateService.edit(editedCvTemplate);
-        return ResponseEntity.ok("saved_submitted_cv_template");
+        return ResponseEntity.ok("edited_submitted_cv_template");
     }
 
     @PostMapping("/edit_cv")
     public ResponseEntity<?> editCvTemplate(@RequestBody final CVTemplate editedCvTemplate) {
         submittedCvTemplateService.edit(editedCvTemplate);
-        return ResponseEntity.ok("saved_submitted_cv_template");
+        return ResponseEntity.ok("edited_cv_template");
     }
 
     @GetMapping("/delete")

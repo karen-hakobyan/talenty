@@ -4,12 +4,7 @@ let systemCVTemplate = {
     _id: ObjectId(),
     system: true,
     name: "System template",
-    metadata: {
-        editable: true,
-        count: 0
-    },
-    fields: [
-        {
+    fields: [{
             _id: ObjectId(),
             name: "Personal Info",
             metadata: {
@@ -18,18 +13,18 @@ let systemCVTemplate = {
                 display: "fold",
             },
             fields: [{
-                _id: ObjectId(),
-                name: "First name",
-                metadata: {
-                    type: "special_name",
-                    placeholder: "First name",
-                    maxLength: 20,
-                    editable: false,
-                    required_editable: false,
-                    deletable: false,
-                    required: true,
+                    _id: ObjectId(),
+                    name: "First name",
+                    metadata: {
+                        type: "special_name",
+                        placeholder: "First name",
+                        maxLength: 20,
+                        editable: false,
+                        required_editable: false,
+                        deletable: false,
+                        required: true,
+                    },
                 },
-            },
                 {
                     _id: ObjectId(),
                     name: "Last name",
@@ -61,6 +56,7 @@ let systemCVTemplate = {
                     metadata: {
                         placeholder: "DD/MM/YYYY",
                         type: "date",
+                        maxLength: 10,
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -110,6 +106,7 @@ let systemCVTemplate = {
                     metadata: {
                         type: "city",
                         placeholder: "City",
+                        maxLength: 20,
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -140,16 +137,16 @@ let systemCVTemplate = {
                         required: false,
                     },
                     fields: [{
-                        _id: ObjectId(),
-                        name: "Expected Salary",
-                        metadata: {
-                            type: "salary",
-                            placeholder: "Expected Salary",
-                            maxLength: 10,
-                            editable: false,
-                            deletable: false,
+                            _id: ObjectId(),
+                            name: "Expected Salary",
+                            metadata: {
+                                type: "salary",
+                                placeholder: "Expected Salary",
+                                maxLength: 10,
+                                editable: false,
+                                deletable: false,
+                            },
                         },
-                    },
                         {
                             _id: ObjectId(),
                             name: "Salary type",
@@ -159,8 +156,6 @@ let systemCVTemplate = {
                                 maxLength: 3,
                                 editable: false,
                                 deletable: false,
-                                values: ["USD"],
-                                submitted_value: "USD",
                             },
                         },
                     ],
@@ -174,16 +169,16 @@ let systemCVTemplate = {
                         deletable: true,
                     },
                     fields: [{
-                        _id: ObjectId(),
-                        name: "Add photo",
-                        metadata: {
-                            type: "add_photo",
-                            editable: false,
-                            required_editable: true,
-                            deletable: true,
-                            required: false,
+                            _id: ObjectId(),
+                            name: "Add photo",
+                            metadata: {
+                                type: "add_photo",
+                                editable: false,
+                                required_editable: true,
+                                deletable: true,
+                                required: false,
+                            },
                         },
-                    },
                         {
                             _id: ObjectId(),
                             name: "Military ID",
@@ -222,18 +217,18 @@ let systemCVTemplate = {
                         deletable: true,
                     },
                     fields: [{
-                        _id: ObjectId(),
-                        name: "Facebook",
-                        metadata: {
-                            type: "social_link",
-                            placeholder: "URL",
-                            maxLength: 100,
-                            editable: false,
-                            required_editable: true,
-                            deletable: false,
-                            required: false,
+                            _id: ObjectId(),
+                            name: "Facebook",
+                            metadata: {
+                                type: "social_link",
+                                placeholder: "URL",
+                                maxLength: 100,
+                                editable: false,
+                                required_editable: true,
+                                deletable: false,
+                                required: false,
+                            },
                         },
-                    },
                         {
                             _id: ObjectId(),
                             name: "Linkedin",
@@ -361,20 +356,20 @@ let systemCVTemplate = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "University/Organization",
-                    metadata: {
-                        type: "text",
-                        status: "NEW",
-                        inside_container: true,
-                        placeholder: "University/Organization",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: true,
-                        deletable: false,
-                        required: false,
+                        _id: ObjectId(),
+                        name: "University/Organization",
+                        metadata: {
+                            type: "text",
+                            status: "NEW",
+                            inside_container: true,
+                            placeholder: "University/Organization",
+                            maxLength: 100,
+                            editable: false,
+                            required_editable: true,
+                            deletable: false,
+                            required: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Location",
@@ -418,23 +413,25 @@ let systemCVTemplate = {
                             required: false,
                         },
                         fields: [{
-                            _id: ObjectId(),
-                            name: "Start",
-                            metadata: {
-                                status: "NEW",
-                                type: "date",
-                                inside_container: true,
-                                placeholder: "From",
-                                editable: false,
-                                deletable: false,
+                                _id: ObjectId(),
+                                name: "Start",
+                                metadata: {
+                                    status: "NEW",
+                                    type: "date",
+                                    maxLength: 10,
+                                    inside_container: true,
+                                    placeholder: "From",
+                                    editable: false,
+                                    deletable: false,
+                                },
                             },
-                        },
                             {
                                 _id: ObjectId(),
                                 name: "End",
                                 metadata: {
                                     status: "NEW",
                                     type: "date",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "To",
                                     editable: false,
@@ -471,7 +468,7 @@ let systemCVTemplate = {
                         },
                     },
                 ],
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -492,20 +489,20 @@ let systemCVTemplate = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "Company",
-                    metadata: {
-                        type: "text",
-                        status: "NEW",
-                        inside_container: true,
-                        placeholder: "Company name",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: true,
-                        deletable: false,
-                        required: false,
+                        _id: ObjectId(),
+                        name: "Company",
+                        metadata: {
+                            type: "text",
+                            status: "NEW",
+                            inside_container: true,
+                            placeholder: "Company name",
+                            maxLength: 100,
+                            editable: false,
+                            required_editable: true,
+                            deletable: false,
+                            required: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Location",
@@ -549,23 +546,25 @@ let systemCVTemplate = {
                             required: false,
                         },
                         fields: [{
-                            _id: ObjectId(),
-                            name: "Start",
-                            metadata: {
-                                type: "date",
-                                status: "NEW",
-                                inside_container: true,
-                                placeholder: "Start",
-                                editable: false,
-                                deletable: false,
+                                _id: ObjectId(),
+                                name: "Start",
+                                metadata: {
+                                    type: "date",
+                                    maxLength: 10,
+                                    status: "NEW",
+                                    inside_container: true,
+                                    placeholder: "Start",
+                                    editable: false,
+                                    deletable: false,
+                                },
                             },
-                        },
                             {
                                 _id: ObjectId(),
                                 name: "End",
                                 metadata: {
                                     type: "date",
                                     status: "NEW",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "End",
                                     editable: false,
@@ -602,7 +601,7 @@ let systemCVTemplate = {
                         },
                     },
                 ],
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -623,20 +622,20 @@ let systemCVTemplate = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "Skill",
-                    metadata: {
-                        status: "NEW",
-                        type: "professional_skill",
-                        inside_container: true,
-                        placeholder: "Skill name",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: true,
-                        deletable: false,
-                        required: false,
+                        _id: ObjectId(),
+                        name: "Skill",
+                        metadata: {
+                            status: "NEW",
+                            type: "professional_skill",
+                            inside_container: true,
+                            placeholder: "Skill name",
+                            maxLength: 100,
+                            editable: false,
+                            required_editable: true,
+                            deletable: false,
+                            required: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Evaluate bar",
@@ -652,7 +651,7 @@ let systemCVTemplate = {
                         }
                     },
                 ],
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -673,20 +672,20 @@ let systemCVTemplate = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "Skill",
-                    metadata: {
-                        status: "NEW",
-                        type: "personal_skill",
-                        inside_container: true,
-                        placeholder: "Skill name",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: true,
-                        deletable: false,
-                        required: false,
+                        _id: ObjectId(),
+                        name: "Skill",
+                        metadata: {
+                            status: "NEW",
+                            type: "personal_skill",
+                            inside_container: true,
+                            placeholder: "Skill name",
+                            maxLength: 100,
+                            editable: false,
+                            required_editable: true,
+                            deletable: false,
+                            required: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Evaluate bar",
@@ -702,7 +701,7 @@ let systemCVTemplate = {
                         },
                     },
                 ],
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -723,20 +722,20 @@ let systemCVTemplate = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "Language",
-                    metadata: {
-                        type: "language",
-                        status: "NEW",
-                        inside_container: true,
-                        placeholder: "Choose language",
-                        maxLength: 20,
-                        editable: false,
-                        required_editable: true,
-                        deletable: false,
-                        required: false,
+                        _id: ObjectId(),
+                        name: "Language",
+                        metadata: {
+                            type: "language",
+                            status: "NEW",
+                            inside_container: true,
+                            placeholder: "Choose language",
+                            maxLength: 20,
+                            editable: false,
+                            required_editable: true,
+                            deletable: false,
+                            required: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Proficiency level",
@@ -756,7 +755,7 @@ let systemCVTemplate = {
                         },
                     },
                 ],
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -778,7 +777,7 @@ let systemCVTemplate = {
                     deletable: false,
                     required: false,
                 },
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -800,7 +799,7 @@ let systemCVTemplate = {
                     deletable: false,
                     required: false,
                 },
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -821,20 +820,20 @@ let systemCVTemplate = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "Projects/Products",
-                    metadata: {
-                        type: "text",
-                        status: "NEW",
-                        inside_container: true,
-                        placeholder: "Projects/Products name",
-                        maxLength: 100,
-                        editable: false,
-                        required_editable: true,
-                        deletable: false,
-                        required: false,
+                        _id: ObjectId(),
+                        name: "Projects/Products",
+                        metadata: {
+                            type: "text",
+                            status: "NEW",
+                            inside_container: true,
+                            placeholder: "Projects/Products name",
+                            maxLength: 100,
+                            editable: false,
+                            required_editable: true,
+                            deletable: false,
+                            required: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Start/End",
@@ -848,23 +847,25 @@ let systemCVTemplate = {
                             required: false,
                         },
                         fields: [{
-                            _id: ObjectId(),
-                            name: "Start",
-                            metadata: {
-                                placeholder: "From",
-                                status: "NEW",
-                                inside_container: true,
-                                type: "date",
-                                editable: false,
-                                deletable: false,
+                                _id: ObjectId(),
+                                name: "Start",
+                                metadata: {
+                                    placeholder: "From",
+                                    status: "NEW",
+                                    inside_container: true,
+                                    maxLength: 10,
+                                    type: "date",
+                                    editable: false,
+                                    deletable: false,
+                                },
                             },
-                        },
                             {
                                 _id: ObjectId(),
                                 name: "End",
                                 metadata: {
                                     status: "NEW",
                                     type: "date",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "To",
                                     editable: false,
@@ -916,7 +917,7 @@ let systemCVTemplate = {
                         },
                     },
                 ],
-            },],
+            }, ],
         },
         {
             _id: ObjectId(),
@@ -926,8 +927,7 @@ let systemCVTemplate = {
                 deletable: true,
                 display: "fold",
             },
-            fields: [
-                {
+            fields: [{
                     _id: ObjectId(),
                     name: "Article section",
                     metadata: {
@@ -935,18 +935,17 @@ let systemCVTemplate = {
                         deletable: true,
                         display: "fold",
                     },
-                    fields: [
-                        {
-                            _id: ObjectId(),
-                            name: "Article section container",
-                            metadata: {
-                                type: "section_container",
-                                status: "NEW",
-                                editable: false,
-                                deletable: false,
-                                required: false,
-                            },
-                            fields: [{
+                    fields: [{
+                        _id: ObjectId(),
+                        name: "Article section container",
+                        metadata: {
+                            type: "section_container",
+                            status: "NEW",
+                            editable: false,
+                            deletable: false,
+                            required: false,
+                        },
+                        fields: [{
                                 _id: ObjectId(),
                                 name: "Article Name",
                                 metadata: {
@@ -961,24 +960,23 @@ let systemCVTemplate = {
                                     required: false,
                                 },
                             },
-                                {
-                                    _id: ObjectId(),
-                                    metadata: {
-                                        type: "url",
-                                        status: "NEW",
-                                        inside_container: true,
-                                        placeholder: "URL",
-                                        maxLength: 100,
-                                        editable: false,
-                                        required_editable: true,
-                                        deletable: false,
-                                        required: false,
-                                        visibility: "ROLE_JOB_SEEKER",
-                                    },
-                                }
-                            ],
-                        },
-                    ]
+                            {
+                                _id: ObjectId(),
+                                metadata: {
+                                    type: "url",
+                                    status: "NEW",
+                                    inside_container: true,
+                                    placeholder: "URL",
+                                    maxLength: 100,
+                                    editable: false,
+                                    required_editable: true,
+                                    deletable: false,
+                                    required: false,
+                                    visibility: "ROLE_JOB_SEEKER",
+                                },
+                            }
+                        ],
+                    }, ]
                 },
                 {
                     _id: ObjectId(),
@@ -988,18 +986,17 @@ let systemCVTemplate = {
                         deletable: true,
                         display: "fold",
                     },
-                    fields: [
-                        {
-                            _id: ObjectId(),
-                            name: "Book section container",
-                            metadata: {
-                                type: "section_container",
-                                status: "NEW",
-                                editable: false,
-                                deletable: true,
-                                required: false,
-                            },
-                            fields: [{
+                    fields: [{
+                        _id: ObjectId(),
+                        name: "Book section container",
+                        metadata: {
+                            type: "section_container",
+                            status: "NEW",
+                            editable: false,
+                            deletable: true,
+                            required: false,
+                        },
+                        fields: [{
                                 _id: ObjectId(),
                                 name: "Book Name",
                                 metadata: {
@@ -1014,24 +1011,23 @@ let systemCVTemplate = {
                                     required: false,
                                 },
                             },
-                                {
-                                    _id: ObjectId(),
-                                    metadata: {
-                                        type: "url",
-                                        placeholder: "URL",
-                                        status: "NEW",
-                                        inside_container: true,
-                                        maxLength: 100,
-                                        editable: false,
-                                        required_editable: true,
-                                        deletable: false,
-                                        required: false,
-                                        visibility: "ROLE_JOB_SEEKER",
-                                    },
+                            {
+                                _id: ObjectId(),
+                                metadata: {
+                                    type: "url",
+                                    placeholder: "URL",
+                                    status: "NEW",
+                                    inside_container: true,
+                                    maxLength: 100,
+                                    editable: false,
+                                    required_editable: true,
+                                    deletable: false,
+                                    required: false,
+                                    visibility: "ROLE_JOB_SEEKER",
                                 },
-                            ],
-                        },
-                    ]
+                            },
+                        ],
+                    }, ]
                 }
             ],
         },
@@ -1055,7 +1051,7 @@ let systemCVTemplate = {
                     deletable: false,
                     required: false,
                 },
-            },],
+            }, ],
         },
     ],
 };
@@ -1073,18 +1069,18 @@ let test_cv_template = {
             display: "fold",
         },
         fields: [{
-            _id: ObjectId(),
-            name: "First name",
-            metadata: {
-                type: "special_name",
-                placeholder: "First name",
-                maxLength: 20,
-                editable: false,
-                required_editable: false,
-                deletable: false,
-                required: true,
+                _id: ObjectId(),
+                name: "First name",
+                metadata: {
+                    type: "special_name",
+                    placeholder: "First name",
+                    maxLength: 20,
+                    editable: false,
+                    required_editable: false,
+                    deletable: false,
+                    required: true,
+                },
             },
-        },
             {
                 _id: ObjectId(),
                 name: "Last name",
@@ -1109,16 +1105,16 @@ let test_cv_template = {
                     required: false,
                 },
                 fields: [{
-                    _id: ObjectId(),
-                    name: "Expected Salary",
-                    metadata: {
-                        type: "salary",
-                        placeholder: "Expected Salary",
-                        maxLength: 10,
-                        editable: false,
-                        deletable: false,
+                        _id: ObjectId(),
+                        name: "Expected Salary",
+                        metadata: {
+                            type: "salary",
+                            placeholder: "Expected Salary",
+                            maxLength: 10,
+                            editable: false,
+                            deletable: false,
+                        },
                     },
-                },
                     {
                         _id: ObjectId(),
                         name: "Salary type",

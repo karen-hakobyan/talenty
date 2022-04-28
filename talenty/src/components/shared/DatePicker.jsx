@@ -16,9 +16,12 @@ export default function BasicDatePicker({
                                             onChange,
                                             placeholder,
                                             closeAction,
+                                            err,
+                                            name,
                                         }) {
     const [innerValue, setInnerValue] = useState(value)
     let sendValue = null
+    
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <DatePicker
@@ -35,16 +38,19 @@ export default function BasicDatePicker({
                         sx={{
                             width: '500px',
                             fontFamily: "'Poppins', sans-serif",
+                            fontWeight: 600,
                             ...fieldStyle,
                             "& input.Mui-disabled": {
                                 textFillColor: "rgba(0, 0, 0, 0.87)"
                             }
                         }}
+                        error={name==="End" && err.massage==="Enter when you started"?false:err?.error}
+                        helperText={name==="End" && err.massage==="Enter when you started"?"":err?.massage}
                         inputProps={{
                             ...params.inputProps, placeholder, sx: {
                                 fontFamily: "'Poppins', sans-serif",
                                 fontSize: "16px",
-                                lineHeight: "24px"
+                                lineHeight: "24px",
                             },
                             disabled: true,
                         }}

@@ -6,18 +6,13 @@ import com.talenty.domain.dto.AppliedAnnouncement;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.dto.JobAnnouncementBasicInfo;
 import com.talenty.domain.dto.SubmittedCVTemplate;
-import com.talenty.domain.mongo.AppliedAnnouncemetDocument;
-import com.talenty.domain.mongo.HrDocument;
-import com.talenty.domain.mongo.JobAnnouncementDocument;
-import com.talenty.domain.mongo.JobSeekerDocument;
+import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
+import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.exceptions.WrongOwnerException;
 import com.talenty.exceptions.WrongSubmissionForAnnouncement;
-import com.talenty.logical_executors.AdminValuesMergeExecutor;
-import com.talenty.logical_executors.MakeBasicJobAnnouncementInformationExecutor;
-import com.talenty.logical_executors.RequiredFieldValidationExecutor;
-import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
+import com.talenty.logical_executors.*;
 import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.AppliedAnnouncementMapper;
 import com.talenty.mapper.JobAnnouncementMapper;
@@ -242,4 +237,66 @@ public class JobAnnouncementService {
         return AppliedAnnouncementMapper.instance.documentToDto(saved);
     }
 
+    public JobAnnouncement edit(final JobAnnouncement editedJobAnnouncement) {
+        final Optional<JobAnnouncementDocument> parentAnnouncementOptional = findById(editedJobAnnouncement.getId());
+        if (parentAnnouncementOptional.isEmpty()) {
+            System.out.printf("Couldn't find parent announcement with id '%s'\n", editedJobAnnouncement.getId());
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument parentJobAnnouncement = parentAnnouncementOptional.get();
+
+        final Map<String, Object> parentMetadata = parentJobAnnouncement.getMetadata();
+
+        if(!parentMetadata.containsKey("editable") || !(Boolean)parentMetadata.get("editable")) {
+            System.out.printf("Couldn't edit announcement with id '%s'\n", editedJobAnnouncement.getId());
+            throw new NoSuchTemplateException();
+        }
+
+        final JobAnnouncementDocument jobAnnouncement = JobAnnouncementMapper.instance.dtoToDocument(editedJobAnnouncement);
+        if (parentMetadata != null && parentMetadata.containsKey("count")) {
+            final Object countInString = parentMetadata.get("count");
+            if (countInString != null) {
+                double count = Double.parseDouble(countInString.toString());
+                if (count > 0) {
+                    jobAnnouncement.setId(null);
+                }
+                Executor.getInstance()
+                        .setParentFields(parentJobAnnouncement.getFields())
+                        .setChildFields(jobAnnouncement.getFields())
+                        .executeLogic(
+                                new RequiredFieldValidationExecutor(),
+                                new SubmittedFieldValueValidationExecutor()
+                        );
+                jobAnnouncement.setOwnerId(parentJobAnnouncement.getOwnerId());
+                jobAnnouncement.setCompanyId(parentJobAnnouncement.getCompanyId());
+                jobAnnouncement.setMetadata(Map.of("editable", true, "count", 0));
+                return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(jobAnnouncement));
+            }
+        }
+        return null;
+    }
+
+    public JobAnnouncement getJobAnnouncementById(final String id) {
+        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(id);
+        if(jobAnnouncementOptional.isEmpty()) {
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementOptional.get();
+
+        final Optional<JobAnnouncementDocument> parentJobAnnouncementDocumentOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+        if(parentJobAnnouncementDocumentOptional.isEmpty()) {
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument parentJobAnnouncement = parentJobAnnouncementDocumentOptional.get();
+
+        Executor.getInstance()
+                .setChildFields(jobAnnouncementDocument.getFields())
+                .setParentFields(parentJobAnnouncement.getFields())
+                .executeLogic(
+                        new MergeFieldsExecutor()
+                );
+
+
+        return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementDocument);
+    }
 }

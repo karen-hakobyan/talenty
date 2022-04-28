@@ -20,7 +20,6 @@ import {cleanTemplateNewIds} from "../../../helpers/actions";
 import {setDialogData, setDialogInitialData, setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
 
 export default function CreateCvJobSeeker() {
-    const navigate = useNavigate()
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
     const templateData = useSelector((state) => state.globalData.templateData)

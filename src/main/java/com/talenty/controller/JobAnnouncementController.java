@@ -75,4 +75,16 @@ public class JobAnnouncementController {
         return ResponseEntity.ok("");
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity<?> editJobAnnouncement(@RequestBody final JobAnnouncement editedJobAnnouncement) {
+        jobAnnouncementService.edit(editedJobAnnouncement);
+        return ResponseEntity.ok("edited_job_announcement");
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getJobAnnouncementById(@RequestParam final String id) {
+        final JobAnnouncement jobAnnouncement = jobAnnouncementService.getJobAnnouncementById(id);
+        return ResponseEntity.ok(jobAnnouncement);
+    }
+
 }

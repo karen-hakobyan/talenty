@@ -7,8 +7,7 @@ let jobAnnouncement = {
     // status: "CONFIRMED",
     status: "PENDING",
     attachedCvTemplateId: null,
-    fields: [
-        {
+    fields: [{
             _id: ObjectId(),
             name: "General Information",
             metadata: {
@@ -18,16 +17,16 @@ let jobAnnouncement = {
                 display: "fold",
             },
             fields: [{
-                _id: ObjectId(),
-                name: "Title",
-                metadata: {
-                    type: "title",
-                    placeholder: "Title",
-                    maxLength: 100,
-                    deletable: false,
-                    required: true,
+                    _id: ObjectId(),
+                    name: "Title",
+                    metadata: {
+                        type: "title",
+                        placeholder: "Title",
+                        maxLength: 100,
+                        deletable: false,
+                        required: true,
+                    },
                 },
-            },
                 {
                     _id: ObjectId(),
                     name: "Collection",
@@ -37,15 +36,15 @@ let jobAnnouncement = {
                         deletable: true,
                     },
                     fields: [{
-                        _id: ObjectId(),
-                        name: "Employment terms",
-                        metadata: {
-                            placeholder: "Employment terms",
-                            type: "employment_terms",
-                            deletable: false,
-                            required: false,
+                            _id: ObjectId(),
+                            name: "Employment terms",
+                            metadata: {
+                                placeholder: "Employment terms",
+                                type: "employment_terms",
+                                deletable: false,
+                                required: false,
+                            },
                         },
-                    },
                         {
                             _id: ObjectId(),
                             name: "Job type",
@@ -91,6 +90,7 @@ let jobAnnouncement = {
                             name: "City",
                             metadata: {
                                 placeholder: "City",
+                                maxLength: 20,
                                 type: "city",
                                 deletable: false,
                                 required: false,
@@ -107,20 +107,21 @@ let jobAnnouncement = {
                         required: false,
                     },
                     fields: [{
-                        _id: ObjectId(),
-                        name: "Type",
-                        metadata: {
-                            type: "salary_type",
-                            deletable: false,
-                            required: false,
-                            values: ["Net", "Gross"],
+                            _id: ObjectId(),
+                            name: "Type",
+                            metadata: {
+                                type: "salary_type",
+                                deletable: false,
+                                required: false,
+                                values: ["Net", "Gross"],
+                            },
                         },
-                    },
                         {
                             _id: ObjectId(),
                             name: "From",
                             metadata: {
                                 placeholder: "From",
+                                maxLength: 10,
                                 type: "salary",
                                 deletable: false,
                                 required: false,
@@ -131,6 +132,7 @@ let jobAnnouncement = {
                             name: "To",
                             metadata: {
                                 placeholder: "To",
+                                maxLength: 10,
                                 type: "salary",
                                 deletable: false,
                                 required: false,
@@ -154,7 +156,7 @@ let jobAnnouncement = {
                     metadata: {
                         placeholder: "Deadline",
                         type: "deadline",
-                        maxLength: 8,
+                        maxLength: 10,
                         deletable: false,
                         required: true,
                     },
@@ -171,16 +173,16 @@ let jobAnnouncement = {
                 display: "fold",
             },
             fields: [{
-                _id: ObjectId(),
-                name: "Description",
-                metadata: {
-                    placeholder: "Description",
-                    type: "description",
-                    maxLength: 1000,
-                    deletable: false,
-                    required: true,
+                    _id: ObjectId(),
+                    name: "Description",
+                    metadata: {
+                        placeholder: "Description",
+                        type: "description",
+                        maxLength: 1000,
+                        deletable: false,
+                        required: true,
+                    },
                 },
-            },
                 {
                     _id: ObjectId(),
                     name: "Responsibilities",
@@ -215,15 +217,15 @@ let jobAnnouncement = {
                 display: "fold",
             },
             fields: [{
-                _id: ObjectId(),
-                name: "Professional skills",
-                metadata: {
-                    placeholder: "Professional skills",
-                    type: "professional_skill",
-                    deletable: false,
-                    required: false,
+                    _id: ObjectId(),
+                    name: "Professional skills",
+                    metadata: {
+                        placeholder: "Professional skills",
+                        type: "professional_skill",
+                        deletable: false,
+                        required: false,
+                    },
                 },
-            },
                 {
                     _id: ObjectId(),
                     name: "Personal skills",
@@ -237,10 +239,6 @@ let jobAnnouncement = {
             ],
         },
     ],
-    metadata: {
-        editable: true,
-        count: 0
-    },
 };
 
 db.job_announcements.insert(jobAnnouncement);

@@ -10,6 +10,9 @@ import {ReactComponent as CreateGroupSVG} from "./createGroup.svg";
 import {ReactComponent as ArchiveSVG} from "./archive.svg";
 import {ReactComponent as NavCreateCVSVG} from "./navCreateCV.svg";
 import {ReactComponent as AddNewSubItem} from "./addNew.svg";
+import { ReactComponent as PendingSVG } from "./pending.svg";
+import { ReactComponent as CurrentJobsSVG } from "./currentJobs.svg";
+
 
 export {
     OpenNavSVG,
@@ -23,5 +26,7 @@ export {
     CreateGroupSVG,
     ArchiveSVG,
     NavCreateCVSVG,
-    AddNewSubItem
+    AddNewSubItem,
+    PendingSVG,
+    CurrentJobsSVG,
 };

@@ -17,7 +17,7 @@ export default function SectionGenerator({
         if (data.name === 'Other' && data.fields.every(el => el.metadata.status === 'DELETED')) {
             deleteOtherAction({dispatch, dialogData, id: data.id})
         }
-    }, [data, dispatch])
+    }, [data, dispatch,dialogData])
     // photo military id driving license
     if (data.name === 'Other') {
         if (data.fields.filter(el => el).some((el) => el.metadata.status !== 'DELETED')) {
