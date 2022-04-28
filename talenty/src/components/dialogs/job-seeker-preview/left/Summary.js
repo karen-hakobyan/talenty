@@ -6,7 +6,7 @@ export default function Summary({data}) {
     if (!data.fields[0].metadata.submitted_value) {
         return null
     }
-    return <Box sx={{width: '262px', display: 'flex', flexDirection: 'column', gap: '12px'}}>
+    return <Box sx={{width: '262px', display: 'flex', flexDirection: 'column'}}>
         <Box sx={PREVIEW_TITLE}>{data.name === 'Interests and Hobbies' ? 'Interests / Hobbies' : data.name}</Box>
         <MUIRichTextEditor defaultValue={data.fields[0].metadata.submitted_value} readOnly controls={[]}/>
     </Box>

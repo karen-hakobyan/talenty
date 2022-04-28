@@ -5,7 +5,7 @@ import SOCIAL_LINK_ICONS from "../../../cvTemplate/typeComponents/section/social
 const PREVIEW_TEXT_STYLE = {
     fontWeight: 500,
     fontFamily: 'Poppins',
-    fontSize: '16px',
+    fontSize: '14px',
     lineHeight: '20px',
     color: '#666666',
     maxWidth: '262px',
@@ -15,9 +15,6 @@ const PREVIEW_TEXT_STYLE = {
 export default function PersonalInfo({data}) {
     const [firstName, lastName, gender, dateOfBirth, phone, email, country, city, address, salary, other, links] = data.fields
     return <Box sx={{display: 'flex', flexDirection: 'column'}}>
-        <Box sx={{display: 'flex', justifyContent: 'center'}}>
-            <Box sx={{width: '180px', height: '180px', background: MAIN_PURPLE, borderRadius: '50%'}}/>
-        </Box>
         <Box sx={{
             fontFamily: 'Poppins',
             fontWeight: 500,
@@ -28,22 +25,25 @@ export default function PersonalInfo({data}) {
         }}>
             {firstName.metadata.submitted_value} {lastName.metadata.submitted_value}
         </Box>
-        <Box sx={PREVIEW_TEXT_STYLE}>
-            {dateOfBirth.metadata.submitted_value} {gender.metadata.submitted_value}
-        </Box>
+        {
+            dateOfBirth.metadata.submitted_value && gender.metadata.submitted_value &&
+            <Box sx={PREVIEW_TEXT_STYLE}>
+                {dateOfBirth.metadata.submitted_value && dateOfBirth.metadata.submitted_value + ','} {gender.metadata.submitted_value}
+            </Box>
+        }
         <Box sx={PREVIEW_TEXT_STYLE}>{email.metadata.submitted_value}</Box>
 
         <Box sx={PREVIEW_TEXT_STYLE}>
             {address.metadata.submitted_value} {country.metadata.submitted_value} {city.metadata.submitted_value}
         </Box>
         {salary.fields[0].metadata.submitted_value && <Box sx={PREVIEW_TEXT_STYLE}>
-            {salary.fields[0].metadata.submitted_value} {salary.fields[1].metadata.submitted_value}
+            {salary.fields[0].metadata.submitted_value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")} {salary.fields[1].metadata.submitted_value}
         </Box>}
         {
             other.fields.some(el => el.metadata.submitted_value) &&
             <Box sx={PREVIEW_TEXT_STYLE}>
-                {other.fields[1].metadata.submitted_value && other.fields[1].name + '-Yes'}{' '}
-                {other.fields[2].metadata.submitted_value && other.fields[2].name + '-Yes'}
+                {other.fields[1].metadata.submitted_value === 'Yes' && other.fields[1].name + '-Yes'}{' '}
+                {other.fields[2].metadata.submitted_value === 'Yes' && other.fields[2].name + '-Yes'}
             </Box>
         }
         <Box sx={{display: 'flex', flexWrap: 'wrap', gap: '24px', mt: '12px'}}>
