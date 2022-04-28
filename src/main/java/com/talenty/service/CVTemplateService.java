@@ -79,6 +79,7 @@ public class CVTemplateService {
         newTemplate.setId(null);
         newTemplate.setOwnerId(currentHr.getId());
         newTemplate.setCompanyId(currentHr.getCompanyId());
+        newTemplate.setMetadata(parentTemplate.getMetadata());
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);
 
         currentHr.addCvTemplate(savedNewTemplate.getId(), cvTemplate.getName());
@@ -123,8 +124,8 @@ public class CVTemplateService {
         if (metadata != null) {
             newMetadata.putAll(metadata);
             final Object count = metadata.get("count");
-            Integer currentCount = null;
-            if (count != null) currentCount = Integer.parseInt(count.toString());
+            Double currentCount = null;
+            if (count != null) currentCount = Double.parseDouble(count.toString());
             if (currentCount == null) {
                 newMetadata.put("count", 1);
             } else {

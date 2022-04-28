@@ -50,6 +50,10 @@ public class Executor {
         int parentFieldIndex = 0;
         for (int i = 0; i < childFields.size(); ++i) {
             final FieldDocument tempChildField = childFields.get(i);
+            if (tempChildField == null) {
+                parentFieldIndex++;
+                continue;
+            }
 
             if (handelNewField(parentFields, tempChildField, role, logicExecutors)) continue;
 

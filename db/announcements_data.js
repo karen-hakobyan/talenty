@@ -90,7 +90,7 @@ let jobAnnouncement = {
                             name: "City",
                             metadata: {
                                 placeholder: "City",
-                                maxLength: 10,
+                                maxLength: 20,
                                 type: "city",
                                 deletable: false,
                                 required: false,
