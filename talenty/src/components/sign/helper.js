@@ -81,7 +81,6 @@ export const FIELD_SIGN_IN = [{
                 value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 message: "The email is invalid",
             },
-            required: "The field is Required",
             maxLength: { value: 50, message: "Max length for email" },
         },
     },

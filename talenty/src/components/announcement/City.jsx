@@ -3,10 +3,9 @@ import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsec
 import TextField from "../../shared/components/Textfield";
 import {useDispatch} from "react-redux";
 import {changeDialogDataById} from "../../store/dialogs/slice";
-import { validate } from "./helper";
+import { validate } from "../../helpers/validation/validation";
 
 export default function City({data}) {
-    console.log(data)
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const [err, setErr]= useState({
         error: false,
@@ -24,6 +23,9 @@ export default function City({data}) {
                 error={err?.error}
                 helperText={err.massage}
                 value={value}
+                FormHelperTextProps={{
+                    sx:{fontFamily: "'Poppins', sans-serif"}
+                }}
                 onChange={
                     (event) => {
                         setValue(event.target.value)

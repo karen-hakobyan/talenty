@@ -7,7 +7,7 @@ import {changeDialogDataById} from "../../store/dialogs/slice";
 import {selectDialogData} from "../../store/dialogs/selector";
 import BasicDatePicker from "../shared/DatePicker";
 import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
-import { validate } from "./helper";
+import { validate } from "../../helpers/validation/validation";
 
 export default function Title({data}) {
     const dispatch = useDispatch()
@@ -34,6 +34,9 @@ export default function Title({data}) {
                     value={value}
                     error={err?.error}
                     helperText={err.massage}
+                    FormHelperTextProps={{
+                        sx:{fontFamily: "'Poppins', sans-serif"}
+                    }}
                     InputProps={{
                         sx: {
                             height: "40px",

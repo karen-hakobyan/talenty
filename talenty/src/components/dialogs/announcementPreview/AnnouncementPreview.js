@@ -41,7 +41,7 @@ export default function AnnouncementPreview() {
         if (!data) {
             dispatch(setDialogInitialState())
         }
-    }, [data])
+    }, [data,dispatch])
 
     if (!data) {
         return null

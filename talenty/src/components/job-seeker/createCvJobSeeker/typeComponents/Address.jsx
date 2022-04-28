@@ -1,12 +1,20 @@
 import {useDispatch} from "react-redux";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TextField from "../../../../shared/components/Textfield";
 import {setTemplateData} from "../../../../store/globalData/slice";
 import JobSeekerSubsection from "../JobSeekerSubsection";
+import { validate } from "../../../../helpers/validation/validation";
 
 export default function Address({data}) {
     const dispatch = useDispatch()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
+    const [err, setErr]= useState({
+        error: false,
+        massage: ""
+    })
+    useEffect(()=>{
+             setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20 ,uppercase:true}))
+    	},[value,data.metadata.type,data.metadata?.maxLength,data.name])
     return <JobSeekerSubsection
         label={data.name}
         Component={
@@ -17,6 +25,11 @@ export default function Address({data}) {
                         fontSize: "16px",
                         lineHeight: "24px"
                     }
+                }}
+                error={err?.error}
+                helperText={err.massage}
+                FormHelperTextProps={{
+                    sx:{fontFamily: "'Poppins', sans-serif"}
                 }}
                 placeholder={data.metadata.placeholder}
                 sx={{width: '500px'}}

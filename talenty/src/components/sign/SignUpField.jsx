@@ -49,6 +49,9 @@ const SignUpField = React.forwardRef(
                     placeholder={placeholder}
                     error={!!errors?.[objKey] }
                     helperText={errors[objKey] ? errors[objKey].message : ""}
+                    FormHelperTextProps={{
+                        sx:{fontFamily: "'Poppins', sans-serif"}
+                    }}
                     {...restProps}
                 />
             </Box>

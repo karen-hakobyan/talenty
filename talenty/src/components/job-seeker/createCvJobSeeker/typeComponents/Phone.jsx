@@ -16,6 +16,9 @@ export default function Phone({data}) {
                 sx={{
                     width: '500px',
                 }}
+                FormHelperTextProps={{
+                    sx:{fontFamily: "'Poppins', sans-serif"}
+                }}
                 InputProps={{
                     sx: {
                         fontFamily: "'Poppins', sans-serif",

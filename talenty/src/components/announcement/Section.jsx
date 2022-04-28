@@ -7,7 +7,7 @@ import {changeDialogDataById} from "../../store/dialogs/slice";
 import TextField from "../../shared/components/Textfield";
 import Select from "../../shared/components/Select";
 import {isValidRationalNumber} from "../../helpers/actions";
-import { validationNumber } from "./helper";
+import { validationNumber } from "../../helpers/validation/validation";
 
 export default function Section({data}) {
     const dispatch = useDispatch()
@@ -27,16 +27,26 @@ export default function Section({data}) {
     useEffect(()=>{
         if(fromValue){
             setFromErr(validationNumber({from:fromValue,to:toValue,maxLength:10,isValidetion:"from"}))
+        }else{
+            setFromErr({
+                positon: "",
+                error:false,
+                massage: "" 
+            })
         }
     },[fromValue,toValue])
     useEffect(()=>{
         if(toValue){
             setToErr(validationNumber({from:fromValue,to:toValue,maxLength:10,isValidetion:"to"}))
+        }else{
+            setToErr({
+                positon: "",
+                error:false,
+                massage: "" 
+            })
         }
+        
     },[fromValue,toValue])
-    console.log(toErr,"to");
-    console.log(fromErr,"from");
-    console.log(typeof toValue);
 
     return <JobSeekerSubsection
         label={data.name}
@@ -80,7 +90,10 @@ export default function Section({data}) {
                             placeholder={from.metadata.placeholder}
                             value={fromValue}
                             error={fromErr?.error}
-                            helperText={to.positon==='fromAndTo'?toErr.massage:fromErr.massage}
+                            helperText={fromErr.massage}
+                            FormHelperTextProps={{
+                                sx:{fontFamily: "'Poppins', sans-serif"}
+                            }}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {
@@ -103,6 +116,9 @@ export default function Section({data}) {
                             placeholder={to.metadata.placeholder}
                             error={toErr?.error}
                             helperText={toErr.massage}
+                            FormHelperTextProps={{
+                                sx:{fontFamily: "'Poppins', sans-serif"}
+                            }}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {

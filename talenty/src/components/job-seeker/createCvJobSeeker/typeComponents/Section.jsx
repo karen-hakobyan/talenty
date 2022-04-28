@@ -13,6 +13,7 @@ import Photo from "./Photo";
 import Select from "../../../../shared/components/Select";
 import {compareObjects} from "../../../../helpers/compareTwoData";
 import {memoizeTypeComponents} from "../../../../helpers/memo";
+import { validate } from "../../../../helpers/validation/validation";
 
 const SocialMedia = memo(function ({data}) {
     const dispatch = useDispatch()
@@ -114,9 +115,21 @@ export default function Section({data}) {
 function Salary({data}) {
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
+    const [err, setErr]= useState({
+        error: false,
+        massage: ""
+    })
+    useEffect(()=>{
+             setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20,isnumber:true}))
+    	},[value,data.metadata.type,data.metadata?.maxLength,data.name])
 
     return <TextField
         placeholder={data.metadata.placeholder}
+        error={err?.error}
+        helperText={err.massage}
+        FormHelperTextProps={{
+            sx:{fontFamily: "'Poppins', sans-serif"}
+        }}
         sx={{width: '384px'}}
         onChange={(e) => {
             if (!isNaN(+e.target.value) && e.target.value !== ' ') {
