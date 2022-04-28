@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, TextField} from "@mui/material";
 import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsection";
@@ -9,13 +9,26 @@ import {selectDialogData} from "../../store/dialogs/selector";
 import {convertToRaw} from "draft-js";
 import MUIRichTextEditor from "mui-rte";
 import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
+import { descriptionValue, validate } from "../../helpers/validation/validation";
 
-export default function Description({data}) {
+export default function     Description({data}) {
     const editorRef = useRef()
     const [value, setValue] = useState(data.metadata.submitted_value || '')
+    const [requiredTextFieldErr,setRequiredTextFieldErr]=useState({
+        error:false,
+        massage: ""
+    })
     const [editorState, setEditorState] = useState(value)
     const dispatch = useDispatch()
     const dialogData = useSelector(selectDialogData);
+    useEffect(()=>{
+        if(data.metadata.required){
+            setRequiredTextFieldErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
+        }else if(!data.metadata.required){
+            setRequiredTextFieldErr(validate({name:data.name,value:editorState,maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
+        }
+
+    },[value,data,editorState])
     const id = data.id
     return <JobSeekerSubsection
         label={<Box sx={{
@@ -45,11 +58,21 @@ export default function Description({data}) {
             multiline
             rows={3}
             value={value}
+            error={requiredTextFieldErr.error}
+            helperText={requiredTextFieldErr.massage}
+            FormHelperTextProps = {
+                {
+                    sx: { fontFamily: "'Poppins', sans-serif" }
+                }}
+            required={!!data.metadata.required}
             onChange={(e) => setValue(e.target.value)}
             onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}
-        /> : <Box
+        /> :
+        <Box>
+         <Box
             sx={{
                 border: '1px solid #D9D9D9',
+                borderColor: requiredTextFieldErr.error? "#d32f2f":"#D9D9D9",
                 borderRadius: '4px',
                 minHeight: '152px',
                 pt: '0px',
@@ -80,6 +103,19 @@ export default function Description({data}) {
                     }
                 }
             />
-        </Box>}
+        </Box>
+        {requiredTextFieldErr.massage?<Box sx={{
+                        marginTop: "3px",
+                        marginRight: "14px",
+                        marginLeft:"14px",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontWeight:400,
+                        fontSize: "0.75rem",
+                        lineHeight: "1.66",
+                        letterSpacing: "0.03333em",
+                        color:"#d32f2f"
+                }}>{requiredTextFieldErr.massage}</Box>:null}
+        </Box>
+        }
     />
 }

@@ -17,7 +17,6 @@ export function DescriptionGenerator({data, isSectionContainer, dispatch, dialog
             inputComponent={
                 <TextField
                     placeholder={data?.metadata.placeholder}
-                    // placeholder="edugiahgdsu"
                     disabled
                     variant="outlined"
                     multiline

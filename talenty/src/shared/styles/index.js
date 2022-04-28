@@ -57,7 +57,7 @@ const TEMPLATE_BUTTON_ADD = {
     justifyContent: "center",
     alignItems: "center",
     gap: "9px",
-    fontSize: 16,
+    fontSize: 15,
     borderRadius: "6px",
     border: "1px solid #ECECEC",
     cursor: "pointer",
