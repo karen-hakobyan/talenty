@@ -3,6 +3,7 @@ package com.talenty.controller;
 import com.talenty.domain.dto.AppliedAnnouncement;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.dto.JobAnnouncementBasicInfo;
+import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.service.JobAnnouncementService;
 import org.springframework.http.ResponseEntity;
@@ -83,7 +84,7 @@ public class JobAnnouncementController {
 
     @GetMapping()
     public ResponseEntity<?> getJobAnnouncementById(@RequestParam final String id) {
-        final JobAnnouncement jobAnnouncement = jobAnnouncementService.getJobAnnouncementById(id);
+        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementService.findById(id).get();
         return ResponseEntity.ok(jobAnnouncement);
     }
 

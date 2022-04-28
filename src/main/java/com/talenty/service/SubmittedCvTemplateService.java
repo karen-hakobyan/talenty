@@ -13,6 +13,7 @@ import com.talenty.repository.SubmittedCvTemplateRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -91,28 +92,36 @@ public class SubmittedCvTemplateService {
 
         final Map<String, Object> parentMetadata = parentTemplate.getMetadata();
 
-        final CVTemplateDocument cvTemplate = CVTemplateMapper.instance.dtoToDocument(editedCvTemplate);
-        if (parentMetadata != null && parentMetadata.containsKey("count")) {
-            final Object countInString = parentMetadata.get("count");
-            if (countInString != null) {
-                double count = Double.parseDouble(countInString.toString());
-                if (count > 0) {
-                    cvTemplate.setId(null);
-                }
-                Executor.getInstance()
-                        .setChildFields(cvTemplate.getFields())
-                        .setParentFields(parentTemplate.getFields())
-                        .executeLogic(
-                                new FieldsIdValidationExecutor(),
-                                new DeletedFieldValidationExecutor()
-                        );
-                cvTemplate.setOwnerId(parentTemplate.getOwnerId());
-                cvTemplate.setCompanyId(parentTemplate.getCompanyId());
-                cvTemplate.setMetadata(Map.of("editable", true, "count", 0));
-                return CVTemplateMapper.instance.documentToDto(cvTemplateService.save(cvTemplate));
-            }
+        if (!parentMetadata.containsKey("editable") || !((Boolean) parentMetadata.get("editable"))) {
+            System.out.printf("Couldn't edit cv template with id '%s'\n", editedCvTemplate.getId());
+            throw new NoSuchTemplateException();
         }
-        return null;
+
+        final CVTemplateDocument cvTemplate = CVTemplateMapper.instance.dtoToDocument(editedCvTemplate);
+        if (!parentMetadata.containsKey("count")) parentMetadata.put("count", 0);
+        double count = Double.parseDouble(parentMetadata.get("count").toString());
+        if (count > 0) {
+            cvTemplate.setId(null);
+            handleEditedTemplateInList(parentTemplate, cvTemplate);
+        }
+
+        Executor.getInstance()
+                .setChildFields(cvTemplate.getFields())
+                .setParentFields(parentTemplate.getFields())
+                .executeLogic(
+                        new FieldsIdValidationExecutor(),
+                        new DeletedFieldValidationExecutor()
+                );
+        cvTemplate.setOwnerId(parentTemplate.getOwnerId());
+        cvTemplate.setCompanyId(parentTemplate.getCompanyId());
+        cvTemplate.setMetadata(Map.of("editable", true, "count", 0));
+        return CVTemplateMapper.instance.documentToDto(cvTemplateService.save(cvTemplate));
+    }
+
+    private void handleEditedTemplateInList(final CVTemplateDocument parent, final CVTemplateDocument child) {
+        if (!Objects.equals(parent.getName(), child.getName())) return;
+        parent.getMetadata().put("status", "DELETED");
+        cvTemplateService.save(parent);
     }
 
 

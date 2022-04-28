@@ -16,10 +16,7 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CVTemplateService {
@@ -94,10 +91,13 @@ public class CVTemplateService {
         final List<CVTemplateDocument> allByCompanyId = cvTemplateRepository.findAllByCompanyId(companyId);
 
         final BasicDBObject allCvTemplates = new BasicDBObject();
-        allByCompanyId.forEach(e -> {
+        for (final CVTemplateDocument e : allByCompanyId) {
+            if (e.getMetadata().containsKey("status") && Objects.equals(e.getMetadata().get("status"), "DELETED")) {
+                continue;
+            }
             e.setFields(null);
             allCvTemplates.append(e.getId(), e.getName());
-        });
+        }
 
         return allCvTemplates;
     }

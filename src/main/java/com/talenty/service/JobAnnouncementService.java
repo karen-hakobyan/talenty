@@ -9,7 +9,6 @@ import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
-import com.talenty.exceptions.NoSuchTemplateException;
 import com.talenty.exceptions.WrongOwnerException;
 import com.talenty.exceptions.WrongSubmissionForAnnouncement;
 import com.talenty.logical_executors.*;
@@ -129,7 +128,8 @@ public class JobAnnouncementService {
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields())
                 .executeLogic(
-                        applicationContext.getBean(AdminValuesMergeExecutor.class)
+                        applicationContext.getBean(AdminValuesMergeExecutor.class),
+                        new MergeFieldsExecutor()
                 );
         return Optional.of(jobAnnouncementDocument);
     }
@@ -247,56 +247,32 @@ public class JobAnnouncementService {
 
         final Map<String, Object> parentMetadata = parentJobAnnouncement.getMetadata();
 
-        if(!parentMetadata.containsKey("editable") || !(Boolean)parentMetadata.get("editable")) {
+        if (!parentMetadata.containsKey("editable") || !((Boolean) parentMetadata.get("editable"))) {
             System.out.printf("Couldn't edit announcement with id '%s'\n", editedJobAnnouncement.getId());
-            throw new NoSuchTemplateException();
+            throw new NoSuchAnnouncementException();
         }
 
         final JobAnnouncementDocument jobAnnouncement = JobAnnouncementMapper.instance.dtoToDocument(editedJobAnnouncement);
-        if (parentMetadata != null && parentMetadata.containsKey("count")) {
-            final Object countInString = parentMetadata.get("count");
-            if (countInString != null) {
-                double count = Double.parseDouble(countInString.toString());
-                if (count > 0) {
-                    jobAnnouncement.setId(null);
-                }
-                Executor.getInstance()
-                        .setParentFields(parentJobAnnouncement.getFields())
-                        .setChildFields(jobAnnouncement.getFields())
-                        .executeLogic(
-                                new RequiredFieldValidationExecutor(),
-                                new SubmittedFieldValueValidationExecutor()
-                        );
-                jobAnnouncement.setOwnerId(parentJobAnnouncement.getOwnerId());
-                jobAnnouncement.setCompanyId(parentJobAnnouncement.getCompanyId());
-                jobAnnouncement.setMetadata(Map.of("editable", true, "count", 0));
-                return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(jobAnnouncement));
-            }
-        }
-        return null;
-    }
+        jobAnnouncement.setMetadata(new HashMap<>());
+        final Map<String, Object> newMetadata = jobAnnouncement.getMetadata();
 
-    public JobAnnouncement getJobAnnouncementById(final String id) {
-        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(id);
-        if(jobAnnouncementOptional.isEmpty()) {
-            throw new NoSuchAnnouncementException();
-        }
-        final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementOptional.get();
+        if (!parentMetadata.containsKey("count")) parentMetadata.put("count", 0);
 
-        final Optional<JobAnnouncementDocument> parentJobAnnouncementDocumentOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
-        if(parentJobAnnouncementDocumentOptional.isEmpty()) {
-            throw new NoSuchAnnouncementException();
-        }
-        final JobAnnouncementDocument parentJobAnnouncement = parentJobAnnouncementDocumentOptional.get();
+        double count = Double.parseDouble(parentMetadata.get("count").toString());
+        if (count > 0) jobAnnouncement.setId(null);
 
         Executor.getInstance()
-                .setChildFields(jobAnnouncementDocument.getFields())
                 .setParentFields(parentJobAnnouncement.getFields())
+                .setChildFields(jobAnnouncement.getFields())
                 .executeLogic(
-                        new MergeFieldsExecutor()
+                        new RequiredFieldValidationExecutor(),
+                        new SubmittedFieldValueValidationExecutor()
                 );
-
-
-        return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementDocument);
+        jobAnnouncement.setOwnerId(parentJobAnnouncement.getOwnerId());
+        jobAnnouncement.setCompanyId(parentJobAnnouncement.getCompanyId());
+        newMetadata.put("editable", true);
+        newMetadata.put("count", 0);
+        return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(jobAnnouncement));
     }
+
 }
