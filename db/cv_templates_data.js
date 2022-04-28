@@ -4,6 +4,10 @@ let systemCVTemplate = {
     _id: ObjectId(),
     system: true,
     name: "System template",
+    metadata : {
+        editable: true,
+        count : 0,
+    },
     fields: [{
             _id: ObjectId(),
             name: "Personal Info",
