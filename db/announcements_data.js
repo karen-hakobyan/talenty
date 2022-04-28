@@ -7,6 +7,10 @@ let jobAnnouncement = {
     // status: "CONFIRMED",
     status: "PENDING",
     attachedCvTemplateId: null,
+    metadata : {
+        editable: true,
+        count : 0,
+    },
     fields: [{
             _id: ObjectId(),
             name: "General Information",
