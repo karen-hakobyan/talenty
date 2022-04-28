@@ -1,7 +1,7 @@
 import axios from 'axios'
 // const baseUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:7800/";
-// export const baseUrl = "https://api.talenty.duckdns.org";
-export const baseUrl = "http://localhost:7800/";
+export const baseUrl = "https://api.talenty.duckdns.org";
+// export const baseUrl = "http://localhost:7800/";
 
 export const instance = axios.create({
     baseURL: baseUrl
