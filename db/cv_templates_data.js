@@ -56,6 +56,7 @@ let systemCVTemplate = {
                     metadata: {
                         placeholder: "DD/MM/YYYY",
                         type: "date",
+                        maxLength: 10,
                         editable: false,
                         required_editable: true,
                         deletable: true,
@@ -155,8 +156,6 @@ let systemCVTemplate = {
                                 maxLength: 3,
                                 editable: false,
                                 deletable: false,
-                                values: ["USD"],
-                                submitted_value: "USD",
                             },
                         },
                     ],
@@ -419,6 +418,7 @@ let systemCVTemplate = {
                                 metadata: {
                                     status: "NEW",
                                     type: "date",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "From",
                                     editable: false,
@@ -431,6 +431,7 @@ let systemCVTemplate = {
                                 metadata: {
                                     status: "NEW",
                                     type: "date",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "To",
                                     editable: false,
@@ -549,6 +550,7 @@ let systemCVTemplate = {
                                 name: "Start",
                                 metadata: {
                                     type: "date",
+                                    maxLength: 10,
                                     status: "NEW",
                                     inside_container: true,
                                     placeholder: "Start",
@@ -562,6 +564,7 @@ let systemCVTemplate = {
                                 metadata: {
                                     type: "date",
                                     status: "NEW",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "End",
                                     editable: false,
@@ -850,6 +853,7 @@ let systemCVTemplate = {
                                     placeholder: "From",
                                     status: "NEW",
                                     inside_container: true,
+                                    maxLength: 10,
                                     type: "date",
                                     editable: false,
                                     deletable: false,
@@ -861,6 +865,7 @@ let systemCVTemplate = {
                                 metadata: {
                                     status: "NEW",
                                     type: "date",
+                                    maxLength: 10,
                                     inside_container: true,
                                     placeholder: "To",
                                     editable: false,
