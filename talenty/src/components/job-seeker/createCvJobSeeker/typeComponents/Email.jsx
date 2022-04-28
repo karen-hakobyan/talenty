@@ -14,7 +14,7 @@ export default function Email({data}) {
     })
     useEffect(()=>{
         setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20 ,isEmail:true}))
-   },[value,data.metadata.type,data.metadata?.maxLength,data.name])
+   },[value,data])
     return <SubSection
         label={data.name}
         inputComponent={
@@ -22,9 +22,6 @@ export default function Email({data}) {
                 placeholder={data.metadata.placeholder}
                 sx={{
                     width: '500px',
-                }}
-                FormHelperTextProps={{
-                    sx:{fontFamily: "'Poppins', sans-serif"}
                 }}
                 InputProps={{
                     sx: {

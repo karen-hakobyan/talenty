@@ -91,9 +91,6 @@ export default function Section({data}) {
                             value={fromValue}
                             error={fromErr?.error}
                             helperText={fromErr.massage}
-                            FormHelperTextProps={{
-                                sx:{fontFamily: "'Poppins', sans-serif"}
-                            }}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {
@@ -116,9 +113,6 @@ export default function Section({data}) {
                             placeholder={to.metadata.placeholder}
                             error={toErr?.error}
                             helperText={toErr.massage}
-                            FormHelperTextProps={{
-                                sx:{fontFamily: "'Poppins', sans-serif"}
-                            }}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {
@@ -148,26 +142,6 @@ export default function Section({data}) {
                                          />
                                      }
                 />
-                {/*<JobSeekerSubsection*/}
-                {/*    label={<Box>{deadline.name} *</Box>}*/}
-                {/*    sx={{ml: '38px'}}*/}
-                {/*    Component={*/}
-                {/*        <BasicDatePicker*/}
-                {/*            placeholder="Deadline"*/}
-                {/*            value={deadline.metadata.submitted_value}*/}
-                {/*            onChange={*/}
-                {/*                (event) => {*/}
-                {/*                    dispatch(changeDialogDataById({*/}
-                {/*                        id: deadline.id,*/}
-                {/*                        value: validateDate(event.toLocaleDateString()),*/}
-                {/*                    }))*/}
-                {/*                }*/}
-                {/*            }*/}
-                {/*            pickerProps={{minDate: new Date()}}*/}
-                {/*            fieldStyle={{width: '300px'}}*/}
-                {/*        />*/}
-                {/*    }*/}
-                {/*/>*/}
             </Box>
         }
     />

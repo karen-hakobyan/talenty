@@ -15,5 +15,6 @@ public class JobAnnouncementDocument extends BaseTemplateDocument {
     private String attachedCvTemplateId;
     private String parentId;
     private JobAnnouncementStatus status;
+    private String companyId;
 
 }

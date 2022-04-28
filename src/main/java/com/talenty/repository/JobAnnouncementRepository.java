@@ -14,4 +14,6 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
 
     List<JobAnnouncementDocument> findAllByStatus(JobAnnouncementStatus status);
 
+    List<JobAnnouncementDocument> findAllByCompanyIdAndStatus(String id, JobAnnouncementStatus status);
+
 }

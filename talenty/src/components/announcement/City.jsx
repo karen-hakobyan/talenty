@@ -14,7 +14,7 @@ export default function City({data}) {
     const dispatch = useDispatch()
     useEffect(()=>{
              setErr(validate({name:data.name,value,maxLength:data.metadata.maxLength,uppercase:true}))
-    	},[value,data.metadata.type,data.metadata.maxLength,data.name])
+    	},[value,data])
     return <JobSeekerSubsection
         label={data.name}
         Component={
@@ -23,9 +23,6 @@ export default function City({data}) {
                 error={err?.error}
                 helperText={err.massage}
                 value={value}
-                FormHelperTextProps={{
-                    sx:{fontFamily: "'Poppins', sans-serif"}
-                }}
                 onChange={
                     (event) => {
                         setValue(event.target.value)

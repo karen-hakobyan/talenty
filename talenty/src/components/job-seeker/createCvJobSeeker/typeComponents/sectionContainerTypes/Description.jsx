@@ -16,10 +16,9 @@ export default function Description({data}) {
         error: false,
         massage: ""
     })
-    console.log(editorState)
     
     useEffect(()=>{
-             setErr(validate({name:data.name,value:descriptionValue(editorState),maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
+             setErr(validate({name:data.name,value:editorState,maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
     	},[data, editorState])
 
     return <JobSeekerSubsection

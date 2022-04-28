@@ -46,9 +46,6 @@ export default function BasicDatePicker({
                         }}
                         error={name==="End" && err.massage==="Enter when you started"?false:err?.error}
                         helperText={name==="End" && err.massage==="Enter when you started"?"":err?.massage}
-                        FormHelperTextProps={{
-                            sx:{fontFamily: "'Poppins', sans-serif"}
-                        }}
                         inputProps={{
                             ...params.inputProps, placeholder, sx: {
                                 fontFamily: "'Poppins', sans-serif",

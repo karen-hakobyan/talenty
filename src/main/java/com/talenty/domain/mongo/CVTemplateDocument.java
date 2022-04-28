@@ -2,13 +2,14 @@ package com.talenty.domain.mongo;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.List;
 
 @Getter
 @Setter
 @Document("cv_templates")
 public class CVTemplateDocument extends BaseTemplateDocument {
+
+    private String companyId;
+    private Boolean system;
+
 }

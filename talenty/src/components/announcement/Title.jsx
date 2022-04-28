@@ -22,7 +22,7 @@ export default function Title({data}) {
     }, [dialogData])
     useEffect(()=>{
             setErr(validate({name:data.name,value,maxLength:data.metadata.maxLength,uppercase:true}))
-    },[value,data.metadata.type,data.metadata.maxLength,data.name])
+    },[value,data])
     return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection
             label={<Box>Title <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
@@ -34,9 +34,6 @@ export default function Title({data}) {
                     value={value}
                     error={err?.error}
                     helperText={err.massage}
-                    FormHelperTextProps={{
-                        sx:{fontFamily: "'Poppins', sans-serif"}
-                    }}
                     InputProps={{
                         sx: {
                             height: "40px",

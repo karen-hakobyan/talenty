@@ -7,7 +7,6 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 const SignUpField = React.forwardRef(
     ({register, value, isPassword, objKey, errors, error, placeholder, ...restProps}, ref) => {
         const [showPass, setShowPass] = useState(false)
-        console.log(errors);
         return (
             <Box
                 sx={{display: "flex", gap: "10px", flexDirection: "column"}}

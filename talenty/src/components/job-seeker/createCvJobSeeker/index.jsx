@@ -17,6 +17,7 @@ import UserCVBody from "./UserCVBody";
 import AddButton from "./AddButton";
 import {setJwt} from "../../../store/auth/authSlice";
 import {cleanTemplateNewIds} from "../../../helpers/actions";
+import {setDialogData, setDialogInitialData, setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
 
 export default function CreateCvJobSeeker() {
     const navigate = useNavigate()
@@ -101,18 +102,27 @@ export default function CreateCvJobSeeker() {
                                 <ArrowRight/>
                             </Button>
                         ) : (
+                            // <Button
+                            //     sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0", width: '179px'}}
+                            //     onClick={async () => {
+                            //         const data = cleanTemplateNewIds(templateData)
+                            //         await dispatch(userInfo.cvTemplateId ? editJobSeekerCv({
+                            //             data,
+                            //             parentId: templateData.parentId
+                            //         }) : saveJobSeekerCV(data))
+                            //         navigate('/')
+                            //     }}
+                            // >
+                            //     {userInfo.cvTemplateId ? 'Edit' : 'Save'}
+                            // </Button>
                             <Button
-                                sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0"}}
-                                onClick={async () => {
-                                    const data = cleanTemplateNewIds(templateData)
-                                    await dispatch(userInfo.cvTemplateId ? editJobSeekerCv({
-                                        data,
-                                        parentId: templateData.parentId
-                                    }) : saveJobSeekerCV(data))
-                                    navigate('/')
+                                sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
+                                onClick={() => {
+                                    dispatch(setDialogType('jobSeekerPreview'));
+                                    dispatch(setDialogIsOpen(true));
                                 }}
                             >
-                                {userInfo.cvTemplateId ? 'Edit' : 'Save'}
+                                Preview
                             </Button>
                         )}
                     </Box>

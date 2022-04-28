@@ -123,16 +123,3 @@ export const validetionType = (type) => {
     }
     return true
 }
-export const descriptionValue = (value) => {
-    if (!value) {
-        return ""
-
-    }
-    return JSON.stringify(value)
-        // let defultValue = JSON.parse(value)
-        // let text = ""
-        // defultValue.blocks.forEach((el) => {
-        //     text += el.text
-        // })
-        // return text
-}

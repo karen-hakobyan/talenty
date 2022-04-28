@@ -14,7 +14,7 @@ export default function City({data}) {
     })
     useEffect(()=>{
              setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20 ,uppercase:true}))
-    	},[value,data.metadata.type,data.metadata?.maxLength,data.name])
+    	},[value,data])
     return <JobSeekerSubsection
         label={data.name}
         Component={
@@ -24,9 +24,6 @@ export default function City({data}) {
                 name={data.name}
                 error={err?.error}
                 helperText={err.massage}
-                FormHelperTextProps={{
-                    sx:{fontFamily: "'Poppins', sans-serif"}
-                }}
                 InputProps={{
                     sx: {
                         fontFamily: "'Poppins', sans-serif",

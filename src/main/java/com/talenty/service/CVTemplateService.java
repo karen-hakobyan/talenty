@@ -16,6 +16,9 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -72,10 +75,12 @@ public class CVTemplateService {
                         new DeletedFieldValidationExecutor()
                 );
 
+        final HrDocument currentHr = hrService.getCurrentHr();
         newTemplate.setId(null);
+        newTemplate.setOwnerId(currentHr.getId());
+        newTemplate.setCompanyId(currentHr.getCompanyId());
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);
 
-        final HrDocument currentHr = hrService.getCurrentHr();
         currentHr.addCvTemplate(savedNewTemplate.getId(), cvTemplate.getName());
         hrService.save(currentHr);
 
@@ -83,17 +88,59 @@ public class CVTemplateService {
     }
 
     public BasicDBObject getAllCvTemplates() {
-        return hrService.getCurrentHr().getCvTemplates();
+        final HrDocument currentHr = hrService.getCurrentHr();
+        final String companyId = currentHr.getCompanyId();
+        final List<CVTemplateDocument> allByCompanyId = cvTemplateRepository.findAllByCompanyId(companyId);
+
+        final BasicDBObject allCvTemplates = new BasicDBObject();
+        allByCompanyId.forEach(e -> {
+            e.setFields(null);
+            allCvTemplates.append(e.getId(), e.getName());
+        });
+
+        return allCvTemplates;
     }
 
     public BasicDBObject deleteCreatedCvTemplateById(final String id) {
-        final HrDocument currentHr = hrService.getCurrentHr();
-        currentHr.deleteCvTemplate(id);
-        hrService.save(currentHr);
+        //TODO if count == 0 delete from db, else set status "DELETED"
+        cvTemplateRepository.deleteById(id);
 
-        //TODO if count ==0 delete from db, else set status "DELETED"
+        return getAllCvTemplates();
+    }
 
-        return currentHr.getCvTemplates();
+    public void updateCountIfNeeded(final CVTemplateDocument parentTemplate) {
+        final Optional<CVTemplateDocument> byId = cvTemplateRepository.findById(parentTemplate.getId());
+        if (byId.isEmpty()) {
+            System.out.printf("Template with id '%s' is not found\n", parentTemplate.getId());
+            throw new NoSuchTemplateException();
+        }
+
+        final CVTemplateDocument cvTemplateDocument = byId.get();
+        if (cvTemplateDocument.getSystem()) return;
+
+        final Map<String, Object> metadata = cvTemplateDocument.getMetadata();
+        final Map<String, Object> newMetadata = new HashMap<>();
+        if (metadata != null) {
+            newMetadata.putAll(metadata);
+            final Object count = metadata.get("count");
+            Integer currentCount = null;
+            if (count != null) currentCount = Integer.parseInt(count.toString());
+            if (currentCount == null) {
+                newMetadata.put("count", 1);
+            } else {
+                newMetadata.put("count", (currentCount + 1));
+            }
+        } else {
+            newMetadata.put("count", 1);
+        }
+        cvTemplateDocument.setMetadata(newMetadata);
+
+        cvTemplateRepository.save(cvTemplateDocument);
+    }
+
+    public CVTemplateDocument save(final CVTemplateDocument document) {
+        return cvTemplateRepository.save(document);
     }
 
 }
+

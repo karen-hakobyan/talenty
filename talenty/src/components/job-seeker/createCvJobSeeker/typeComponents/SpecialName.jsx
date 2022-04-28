@@ -34,9 +34,6 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
                 }
                 error={err?.error}
                 helperText={err.massage}
-                FormHelperTextProps={{
-                    sx:{fontFamily: "'Poppins', sans-serif"}
-                }}
                 InputProps={{
                     sx: {
                         fontFamily: "'Poppins', sans-serif",

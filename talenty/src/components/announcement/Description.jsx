@@ -25,10 +25,10 @@ export default function     Description({data}) {
         if(data.metadata.required){
             setRequiredTextFieldErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
         }else if(!data.metadata.required){
-            setRequiredTextFieldErr(validate({name:data.name,value:descriptionValue(value),maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
+            setRequiredTextFieldErr(validate({name:data.name,value:editorState,maxLength:data.metadata?.maxLength? data.metadata?.maxLength : 1000}))
         }
 
-    },[value,data,data.metadata.required])
+    },[value,data,editorState])
     const id = data.id
     return <JobSeekerSubsection
         label={<Box sx={{
@@ -60,6 +60,10 @@ export default function     Description({data}) {
             value={value}
             error={requiredTextFieldErr.error}
             helperText={requiredTextFieldErr.massage}
+            FormHelperTextProps = {
+                {
+                    sx: { fontFamily: "'Poppins', sans-serif" }
+                }}
             required={!!data.metadata.required}
             onChange={(e) => setValue(e.target.value)}
             onBlur={() => dispatch(changeDialogDataById({id: data.id, value}))}

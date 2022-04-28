@@ -121,15 +121,12 @@ function Salary({data}) {
     })
     useEffect(()=>{
              setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20,isnumber:true}))
-    	},[value,data.metadata.type,data.metadata?.maxLength,data.name])
+    	},[value,data])
 
     return <TextField
         placeholder={data.metadata.placeholder}
         error={err?.error}
         helperText={err.massage}
-        FormHelperTextProps={{
-            sx:{fontFamily: "'Poppins', sans-serif"}
-        }}
         sx={{width: '384px'}}
         onChange={(e) => {
             if (!isNaN(+e.target.value) && e.target.value !== ' ') {
