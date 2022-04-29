@@ -5,7 +5,6 @@ import JobSeekerSubsection from "../../JobSeekerSubsection";
 import { validetionDate } from '../../../../../helpers/validation/validation';
 
 export default function Section({data}) {
-    // console.log(data)
     const [start,end,stillWorking] = data.fields
     const [err, setErr]= useState({
         error: false,

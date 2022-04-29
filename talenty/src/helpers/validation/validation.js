@@ -1,6 +1,21 @@
-export const validate = ({ name, value, maxLength, uppercase, isnumber, isEmail }) => {
+export const validate = ({ name, value, maxLength, uppercase, isnumber, isEmail, isPhoneNumber, isURL }) => {
     const regex = /^[A-Z]/
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    const phoneRegex = /[+]\d{1,17}$/gm
+    const URLRegex = /^(https?|ftp|file):[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]/gm
+
+    if (isURL && value && !URLRegex.test(value)) {
+        return {
+            error: true,
+            massage: "Not corect URL"
+        }
+    }
+    if (isPhoneNumber && value && !phoneRegex.test(value)) {
+        return {
+            error: true,
+            massage: "Not corect phone number "
+        }
+    }
     if (isEmail && !emailRegex.test(value)) {
         return {
             error: true,
@@ -78,21 +93,21 @@ export const validationNumber = ({ from, to, maxLength, isValidetion }) => {
 export const validetionDate = ({ startValue, endValue, isStillWorking }) => {
 
     if (startValue && endValue) {
-        const [deyStart, monstsStart, yearStart] = startValue.split("/")
-        const [deyEnd, monstsEnd, yearEnd] = endValue.split("/")
+        const [dayStart, monthsStart, yearStart] = startValue.split("/")
+        const [dayEnd, monthsEnd, yearEnd] = endValue.split("/")
         if (+yearEnd < +yearStart) {
             return {
                 error: true,
                 massage: "The years entered do not coincide"
             }
         }
-        if (+monstsEnd < +monstsStart) {
+        if (+monthsEnd < +monthsStart) {
             return {
                 error: true,
                 massage: "The incoming months do not coincide"
             }
         }
-        if (+deyEnd < +deyStart) {
+        if (+dayEnd < +dayStart) {
             return {
                 error: true,
                 massage: "The days of entry do not coincide"
@@ -122,4 +137,10 @@ export const validetionType = (type) => {
         return false
     }
     return true
+}
+export const validetionURLType = (type) => {
+    if (type === "url" || "social_link") {
+        return true
+    }
+    return false
 }
