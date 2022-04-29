@@ -7,6 +7,10 @@ let jobAnnouncement = {
     // status: "CONFIRMED",
     status: "PENDING",
     attachedCvTemplateId: null,
+    metadata : {
+        editable: true,
+        count : 0,
+    },
     fields: [{
             _id: ObjectId(),
             name: "General Information",
@@ -90,7 +94,7 @@ let jobAnnouncement = {
                             name: "City",
                             metadata: {
                                 placeholder: "City",
-                                maxLength: 10,
+                                maxLength: 20,
                                 type: "city",
                                 deletable: false,
                                 required: false,

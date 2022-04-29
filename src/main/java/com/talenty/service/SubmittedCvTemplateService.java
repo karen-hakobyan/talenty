@@ -6,17 +6,14 @@ import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
-import com.talenty.logical_executors.CleanUpMetadataExecutor;
-import com.talenty.logical_executors.FieldsIdValidationExecutor;
-import com.talenty.logical_executors.MergeFieldsExecutor;
-import com.talenty.logical_executors.RequiredFieldValidationExecutor;
-import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
+import com.talenty.logical_executors.*;
 import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.SubmittedCvTemplateRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -95,27 +92,36 @@ public class SubmittedCvTemplateService {
 
         final Map<String, Object> parentMetadata = parentTemplate.getMetadata();
 
-        final CVTemplateDocument cvTemplate = CVTemplateMapper.instance.dtoToDocument(editedCvTemplate);
-        if (parentMetadata != null && parentMetadata.containsKey("count")) {
-            final Object countInString = parentMetadata.get("count");
-            if (countInString != null) {
-                int count = Integer.parseInt(countInString.toString());
-                if (count > 0) {
-                    cvTemplate.setId(null);
-                }
-                Executor.getInstance()
-                        .setChildFields(cvTemplate.getFields())
-                        .setParentFields(parentTemplate.getFields())
-                        .executeLogic(
-                                new FieldsIdValidationExecutor(),
-                                new RequiredFieldValidationExecutor(),
-                                new SubmittedFieldValueValidationExecutor()
-                        );
-                return CVTemplateMapper.instance.documentToDto(cvTemplateService.save(cvTemplate));
-
-            }
+        if (!parentMetadata.containsKey("editable") || !((Boolean) parentMetadata.get("editable"))) {
+            System.out.printf("Couldn't edit cv template with id '%s'\n", editedCvTemplate.getId());
+            throw new NoSuchTemplateException();
         }
-        return null;
+
+        final CVTemplateDocument cvTemplate = CVTemplateMapper.instance.dtoToDocument(editedCvTemplate);
+        if (!parentMetadata.containsKey("count")) parentMetadata.put("count", 0);
+        double count = Double.parseDouble(parentMetadata.get("count").toString());
+        if (count > 0) {
+            cvTemplate.setId(null);
+            handleEditedTemplateInList(parentTemplate, cvTemplate);
+        }
+
+        Executor.getInstance()
+                .setChildFields(cvTemplate.getFields())
+                .setParentFields(parentTemplate.getFields())
+                .executeLogic(
+                        new FieldsIdValidationExecutor(),
+                        new DeletedFieldValidationExecutor()
+                );
+        cvTemplate.setOwnerId(parentTemplate.getOwnerId());
+        cvTemplate.setCompanyId(parentTemplate.getCompanyId());
+        cvTemplate.setMetadata(Map.of("editable", true, "count", 0));
+        return CVTemplateMapper.instance.documentToDto(cvTemplateService.save(cvTemplate));
+    }
+
+    private void handleEditedTemplateInList(final CVTemplateDocument parent, final CVTemplateDocument child) {
+        if (!Objects.equals(parent.getName(), child.getName())) return;
+        parent.getMetadata().put("status", "DELETED");
+        cvTemplateService.save(parent);
     }
 
 

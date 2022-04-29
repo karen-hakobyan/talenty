@@ -80,15 +80,17 @@ public class CVTemplateController {
     }
 
     @PostMapping("/edit")
+    // ROLE_JOB_SEEKER
     public ResponseEntity<?> editSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate editedCvTemplate) {
         submittedCvTemplateService.edit(editedCvTemplate);
-        return ResponseEntity.ok("saved_submitted_cv_template");
+        return ResponseEntity.ok("edited_submitted_cv_template");
     }
 
     @PostMapping("/edit_cv")
+    // ROLE_HR_ADMIN
     public ResponseEntity<?> editCvTemplate(@RequestBody final CVTemplate editedCvTemplate) {
         submittedCvTemplateService.edit(editedCvTemplate);
-        return ResponseEntity.ok("saved_submitted_cv_template");
+        return ResponseEntity.ok("edited_cv_template");
     }
 
     @GetMapping("/delete")

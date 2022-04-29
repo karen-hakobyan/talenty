@@ -16,10 +16,7 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CVTemplateService {
@@ -79,6 +76,7 @@ public class CVTemplateService {
         newTemplate.setId(null);
         newTemplate.setOwnerId(currentHr.getId());
         newTemplate.setCompanyId(currentHr.getCompanyId());
+        newTemplate.setMetadata(parentTemplate.getMetadata());
         final CVTemplateDocument savedNewTemplate = cvTemplateRepository.save(newTemplate);
 
         currentHr.addCvTemplate(savedNewTemplate.getId(), cvTemplate.getName());
@@ -93,10 +91,13 @@ public class CVTemplateService {
         final List<CVTemplateDocument> allByCompanyId = cvTemplateRepository.findAllByCompanyId(companyId);
 
         final BasicDBObject allCvTemplates = new BasicDBObject();
-        allByCompanyId.forEach(e -> {
+        for (final CVTemplateDocument e : allByCompanyId) {
+            if (e.getMetadata().containsKey("status") && Objects.equals(e.getMetadata().get("status"), "DELETED")) {
+                continue;
+            }
             e.setFields(null);
             allCvTemplates.append(e.getId(), e.getName());
-        });
+        }
 
         return allCvTemplates;
     }
@@ -123,8 +124,8 @@ public class CVTemplateService {
         if (metadata != null) {
             newMetadata.putAll(metadata);
             final Object count = metadata.get("count");
-            Integer currentCount = null;
-            if (count != null) currentCount = Integer.parseInt(count.toString());
+            Double currentCount = null;
+            if (count != null) currentCount = Double.parseDouble(count.toString());
             if (currentCount == null) {
                 newMetadata.put("count", 1);
             } else {

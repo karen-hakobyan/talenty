@@ -2,7 +2,6 @@ import {Box} from "@mui/material";
 import {PREVIEW_TITLE} from "../constants";
 
 export default function ProfSkills({data}) {
-    console.log(data)
     if (data.fields[0].fields.some(el => !el.metadata.submitted_value)) {
         return null
     }
@@ -18,14 +17,12 @@ export default function ProfSkills({data}) {
                         {skillName}
                     </Box>
                     <Box sx={{display: 'flex', gap: '10px'}}>
-                        {/*#9B9B9B*/}
-                        {/*#4C494F*/}
                         {[1, 2, 3, 4, 5].map((num, index) => {
                             return <Box
                                 sx={{
                                     width: '10px',
                                     height: '10px',
-                                    background: level && values.findIndex((temp) => temp === level) - 1 >= index ? '#4C494F' : '#9B9B9B'
+                                    background: level && values.findIndex((temp) => temp === level) - 1 >= index ? '#4C494F' : '#d9d9d9'
                                 }}
                                 key={num}
                             />
