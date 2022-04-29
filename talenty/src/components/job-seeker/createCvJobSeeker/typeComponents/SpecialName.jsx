@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import { validate, validetionType } from "../../../../helpers/validation/validation";
+import { validate, validetionType, validetionURLType } from "../../../../helpers/validation/validation";
 import TextField from "../../../../shared/components/Textfield";
 import {setTemplateData} from "../../../../store/globalData/slice";
 import JobSeekerSubsection from "../JobSeekerSubsection";
@@ -18,7 +18,8 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
             name:data.name,
             value,
             maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20,
-            uppercase:validetionType(validetionType)
+            uppercase:validetionType(data.metadata.type),
+            isURL:validetionURLType(data.metadata.type)
         }))
    },[value,data])
 
@@ -34,6 +35,7 @@ export default function SpecialName({data, sx = {}, fieldStyle = {}}) {
                 }
                 error={err?.error}
                 helperText={err.massage}
+
                 InputProps={{
                     sx: {
                         fontFamily: "'Poppins', sans-serif",
