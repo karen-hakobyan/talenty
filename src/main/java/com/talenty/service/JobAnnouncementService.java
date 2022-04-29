@@ -128,8 +128,7 @@ public class JobAnnouncementService {
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields())
                 .executeLogic(
-                        applicationContext.getBean(AdminValuesMergeExecutor.class),
-                        new MergeFieldsExecutor()
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
                 );
         return Optional.of(jobAnnouncementDocument);
     }
