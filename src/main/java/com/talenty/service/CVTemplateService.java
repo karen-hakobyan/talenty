@@ -5,6 +5,7 @@ import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.domain.mongo.HrDocument;
 import com.talenty.exceptions.NoSuchTemplateException;
+import com.talenty.exceptions.WrongOwnerException;
 import com.talenty.logical_executors.AdminValuesMergeExecutor;
 import com.talenty.logical_executors.DeletedFieldValidationExecutor;
 import com.talenty.logical_executors.FieldsAutoCompleteExecutor;
@@ -103,9 +104,27 @@ public class CVTemplateService {
     }
 
     public BasicDBObject deleteCreatedCvTemplateById(final String id) {
-        //TODO if count == 0 delete from db, else set status "DELETED"
-        cvTemplateRepository.deleteById(id);
+        final CVTemplateDocument cvTemplateById = getCvTemplateById(id, true);
+        final HrDocument currentHr = hrService.getCurrentHr();
+        final String ownerId = cvTemplateById.getOwnerId();
 
+        if (!Objects.equals(ownerId, currentHr.getId())) {
+            System.out.printf("Owner with id %s tried to delete cv of owner with id %s\n", ownerId, currentHr.getId());
+            throw new WrongOwnerException();
+        }
+
+        final Map<String, Object> metadata = cvTemplateById.getMetadata();
+
+        if (!metadata.containsKey("count")) metadata.put("count", 0);
+
+        final double count = Double.parseDouble((metadata.get("count").toString()));
+        if (count > 0) {
+            metadata.put("status", "DELETED");
+            return getAllCvTemplates();
+        }
+
+        currentHr.deleteCvTemplate(id);
+        hrService.save(currentHr);
         return getAllCvTemplates();
     }
 
