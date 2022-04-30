@@ -5,6 +5,7 @@ export const validate = ({ name, value, maxLength, uppercase, isnumber, isEmail,
     const URLRegex = /^(https?|ftp|file):[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]/gm
 
     if (isURL && value && !URLRegex.test(value)) {
+        console.log({ name, isURL })
         return {
             error: true,
             massage: "Not corect URL"
@@ -139,7 +140,7 @@ export const validetionType = (type) => {
     return true
 }
 export const validetionURLType = (type) => {
-    if (type === "url" || "social_link") {
+    if (type === "url" || type === "social_link") {
         return true
     }
     return false

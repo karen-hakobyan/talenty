@@ -23,3 +23,5 @@ export const getValidateToken = (token) => {
 export const postChangePassword = (token) => `/reset/password?token=${token}`
 export const getConfirmUser = (token) => `/confirm?token=${token}`
 export const getDeleteHrCvId = (id) => `/cv_template/delete?id=${id}`
+export const GET_CONFIRM_ANNOUCEMENT = `/job_announcements/all_confirmed`
+export const GET_PENDINGS_ANNOUCEMENT = `/job_announcements/all_pending`

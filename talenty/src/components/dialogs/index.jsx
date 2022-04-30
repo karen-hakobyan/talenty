@@ -10,6 +10,7 @@ import {dialogTypes} from "./type";
 import {ATTENTION_TYPES} from "./constants";
 import {Box} from "@mui/system";
 import Loading from "../../assets/loading/loading.gif"
+import { selectDataIsLoading } from "../../store/globalData/selector";
 
 
 export default function Dialogs() {
@@ -19,7 +20,9 @@ export default function Dialogs() {
     const dialogData = useSelector(selectDialogData);
     const dialogInitialData = useSelector(selectDialogInitialData);
     const [attentionIsOpen, setAttentionIsOpen] = useState(false);
-    const isAuthLoading = useSelector(state=>state.auth.loading)
+    const isAuthLoading = useSelector(state => state.auth.loading)
+    const isDataLoading = useSelector(selectDataIsLoading)
+    const isLoading = isAuthLoading || isDataLoading
     const tempComponentInfo = useMemo(() => {
         return dialogType ? dialogTypes[dialogType]({
             dialogData, setAttentionIsOpen, attentionIsOpen, dialogInitialData,
@@ -33,11 +36,11 @@ export default function Dialogs() {
         return tempComponentInfo.component;
     }, [tempComponentInfo]);
 
-    if (!isDialogOpen && !isAuthLoading) {
+    if (!isDialogOpen && !isLoading) {
         attentionIsOpen && setAttentionIsOpen(false);
         return null;
     }
-    if (!dialogType && !isAuthLoading) {
+    if (!dialogType && !isLoading) {
         return null;
     }
 
@@ -55,13 +58,13 @@ export default function Dialogs() {
             maxWidth={false}
             sx={{
                 borderRadius: "16px",
-                "& .css-1hju3x6-MuiPaper-root-MuiDialog-paper": isAuthLoading && {
+                "& .css-1hju3x6-MuiPaper-root-MuiDialog-paper": isLoading && {
                     background: "transparent",
                     boxShadow: "none",
                 }
             }}
         >
-            {isAuthLoading ? <Box sx={{
+            {isLoading ? <Box sx={{
                 background: "transparent",
                 boxShadow: "none",
             }}>
