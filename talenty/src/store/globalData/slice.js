@@ -23,7 +23,7 @@ import { jobAnnouncementAjab } from "../../ajab";
 const initialState = {
     exactPage: 1,
     templateInitialData: null,
-    annoucementLis: [],
+    annoucementList: [],
     templateList: [],
     templateData: null,
     linksController: null,
@@ -223,7 +223,7 @@ export const globalDataSlice = createSlice({
         },
         [confirmAnnoucementList.fulfilled]: (state, { payload }) => {
             state.isLoading = false
-            state.annoucementLis = payload
+            state.annoucementList = payload
         },
         [pendingAnnoucementList.rejected]: (state) => {
             state.isLoading = false
@@ -234,7 +234,7 @@ export const globalDataSlice = createSlice({
         },
         [pendingAnnoucementList.fulfilled]: (state, { payload }) => {
             state.isLoading = false
-            state.annoucementLis = payload
+            state.annoucementList = payload
         },
 
     }

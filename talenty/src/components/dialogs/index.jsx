@@ -23,7 +23,6 @@ export default function Dialogs() {
     const isAuthLoading = useSelector(state => state.auth.loading)
     const isDataLoading = useSelector(selectDataIsLoading)
     const isLoading = isAuthLoading || isDataLoading
-    console.log(isLoading)
     const tempComponentInfo = useMemo(() => {
         return dialogType ? dialogTypes[dialogType]({
             dialogData, setAttentionIsOpen, attentionIsOpen, dialogInitialData,

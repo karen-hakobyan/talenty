@@ -6,7 +6,6 @@ export default function Tables(){
     console.log(tableHeder)
     return (
         <Box sx={{
-            wisth:"100%",
             }}>
         <TableContainer component={Paper}>
             <Table sx={{wisth:"100%"}} aria-label="simple table">
@@ -25,12 +24,4 @@ export default function Tables(){
     )
 }
 
-{/* <table>
-                <tr>
-                    {tableHeder.map(el=>{
-                        return (
-                            <td key={el.key}>{el.text}</td>
-                        )
-                    })}
-                </tr>
-            </table>   */}
+

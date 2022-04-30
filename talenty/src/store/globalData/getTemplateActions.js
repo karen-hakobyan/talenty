@@ -136,12 +136,12 @@ export const publishJobAnnouncement = createAsyncThunk('globalData/publishJobAnn
         const response = await instance.post('/job_announcements/publish', data)
         return response.data
     } catch (err) {
-        console.log('announcment publish something went wrong issues')
+        console.log('announcements publish something went wrong issues')
         return thunkAPI.rejectWithValue('something went wrong')
     }
 })
 export const confirmAnnoucementList = createAsyncThunk(
-    'globalData/confirmAnnoucementList', async(_, thunkAPI) => {
+    'globalData/confirmAnnouncementList', async(_, thunkAPI) => {
         try {
             const response = await instance.get(GET_CONFIRM_ANNOUCEMENT)
             console.log(response.data)
@@ -158,7 +158,7 @@ export const pendingAnnoucementList = createAsyncThunk(
             console.log(response.data)
             return response.data
         } catch (err) {
-            console.log('announcment list err')
-            return thunkAPI.rejectWithValue('announcment list err')
+            console.log('annoucement list err')
+            return thunkAPI.rejectWithValue('annoucement list err')
         }
     })
