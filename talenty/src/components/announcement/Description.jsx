@@ -9,7 +9,7 @@ import {selectDialogData} from "../../store/dialogs/selector";
 import {convertToRaw} from "draft-js";
 import MUIRichTextEditor from "mui-rte";
 import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
-import { descriptionValue, validate } from "../../helpers/validation/validation";
+import {  validate } from "../../helpers/validation/validation";
 
 export default function     Description({data}) {
     const editorRef = useRef()

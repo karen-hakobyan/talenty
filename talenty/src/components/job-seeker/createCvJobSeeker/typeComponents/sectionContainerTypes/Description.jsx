@@ -5,7 +5,7 @@ import MUIRichTextEditor from "mui-rte";
 import JobSeekerSubsection from "../../JobSeekerSubsection";
 import {setTemplateData} from "../../../../../store/globalData/slice";
 import {convertToRaw} from "draft-js";
-import { descriptionValue, validate } from "../../../../../helpers/validation/validation";
+import { validate } from "../../../../../helpers/validation/validation";
 
 export default function Description({data}) {
     const editorRef = useRef()
