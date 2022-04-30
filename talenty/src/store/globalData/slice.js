@@ -210,6 +210,7 @@ export const globalDataSlice = createSlice({
             state.isLoading = true
         },
         [deleteHrCv.fulfilled]: (state, { payload }) => {
+            console.log(payload)
             state.templateList = payload
             state.isLoading = false
         },
@@ -233,6 +234,7 @@ export const globalDataSlice = createSlice({
             state.isLoading = true
         },
         [pendingAnnoucementList.fulfilled]: (state, { payload }) => {
+            console.log(payload, "p")
             state.isLoading = false
             state.annoucementList = payload
         },

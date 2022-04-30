@@ -1,16 +1,11 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { pendingAnnoucementList } from "../../store/globalData/getTemplateActions";
+import {  useSelector } from "react-redux";
+import { selectAnnoucementList } from "../../store/globalData/selector";
 import Tables from "../table/Table";
 
 
 export default function Panding(){
-    const dispatch = useDispatch()
-
-    useEffect(()=>{
-        dispatch(pendingAnnoucementList())
-    },[dispatch])
+    const annoucementList = useSelector(selectAnnoucementList)
     return(
         <Box sx={{
             width:"100%",
@@ -26,7 +21,7 @@ export default function Panding(){
                     marginBottom:5.5
                 }}
             >Pending  jobs</Box>
-            <Tables/> 
+            <Tables data={annoucementList}/> 
         </Box>
     )
 }
