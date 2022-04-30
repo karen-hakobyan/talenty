@@ -32,6 +32,7 @@ export default function PersonalInfo({data}) {
             </Box>
         }
         <Box sx={PREVIEW_TEXT_STYLE}>{email.metadata.submitted_value}</Box>
+        {phone.metadata.submitted_value && <Box sx={PREVIEW_TEXT_STYLE}>{phone.metadata.submitted_value}</Box>}
         {
             address.metadata.submitted_value || country.metadata.submitted_value || city.metadata.submitted_value ?
                 <Box sx={PREVIEW_TEXT_STYLE}>
