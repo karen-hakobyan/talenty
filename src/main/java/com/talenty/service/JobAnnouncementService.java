@@ -128,8 +128,7 @@ public class JobAnnouncementService {
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields())
                 .executeLogic(
-                        applicationContext.getBean(AdminValuesMergeExecutor.class),
-                        new MergeFieldsExecutor()
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
                 );
         return Optional.of(jobAnnouncementDocument);
     }
@@ -170,6 +169,9 @@ public class JobAnnouncementService {
 
         //TODO temporary solution getting info from sections
         for (final JobAnnouncementDocument jobAnnouncementDocument : allByCompanyId) {
+            if (jobAnnouncementDocument.getMetadata().containsKey("status") && Objects.equals(jobAnnouncementDocument.getMetadata().get("status"), "DELETED")) {
+                continue;
+            }
             final JobAnnouncementBasicInfo temp = makeBasicInfo(jobAnnouncementDocument);
             result.add(temp);
         }
@@ -259,7 +261,10 @@ public class JobAnnouncementService {
         if (!parentMetadata.containsKey("count")) parentMetadata.put("count", 0);
 
         double count = Double.parseDouble(parentMetadata.get("count").toString());
-        if (count > 0) jobAnnouncement.setId(null);
+        if (count > 0) {
+            jobAnnouncement.setId(null);
+            handleEditedJobAnnouncementInList(parentJobAnnouncement, jobAnnouncement);
+        }
 
         Executor.getInstance()
                 .setParentFields(parentJobAnnouncement.getFields())
