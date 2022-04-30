@@ -24,16 +24,17 @@ export default function Education({data}) {
                     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Box sx={CONTAINER_SUBTITLE_CONTAINER}>
                             <Box sx={CONTAINER_SUBTITLE}>{name.metadata.submitted_value}</Box>
-                            <Box sx={CONTAINER_SUBTITLE_CHILD}>
+                            {degree.metadata.submitted_value && <Box sx={CONTAINER_SUBTITLE_CHILD}>
                                 {degree.metadata.submitted_value + ','} {location.metadata.submitted_value}
-                            </Box>
+                            </Box>}
                         </Box>
-                        <Box sx={CONTAINER_DATE_STYLE}>
-                            {start.metadata.submitted_value.replaceAll('/', '.')}
-                            - {stillStudying.metadata.submitted_value ? 'Now' : end.metadata.submitted_value.replaceAll('/', '.')}
-                        </Box>
+                        {start.metadata.submitted_value &&
+                            <Box sx={CONTAINER_DATE_STYLE}>
+                                {start.metadata.submitted_value?.replaceAll('/', '.')}
+                                - {stillStudying.metadata.submitted_value ? 'Now' : end.metadata.submitted_value?.replaceAll('/', '.')}
+                            </Box>}
                     </Box>
-                    <Box sx={{width: '570px'}}>
+                    <Box sx={{width: '570px', mt: '-12px'}}>
                         <MUIRichTextEditor controls={[]} readOnly defaultValue={details.metadata.submitted_value}/>
                     </Box>
                 </Box>

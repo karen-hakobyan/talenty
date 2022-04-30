@@ -54,6 +54,9 @@ const authSlice = createSlice({
         },
         setIsValidToken: (state, {payload}) => {
             state.isValidToken = payload
+        },
+        setIsLoading: (state, {payload}) => {
+            state.loading = payload
         }
     },
     extraReducers: {
@@ -147,5 +150,6 @@ export const {
     setAuthIsChangePass,
     setAuthIsResetPassword,
     setIsValidToken,
-    setJwt
+    setJwt,
+    setIsLoading
 } = authSlice.actions

@@ -1,23 +1,20 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {Box} from "@mui/material";
-import {useNavigate} from "react-router-dom";
 import {ArrowBack, ArrowRight} from "../../../assets/icons/jobseeker";
 import Button from "../../../shared/components/Button";
 import SharedTemplateHeader from "../../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import {removeNewJwt, setExactPage, setNextPage, setPrevPage,} from "../../../store/globalData/slice";
 import {
-    editJobSeekerCv, getEditedUserCv,
+    getEditedUserCv,
     getTemplateActions,
-    saveJobSeekerCV
 } from "../../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 import AddButton from "./AddButton";
 import {setJwt} from "../../../store/auth/authSlice";
-import {cleanTemplateNewIds} from "../../../helpers/actions";
-import {setDialogData, setDialogInitialData, setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
+import {setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
 
 export default function CreateCvJobSeeker() {
     const dispatch = useDispatch();

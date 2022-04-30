@@ -1,9 +1,8 @@
 import {Box} from "@mui/material";
-import {MAIN_PURPLE} from "../../../../constants/colors";
 import SOCIAL_LINK_ICONS from "../../../cvTemplate/typeComponents/section/socialLinkIcons";
 
 const PREVIEW_TEXT_STYLE = {
-    fontWeight: 500,
+    fontWeight: 400,
     fontFamily: 'Poppins',
     fontSize: '14px',
     lineHeight: '20px',
@@ -14,7 +13,7 @@ const PREVIEW_TEXT_STYLE = {
 }
 export default function PersonalInfo({data}) {
     const [firstName, lastName, gender, dateOfBirth, phone, email, country, city, address, salary, other, links] = data.fields
-    return <Box sx={{display: 'flex', flexDirection: 'column'}}>
+    return <Box sx={{display: 'flex', flexDirection: 'column', gap: '12px'}}>
         <Box sx={{
             fontFamily: 'Poppins',
             fontWeight: 500,
@@ -22,6 +21,7 @@ export default function PersonalInfo({data}) {
             lineHeight: '42px',
             color: '#323232',
             textAlign: 'center',
+            mb: '42px'
         }}>
             {firstName.metadata.submitted_value} {lastName.metadata.submitted_value}
         </Box>
@@ -32,13 +32,22 @@ export default function PersonalInfo({data}) {
             </Box>
         }
         <Box sx={PREVIEW_TEXT_STYLE}>{email.metadata.submitted_value}</Box>
-
-        <Box sx={PREVIEW_TEXT_STYLE}>
-            {address.metadata.submitted_value} {country.metadata.submitted_value} {city.metadata.submitted_value}
-        </Box>
-        {salary.fields[0].metadata.submitted_value && <Box sx={PREVIEW_TEXT_STYLE}>
-            {salary.fields[0].metadata.submitted_value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")} {salary.fields[1].metadata.submitted_value}
-        </Box>}
+        {
+            address.metadata.submitted_value || country.metadata.submitted_value || city.metadata.submitted_value ?
+                <Box sx={PREVIEW_TEXT_STYLE}>
+                    {address.metadata.submitted_value} {country.metadata.submitted_value} {city.metadata.submitted_value}
+                </Box> : null
+        }
+        {
+            salary.fields[0].metadata.submitted_value && <Box sx={PREVIEW_TEXT_STYLE}>
+                {
+                    salary.fields[0].metadata.submitted_value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
+                }
+                {
+                    salary.fields[1].metadata.submitted_value
+                }
+            </Box>
+        }
         {
             other.fields.some(el => el.metadata.submitted_value) &&
             <Box sx={PREVIEW_TEXT_STYLE}>
