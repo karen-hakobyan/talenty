@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+    confirmAnnoucementList,
     createCvHR,
     deleteHrCv,
     editJobSeekerCv,
@@ -8,22 +9,26 @@ import {
     getTemplateActions,
     getTemplateById,
     getTemplateLists,
+    pendingAnnoucementList,
     publishJobAnnouncement,
     saveJobSeekerCV
 } from "./getTemplateActions";
 import changeTemplateData, {
     addSectionContainer,
-    deleteAddSectionContainer, deletePublications
+    deleteAddSectionContainer,
+    deletePublications
 } from "../../components/job-seeker/createCvJobSeeker/actions";
-import {jobAnnouncementAjab} from "../../ajab";
+import { jobAnnouncementAjab } from "../../ajab";
 
 const initialState = {
     exactPage: 1,
     templateInitialData: null,
+    annoucementLis: [],
     templateList: [],
     templateData: null,
     linksController: null,
     evaluateWidths: null,
+    isLoading: false,
     // bellow state is for Shushan's unimplementable logic dude
     // maybe object that have sections controller's parents name and some index which will control decreasing height
     // pritom piti chlini miamit personal skill proffesional skill u language for publications it will be another story :D 
@@ -94,37 +99,82 @@ export const globalDataSlice = createSlice({
         [getTemplateActions.fulfilled]: (state, { payload }) => {
             state.templateData = payload
             state.templateInitialData = payload
+            state.isLoading = false
+        },
+        [getTemplateActions.pending]: (state) => {
+            state.isLoading = true
+        },
+        [getTemplateActions.rejected]: (state) => {
+            state.isLoading = false
         },
         [getJobAnnouncement.fulfilled]: (state, { payload }) => {
             state.templateData = payload
+            state.isLoading = false
         },
-        [getEditedUserCv.fulfilled]: (state, { payload }) => {
-            state.templateData = payload
+        [getJobAnnouncement.pending]: (state) => {
+            state.isLoading = true
         },
         [getJobAnnouncement.rejected]: (state) => {
             state.templateData = jobAnnouncementAjab
+            state.isLoading = false
         },
+        [getEditedUserCv.fulfilled]: (state, { payload }) => {
+            state.templateData = payload
+            state.isLoading = false
+        },
+        [getEditedUserCv.pending]: (state) => {
+            state.isLoading = true
+        },
+        [getEditedUserCv.rejected]: (state) => {
+            state.isLoading = false
+        },
+
         [createCvHR.fulfilled]: (state, { payload }) => {
             state.templateData = null;
             state.templateList = payload
+            state.isLoading = false
+        },
+        [createCvHR.pending]: (state) => {
+            state.isLoading = true
+        },
+        [createCvHR.rejected]: (state) => {
+            state.isLoading = false
         },
         [getTemplateLists.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
             state.templateList = payload
         },
+        [getTemplateLists.pending]: state => {
+            state.isLoading = true
+        },
         [getTemplateLists.rejected]: state => {
+            state.isLoading = false
             state.templateList = []
         },
         [getTemplateById.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
             state.templateData = payload
             state.templateInitialData = payload
         },
+        [getTemplateById.pending]: state => {
+            state.isLoading = true
+        },
+        [getTemplateById.rejected]: state => {
+            state.isLoading = false
+        },
         [publishJobAnnouncement.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
             state.isPublished = { open: true, status: 'ok' }
         },
+        [publishJobAnnouncement.pending]: state => {
+            state.isLoading = true
+        },
         [publishJobAnnouncement.rejected]: (state, { payload }) => {
+            state.isLoading = false
             state.isPublished = { open: true, status: 'rejected' }
         },
         [saveJobSeekerCV.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
             state.newJwt = payload
             state.exactPage = 1
             if (localStorage.getItem('jwt')) {
@@ -133,19 +183,58 @@ export const globalDataSlice = createSlice({
                 localStorage.setItem('jwt', payload)
             }
         },
+        [saveJobSeekerCV.pending]: state => {
+            state.isLoading = true
+        },
+        [saveJobSeekerCV.rejected]: (state) => {
+            state.isLoading = false
+        },
         [editJobSeekerCv.rejected]: (state, { payload }) => {
+            state.isLoading = false
             state.exactPage = 1;
             state.templateData = null
         },
+        [editJobSeekerCv.pending]: state => {
+            state.isLoading = true
+        },
         [editJobSeekerCv.fulfilled]: (state) => {
+            state.isLoading = false
             console.log('edit cv template fullfilled')
             state.exactPage = 1;
         },
         [deleteHrCv.rejected]: (state) => {
-            // state.templateList = payload
+            state.isLoading = false
+                // state.templateList = payload
+        },
+        [deleteHrCv.pending]: state => {
+            state.isLoading = true
         },
         [deleteHrCv.fulfilled]: (state, { payload }) => {
             state.templateList = payload
+            state.isLoading = false
+        },
+        [confirmAnnoucementList.rejected]: (state) => {
+            // state.annoucementLis = []
+            state.isLoading = false
+        },
+        [confirmAnnoucementList.pending]: (state) => {
+            // state.annoucementLis = []
+            state.isLoading = true
+        },
+        [confirmAnnoucementList.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            state.annoucementLis = payload
+        },
+        [pendingAnnoucementList.rejected]: (state) => {
+            state.isLoading = false
+                // state.annoucementLis = []
+        },
+        [pendingAnnoucementList.pending]: (state) => {
+            state.isLoading = true
+        },
+        [pendingAnnoucementList.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            state.annoucementLis = payload
         },
 
     }

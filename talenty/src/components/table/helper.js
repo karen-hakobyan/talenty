@@ -1,20 +1,16 @@
-import { ArrowTable } from "../../assets/icons/table";
 import { genId } from "../dashboard/helper";
 
-const tableHeder = [{
+export const tableHeder = [{
         key: genId(),
         text: "#",
-        IconComponent: ArrowTable,
     },
     {
         key: genId(),
         text: "Job title",
-        IconComponent: ArrowTable,
     },
     {
         key: genId(),
         text: "Date",
-        IconComponent: ArrowTable,
     },
     {
         key: genId(),
