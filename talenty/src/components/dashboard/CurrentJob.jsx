@@ -1,16 +1,11 @@
 import { Box } from "@mui/system";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { confirmAnnoucementList } from "../../store/globalData/getTemplateActions";
+import { useSelector } from "react-redux";
+import { selectAnnoucementList } from "../../store/globalData/selector";
 import Tables from "../table/Table";
 
 
 export default function CurrentJob(){
-    const dispatch = useDispatch()
-
-    useEffect(()=>{
-        dispatch(confirmAnnoucementList())
-    },[dispatch])
+    const annoucementList = useSelector(selectAnnoucementList)
 
     return(
         <Box sx={{
@@ -27,7 +22,7 @@ export default function CurrentJob(){
                     marginBottom:5.5
                 }}
             >Current  jobs</Box>
-            <Tables/> 
+            <Tables data={annoucementList} /> 
         </Box>
     )
 }
