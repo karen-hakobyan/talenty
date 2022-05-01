@@ -19,6 +19,7 @@ import changeTemplateData, {
     deletePublications
 } from "../../components/job-seeker/createCvJobSeeker/actions";
 import { jobAnnouncementAjab } from "../../ajab";
+import { changeInitialData } from "../../components/dashboard/helper";
 
 const initialState = {
     exactPage: 1,
@@ -215,28 +216,25 @@ export const globalDataSlice = createSlice({
             state.isLoading = false
         },
         [confirmAnnoucementList.rejected]: (state) => {
-            // state.annoucementLis = []
             state.isLoading = false
         },
         [confirmAnnoucementList.pending]: (state) => {
-            // state.annoucementLis = []
             state.isLoading = true
         },
         [confirmAnnoucementList.fulfilled]: (state, { payload }) => {
             state.isLoading = false
-            state.annoucementList = payload
+            state.annoucementList = changeInitialData(payload)
+            console.log(state.annoucementList);
         },
         [pendingAnnoucementList.rejected]: (state) => {
             state.isLoading = false
-                // state.annoucementLis = []
         },
         [pendingAnnoucementList.pending]: (state) => {
             state.isLoading = true
         },
         [pendingAnnoucementList.fulfilled]: (state, { payload }) => {
-            console.log(payload, "p")
             state.isLoading = false
-            state.annoucementList = payload
+            state.annoucementList = changeInitialData(payload)
         },
 
     }

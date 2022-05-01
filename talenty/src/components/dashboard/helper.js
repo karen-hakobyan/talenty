@@ -106,83 +106,46 @@ export let navItemsGenerator = (templateList = [], dispatch = () => {}) => ([{
     }
 ]);
 
-
-const table = {
-    tableHed: [{
-            key: genId(),
-            text: "#",
-        },
-        {
-            key: genId(),
-            text: "Job title",
-        },
-        {
-            key: genId(),
-            text: "Date",
-        },
-        {
-            key: genId(),
-            text: "Location",
-            IconComponent: null
-        },
-        {
-            key: genId(),
-            text: "Description",
-            IconComponent: null,
-        },
-        {
-            key: genId(),
-            text: "Statistics",
-            IconComponent: null,
-        },
-        {
-            key: genId(),
-            text: "Edit",
-            IconComponent: null,
-        }
-    ],
-    tableBody: []
-
-}
+const tableHeder = [{
+        key: genId(),
+        text: "#",
+    },
+    {
+        key: genId(),
+        text: "Job title",
+    },
+    {
+        key: genId(),
+        text: "Date",
+    },
+    {
+        key: genId(),
+        text: "Location",
+        IconComponent: null
+    },
+    {
+        key: genId(),
+        text: "Description",
+        IconComponent: null,
+    },
+    {
+        key: genId(),
+        text: "Statistics",
+        IconComponent: null,
+    },
+    {
+        key: genId(),
+        text: "Edit",
+        IconComponent: null,
+    }
+]
 
 
 
 
 export const changeInitialData = (data) => {
-    if (!Array.isArray(data) && data.length === 0) {
-        console.log("smting vent wrong")
-        return []
+    return {
+        tableHed: tableHeder,
+        tableBody: data,
     }
-    if (table.tableBody.length !== 0) {
-        table.tableBody = []
-    }
-    const changedata = []
-    data.forEach((el, i) => {
-        let objEntries = Object.entries(el)
-        const obj = {
-            id: "",
-            fields: []
-        }
-        objEntries.forEach((element, i) => {
-            if (element[0] === "id") {
-                obj.id = element[1]
-            } else {
-                obj.fields.push({
-                    key: genId(),
-                    text: element[1]
-                })
-            }
-        })
-        changedata.push(obj)
-    })
-    table.tableBody = table.tableBody.concat(changedata)
-    console.log(table)
-    return table
 }
-
-// data.map((el) => {
-//     let objEntries = Object.entries(el)
-//     return objEntries.map(el => {
-
-//     })
-// })
