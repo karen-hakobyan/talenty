@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getDeleteHrCvId, GET_CONFIRM_ANNOUCEMENT, GET_PENDINGS_ANNOUCEMENT, instance } from "../../constants/requests";
-import { changeInitialData, getJwt } from "../../components/dashboard/helper";
+import { getJwt } from "../../components/dashboard/helper";
 import { getUrls } from "../../request/get";
 import { cleanHrTemplateNewIds, cleanTemplateNewIds } from "../../helpers/actions";
 
@@ -144,10 +144,7 @@ export const confirmAnnoucementList = createAsyncThunk(
     'globalData/confirmAnnouncementList', async(_, thunkAPI) => {
         try {
             const response = await instance.get(GET_CONFIRM_ANNOUCEMENT)
-            console.log(response.data, "hasav");
-            const data = changeInitialData(response.data)
-            console.log(data, "data")
-            return data
+            return response.data
         } catch (err) {
             console.log('announcment confirm list err')
             return thunkAPI.rejectWithValue('announcment confirm list err')
@@ -156,12 +153,8 @@ export const confirmAnnoucementList = createAsyncThunk(
 export const pendingAnnoucementList = createAsyncThunk(
     'globalData/pendingAnnoucementList', async(_, thunkAPI) => {
         try {
-
             const response = await instance.get(GET_PENDINGS_ANNOUCEMENT)
-            console.log(response.data, "hasav")
-            const data = changeInitialData(response.data)
-            console.log(data, "data")
-            return data
+            return response.data
         } catch (err) {
             console.log('annoucement pending list err')
             return thunkAPI.rejectWithValue('annoucement pending list err')

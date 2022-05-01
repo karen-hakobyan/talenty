@@ -1,9 +1,11 @@
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { tableHeder } from "./helper";
 
 
 export default function Tables({data}){
     const {tableHed,tableBody}= data
+    console.log(typeof tableBody)
+    console.log(tableBody,"tableBody")
+
     return (
         <Box sx={{
             }}>
@@ -19,6 +21,21 @@ export default function Tables({data}){
                 <TableBody>
                     {tableBody.map((el,i)=>{
                         return (
+                            <TableRow key={el.id} >
+                                <TableCell>{i+1}</TableCell>
+                                <TableCell>{el.name}</TableCell>
+                                <TableCell>{el.deadline}</TableCell>
+                                <TableCell>{el.country}</TableCell>
+                                <TableCell>{el.name}</TableCell>
+                                <TableCell>{el.name}</TableCell>
+                                <TableCell>{el.name}</TableCell>
+                            </TableRow>
+                        )
+                    })}
+                </TableBody>
+                {/* <TableBody>
+                    {tableBody?tableBody.map((el,i)=>{
+                        return (
                             <TableRow key={el.id}>
                                 <TableCell>{i+1}</TableCell>
                                 {el.fields.map(el=>{
@@ -28,8 +45,8 @@ export default function Tables({data}){
                                 })}
                             </TableRow>
                         )
-                    })}
-                </TableBody>
+                    }):null}
+                </TableBody> */}
             </Table>
         </TableContainer>
         </Box>
