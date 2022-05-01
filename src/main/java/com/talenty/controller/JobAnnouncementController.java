@@ -88,4 +88,10 @@ public class JobAnnouncementController {
         return ResponseEntity.ok(jobAnnouncement);
     }
 
+    @PostMapping("/apply_in_progress")
+    public ResponseEntity<?> applyInProgress(@RequestBody final String jobAnnouncementId, final String jobSeekerId) {
+        final String submittedCvTemplateId = jobAnnouncementService.applyInProgress(jobAnnouncementId, jobSeekerId);
+        return ResponseEntity.ok("");
+    }
+
 }

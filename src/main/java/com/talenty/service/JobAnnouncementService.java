@@ -287,4 +287,36 @@ public class JobAnnouncementService {
 
     }
 
+    public String applyInProgress(final String jobAnnouncementId, final String jobSeekerId) {
+        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
+
+        if (!Objects.equals(jobSeekerId, currentJobSeeker.getId())) {
+            System.out.printf("Owner with id %s tried to apply with submitted cv of owner with id %s\n",currentJobSeeker.getId(), jobSeekerId);
+            throw new WrongOwnerException();
+        }
+
+        final Optional<JobAnnouncementDocument> jobAnnouncementDocumentOptional = findById(jobAnnouncementId);
+        if (jobAnnouncementDocumentOptional.isEmpty()) {
+            System.out.printf("No such job announcement with id '%s'\n", jobAnnouncementId);
+            throw new NoSuchAnnouncementException();
+        }
+
+        final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementDocumentOptional.get();
+        final String attachedCvTemplateId = jobAnnouncementDocument.getAttachedCvTemplateId();
+        final String jobSeekerCvTemplateId = currentJobSeeker.getCvTemplateId();
+
+        if(attachedCvTemplateId == null && jobSeekerCvTemplateId == null) {
+            System.out.printf("User with id %s should have CV template\n", currentJobSeeker.getId());
+            throw new WrongSubmissionForAnnouncement();
+        } else if(attachedCvTemplateId == null) {
+            return jobSeekerCvTemplateId;
+        } else if (jobSeekerCvTemplateId == null) {
+            return null;
+        }
+
+//        mergeCvTemplates(jobAnnouncementId, jobSeekerId),
+
+        return null;
+    }
+
 }
