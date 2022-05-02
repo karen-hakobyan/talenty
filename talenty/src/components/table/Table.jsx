@@ -1,61 +1,62 @@
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { ArrowTable, EditAnnouncement, NumberOfCvSenders, NumberOfViewers } from "../../assets/icons/table";
+import { FLEX_CENTER, TABLE_BODY_STYLE, TABLE_CELL_STYLE, TABLE_CONTAINER, TABLE_FLEX, TABLE_HEAD_FONST_STYLE,SPAN_STYLE } from "./style";
 
 
 export default function Tables({data}){
     const {tableHed,tableBody}= data
-    console.log(typeof tableBody)
-    console.log(tableBody,"tableBody")
-
     return (
-        <Box sx={{
-            }}>
-        <TableContainer component={Paper}>
-            <Table sx={{wisth:"100%"}} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
+        <Box >
+        <TableContainer component={Paper} sx={TABLE_CONTAINER}>
+            <Table sx={{borderCollapse:"inherit"}} aria-label="simple table">
+                <TableHead sx={{
+                    borderCollapse:"none"
+                }}>
+                    <TableRow sx={TABLE_HEAD_FONST_STYLE}>
                         {tableHed?tableHed.map(el=>{
-                            return (<TableCell key={el.key} >{el.text}</TableCell>)
+                            return (<TableCell 
+                                        key={el.key}
+                                        sx={TABLE_CELL_STYLE}
+                                    ><Box sx={TABLE_FLEX}>
+                                        <Box>{el.text}</Box>
+                                        {el.IconComponent?<Box>{<ArrowTable/>}</Box>:null}
+                                    </Box>
+                                    </TableCell>)
                         }):null}
                     </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody sx={{
+                    borderCollapse:"none",
+                }} > 
                     {tableBody.map((el,i)=>{
                         return (
-                            <TableRow key={el.id} >
-                                <TableCell>{i+1}</TableCell>
+                            <TableRow key={el.id}  sx={TABLE_BODY_STYLE}>
+                                <TableCell align="right">{i+1}</TableCell>
                                 <TableCell>{el.name}</TableCell>
                                 <TableCell>{el.deadline}</TableCell>
                                 <TableCell>{el.country}</TableCell>
-                                <TableCell>{el.name}</TableCell>
-                                <TableCell>{el.name}</TableCell>
-                                <TableCell>{el.name}</TableCell>
+                                <TableCell >More....</TableCell>
+                                <TableCell >
+                                    <Box sx={FLEX_CENTER}>
+                                        <Box sx={{
+                                            ...SPAN_STYLE,
+                                            marginRight:"23px"
+                                        }}><span><NumberOfViewers/></span>123</Box>
+                                        <Box sx={SPAN_STYLE}><span><NumberOfCvSenders/></span>123</Box>
+                                    </Box>
+                                </TableCell>
+                                <TableCell>
+                                    <Box><EditAnnouncement/></Box>
+                                </TableCell>
                             </TableRow>
                         )
                     })}
                 </TableBody>
-                {/* <TableBody>
-                    {tableBody?tableBody.map((el,i)=>{
-                        return (
-                            <TableRow key={el.id}>
-                                <TableCell>{i+1}</TableCell>
-                                {el.fields.map(el=>{
-                                    return (
-                                        <TableCell key={el.key}>{el.text}</TableCell>
-                                    )
-                                })}
-                            </TableRow>
-                        )
-                    }):null}
-                </TableBody> */}
             </Table>
         </TableContainer>
         </Box>
     )
 }
-// {tableHeder.map(el=>{
-//     return(
-//         <TableCell key={el.key}>{el.text}</TableCell>
-//     )
-// })}
+
 
 
