@@ -69,6 +69,14 @@ public class JobAnnouncementController {
         return ResponseEntity.ok(allPending);
     }
 
+    @GetMapping("/temp_all_confirmed")
+    // This endpoint is to get all pendings for admin dashboard
+    // We need to join this to endpoints and use role ("/all_pending", "/all_pendings")
+    public ResponseEntity<?> getTempAllConfirmed() {
+        List<JobAnnouncementDocument> allConfirmed = jobAnnouncementService.findAllConfirmed();
+        return ResponseEntity.ok(allConfirmed);
+    }
+
     @GetMapping("/approve")
     public ResponseEntity<?> approveAnnouncement(@RequestParam final String id) {
         final JobAnnouncement jobAnnouncement = jobAnnouncementService.approveAnnouncement(id);

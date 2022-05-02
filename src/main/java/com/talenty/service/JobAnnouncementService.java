@@ -280,7 +280,7 @@ public class JobAnnouncementService {
     }
 
     private void handleEditedJobAnnouncementInList(final JobAnnouncementDocument parent, final JobAnnouncementDocument child) {
-        if(!Objects.equals(parent.getName(), child.getName())) return;
+        if (!Objects.equals(parent.getName(), child.getName())) return;
         parent.getMetadata().put("status", "DELETED");
         jobAnnouncementRepository.save(parent);
 
@@ -290,7 +290,7 @@ public class JobAnnouncementService {
         final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
 
         if (!Objects.equals(jobSeekerId, currentJobSeeker.getId())) {
-            System.out.printf("Owner with id %s tried to apply with submitted cv of owner with id %s\n",currentJobSeeker.getId(), jobSeekerId);
+            System.out.printf("Owner with id %s tried to apply with submitted cv of owner with id %s\n", currentJobSeeker.getId(), jobSeekerId);
             throw new WrongOwnerException();
         }
 
@@ -304,10 +304,10 @@ public class JobAnnouncementService {
         final String attachedCvTemplateId = jobAnnouncementDocument.getAttachedCvTemplateId();
         final String jobSeekerCvTemplateId = currentJobSeeker.getCvTemplateId();
 
-        if(attachedCvTemplateId == null && jobSeekerCvTemplateId == null) {
+        if (attachedCvTemplateId == null && jobSeekerCvTemplateId == null) {
             System.out.printf("User with id %s should have CV template\n", currentJobSeeker.getId());
             throw new WrongSubmissionForAnnouncement();
-        } else if(attachedCvTemplateId == null) {
+        } else if (attachedCvTemplateId == null) {
             return jobSeekerCvTemplateId;
         } else if (jobSeekerCvTemplateId == null) {
             return null;
@@ -316,6 +316,14 @@ public class JobAnnouncementService {
 //        mergeCvTemplates(jobAnnouncementId, jobSeekerId),
 
         return null;
+    }
+
+    public List<JobAnnouncementDocument> findAllConfirmed() {
+        final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.CONFIRMED);
+        for (JobAnnouncementDocument byStatus : allByStatus) {
+            byStatus.setFields(null);
+        }
+        return allByStatus;
     }
 
 }
