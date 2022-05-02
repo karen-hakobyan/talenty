@@ -128,7 +128,8 @@ public class JobAnnouncementService {
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields())
                 .executeLogic(
-                        applicationContext.getBean(AdminValuesMergeExecutor.class)
+                        applicationContext.getBean(AdminValuesMergeExecutor.class),
+                        new MergeFieldsExecutor()
                 );
         return Optional.of(jobAnnouncementDocument);
     }
@@ -169,9 +170,6 @@ public class JobAnnouncementService {
 
         //TODO temporary solution getting info from sections
         for (final JobAnnouncementDocument jobAnnouncementDocument : allByCompanyId) {
-            if (jobAnnouncementDocument.getMetadata().containsKey("status") && Objects.equals(jobAnnouncementDocument.getMetadata().get("status"), "DELETED")) {
-                continue;
-            }
             final JobAnnouncementBasicInfo temp = makeBasicInfo(jobAnnouncementDocument);
             result.add(temp);
         }
@@ -261,10 +259,7 @@ public class JobAnnouncementService {
         if (!parentMetadata.containsKey("count")) parentMetadata.put("count", 0);
 
         double count = Double.parseDouble(parentMetadata.get("count").toString());
-        if (count > 0) {
-            jobAnnouncement.setId(null);
-            handleEditedJobAnnouncementInList(parentJobAnnouncement, jobAnnouncement);
-        }
+        if (count > 0) jobAnnouncement.setId(null);
 
         Executor.getInstance()
                 .setParentFields(parentJobAnnouncement.getFields())
@@ -278,6 +273,10 @@ public class JobAnnouncementService {
         newMetadata.put("editable", true);
         newMetadata.put("count", 0);
         return JobAnnouncementMapper.instance.documentToDto(jobAnnouncementRepository.save(jobAnnouncement));
+    }
+
+    public Long getCountByStatus() {
+        return jobAnnouncementRepository.countByStatus(JobAnnouncementStatus.CONFIRMED);
     }
 
     private void handleEditedJobAnnouncementInList(final JobAnnouncementDocument parent, final JobAnnouncementDocument child) {

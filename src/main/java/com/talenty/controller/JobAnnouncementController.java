@@ -40,13 +40,30 @@ public class JobAnnouncementController {
         return ResponseEntity.ok("published");
     }
 
+//    @GetMapping("/all_confirmeds")
+//    // This is gor to get all current j_a's for job_seeker
+//    public ResponseEntity<?> getAllApproved() {
+//        final List<JobAnnouncementBasicInfo> all = jobAnnouncementService.getAllApproved(JobAnnouncementStatus.PENDING);
+//        return ResponseEntity.ok(all);
+//    }
+
+    @GetMapping("/all_confirmed_count")
+    public ResponseEntity<?> getApprovedCount() {
+        final Long count = jobAnnouncementService.getCountByStatus();
+        return ResponseEntity.ok(count);
+    }
+
     @GetMapping("/all_pending")
+    // This endpoint is to get all pendings per company
+    // We need to join this to endpoints and use role ("/all_pending", "/all_pendings")
     public ResponseEntity<?> getAllPending() {
         final List<JobAnnouncementBasicInfo> allPending = jobAnnouncementService.getAllJobAnnouncementsByStatus(JobAnnouncementStatus.PENDING);
         return ResponseEntity.ok(allPending);
     }
 
     @GetMapping("/all_pendings")
+    // This endpoint is to get all pendings for admin dashboard
+    // We need to join this to endpoints and use role ("/all_pending", "/all_pendings")
     public ResponseEntity<?> getAllPendings() {
         final List<JobAnnouncementBasicInfo> allPending = jobAnnouncementService.findAllPendings();
         return ResponseEntity.ok(allPending);
