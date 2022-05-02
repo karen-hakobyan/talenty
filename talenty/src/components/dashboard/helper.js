@@ -11,6 +11,7 @@ import {
     RejectedSVG,
     WorkSVG
 } from "../../assets/icons/navigation";
+import { ArrowTable } from "../../assets/icons/table";
 import { confirmAnnoucementList, getTemplateActions, getTemplateById, pendingAnnoucementList } from "../../store/globalData/getTemplateActions";
 
 export const getJwt = () => {
@@ -109,14 +110,21 @@ export let navItemsGenerator = (templateList = [], dispatch = () => {}) => ([{
 const tableHeder = [{
         key: genId(),
         text: "#",
+        IconComponent: ArrowTable,
+        onclick: (action, func) => {}
+
     },
     {
         key: genId(),
         text: "Job title",
+        IconComponent: ArrowTable,
+        onclick: (action, func) => {}
     },
     {
         key: genId(),
         text: "Date",
+        IconComponent: ArrowTable,
+        onclick: (action, func) => {}
     },
     {
         key: genId(),
