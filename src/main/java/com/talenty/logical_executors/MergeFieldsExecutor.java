@@ -11,6 +11,9 @@ public class MergeFieldsExecutor implements LogicExecutor {
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
+        if (currentParentField == null || field == null) {
+            return field;
+        }
         final Map<String, Object> fullMetadata = currentParentField.getMetadata();
         final Map<String, Object> resultMap = new HashMap<>(fullMetadata);
 

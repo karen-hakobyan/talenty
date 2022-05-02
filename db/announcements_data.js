@@ -4,8 +4,6 @@ let jobAnnouncement = {
     _id: ObjectId(),
     system: true,
     name: "System Job Announcement",
-    // status: "CONFIRMED",
-    status: "PENDING",
     attachedCvTemplateId: null,
     metadata : {
         editable: true,
