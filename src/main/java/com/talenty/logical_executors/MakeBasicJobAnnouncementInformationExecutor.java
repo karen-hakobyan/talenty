@@ -34,12 +34,12 @@ public class MakeBasicJobAnnouncementInformationExecutor implements LogicExecuto
             }
             this.jobAnnouncementBasicInfo.setDeadline(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "Country")) {
-            if (metadata.isEmpty()) {
-                jobAnnouncementBasicInfo.setCountry("Country not specified");
-            } else if (metadata.containsKey("submitted_value")) {
-                final String submittedValue = metadata.get("submitted_value").toString();
-                this.jobAnnouncementBasicInfo.setCountry(submittedValue);
+            final String submittedValue = metadata.get("submitted_value").toString();
+            if (!metadata.containsKey("submitted_value")) {
+                System.out.println("Invalid submission while trying to get submitted value for making basic info of job announcement");
+                throw new InvalidSubmissionException();
             }
+            this.jobAnnouncementBasicInfo.setCountry(submittedValue);
         }
 
         return field;

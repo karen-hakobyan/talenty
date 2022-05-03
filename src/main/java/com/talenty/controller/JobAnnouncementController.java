@@ -3,6 +3,7 @@ package com.talenty.controller;
 import com.talenty.domain.dto.AppliedAnnouncement;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.dto.JobAnnouncementBasicInfo;
+import com.talenty.domain.dto.JobAnnouncementInfoForSearchPage;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.service.JobAnnouncementService;
@@ -73,7 +74,7 @@ public class JobAnnouncementController {
     // This endpoint is to get all pendings for admin dashboard
     // We need to join this to endpoints and use role ("/all_pending", "/all_pendings")
     public ResponseEntity<?> getTempAllConfirmed() {
-        List<JobAnnouncementDocument> allConfirmed = jobAnnouncementService.findAllConfirmed();
+        final List<JobAnnouncementInfoForSearchPage> allConfirmed = jobAnnouncementService.findAllConfirmed();
         return ResponseEntity.ok(allConfirmed);
     }
 
