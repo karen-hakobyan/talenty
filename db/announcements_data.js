@@ -44,7 +44,7 @@ let jobAnnouncement = {
                                 placeholder: "Employment terms",
                                 type: "employment_terms",
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                         {
@@ -54,7 +54,7 @@ let jobAnnouncement = {
                                 placeholder: "Job type",
                                 type: "job_type",
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                         {
@@ -64,7 +64,7 @@ let jobAnnouncement = {
                                 placeholder: "Job Category",
                                 type: "job_category",
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                         {
@@ -74,7 +74,7 @@ let jobAnnouncement = {
                                 placeholder: "Candidate level",
                                 type: "candidate_level",
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                         {
@@ -84,7 +84,7 @@ let jobAnnouncement = {
                                 placeholder: "Country",
                                 type: "country",
                                 deletable: false,
-                                required: false,
+                                required: true,
                             },
                         },
                         {
