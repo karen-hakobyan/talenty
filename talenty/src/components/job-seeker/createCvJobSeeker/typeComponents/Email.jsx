@@ -3,18 +3,23 @@ import {useDispatch} from "react-redux";
 import SubSection from "../../../shared/subSection";
 import TextField from "../../../../shared/components/Textfield";
 import {setTemplateData} from "../../../../store/globalData/slice";
-import { validate } from "../../../../helpers/validation/validation";
+import {validate} from "../../../../helpers/validation/validation";
 
 export default function Email({data}) {
     const [value, setValue] = useState(data.metadata.submitted_value || '')
     const dispatch = useDispatch()
-    const [err, setErr]= useState({
+    const [err, setErr] = useState({
         error: false,
         massage: ""
     })
-    useEffect(()=>{
-        setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20 ,isEmail:true}))
-   },[value,data])
+    useEffect(() => {
+        setErr(validate({
+            name: data.name,
+            value,
+            maxLength: data.metadata?.maxLength ? data.metadata.maxLength : 20,
+            isEmail: true
+        }))
+    }, [value, data])
     return <SubSection
         label={data.name}
         inputComponent={
@@ -33,6 +38,7 @@ export default function Email({data}) {
                 error={err?.error}
                 helperText={err.massage}
                 value={value}
+                disabled={!!data.metadata.autocomplete}
                 onChange={(event) => setValue(event.target.value)}
                 onBlur={() => {
                     dispatch(setTemplateData({id: data.id, value}))
