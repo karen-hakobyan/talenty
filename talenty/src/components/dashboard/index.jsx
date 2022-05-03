@@ -10,8 +10,8 @@ import {LANDING_PAGE_ROUTE} from "../../constants/routes";
 import JobAnnouncement from "./JobAnnouncement";
 import {getJwt} from "./helper";
 import {setAuthInitialState} from "../../store/auth/authSlice";
-import Panding from "./Panding";
-import CurrentJob from "./CurrentJob";
+import Pending from "./Pending";
+import CurrentJobs from "./CurrentJobs";
 
 export default function Dashboard() {
     const jwt = useSelector(selectAuthJwt)
@@ -41,8 +41,8 @@ export default function Dashboard() {
                     <Route path="/" element={<h1>Talenty!!!</h1>}/>
                     <Route path="template" element={<CvTemplateMain/>}/>
                     <Route path='announcement' element={<JobAnnouncement/>}/>
-                    <Route path='current_job' element={<CurrentJob/>}/>
-                    <Route path='panding' element={<Panding/>}/>
+                    <Route path='current-jobs' element={<CurrentJobs/>}/>
+                    <Route path='pending' element={<Pending/>}/>
                 </Routes>
             </Box>
         </Box>

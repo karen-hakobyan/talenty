@@ -16,7 +16,7 @@ const selectTemplateInitialData = state => state.globalData.templateInitialData
 
 const selectTemplateList = state => state.globalData.templateList
 const selectDataIsLoading = state => state.globalData.isLoading
-const selectAnnoucementList = state => state.globalData.annoucementList
+const selectAnnouncementList = state => state.globalData.annoucementList
 
 export {
     selectGlobalDataViaKey,
@@ -27,5 +27,5 @@ export {
     selectTemplateInitialData,
     selectTemplateList,
     selectDataIsLoading,
-    selectAnnoucementList
+    selectAnnouncementList
 };
