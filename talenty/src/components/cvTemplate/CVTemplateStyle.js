@@ -1,5 +1,5 @@
 import {Checkbox, styled} from "@mui/material";
-import {MAIN_PURPLE} from "../../constants/colors";
+import {MAIN_PURPLE} from "../../style/colors";
 
 export const ListStyle = {
     width: "100%",

@@ -11,7 +11,7 @@ import {ReactComponent as AnnouncementSVG} from "../../assets/icons/addAnnouncem
 import Button from "../../shared/components/Button";
 import TemplateItem from "../cvTemplate/TemplateItem";
 import AddSection from "../dialogs/addSection";
-import {PINK} from "../../constants/colors";
+import {PINK} from "../../style/colors";
 import {setDialogIsOpen, setDialogType} from "../../store/dialogs/slice";
 
 export default function JobAnnouncement() {

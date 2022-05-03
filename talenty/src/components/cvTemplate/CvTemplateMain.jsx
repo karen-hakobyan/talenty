@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {styled} from "@mui/system";
 import {Box, Dialog, IconButton, Typography,} from "@mui/material";
-import {PINK} from "../../constants/colors";
+import {PINK} from "../../style/colors";
 import {AddSectionIconSVG, CreateCVTemplateSVG, ListSVG, TemplateNamePenSVG,} from "../../assets/icons/createTemplate";
 import TemplateItem from "./TemplateItem";
 import {setAllTemplateData} from "../../store/globalData/slice";

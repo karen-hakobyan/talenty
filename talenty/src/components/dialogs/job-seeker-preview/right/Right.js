@@ -8,7 +8,7 @@ import {editJobSeekerCv, saveJobSeekerCV} from "../../../../store/globalData/get
 import Button from "../../../../shared/components/Button";
 import {selectTemplateData} from "../../../../store/globalData/selector";
 import {setDialogInitialState} from "../../../../store/dialogs/slice";
-import {MAIN_PURPLE} from "../../../../constants/colors";
+import {MAIN_PURPLE} from "../../../../style/colors";
 
 export default function Right({data}) {
     const dispatch = useDispatch()

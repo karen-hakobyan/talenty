@@ -8,7 +8,7 @@ import {CONTAINER_HEADER} from "./style";
 import {ArrowDown, UserExPhoto} from "../../../assets/icons/jobseeker";
 import {setAuthInitialState} from "../../../store/auth/authSlice";
 import {useDispatch} from "react-redux";
-import {MAIN_PURPLE} from "../../../constants/colors";
+import {MAIN_PURPLE} from "../../../style/colors";
 
 export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null)

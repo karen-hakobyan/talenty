@@ -1,4 +1,4 @@
-import { DIALOG_TITLE_COLOR, MAIN_PURPLE, TEXT } from "../../constants/colors";
+import {DIALOG_TITLE_COLOR, MAIN_PURPLE, TEXT} from "../../style/colors";
 
 const TEMPLATE_ITEM_BUTTON = {
     display: "flex",
@@ -36,7 +36,7 @@ const TEMPLATE_ITEM_BUTTON_DISABLED = {
     border: "1px solid #EFEFEF",
     background: "#EFEFEF",
     cursor: "default",
-    "&:hover": { background: "#EFEFEF" },
+    "&:hover": {background: "#EFEFEF"},
 };
 
 const INPUT_LABEL = {
@@ -47,8 +47,8 @@ const INPUT_LABEL = {
     fontFamily: "'Poppins', sans-serif",
 };
 
-const TEMPLATE_INPUT = { width: "421px" };
-const DISABLED_INPUT = { background: "#F5F5F5" };
+const TEMPLATE_INPUT = {width: "421px"};
+const DISABLED_INPUT = {background: "#F5F5F5"};
 const TEMPLATE_BUTTON_ADD = {
     fontFamily: "'Poppins', sans-serif",
     display: "flex",

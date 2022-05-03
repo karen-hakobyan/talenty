@@ -1,7 +1,7 @@
 import {Box} from "@mui/material";
 import JobSeekerSubsection from "../JobSeekerSubsection";
 import {PhotoUser, CameraJobSeeker} from "../../../../assets/icons/jobseeker";
-import {MAIN_PURPLE} from "../../../../constants/colors";
+import {MAIN_PURPLE} from "../../../../style/colors";
 
 export default function Photo({data}) {
     return <JobSeekerSubsection

@@ -1,7 +1,7 @@
 import React from "react";
 import {styled} from "@mui/system";
 import "../fonts/index.css";
-import {ELECTRICVIOLET, FRENCH_VIOLET, WHITE} from "../constants/colors";
+import {ELECTRICVIOLET, FRENCH_VIOLET, WHITE} from "../style/colors";
 import {Box} from "@mui/material";
 // import { Button } from "@mui/material";
 

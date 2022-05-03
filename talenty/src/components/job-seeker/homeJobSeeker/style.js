@@ -1,4 +1,4 @@
-import {COMET, TEXT} from "../../../constants/colors";
+import {COMET, TEXT} from "../../../style/colors";
 
 export const CONTAINER_HEADER = {
     top: 0,
