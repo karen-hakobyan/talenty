@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-    confirmAnnoucementList,
     createCvHR,
     deleteHrCv,
     editJobSeekerCv,
@@ -9,7 +8,6 @@ import {
     getTemplateActions,
     getTemplateById,
     getTemplateLists,
-    pendingAnnoucementList,
     publishJobAnnouncement,
     saveJobSeekerCV
 } from "./getTemplateActions";
@@ -19,11 +17,9 @@ import changeTemplateData, {
     deletePublications
 } from "../../components/job-seeker/createCvJobSeeker/actions";
 import { jobAnnouncementAjab } from "../../ajab";
-import { changeInitialData } from "../../components/dashboard/helper";
 
 const initialState = {
     exactPage: 1,
-    templateInitialData: null,
     annoucementList: [],
     templateList: [],
     templateData: null,
@@ -214,27 +210,6 @@ export const globalDataSlice = createSlice({
             console.log(payload)
             state.templateList = payload
             state.isLoading = false
-        },
-        [confirmAnnoucementList.rejected]: (state) => {
-            state.isLoading = false
-        },
-        [confirmAnnoucementList.pending]: (state) => {
-            state.isLoading = true
-        },
-        [confirmAnnoucementList.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.annoucementList = changeInitialData(payload)
-            console.log(state.annoucementList);
-        },
-        [pendingAnnoucementList.rejected]: (state) => {
-            state.isLoading = false
-        },
-        [pendingAnnoucementList.pending]: (state) => {
-            state.isLoading = true
-        },
-        [pendingAnnoucementList.fulfilled]: (state, { payload }) => {
-            state.isLoading = false
-            state.annoucementList = changeInitialData(payload)
         },
 
     }

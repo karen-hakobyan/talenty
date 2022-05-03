@@ -1,18 +1,13 @@
 import {Box} from "@mui/system";
-import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {confirmAnnoucementList} from "../../store/globalData/getTemplateActions";
-import {selectAnnouncementList} from "../../store/globalData/selector";
 import Tables from "../table/Table";
+import { useTableData } from "./hook";
 
 
 export default function CurrentJobs() {
-    const dispatch = useDispatch()
-    const announcementList = useSelector(selectAnnouncementList)
-    useEffect(() => {
-        dispatch(confirmAnnoucementList())
-    }, [dispatch])
-
+    const data =  useTableData()
+    if(!data){
+        return null
+    }
     return (
         <Box sx={{
             flex: 1,
@@ -28,7 +23,7 @@ export default function CurrentJobs() {
                     marginBottom: 5.5
                 }}
             >Current jobs</Box>
-            <Tables data={announcementList}/>
+            <Tables data={data}/>
         </Box>
     )
 }

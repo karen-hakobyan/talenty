@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getDeleteHrCvId, GET_CONFIRM_ANNOUCEMENT, GET_PENDINGS_ANNOUCEMENT, instance } from "../../constants/requests";
+import { getDeleteHrCvId, instance } from "../../constants/requests";
 import { getJwt } from "../../components/dashboard/helper";
 import { getUrls } from "../../request/get";
 import { cleanHrTemplateNewIds, cleanTemplateNewIds } from "../../helpers/actions";
@@ -140,23 +140,3 @@ export const publishJobAnnouncement = createAsyncThunk('globalData/publishJobAnn
         return thunkAPI.rejectWithValue('something went wrong')
     }
 })
-export const confirmAnnoucementList = createAsyncThunk(
-    'globalData/confirmAnnouncementList', async(_, thunkAPI) => {
-        try {
-            const response = await instance.get(GET_CONFIRM_ANNOUCEMENT)
-            return response.data
-        } catch (err) {
-            console.log('announcment confirm list err')
-            return thunkAPI.rejectWithValue('announcment confirm list err')
-        }
-    })
-export const pendingAnnoucementList = createAsyncThunk(
-    'globalData/pendingAnnoucementList', async(_, thunkAPI) => {
-        try {
-            const response = await instance.get(GET_PENDINGS_ANNOUCEMENT)
-            return response.data
-        } catch (err) {
-            console.log('annoucement pending list err')
-            return thunkAPI.rejectWithValue('annoucement pending list err')
-        }
-    })
