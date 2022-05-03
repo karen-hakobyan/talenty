@@ -66,7 +66,28 @@ export const FLEX_CENTER = {
     alignItems: "center",
 }
 export const SPAN_STYLE = {
-    "& span": {
-        marginRight: "8px"
+        "& span": {
+            marginRight: "8px"
+        },
+    }
+    // pending
+export const PENDING__BODY_STYLE = {
+    border: "1px solid #C4C4C4",
+    padding: 0,
+    '&:last-child': { borderRight: "none" },
+    "& td": {
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: 16,
+        letterSpacing: "0,02em",
+        color: TEXT,
+        borderRight: "1px solid #C4C4C4",
+        height: "47px",
+        padding: 0,
+        paddingLeft: "12px",
+
     },
+    "& td:last-child": {
+        borderRight: "none"
+    },
+    "& td:nth-of-type(1)": { paddingRight: "20px" },
 }

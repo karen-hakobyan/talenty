@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectAuthLoading, selectIsChangePassword } from "../store/auth/selector";
+import { selectIsChangePassword } from "../store/auth/selector";
 import { LANDING_PAGE_ROUTE, SIGN_IN_ROUTE } from "../constants/routes";
 import { setGlobalInitialData } from "../store/globalData/slice";
-import { setAuthIsChangePass, setAuthSignOut, setIsValidToken, setIsLoading, setLoading } from "../store/auth/authSlice";
+import { setAuthIsChangePass, setAuthSignOut, setIsValidToken, setIsLoading, } from "../store/auth/authSlice";
 import { setDialogInitialState } from "../store/dialogs/slice";
 
 export const useAuthInitialEffects = () => {

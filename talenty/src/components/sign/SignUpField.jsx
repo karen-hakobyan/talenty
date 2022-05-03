@@ -32,6 +32,7 @@ const SignUpField = React.forwardRef(
                                     <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small"/>}
                             </IconButton> : null
                     }}
+                    autoComplete="off"
                     sx={{
                         width: "466px",
                         ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {

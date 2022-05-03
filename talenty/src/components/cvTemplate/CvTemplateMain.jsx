@@ -69,7 +69,11 @@ function CvTemplateMain() {
     }, [navigate, userInfo])
 
     useEffect(() => {
-        setTitle(data?.name || "");
+        if(data?.name === "System template"){
+            setTitle("")
+        }else{
+            setTitle(data?.name);
+        }
     }, [data]);
 
     // update local storage whenever data changed and also redux

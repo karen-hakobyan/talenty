@@ -20,6 +20,7 @@ export const MAIN_NAV_CONTAINER = (isNavOpen, maxWidth, minWidth) => ({
     transition: `width ${WIDTH_TRANSITION}s`,
     boxShadow: "2px 6px 8px 0px #2D2D2D0F",
     maxHeight: 'calc(100vh - 80px)',
+
 });
 
 export const MAIN_OPENER = (isNavOpen) => ({
@@ -36,7 +37,6 @@ export const NAV_GENERATOR_CONTAINER = {
     gap: "40px",
     pl: "22px",
     height: 'calc(100vh - 80px)',
-    overflow: 'scroll'
 };
 
 export const NAV_ITEM_CONTAINER = {

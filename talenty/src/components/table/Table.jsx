@@ -1,9 +1,11 @@
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import { ArrowTable, EditAnnouncement, NumberOfCvSenders, NumberOfViewers } from "../../assets/icons/table";
-import { FLEX_CENTER, TABLE_BODY_STYLE, TABLE_CELL_STYLE, TABLE_CONTAINER, TABLE_FLEX, TABLE_HEAD_FONST_STYLE,SPAN_STYLE } from "./style";
+import { FLEX_CENTER, TABLE_BODY_STYLE, TABLE_CELL_STYLE, TABLE_CONTAINER, TABLE_FLEX, TABLE_HEAD_FONST_STYLE,SPAN_STYLE, PENDING__BODY_STYLE } from "./style";
 
 
 export default function Tables({data}){
+    const { pathname } = useLocation()
     const {tableHed,tableBody}= data
     if(!tableHed || !tableBody){
         return null
@@ -32,6 +34,16 @@ export default function Tables({data}){
                     borderCollapse:"none",
                 }} > 
                     {tableBody.map((el,i)=>{
+                        if (pathname.endsWith("pending")){
+                            return (
+                            <TableRow key={el.id}  sx={PENDING__BODY_STYLE}>
+                                <TableCell align="right">{i+1}</TableCell>
+                                <TableCell>{el.name?el.name:null}</TableCell>
+                                <TableCell>{el.deadline?el.deadline:null}</TableCell>
+                                <TableCell>{el.country? el.country:null}</TableCell>
+                            </TableRow>
+                            )
+                        }
                         return (
                             <TableRow key={el.id}  sx={TABLE_BODY_STYLE}>
                                 <TableCell align="right">{i+1}</TableCell>
