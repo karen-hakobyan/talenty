@@ -21,13 +21,16 @@ export default function BasicDatePicker({
                                         }) {
     const [innerValue, setInnerValue] = useState(value)
     let sendValue = null
-    
+
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <DatePicker
                 value={(innerValue && changeDateFormat(innerValue)) || null}
                 {...pickerProps}
                 onChange={onChange || function (event) {
+                    if (!event) {
+                        return
+                    }
                     let val = validateDate(event.toLocaleDateString())
                     setInnerValue(val)
                     sendValue = val
@@ -44,8 +47,8 @@ export default function BasicDatePicker({
                                 textFillColor: "rgba(0, 0, 0, 0.87)"
                             }
                         }}
-                        error={name==="End" && err.massage==="Enter when you started"?false:err?.error}
-                        helperText={name==="End" && err.massage==="Enter when you started"?"":err?.massage}
+                        error={name === "End" && err.massage === "Enter when you started" ? false : err?.error}
+                        helperText={name === "End" && err.massage === "Enter when you started" ? "" : err?.massage}
                         inputProps={{
                             ...params.inputProps, placeholder, sx: {
                                 fontFamily: "'Poppins', sans-serif",
