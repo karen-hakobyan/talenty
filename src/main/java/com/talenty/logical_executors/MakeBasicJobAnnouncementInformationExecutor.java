@@ -27,18 +27,18 @@ public class MakeBasicJobAnnouncementInformationExecutor implements LogicExecuto
         }
 
         if (Objects.equals(currentParentField.getName(), "Deadline")) {
-            final String submittedValue = metadata.get("submitted_value").toString();
             if (!metadata.containsKey("submitted_value")) {
                 System.out.println("Invalid submission while trying to get submitted value for making basic info of job announcement");
                 throw new InvalidSubmissionException();
             }
+            final String submittedValue = metadata.get("submitted_value").toString();
             this.jobAnnouncementBasicInfo.setDeadline(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "Country")) {
-            final String submittedValue = metadata.get("submitted_value").toString();
             if (!metadata.containsKey("submitted_value")) {
                 System.out.println("Invalid submission while trying to get submitted value for making basic info of job announcement");
                 throw new InvalidSubmissionException();
             }
+            final String submittedValue = metadata.get("submitted_value").toString();
             this.jobAnnouncementBasicInfo.setCountry(submittedValue);
         }
 

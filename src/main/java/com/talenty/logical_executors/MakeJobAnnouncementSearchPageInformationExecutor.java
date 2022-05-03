@@ -27,11 +27,11 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
         }
 
         if (Objects.equals(currentParentField.getName(), "Country")) {
-            final String submittedValue = metadata.get("submitted_value").toString();
             if (!metadata.containsKey("submitted_value")) {
                 System.out.println("Invalid submission while trying to get submitted value for making search page info of job announcement");
                 throw new InvalidSubmissionException();
             }
+            final String submittedValue = metadata.get("submitted_value").toString();
             this.jobAnnouncementInfoForSearchPage.setCountry(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "City")) {
             if (metadata.isEmpty()) {
@@ -41,18 +41,18 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
                 this.jobAnnouncementInfoForSearchPage.setCity(submittedValue);
             }
         } else if (Objects.equals(currentParentField.getName(), "Job type")) {
-            final String submittedValue = metadata.get("submitted_value").toString();
             if (!metadata.containsKey("submitted_value")) {
                 System.out.println("Invalid submission while trying to get submitted value for making search page info of job announcement");
                 throw new InvalidSubmissionException();
             }
+            final String submittedValue = metadata.get("submitted_value").toString();
             this.jobAnnouncementInfoForSearchPage.setJobType(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "Description")) {
-            final String submittedValue = metadata.get("submitted_value").toString();
             if (!metadata.containsKey("submitted_value")) {
                 System.out.println("Invalid submission while trying to get submitted value for making search page info of job announcement");
                 throw new InvalidSubmissionException();
             }
+            final String submittedValue = metadata.get("submitted_value").toString();
             this.jobAnnouncementInfoForSearchPage.setJobDescription(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "Responsibilities")) {
             if (metadata.isEmpty()) {
