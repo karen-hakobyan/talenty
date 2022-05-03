@@ -5,6 +5,9 @@ import { FLEX_CENTER, TABLE_BODY_STYLE, TABLE_CELL_STYLE, TABLE_CONTAINER, TABLE
 
 export default function Tables({data}){
     const {tableHed,tableBody}= data
+    if(!tableHed || !tableBody){
+        return null
+    }
     return (
         <Box >
         <TableContainer component={Paper} sx={TABLE_CONTAINER}>
@@ -32,9 +35,9 @@ export default function Tables({data}){
                         return (
                             <TableRow key={el.id}  sx={TABLE_BODY_STYLE}>
                                 <TableCell align="right">{i+1}</TableCell>
-                                <TableCell>{el.name}</TableCell>
-                                <TableCell>{el.deadline}</TableCell>
-                                <TableCell>{el.country}</TableCell>
+                                <TableCell>{el.name?el.name:null}</TableCell>
+                                <TableCell>{el.deadline?el.deadline:null}</TableCell>
+                                <TableCell>{el.country? el.country:null}</TableCell>
                                 <TableCell >More....</TableCell>
                                 <TableCell >
                                     <Box sx={FLEX_CENTER}>
