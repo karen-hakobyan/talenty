@@ -5,7 +5,7 @@ import {setDeleteAddSection, setEvaluateWidths, setTemplateData} from "../../../
 import {useDispatch, useSelector} from "react-redux";
 import {selectEvaluatesBarWidths} from "../../../../../store/globalData/selector";
 import {DeleteIcon} from "../../../../../assets/icons/jobseeker";
-import {MAIN_PURPLE} from "../../../../../constants/colors";
+import {MAIN_PURPLE} from "../../../../../style/colors";
 
 const setExactWidth = (width, widths) => {
     for (let i = 0; i < widths.length - 1; i++) {

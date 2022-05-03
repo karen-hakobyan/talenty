@@ -9,6 +9,8 @@ import {setAuthInitialState} from "../../../store/auth/authSlice";
 import {getJwt} from "../../dashboard/helper";
 import JobSeekerProfile from "../profile/JobSeekerProfile";
 import {CREATE_CV, PROFILE} from "../../../constants/routes";
+import Jobs from "../jobs/Jobs";
+import Search from "../search/Search";
 
 export default function HomeJobSeeker() {
     const dispatch = useDispatch()
@@ -23,8 +25,8 @@ export default function HomeJobSeeker() {
             <Box sx={{mt: '74px'}}>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="jobs" element={<h1>Jobs</h1>}/>
-                    <Route path="search" element={<h1>Search</h1>}/>
+                    <Route path="jobs" element={<Jobs/>}/>
+                    <Route path="search" element={<Search/>}/>
                     <Route path={CREATE_CV} element={<CreateCvJobSeeker/>}/>
                     <Route path={PROFILE} element={<JobSeekerProfile/>}/>
                 </Routes>

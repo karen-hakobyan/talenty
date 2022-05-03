@@ -3,7 +3,7 @@ import {styled} from "@mui/system";
 import ".././fonts/index.css";
 import {useState, useEffect} from "react";
 import {Checkbox} from "@mui/material";
-import {PLACEHOLDER_GRAY, TEXT} from "../constants/colors";
+import {PLACEHOLDER_GRAY, TEXT} from "../style/colors";
 import {
     companyNameValid,
     emailValid,

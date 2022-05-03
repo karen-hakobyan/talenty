@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Box, IconButton, TextField} from "@mui/material";
-import {MAIN_PURPLE} from "../../constants/colors";
+import {MAIN_PURPLE} from "../../style/colors";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
@@ -25,7 +25,7 @@ const SignUpField = React.forwardRef(
                         sx: {
                             height: '40px',
                             fontFamily: "'Poppins', sans-serif",
-                            fontSize:15
+                            fontSize: 15
                         }, endAdornment: isPassword ?
                             <IconButton onClick={() => setShowPass(!showPass)}>
                                 {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small"/> :
@@ -47,10 +47,10 @@ const SignUpField = React.forwardRef(
                     }}
                     {...register(objKey, error)}
                     placeholder={placeholder}
-                    error={!!errors?.[objKey] }
+                    error={!!errors?.[objKey]}
                     helperText={errors[objKey] ? errors[objKey].message : ""}
                     FormHelperTextProps={{
-                        sx:{fontFamily: "'Poppins', sans-serif"}
+                        sx: {fontFamily: "'Poppins', sans-serif"}
                     }}
                     {...restProps}
                 />

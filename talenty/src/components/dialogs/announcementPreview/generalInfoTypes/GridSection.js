@@ -1,5 +1,5 @@
 import {Box} from '@mui/material'
-import {DIALOG_TITLE_COLOR} from "../../../../constants/colors";
+import {DIALOG_TITLE_COLOR} from "../../../../style/colors";
 
 export default function GridSection({data}) {
     return <Box

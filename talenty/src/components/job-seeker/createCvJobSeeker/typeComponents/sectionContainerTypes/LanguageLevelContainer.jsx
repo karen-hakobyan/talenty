@@ -4,7 +4,7 @@ import JobSeekerSubsection from "../../JobSeekerSubsection";
 import Button from "../../../../../shared/components/Button";
 import {setDeleteAddSection, setTemplateData} from "../../../../../store/globalData/slice";
 import {DeleteIcon} from "../../../../../assets/icons/jobseeker";
-import {LANGUAGE_LEVEL_BTN_COLOR, MAIN_PURPLE, WHITE} from "../../../../../constants/colors";
+import {LANGUAGE_LEVEL_BTN_COLOR, MAIN_PURPLE, WHITE} from "../../../../../style/colors";
 
 export default function LanguageLevelContainer({data, fields, id, depend}) {
     const templateData = useSelector((state) => state.globalData.templateData)

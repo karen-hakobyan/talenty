@@ -1,5 +1,5 @@
 import {Button} from "@mui/material";
-import {ELECTRICVIOLET, WHITE} from "../constants/colors";
+import {ELECTRICVIOLET, WHITE} from "../style/colors";
 import "../fonts/index.css";
 
 function MuiContainedBtn({bgColor, children, onClick, Width}) {

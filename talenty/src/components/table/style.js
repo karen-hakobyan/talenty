@@ -1,4 +1,4 @@
-import { MAIN_PURPLE, TEXT, WHITE } from "../../constants/colors"
+import {MAIN_PURPLE, TEXT, WHITE} from "../../style/colors"
 
 export const TABLE_CONTAINER = {
     overflow: "hidden",
@@ -7,7 +7,7 @@ export const TABLE_CONTAINER = {
 }
 export const TABLE_HEAD_FONST_STYLE = {
     backgroundColor: MAIN_PURPLE,
-    '&:last-child': { borderRight: "nana" },
+    '&:last-child': {borderRight: "nana"},
     border: "1px solid #C4C4C4",
 }
 export const TABLE_CELL_STYLE = {
@@ -37,7 +37,7 @@ export const TABLE_FLEX = {
 export const TABLE_BODY_STYLE = {
     border: "1px solid #C4C4C4",
     padding: 0,
-    '&:last-child': { borderRight: "none" },
+    '&:last-child': {borderRight: "none"},
     "& td": {
         fontFamily: "'Poppins', sans-serif",
         fontSize: 16,
@@ -49,8 +49,8 @@ export const TABLE_BODY_STYLE = {
         paddingLeft: "12px",
 
     },
-    "& td:nth-of-type(1)": { paddingRight: "20px" },
-    "& td:nth-last-of-type(3)": { color: "#265BD2" },
+    "& td:nth-of-type(1)": {paddingRight: "20px"},
+    "& td:nth-last-of-type(3)": {color: "#265BD2"},
     "& td:nth-last-of-type(2)": {
         padding: 0,
         width: "153px"

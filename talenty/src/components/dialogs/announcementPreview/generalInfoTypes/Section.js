@@ -1,4 +1,4 @@
-import {DIALOG_TITLE_COLOR} from "../../../../constants/colors";
+import {DIALOG_TITLE_COLOR} from "../../../../style/colors";
 import {Box} from "@mui/material";
 
 export default function Section({data, generalInfoData}) {

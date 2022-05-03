@@ -6,7 +6,7 @@ import {
     ERROR_COLOR,
     TEXT,
     PLACEHOLDER_GRAY,
-} from "../constants/colors";
+} from "../style/colors";
 import {
     companyNameValid,
     emailValid,

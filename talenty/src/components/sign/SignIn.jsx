@@ -15,7 +15,7 @@ import {
     SIGN_IN_ROUTE,
     SIGN_UP_ROUTE,
 } from "../../constants/routes";
-import {MAIN_PURPLE} from "../../constants/colors";
+import {MAIN_PURPLE} from "../../style/colors";
 import BackgroundImage from "./BackgroundImage";
 import {DIALOG_TEXT, FLEX_CONTAINER} from "./style";
 import {selectAuthModalInfo, selectIsValidToken} from "../../store/auth/selector";

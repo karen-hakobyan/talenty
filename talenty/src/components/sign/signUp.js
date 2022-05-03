@@ -1,6 +1,6 @@
 import {styled, TextField} from "@mui/material";
 import {Box} from "@mui/system";
-import {HEADER_TEXT, MAIN_PURPLE, TEXT} from "../../constants/colors";
+import {HEADER_TEXT, MAIN_PURPLE, TEXT} from "../../style/colors";
 
 export const StyledContainer = styled(Box)({
     p: 0,

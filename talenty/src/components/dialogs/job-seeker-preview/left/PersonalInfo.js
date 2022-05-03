@@ -42,7 +42,8 @@ export default function PersonalInfo({data}) {
         {
             salary.fields[0].metadata.submitted_value && <Box sx={PREVIEW_TEXT_STYLE}>
                 {
-                    salary.fields[0].metadata.submitted_value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".")
+                    // salary.fields[0].metadata.submitted_value.replaceAll(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/, ".")
+                    salary.fields[0].metadata.submitted_value
                 }
                 {
                     salary.fields[1].metadata.submitted_value

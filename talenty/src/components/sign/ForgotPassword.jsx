@@ -8,7 +8,7 @@ import {
     MAIN_PURPLE,
     NIGHT_RIDER,
     TEXT,
-} from "../../constants/colors";
+} from "../../style/colors";
 import BackgroundImage from "./BackgroundImage";
 import {useForm} from "react-hook-form";
 import {FIELD_EMAIL} from "./helper";

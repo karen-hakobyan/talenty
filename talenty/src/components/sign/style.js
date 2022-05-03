@@ -1,4 +1,4 @@
-import { MAIN_PURPLE } from "../../constants/colors";
+import {MAIN_PURPLE} from "../../style/colors";
 
 export const FLEX_CONTAINER = {
     width: "580px",
@@ -23,11 +23,11 @@ export const DIALOG_TEXT = {
 export const CHECKBOX_CONTAINER = {
     display: "flex",
     alignItems: "center",
-    span: { p: 0 },
+    span: {p: 0},
     mb: 2,
 };
 export const CHECKBOX_STYLE = {
-    "& .MuiSvgIcon-root": { fontSize: 28, color: MAIN_PURPLE },
+    "& .MuiSvgIcon-root": {fontSize: 28, color: MAIN_PURPLE},
 };
 
 export const butonStyleGenerator = (isCompany, isCompanyState) => ({
@@ -45,27 +45,27 @@ export const butonStyleGenerator = (isCompany, isCompanyState) => ({
     borderRadius: "4px",
     background: isCompanyState ?
         isCompany ?
-        MAIN_PURPLE :
-        "transparent" :
+            MAIN_PURPLE :
+            "transparent" :
         !isCompany ?
-        MAIN_PURPLE :
-        "transparent",
+            MAIN_PURPLE :
+            "transparent",
     color: isCompanyState ?
         isCompany ?
-        "#FFF" :
-        MAIN_PURPLE :
+            "#FFF" :
+            MAIN_PURPLE :
         !isCompany ?
-        "#FFF" :
-        MAIN_PURPLE,
+            "#FFF" :
+            MAIN_PURPLE,
     transition: "all, 0.5s",
     "&:hover": {
         background: isCompanyState ?
             isCompany ?
-            "#7204c9" :
-            "transparent" :
+                "#7204c9" :
+                "transparent" :
             !isCompany ?
-            "#7204c9" :
-            "transparent",
+                "#7204c9" :
+                "transparent",
         transition: "all, 0.5s",
     },
 });

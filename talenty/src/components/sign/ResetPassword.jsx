@@ -6,7 +6,7 @@ import {Button, FormControl, Typography} from "@mui/material";
 import "../../fonts//index.css";
 import {
     NIGHT_RIDER,
-} from "../../constants/colors";
+} from "../../style/colors";
 import {useForm} from "react-hook-form";
 import {FIELD_RESET_PASSWORD} from "./helper";
 import SignUpField from "./SignUpField";

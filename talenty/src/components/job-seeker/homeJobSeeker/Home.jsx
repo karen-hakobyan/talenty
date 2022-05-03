@@ -6,7 +6,7 @@ import {DefaultUserIcon} from "../../../assets/icons/jobseeker";
 import {HOME_PRIMARY_BUTTON} from "../../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
-import {MAIN_PURPLE} from "../../../constants/colors";
+import {MAIN_PURPLE} from "../../../style/colors";
 import {useEffect} from "react";
 import {setAllTemplateData, setExactPage} from "../../../store/globalData/slice";
 import JobSeekerContainer from "../../shared/JobSeekerContainer";

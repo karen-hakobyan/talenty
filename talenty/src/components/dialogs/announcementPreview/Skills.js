@@ -1,5 +1,5 @@
 import {Box} from '@mui/material'
-import {DIALOG_TITLE_COLOR, TEXT} from "../../../constants/colors";
+import {DIALOG_TITLE_COLOR, TEXT} from "../../../style/colors";
 
 export default function Skill({data}) {
     return <Box sx={{display: 'flex', flexDirection: 'column', gap: '18px'}}>
