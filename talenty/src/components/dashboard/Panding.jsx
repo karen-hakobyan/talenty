@@ -1,11 +1,21 @@
 import { Box } from "@mui/material";
-import {  useSelector } from "react-redux";
+import { useEffect} from "react";
+import {  useDispatch, useSelector } from "react-redux";
+import { pendingAnnoucementList } from "../../store/globalData/getTemplateActions";
 import { selectAnnoucementList } from "../../store/globalData/selector";
 import Tables from "../table/Table";
 
 
 export default function Panding(){
+    const dispatch = useDispatch()
     const annoucementList = useSelector(selectAnnoucementList)
+    useEffect(()=>{
+        dispatch(pendingAnnoucementList())
+    },[dispatch])
+    if(!annoucementList){
+        return null
+    }
+    
     return(
         <Box sx={{
             width:"100%",

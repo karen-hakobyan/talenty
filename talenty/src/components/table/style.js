@@ -9,9 +9,6 @@ export const TABLE_HEAD_FONST_STYLE = {
     backgroundColor: MAIN_PURPLE,
     '&:last-child': { borderRight: "nana" },
     border: "1px solid #C4C4C4",
-    "&::nth-child(1) th": {
-        fontWeight: 600,
-    }
 }
 export const TABLE_CELL_STYLE = {
     fontFamily: "'Poppins', sans-serif",

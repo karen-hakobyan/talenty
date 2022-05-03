@@ -11,8 +11,7 @@ import {
     RejectedSVG,
     WorkSVG
 } from "../../assets/icons/navigation";
-import { ArrowTable } from "../../assets/icons/table";
-import { confirmAnnoucementList, getTemplateActions, getTemplateById, pendingAnnoucementList } from "../../store/globalData/getTemplateActions";
+import { getTemplateActions, getTemplateById, } from "../../store/globalData/getTemplateActions";
 
 export const getJwt = () => {
     let jwt = localStorage.getItem("jwt");
@@ -64,8 +63,7 @@ export let navItemsGenerator = (templateList = [], dispatch = () => {}) => ([{
                 text: "Pending",
                 key: genId(),
                 IconComponent: PendingSVG,
-                action: async(navigate) => {
-                    await dispatch(pendingAnnoucementList())
+                action: (navigate) => {
                     navigate("panding")
                 }
             },
@@ -73,8 +71,7 @@ export let navItemsGenerator = (templateList = [], dispatch = () => {}) => ([{
                 text: "Current jobs",
                 key: genId(),
                 IconComponent: CurrentJobsSVG,
-                action: async(navigate) => {
-                    await dispatch(confirmAnnoucementList())
+                action: (navigate) => {
                     navigate("current_job")
                 }
             }
@@ -110,21 +107,18 @@ export let navItemsGenerator = (templateList = [], dispatch = () => {}) => ([{
 const tableHeder = [{
         key: genId(),
         text: "#",
-        IconComponent: ArrowTable,
-        onclick: (action, func) => {}
+        IconComponent: true,
 
     },
     {
         key: genId(),
         text: "Job title",
-        IconComponent: ArrowTable,
-        onclick: (action, func) => {}
+        IconComponent: true,
     },
     {
         key: genId(),
         text: "Date",
-        IconComponent: ArrowTable,
-        onclick: (action, func) => {}
+        IconComponent: true,
     },
     {
         key: genId(),

@@ -1,12 +1,18 @@
 import { Box } from "@mui/system";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { confirmAnnoucementList } from "../../store/globalData/getTemplateActions";
 import { selectAnnoucementList } from "../../store/globalData/selector";
 import Tables from "../table/Table";
 
 
 export default function CurrentJob(){
+    const dispatch = useDispatch()
     const annoucementList = useSelector(selectAnnoucementList)
-
+    useEffect(()=>{
+        dispatch(confirmAnnoucementList())
+    },[dispatch])
+    
     return(
         <Box sx={{
             width:"100%",
