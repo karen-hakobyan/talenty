@@ -1,4 +1,6 @@
-export const validate = ({ name, value, maxLength, uppercase, isnumber, isEmail, isPhoneNumber, isURL }) => {
+import { changeDateFormat } from "../../components/job-seeker/createCvJobSeeker/typeComponents/sectionContainerTypes/DateSubSection"
+
+export const validate = ({ name, value, maxLength, uppercase, isnumber, isEmail, isPhoneNumber, isURL, }) => {
     const regex = /^[A-Z]/
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
     const phoneRegex = /[+]\d{1,17}$/gm
@@ -47,38 +49,46 @@ export const validate = ({ name, value, maxLength, uppercase, isnumber, isEmail,
         massage: ""
     }
 }
-export const validationNumber = ({ from, to, maxLength, isValidetion }) => {
-    if (isValidetion === "from" && from && !Number.isInteger(+from)) {
+export const validationNumber = ({ from, to, maxLength, sectionValidetion, currency }) => {
+
+    if (sectionValidetion === "from" && from && !Number.isInteger(+from)) {
         return {
-            positon: 'from',
             error: true,
             massage: "Enter an integer",
         }
     }
-    if (isValidetion === "to" && to && !Number.isInteger(+to)) {
+    if (sectionValidetion === "to" && to && !Number.isInteger(+to)) {
         return {
-            positon: 'to',
             error: true,
             massage: "Enter an integer",
         }
     }
-    if (isValidetion === "from" && from && from.length > maxLength) {
+    if (sectionValidetion === "from" && from && from.length > maxLength) {
         return {
-            positon: 'from',
             error: true,
             massage: "Max length",
         }
     }
-    if (isValidetion === "to" && to && to.length > maxLength) {
+    if (sectionValidetion === "to" && to && to.length > maxLength) {
         return {
-            positon: 'to',
             error: true,
             massage: "Max length",
+        }
+    }
+    if (sectionValidetion === "to" && !to && currency) {
+        return {
+            error: true,
+            massage: "Enter the amount of the salary",
+        }
+    }
+    if (sectionValidetion === "to" && !currency && to) {
+        return {
+            error: true,
+            massage: "Select currency",
         }
     }
     if (from && to && +from > +to) {
         return {
-            positon: 'fromAndTo',
             error: true,
             massage: "Unanswered values"
         }
@@ -92,27 +102,12 @@ export const validationNumber = ({ from, to, maxLength, isValidetion }) => {
 }
 
 export const validetionDate = ({ startValue, endValue, isStillWorking }) => {
+    console.log(new Date(changeDateFormat(endValue)).getTime() >= new Date(changeDateFormat(startValue)))
 
-    if (startValue && endValue) {
-        const [dayStart, monthsStart, yearStart] = startValue.split("/")
-        const [dayEnd, monthsEnd, yearEnd] = endValue.split("/")
-        if (+yearEnd < +yearStart) {
-            return {
-                error: true,
-                massage: "The years entered do not coincide"
-            }
-        }
-        if (+monthsEnd < +monthsStart) {
-            return {
-                error: true,
-                massage: "The incoming months do not coincide"
-            }
-        }
-        if (+dayEnd < +dayStart) {
-            return {
-                error: true,
-                massage: "The days of entry do not coincide"
-            }
+    if (startValue && endValue && (new Date(changeDateFormat(endValue)).getTime() <= new Date(changeDateFormat(startValue)))) {
+        return {
+            error: true,
+            massage: "Values ​​do not match"
         }
     }
     if (!startValue && endValue) {
@@ -125,6 +120,25 @@ export const validetionDate = ({ startValue, endValue, isStillWorking }) => {
         return {
             error: true,
             massage: "Enter when you started"
+        }
+    }
+    return {
+        error: false,
+        massage: ""
+    }
+}
+
+export const validationSalary = ({ valueSalary, currencyValue, }) => {
+    if (valueSalary && !currencyValue) {
+        return {
+            error: true,
+            massage: "Select currency"
+        }
+    }
+    if (currencyValue && !valueSalary) {
+        return {
+            error: true,
+            massage: "Enter the amount of the salary"
         }
     }
     return {

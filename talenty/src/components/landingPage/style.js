@@ -1,4 +1,4 @@
-import {TEMPLATE_ITEM_BUTTON} from "../../shared/styles";
+import { TEMPLATE_ITEM_BUTTON } from "../../shared/styles";
 
 export const NAVIGATION = {
     paddingLeft: "as",
@@ -32,6 +32,7 @@ export const LOGO = {
     lineHeight: "42px",
     letterSpacing: "0.02em",
     color: "#8C0DF0",
+    cursor: "pointer"
 };
 
 export const MAIN_CONTAINER_NAV = {

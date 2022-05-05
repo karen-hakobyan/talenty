@@ -19,7 +19,8 @@ export default function TextField({ sx, ...restProps }) {
             },
             ...sx,
         }
-    } {...restProps }
+    }
+    autoComplete = "off" {...restProps }
     FormHelperTextProps = {
         {
             sx: { fontFamily: "'Poppins', sans-serif" }

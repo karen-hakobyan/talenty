@@ -15,38 +15,35 @@ export default function Section({data}) {
     const [fromValue, setFromValue] = useState(from.metadata.submitted_value || '')
     const [toValue, setToValue] = useState(to.metadata.submitted_value || '')
     const [toErr, setToErr] = useState({
-        positon: "",
         error:false,
         massage: "" 
     })
     const [fromErr, setFromErr] = useState({
-        positon: "",
         error:false,
         massage: "" 
     })
     useEffect(()=>{
         if(fromValue){
-            setFromErr(validationNumber({from:fromValue,to:toValue,maxLength:10,isValidetion:"from"}))
+            setFromErr(validationNumber({from:fromValue,to:toValue,maxLength:10,sectionValidetion:"from"}))
         }else{
             setFromErr({
-                positon: "",
                 error:false,
                 massage: "" 
             })
         }
     },[fromValue,toValue])
     useEffect(()=>{
-        if(toValue){
-            setToErr(validationNumber({from:fromValue,to:toValue,maxLength:10,isValidetion:"to"}))
+        if(toValue || currency.metadata.submitted_value){
+            setToErr(validationNumber({from:fromValue,to:toValue,maxLength:10,sectionValidetion:"to",currency:currency.metadata.submitted_value}))
         }else{
             setToErr({
-                positon: "",
                 error:false,
                 massage: "" 
             })
         }
         
-    },[fromValue,toValue])
+    },[fromValue,toValue,currency])
+    
 
     return <JobSeekerSubsection
         label={data.name}
@@ -131,6 +128,7 @@ export default function Section({data}) {
                                          <Select
                                              placeHolder={currency.metadata.placeholder}
                                              textFieldWidth={'99px'}
+                                             err={toErr}
                                              menuItems={currency.metadata.values}
                                              value={currency.metadata.submitted_value}
                                              onChange={(event) => {

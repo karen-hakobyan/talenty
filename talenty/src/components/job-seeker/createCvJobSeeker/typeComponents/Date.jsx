@@ -13,10 +13,12 @@ export default function Date({data}) {
                 placeholder={data.metadata.placeholder}
                 value={data.metadata.submitted_value}
                 closeAction={(value) => {
-                    dispatch(setTemplateData({
-                        id: data.id,
-                        value
-                    }))
+                    if(value){
+                        dispatch(setTemplateData({
+                            id: data.id,
+                            value
+                        }))
+                    }
                 }}
                 fieldStyle={{width: '500px'}}
             />

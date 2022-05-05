@@ -47,7 +47,8 @@ const SignInField = React.forwardRef(
                         sx: {
                             height: "40px",
                             fontFamily: "'Poppins', sans-serif",
-                            fontSize: 15
+                            fontSize: 15,
+                            boxSizing: "border-box",
                         }, endAdornment: isPassword ?
                             <IconButton onClick={() => setShowPass(!showPass)}>
                                 {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small"/> :
@@ -56,7 +57,11 @@ const SignInField = React.forwardRef(
                     }}
                     {...(isPassword && !showPass ? {type: "password"} : {})}
                     sx={{
+                        boxSizing: "border-box",
                         width: "466px",
+                        ".css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":{
+                            boxSizing: "border-box",
+                        },
                         ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
                             {
                                 borderColor: MAIN_PURPLE,
@@ -68,8 +73,12 @@ const SignInField = React.forwardRef(
                             fontSize: "15px",
                             lineHeight: "24px",
                         },
+                        // "& input:-internal-autofill-selected":{
+                        //     color:"red !important",
+                        //     backgroundColor:"red !important"
+                        // }
                     }}
-                    autoComplete="off"
+                    // autoComplete="off"
                     {...register(objKey, error || {})}
                     placeholder={placeholder}
                     error={!!errors?.[objKey]}
