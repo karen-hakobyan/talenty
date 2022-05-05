@@ -30,7 +30,12 @@ export default function Header() {
 
     return (
         <Box sx={CONTAINER_HEADER}>
-            <Box sx={LOGO}>Talenty.</Box>
+            <Box
+              sx={LOGO} 
+              onClick={()=>{
+                  navigate(HOME_PAGE_ROUTE)
+              }}
+            >Talenty.</Box>
             <Box
                 sx={{
                     display: "flex",

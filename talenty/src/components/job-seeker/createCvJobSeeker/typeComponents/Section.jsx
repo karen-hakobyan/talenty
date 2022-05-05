@@ -13,7 +13,7 @@ import Photo from "./Photo";
 import Select from "../../../../shared/components/Select";
 import {compareObjects} from "../../../../helpers/compareTwoData";
 import {memoizeTypeComponents} from "../../../../helpers/memo";
-import { validate } from "../../../../helpers/validation/validation";
+import { validate, validationSalary } from "../../../../helpers/validation/validation";
 
 const SocialMedia = memo(function ({data}) {
     const dispatch = useDispatch()
@@ -64,6 +64,19 @@ const salaryTypes = memoizeTypeComponents({
 })
 
 const ExpectedSalary = memo(function ExpectedSalary({data}) {
+    const [saleryError,setSaleryError]=useState({
+        error:false,
+        massage:""
+    })
+    const [salery,currency]=data.fields
+    const [value, setValue] = useState(salery.metadata.submitted_value || '')
+    console.log();
+    useEffect(()=>{
+        setSaleryError(validationSalary({
+            valueSalary:value,
+            currencyValue:currency.metadata.submitted_value
+        }))
+    },[currency,value])
     return <JobSeekerSubsection
         label={data.name}
         Component={
@@ -74,7 +87,7 @@ const ExpectedSalary = memo(function ExpectedSalary({data}) {
                         if (!TempComponent) {
                             return null
                         }
-                        return <TempComponent data={el} key={el.id}/>
+                        return <TempComponent data={el} value={value} setValue={setValue} saleryError={saleryError} key={el.id}/>
                     })
                 }
             </Box>
@@ -112,24 +125,23 @@ export default function Section({data}) {
     return <PhotoLicenses {...{data}}/>
 }
 
-function Salary({data}) {
-    const [value, setValue] = useState(data.metadata.submitted_value || '')
+function Salary({data,saleryError,value,setValue}) {
     const dispatch = useDispatch()
     const [err, setErr]= useState({
         error: false,
         massage: ""
     })
     useEffect(()=>{
-             setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20,isnumber:true}))
+             setErr(validate({name:data.name,value,maxLength:data.metadata?.maxLength? data.metadata.maxLength: 20,isnumber:true, }))
     	},[value,data])
 
     return <TextField
         placeholder={data.metadata.placeholder}
-        error={err?.error}
-        helperText={err.massage}
+        error={err?.error || saleryError.error}
+        helperText={err.massage || saleryError.massage}
         sx={{width: '384px'}}
         onChange={(e) => {
-            if (!isNaN(+e.target.value) && e.target.value !== ' ') {
+            if (!isNaN(+e.target.value) && e.target.value !== ' ' && e.target.value !== '.') {
                 setValue(e.target.value)
             }
         }}
@@ -140,12 +152,14 @@ function Salary({data}) {
     />
 }
 
-function SalaryType({data}) {
+function SalaryType({data,saleryError}) {
     const dispatch = useDispatch()
     return (
         <Select
             value={data.metadata.submitted_value} menuItems={data.metadata.values}
+            placeHolder={data.metadata.placeholder}
             textFieldWidth="100px"
+            err={saleryError}
             onChange={(event) => {
                 dispatch(setTemplateData({id: data.id, value: event.target.value}))
             }}

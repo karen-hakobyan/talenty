@@ -15,6 +15,19 @@ a {
     font-style: normal;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: inset 0 0 0 50px #fff;
+    -webkit-text-fill-color: rgba(0, 0, 0, .87);
+    /* transition: background-color 600000s 0s, color 600000s 0s; */
+}
+
+
+/* input:-webkit-autofill {
+    background-color: white !important;
+    -webkit-text-fill-color: yellow !important;
+} */
+
 
 /* @font-face {
     font-family: "Proxima Nova";

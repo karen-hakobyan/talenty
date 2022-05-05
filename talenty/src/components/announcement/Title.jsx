@@ -54,10 +54,12 @@ export default function Title({data}) {
                     placeholder={deadline.metadata.placeholder}
                     value={deadline.metadata.submitted_value}
                     closeAction={(value) => {
-                        dispatch(changeDialogDataById({
-                            id: deadline.id,
-                            value
-                        }))
+                        if(value){
+                            dispatch(changeDialogDataById({
+                                id: deadline.id,
+                                value
+                            }))
+                        }
                     }}
                     pickerProps={{minDate: new Date()}}
                     fieldStyle={{width: '320px'}}
