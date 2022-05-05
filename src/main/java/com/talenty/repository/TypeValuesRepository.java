@@ -11,6 +11,8 @@ public interface TypeValuesRepository extends MongoRepository<TypeValuesDocument
 
     List<TypeValuesDocument> findAll();
 
+    List<TypeValuesDocument> findAllByType(String type);
+
     @Query(value = "{}", fields = "{type : 1, _id : 0}")
     List<TypeValuesDocument> getTypes();
 

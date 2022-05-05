@@ -9,6 +9,7 @@ import com.talenty.mapper.TypeValuesMapper;
 import com.talenty.repository.TypeValuesRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +31,17 @@ public class TypeValuesService {
 
     public List<TypeValues> getTypesWithValues() {
         return TypeValuesMapper.instance.documentListToDtoList(typeValuesRepository.findAll());
+    }
+
+    public List<TypeValues> getTypesWithValuesByTypes(final String... types) {
+        final List<TypeValuesDocument> result = new ArrayList<>();
+        for (final String type : types) {
+            final TypeValuesDocument byType = typeValuesRepository.findByType(type);
+            if (byType != null) {
+                result.add(byType);
+            }
+        }
+        return TypeValuesMapper.instance.documentListToDtoList(result);
     }
 
     public String delete(final TypeValues typeValues) {
