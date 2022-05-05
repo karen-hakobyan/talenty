@@ -127,17 +127,17 @@ public class JobAnnouncementService {
             return Optional.empty();
         }
         final JobAnnouncementDocument jobAnnouncementDocument = announcement.get();
-        final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
-        if (parentAnnouncement.isEmpty()) {
-            return Optional.empty();
-        }
-        final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
+//        final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+//        if (parentAnnouncement.isEmpty()) {
+//            return Optional.empty();
+//        }
+//        final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields())
-                .setParentFields(parentAnnouncementDocument.getFields())
+//                .setParentFields(parentAnnouncementDocument.getFields())
                 .executeLogic(
-                        applicationContext.getBean(AdminValuesMergeExecutor.class),
-                        new MergeFieldsExecutor()
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
+//                        new MergeFieldsExecutor()
                 );
         return Optional.of(jobAnnouncementDocument);
     }

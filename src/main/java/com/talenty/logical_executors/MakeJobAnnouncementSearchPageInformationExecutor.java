@@ -35,7 +35,7 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
             this.jobAnnouncementInfoForSearchPage.setCountry(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "City")) {
             if (metadata.isEmpty()) {
-                jobAnnouncementInfoForSearchPage.setCity("City is not specified");
+                jobAnnouncementInfoForSearchPage.setCity(null);
             } else if (metadata.containsKey("submitted_value")) {
                 final String submittedValue = metadata.get("submitted_value").toString();
                 this.jobAnnouncementInfoForSearchPage.setCity(submittedValue);
@@ -56,7 +56,7 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
             this.jobAnnouncementInfoForSearchPage.setJobDescription(submittedValue);
         } else if (Objects.equals(currentParentField.getName(), "Responsibilities")) {
             if (metadata.isEmpty()) {
-                jobAnnouncementInfoForSearchPage.setJobResponsibilities("Responsibilities is not specified");
+                jobAnnouncementInfoForSearchPage.setJobResponsibilities(null);
             } else if (metadata.containsKey("submitted_value")) {
                 final String submittedValue = metadata.get("submitted_value").toString();
                 this.jobAnnouncementInfoForSearchPage.setJobResponsibilities(submittedValue);
