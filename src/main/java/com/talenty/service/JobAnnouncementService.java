@@ -2,13 +2,11 @@ package com.talenty.service;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.talenty.domain.dto.AppliedAnnouncement;
-import com.talenty.domain.dto.JobAnnouncement;
-import com.talenty.domain.dto.JobAnnouncementBasicInfo;
-import com.talenty.domain.dto.SubmittedCVTemplate;
+import com.talenty.domain.dto.*;
 import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.exceptions.NoSuchAnnouncementException;
+import com.talenty.exceptions.NoSuchCompanyException;
 import com.talenty.exceptions.WrongOwnerException;
 import com.talenty.exceptions.WrongSubmissionForAnnouncement;
 import com.talenty.logical_executors.*;
@@ -16,6 +14,7 @@ import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.AppliedAnnouncementMapper;
 import com.talenty.mapper.JobAnnouncementMapper;
 import com.talenty.repository.AppliedAnnouncementRepository;
+import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.JobAnnouncementRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -31,19 +30,22 @@ public class JobAnnouncementService {
     private final AppliedAnnouncementRepository appliedAnnouncementRepository;
     private final JobSeekerService jobSeekerService;
     private final SubmittedCvTemplateService submittedCvTemplateService;
+    private final CompanyRepository companyRepository;
 
     public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository,
                                   final ApplicationContext applicationContext,
                                   final HrService hrService,
                                   final AppliedAnnouncementRepository appliedAnnouncementRepository,
                                   final JobSeekerService jobSeekerService,
-                                  final SubmittedCvTemplateService submittedCvTemplateService) {
+                                  final SubmittedCvTemplateService submittedCvTemplateService,
+                                  final CompanyRepository companyRepository) {
         this.jobAnnouncementRepository = jobAnnouncementRepository;
         this.applicationContext = applicationContext;
         this.hrService = hrService;
         this.appliedAnnouncementRepository = appliedAnnouncementRepository;
         this.jobSeekerService = jobSeekerService;
         this.submittedCvTemplateService = submittedCvTemplateService;
+        this.companyRepository = companyRepository;
     }
 
     public JobAnnouncement getSystemJobAnnouncement() {
@@ -125,10 +127,17 @@ public class JobAnnouncementService {
             return Optional.empty();
         }
         final JobAnnouncementDocument jobAnnouncementDocument = announcement.get();
+//        final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+//        if (parentAnnouncement.isEmpty()) {
+//            return Optional.empty();
+//        }
+//        final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
         Executor.getInstance()
                 .setChildFields(jobAnnouncementDocument.getFields())
+//                .setParentFields(parentAnnouncementDocument.getFields())
                 .executeLogic(
                         applicationContext.getBean(AdminValuesMergeExecutor.class)
+//                        new MergeFieldsExecutor()
                 );
         return Optional.of(jobAnnouncementDocument);
     }
@@ -323,12 +332,42 @@ public class JobAnnouncementService {
         return null;
     }
 
-    public List<JobAnnouncementDocument> findAllConfirmed() {
+    public List<JobAnnouncementInfoForSearchPage> findAllConfirmed() {
         final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.CONFIRMED);
-        for (JobAnnouncementDocument byStatus : allByStatus) {
-            byStatus.setFields(null);
+        final List<JobAnnouncementInfoForSearchPage> result = new ArrayList<>();
+        for (JobAnnouncementDocument jobAnnouncementDocument : allByStatus) {
+            if (jobAnnouncementDocument.getMetadata().containsKey("status") && Objects.equals(jobAnnouncementDocument.getMetadata().get("status"), "DELETED")) {
+                continue;
+            }
+            final JobAnnouncementInfoForSearchPage temp = makeSearchPageInfo(jobAnnouncementDocument);
+            result.add(temp);
         }
-        return allByStatus;
+        return result;
     }
 
+
+    private JobAnnouncementInfoForSearchPage makeSearchPageInfo(final JobAnnouncementDocument jobAnnouncementDocument) {
+        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+        if (jobAnnouncementOptional.isEmpty()) {
+            System.out.printf("Couldn't find parent announcement with id '%s'\n", jobAnnouncementDocument.getParentId());
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
+        final JobAnnouncementInfoForSearchPage dto = new JobAnnouncementInfoForSearchPage();
+        final Optional<CompanyDocument> companyDocumentOptional = companyRepository.findById(jobAnnouncementDocument.getCompanyId());
+        if (companyDocumentOptional.isEmpty()) {
+            System.out.printf("Couldn't find company with id '%s'\n", jobAnnouncementDocument.getCompanyId());
+            throw new NoSuchCompanyException();
+        }
+        dto.setId(jobAnnouncementDocument.getId());
+        dto.setName(jobAnnouncementDocument.getName());
+        dto.setCompanyName(companyDocumentOptional.get().getName());
+        Executor.getInstance()
+                .setChildFields(jobAnnouncementDocument.getFields())
+                .setParentFields(jobAnnouncement.getFields())
+                .executeLogic(
+                        new MakeJobAnnouncementSearchPageInformationExecutor(dto)
+                );
+        return dto;
+    }
 }
