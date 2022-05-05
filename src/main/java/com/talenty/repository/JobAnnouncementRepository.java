@@ -2,6 +2,7 @@ package com.talenty.repository;
 
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -18,4 +19,103 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
 
     Long countByStatus(JobAnnouncementStatus status);
 
+
+    @Query(value = "{" +
+            "    $and: [" +
+            "        {" +
+            "            'fields': {" +
+            "                $elemMatch: {" +
+            "                    'fields': {" +
+            "                        $elemMatch: {" +
+            "                            'fields': {" +
+            "                                $elemMatch: {" +
+            "                                    'metadata.type': 'employment_terms'," +
+            "                                    'metadata.submitted_value': {$in: ?1}" +
+            "                                }" +
+            "                            }" +
+            "                        }" +
+            "                    }" +
+            "                }" +
+            "            }," +
+            "            'status': ?0" +
+            "        }," +
+            "        {" +
+            "            'fields': {" +
+            "                $elemMatch: {" +
+            "                    'fields': {" +
+            "                        $elemMatch: {" +
+            "                            'fields': {" +
+            "                                $elemMatch: {" +
+            "                                    'metadata.type': 'job_type'," +
+            "                                    'metadata.submitted_value': {$in: ?2}" +
+            "                                }" +
+            "                            }" +
+            "                        }" +
+            "                    }" +
+            "                }" +
+            "            }," +
+            "            'status': ?0" +
+            "        }," +
+            "        {" +
+            "            'fields': {" +
+            "                $elemMatch: {" +
+            "                    'fields': {" +
+            "                        $elemMatch: {" +
+            "                            'fields': {" +
+            "                                $elemMatch: {" +
+            "                                    'metadata.type': 'job_category'," +
+            "                                    'metadata.submitted_value': {$in: ?3}" +
+            "                                }" +
+            "                            }" +
+            "                        }" +
+            "                    }" +
+            "                }" +
+            "            }," +
+            "            'status': ?0" +
+            "        }," +
+            "        {" +
+            "            'fields': {" +
+            "                $elemMatch: {" +
+            "                    'fields': {" +
+            "                        $elemMatch: {" +
+            "                            'fields': {" +
+            "                                $elemMatch: {" +
+            "                                    'metadata.type': 'candidate_level'," +
+            "                                    'metadata.submitted_value': {$in: ?4}" +
+            "                                }" +
+            "                            }" +
+            "                        }" +
+            "                    }" +
+            "                }" +
+            "            }," +
+            "            'status': ?0" +
+            "        }," +
+            "        {" +
+            "            'fields': {" +
+            "                $elemMatch: {" +
+            "                    'fields': {" +
+            "                        $elemMatch: {" +
+            "                            'fields': {" +
+            "                                $elemMatch: {" +
+            "                                    'metadata.type': 'country'," +
+            "                                    'metadata.submitted_value': {$in: ?5}" +
+            "                                }" +
+            "                            }" +
+            "                        }" +
+            "                    }" +
+            "                }" +
+            "            }," +
+            "            'status': ?0" +
+            "        }" +
+            "    ]" +
+            "}")
+    List<JobAnnouncementDocument> findAllByStatusAndFilters(
+            JobAnnouncementStatus status,
+            List<String> employmentTerms,
+            List<String> jobType,
+            List<String> jobCategory,
+            List<String> candidateLevel,
+            List<String> location,
+            PageRequest pageRequest
+    );
 }

@@ -1,9 +1,10 @@
 package com.talenty.controller;
 
+import com.talenty.pagination.PaginationSettings;
 import com.talenty.domain.dto.AppliedAnnouncement;
 import com.talenty.domain.dto.JobAnnouncement;
 import com.talenty.domain.dto.JobAnnouncementBasicInfo;
-import com.talenty.domain.dto.JobAnnouncementInfoForSearchPage;
+import com.talenty.domain.dto.JobAnnouncementFilters;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.service.JobAnnouncementService;
@@ -70,11 +71,15 @@ public class JobAnnouncementController {
         return ResponseEntity.ok(allPending);
     }
 
-    @GetMapping("/temp_all_confirmed")
-    // This endpoint is to get all pendings for admin dashboard
-    // We need to join this to endpoints and use role ("/all_pending", "/all_pendings")
-    public ResponseEntity<?> getTempAllConfirmed() {
-        final List<JobAnnouncementInfoForSearchPage> allConfirmed = jobAnnouncementService.findAllConfirmed();
+    @PostMapping("/find_by_filters")
+    public ResponseEntity<?> getTempAllConfirmed(@RequestParam(defaultValue = "0") final String page,
+                                                 @RequestParam(defaultValue = "10") final String size,
+                                                 @RequestBody final JobAnnouncementFilters filters) {
+        System.out.println(filters);
+        final List<JobAnnouncementDocument> allConfirmed = jobAnnouncementService.findAllByFilters(
+                filters,
+                new PaginationSettings(Integer.parseInt(page), Integer.parseInt(size))
+        );
         return ResponseEntity.ok(allConfirmed);
     }
 

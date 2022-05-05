@@ -2,6 +2,7 @@ package com.talenty.service;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.talenty.pagination.PaginationSettings;
 import com.talenty.domain.dto.*;
 import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
@@ -16,7 +17,9 @@ import com.talenty.mapper.JobAnnouncementMapper;
 import com.talenty.repository.AppliedAnnouncementRepository;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.JobAnnouncementRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,6 +34,7 @@ public class JobAnnouncementService {
     private final JobSeekerService jobSeekerService;
     private final SubmittedCvTemplateService submittedCvTemplateService;
     private final CompanyRepository companyRepository;
+    private final TypeValuesService typeValuesService;
 
     public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository,
                                   final ApplicationContext applicationContext,
@@ -38,7 +42,8 @@ public class JobAnnouncementService {
                                   final AppliedAnnouncementRepository appliedAnnouncementRepository,
                                   final JobSeekerService jobSeekerService,
                                   final SubmittedCvTemplateService submittedCvTemplateService,
-                                  final CompanyRepository companyRepository) {
+                                  final CompanyRepository companyRepository,
+                                  final TypeValuesService typeValuesService) {
         this.jobAnnouncementRepository = jobAnnouncementRepository;
         this.applicationContext = applicationContext;
         this.hrService = hrService;
@@ -46,6 +51,7 @@ public class JobAnnouncementService {
         this.jobSeekerService = jobSeekerService;
         this.submittedCvTemplateService = submittedCvTemplateService;
         this.companyRepository = companyRepository;
+        this.typeValuesService = typeValuesService;
     }
 
     public JobAnnouncement getSystemJobAnnouncement() {
@@ -74,7 +80,8 @@ public class JobAnnouncementService {
                 .setChildFields(newAnnouncement.getFields())
                 .executeLogic(
                         new RequiredFieldValidationExecutor(),
-                        new SubmittedFieldValueValidationExecutor()
+                        new SubmittedFieldValueValidationExecutor(),
+                        new MergeFieldsExecutor()
                 );
 
         final HrDocument currentHr = hrService.getCurrentHr();
@@ -171,12 +178,12 @@ public class JobAnnouncementService {
     }
 
     public List<JobAnnouncementBasicInfo> getAllJobAnnouncementsByStatus(final JobAnnouncementStatus status) {
+        // TODO if else on user role
         final HrDocument currentHr = hrService.getCurrentHr();
         final String companyId = currentHr.getCompanyId();
         final List<JobAnnouncementDocument> allByCompanyId = jobAnnouncementRepository.findAllByCompanyIdAndStatus(companyId, status);
         final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
 
-        //TODO temporary solution getting info from sections
         for (final JobAnnouncementDocument jobAnnouncementDocument : allByCompanyId) {
             if (jobAnnouncementDocument.getMetadata().containsKey("status") && Objects.equals(jobAnnouncementDocument.getMetadata().get("status"), "DELETED")) {
                 continue;
@@ -345,6 +352,30 @@ public class JobAnnouncementService {
         return result;
     }
 
+    public List<JobAnnouncementDocument> findAllByFilters(final JobAnnouncementFilters filters, final PaginationSettings pagination) {
+        final List<TypeValues> typesWithValues = typeValuesService.getTypesWithValuesByTypes(
+                "employment_terms",
+                "job_type",
+                "job_category",
+                "candidate_level"
+        );
+
+        final List<String> employmentTermsFilters = filters.getEmploymentTerms();
+        final List<String> jobTypeFilters = filters.getJobType();
+        final List<String> jobCategoryFilters = filters.getJobCategory();
+        final List<String> candidateLevelFilters = filters.getCandidateLevel();
+        final List<String> location = filters.getLocation();
+
+        return jobAnnouncementRepository.findAllByStatusAndFilters(
+                JobAnnouncementStatus.CONFIRMED,
+                employmentTermsFilters != null && !employmentTermsFilters.isEmpty() ? employmentTermsFilters : typesWithValues.get(0).getValues(),
+                jobTypeFilters != null && !jobTypeFilters.isEmpty() ? jobTypeFilters : typesWithValues.get(1).getValues(),
+                jobCategoryFilters != null && !jobCategoryFilters.isEmpty() ? jobCategoryFilters : typesWithValues.get(2).getValues(),
+                candidateLevelFilters != null && !candidateLevelFilters.isEmpty() ? candidateLevelFilters : typesWithValues.get(3).getValues(),
+                location != null && !location.isEmpty() ? location : ValidationChecker.COUNTRIES,
+                PageRequest.of(pagination.getPage(), pagination.getSize())
+        );
+    }
 
     private JobAnnouncementInfoForSearchPage makeSearchPageInfo(final JobAnnouncementDocument jobAnnouncementDocument) {
         final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
