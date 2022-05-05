@@ -25,7 +25,10 @@ const SignUpField = React.forwardRef(
                         sx: {
                             height: '40px',
                             fontFamily: "'Poppins', sans-serif",
-                            fontSize: 15
+                            fontSize: 15,
+                            "input:-webkit-autofill":{
+                                "-webkit-text-fill-color": "yellow !important"
+                            }
                         }, endAdornment: isPassword ?
                             <IconButton onClick={() => setShowPass(!showPass)}>
                                 {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small"/> :

@@ -19,7 +19,9 @@ export default function Select({
                                    fieldStyle = {},
                                    placeHolder,
                                    selectProps = {},
+                                   err,
                                    ...restProps
+
                                }) {
     const [open, setOpen] = useState(false)
     return <TextField
@@ -37,6 +39,8 @@ export default function Select({
             ...fieldStyle,
         }}
         value={value}
+        error={err?.error}
+        helperText={err?.massage}
         onClick={() => setOpen(prev => !prev)}
         select
         SelectProps={{

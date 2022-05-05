@@ -20,10 +20,12 @@ DateSubSection({data, extra,err}) {
         placeholder={data.metadata.placeholder}
         value={data.metadata.submitted_value}
         closeAction={(value) => {
-            dispatch(setTemplateData({
-                id: data.id,
-                value
-            }))
+            if(value) {
+                dispatch(setTemplateData({
+                    id: data.id,
+                    value
+                }))
+            }
         }}
         fieldStyle={{width: '242px'}}
         pickerProps={
