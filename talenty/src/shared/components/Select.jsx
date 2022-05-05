@@ -30,7 +30,7 @@ export default function Select({
             // below css will be aplied if start adornment was not given
             '.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': sharedSelectStyle(value),
             // below css will be applied if start adornment was given
-            '.css-1mwwrxv-MuiInputBase-root-MuiOutlinedInput-root': sharedSelectStyle(value),
+            // '.css-1mwwrxv-MuiInputBase-root-MuiOutlinedInput-root': sharedSelectStyle(value),
             ...(selectProps.startAdornment ? {
                 '.css-bf1e45-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
                     paddingLeft: '10px',

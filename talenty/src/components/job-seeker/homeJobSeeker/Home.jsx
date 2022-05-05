@@ -134,7 +134,6 @@ export default function Home() {
                                 />
                                 <Select
                                     fieldStyle={{flex: 1}}
-                                    selectProps={{startAdornment: <WorkSVG/>}}
                                     placeHolder="Job-type"
                                     value={searchJobTypeValue || undefined}
                                 />
