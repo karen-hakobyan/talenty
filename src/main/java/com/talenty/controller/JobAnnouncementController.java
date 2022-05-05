@@ -1,10 +1,7 @@
 package com.talenty.controller;
 
+import com.talenty.domain.dto.*;
 import com.talenty.pagination.PaginationSettings;
-import com.talenty.domain.dto.AppliedAnnouncement;
-import com.talenty.domain.dto.JobAnnouncement;
-import com.talenty.domain.dto.JobAnnouncementBasicInfo;
-import com.talenty.domain.dto.JobAnnouncementFilters;
 import com.talenty.domain.mongo.JobAnnouncementDocument;
 import com.talenty.enums.JobAnnouncementStatus;
 import com.talenty.service.JobAnnouncementService;
@@ -76,7 +73,7 @@ public class JobAnnouncementController {
                                                  @RequestParam(defaultValue = "10") final String size,
                                                  @RequestBody final JobAnnouncementFilters filters) {
         System.out.println(filters);
-        final List<JobAnnouncementDocument> allConfirmed = jobAnnouncementService.findAllByFilters(
+        final List<JobAnnouncementInfoForSearchPage> allConfirmed = jobAnnouncementService.findAllByFilters(
                 filters,
                 new PaginationSettings(Integer.parseInt(page), Integer.parseInt(size))
         );
