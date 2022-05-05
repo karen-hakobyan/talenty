@@ -26,3 +26,4 @@ export const getDeleteHrCvId = (id) => `/cv_template/delete?id=${id}`
 export const GET_CONFIRM_ANNOUCEMENT = `/job_announcements/all_confirmed`
 export const GET_PENDINGS_ANNOUCEMENT = `/job_announcements/all_pending`
 export const GET_CONFIRMED_JOB_ANNOUNCEMENTS = '/job_announcements/temp_all_confirmed'
+export const GET_JOB_ANNOUNCEMENTS_FILTER = '/job_announcements/find_by_filters'

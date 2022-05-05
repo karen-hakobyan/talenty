@@ -48,7 +48,7 @@ export default function CreateCvJobSeeker() {
     }
     return (
         <Box sx={{pt: "44px", pl: "52px", pr: "52px", minHeight: '100vh'}}>
-            <Pagination pagesCount={templateData?.fields.length || 0} {...{exactPage}} />
+            <Pagination pagesCount={templateData?.fields.filter(el => el).length || 0} {...{exactPage}} />
             {/* body */}
             <Box sx={{
                 display: 'flex',
@@ -98,19 +98,6 @@ export default function CreateCvJobSeeker() {
                                 <ArrowRight/>
                             </Button>
                         ) : (
-                            // <Button
-                            //     sx={{...TEMPLATE_BUTTON_ADD, color: "#8C0DF0", width: '179px'}}
-                            //     onClick={async () => {
-                            //         const data = cleanTemplateNewIds(templateData)
-                            //         await dispatch(userInfo.cvTemplateId ? editJobSeekerCv({
-                            //             data,
-                            //             parentId: templateData.parentId
-                            //         }) : saveJobSeekerCV(data))
-                            //         navigate('/')
-                            //     }}
-                            // >
-                            //     {userInfo.cvTemplateId ? 'Edit' : 'Save'}
-                            // </Button>
                             <Button
                                 sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
                                 onClick={() => {

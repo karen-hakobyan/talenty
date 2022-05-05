@@ -2,6 +2,15 @@ import {useState} from "react";
 import {SelectIconSVG} from "../../assets/icons/createTemplate";
 import {MenuItem} from "@mui/material";
 import TextField from "./Textfield";
+import {Box} from "@mui/system";
+
+function sharedSelectStyle(value) {
+    return {
+        color: value === 'none' ? '#8C8C8C' : "rgba(0, 0, 0, 0.87)",
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: 16
+    }
+}
 
 export default function Select({
                                    value = 'none',
@@ -16,11 +25,15 @@ export default function Select({
     return <TextField
         sx={{
             width: textFieldWidth || '500px',
-            '.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
-                color:value ==='none'? '#8C8C8C':"rgba(0, 0, 0, 0.87)",
-                fontFamily: "'Poppins', sans-serif",
-                fontSize:16
-            },
+            // below css will be aplied if start adornment was not given
+            '.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': sharedSelectStyle(value),
+            // below css will be applied if start adornment was given
+            '.css-1mwwrxv-MuiInputBase-root-MuiOutlinedInput-root': sharedSelectStyle(value),
+            ...(selectProps.startAdornment ? {
+                '.css-bf1e45-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
+                    paddingLeft: '10px',
+                }
+            } : {}),
             ...fieldStyle,
         }}
         value={value}
@@ -29,8 +42,12 @@ export default function Select({
         SelectProps={{
             IconComponent: SelectIconSVG,
             sx: {
+                stroke: "#BFBFBF",
+                "&:hover": {
+                    stroke: "#000"
+                },
                 '.MuiSelect-icon': {
-                    marginRight: '10px'
+                    marginRight: '10px',
                 },
                 height: '40px',
             },
@@ -40,7 +57,7 @@ export default function Select({
         {...restProps}
     >
         {placeHolder &&
-            <MenuItem value="none" disabled sx={{display: 'none', color: "#4C494F"}}>{placeHolder}</MenuItem>}
+            <MenuItem value="none" disabled sx={{display: 'none'}}>{placeHolder}</MenuItem>}
         {menuItems.map((el) => {
             return <MenuItem
                 value={el}
@@ -80,9 +97,9 @@ export function MultipleSelect({
             width: textFieldWidth || '500px',
             color: '#8C8C8C',
             '.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
-                color:value ==='none'? '#8C8C8C':"rgba(0, 0, 0, 0.87)",
+                color: value === 'none' ? '#8C8C8C' : "rgba(0, 0, 0, 0.87)",
                 fontFamily: "'Poppins', sans-serif",
-                fontSize:16
+                fontSize: 16
             },
             ...fieldStyle,
         }}

@@ -11,6 +11,7 @@ import JobSeekerProfile from "../profile/JobSeekerProfile";
 import {CREATE_CV, PROFILE} from "../../../constants/routes";
 import Jobs from "../jobs/Jobs";
 import Search from "../search/Search";
+import SearchRoute from "../search/SearchRoute";
 
 export default function HomeJobSeeker() {
     const dispatch = useDispatch()
@@ -26,7 +27,7 @@ export default function HomeJobSeeker() {
                 <Routes>
                     <Route path="/" element={<Home/>}/>
                     <Route path="jobs" element={<Jobs/>}/>
-                    <Route path="search" element={<Search/>}/>
+                    <Route path="search" element={<SearchRoute/>}/>
                     <Route path={CREATE_CV} element={<CreateCvJobSeeker/>}/>
                     <Route path={PROFILE} element={<JobSeekerProfile/>}/>
                 </Routes>
