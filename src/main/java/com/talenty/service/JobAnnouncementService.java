@@ -353,12 +353,7 @@ public class JobAnnouncementService {
     }
 
     public List<JobAnnouncementInfoForSearchPage> findAllByFilters(final JobAnnouncementFilters filters, final PaginationSettings pagination) {
-        final List<TypeValues> typesWithValues = typeValuesService.getTypesWithValuesByTypes(
-                "employment_terms",
-                "job_type",
-                "job_category",
-                "candidate_level"
-        );
+        final List<TypeValues> typesWithValues = getTypeValues();
 
         final List<String> employmentTermsFilters = filters.getEmploymentTerms();
         final List<String> jobTypeFilters = filters.getJobType();
@@ -388,6 +383,15 @@ public class JobAnnouncementService {
 
     }
 
+    public List<TypeValues> getTypeValues() {
+        return typeValuesService.getTypesWithValuesByTypes(
+                "employment_terms",
+                "job_type",
+                "job_category",
+                "candidate_level"
+        );
+    }
+
     private JobAnnouncementInfoForSearchPage makeSearchPageInfo(final JobAnnouncementDocument jobAnnouncementDocument) {
         final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
         if (jobAnnouncementOptional.isEmpty()) {
@@ -412,4 +416,5 @@ public class JobAnnouncementService {
                 );
         return dto;
     }
+
 }

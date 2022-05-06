@@ -122,4 +122,10 @@ public class JobAnnouncementController {
         return ResponseEntity.ok("");
     }
 
+    @GetMapping("/get_filters_list")
+    public ResponseEntity<?> getFiltersList() {
+        final List<TypeValues> filtersList = jobAnnouncementService.getTypeValues();
+        return ResponseEntity.ok(filtersList);
+    }
+
 }
