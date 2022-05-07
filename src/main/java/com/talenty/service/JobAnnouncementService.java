@@ -2,7 +2,6 @@ package com.talenty.service;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.talenty.pagination.PaginationSettings;
 import com.talenty.domain.dto.*;
 import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
@@ -14,6 +13,7 @@ import com.talenty.logical_executors.*;
 import com.talenty.logical_executors.executor.Executor;
 import com.talenty.mapper.AppliedAnnouncementMapper;
 import com.talenty.mapper.JobAnnouncementMapper;
+import com.talenty.pagination.PaginationSettings;
 import com.talenty.repository.AppliedAnnouncementRepository;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.JobAnnouncementRepository;
@@ -417,4 +417,40 @@ public class JobAnnouncementService {
         return dto;
     }
 
+    public JobAnnouncementWithCompanyName getJobAnnouncementWithCompanyName(final String id) {
+        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(id);
+        if (jobAnnouncementOptional.isEmpty()) {
+            System.out.printf("No such job announcement with id '%s'\n", id);
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementOptional.get();
+
+        final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
+        if (parentAnnouncement.isEmpty()) {
+            System.out.printf("No such job announcement with id '%s'\n", jobAnnouncementDocument.getParentId());
+            throw new NoSuchAnnouncementException();
+        }
+        final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
+        Executor.getInstance()
+                .setChildFields(jobAnnouncementDocument.getFields())
+                .setParentFields(parentAnnouncementDocument.getFields())
+                .executeLogic(
+                        applicationContext.getBean(AdminValuesMergeExecutor.class),
+                        new MergeFieldsExecutor()
+                );
+        final JobAnnouncement jobAnnouncement = JobAnnouncementMapper.instance.documentToDto(jobAnnouncementDocument);
+        final Optional<CompanyDocument> companyDocumentOptional = companyRepository.findById(jobAnnouncementDocument.getCompanyId());
+        if (companyDocumentOptional.isEmpty()) {
+            System.out.printf("Couldn't find company with id '%s'\n", jobAnnouncementDocument.getCompanyId());
+            throw new NoSuchCompanyException();
+        }
+        final CompanyDocument companyDocument = companyDocumentOptional.get();
+
+
+        final JobAnnouncementWithCompanyName jobAnnouncementWithCompanyName = new JobAnnouncementWithCompanyName();
+        jobAnnouncementWithCompanyName.setJobAnnouncement(jobAnnouncement);
+        jobAnnouncementWithCompanyName.setCompanyName(companyDocument.getName());
+
+        return jobAnnouncementWithCompanyName;
+    }
 }
