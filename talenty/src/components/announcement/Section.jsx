@@ -8,6 +8,7 @@ import TextField from "../../shared/components/Textfield";
 import Select from "../../shared/components/Select";
 import {isValidRationalNumber} from "../../helpers/actions";
 import { validationNumber } from "../../helpers/validation/validation";
+import { isThisQuarter } from "date-fns";
 
 export default function Section({data}) {
     const dispatch = useDispatch()
@@ -24,17 +25,25 @@ export default function Section({data}) {
     })
     useEffect(()=>{
         if(fromValue){
-            setFromErr(validationNumber({from:fromValue,to:toValue,maxLength:10,sectionValidetion:"from"}))
+            setFromErr(validationNumber({
+                from:fromValue,to:toValue,
+                maxLength:10,
+                sectionValidetion:"from",
+                currency:currency.metadata.submitted_value}))
         }else{
             setFromErr({
                 error:false,
                 massage: "" 
             })
         }
-    },[fromValue,toValue])
+    },[fromValue,toValue,currency])
     useEffect(()=>{
         if(toValue || currency.metadata.submitted_value){
-            setToErr(validationNumber({from:fromValue,to:toValue,maxLength:10,sectionValidetion:"to",currency:currency.metadata.submitted_value}))
+            setToErr(validationNumber({
+                from:fromValue,
+                to:toValue,maxLength:10,
+                sectionValidetion:"to",
+                currency:currency.metadata.submitted_value}))
         }else{
             setToErr({
                 error:false,
@@ -47,6 +56,7 @@ export default function Section({data}) {
 
     return <JobSeekerSubsection
         label={data.name}
+        isRequired={data.metadata.required}
         Component={
             <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
                 {/* bellow will be type */}
@@ -81,13 +91,14 @@ export default function Section({data}) {
                 />
                 <JobSeekerSubsection
                     label={from.name}
+                    isRequired={data.metadata.required}
                     Component={
                         <TextField
                             sx={{width: '226px'}}
                             placeholder={from.metadata.placeholder}
                             value={fromValue}
-                            error={fromErr?.error}
-                            helperText={fromErr.massage}
+                            error={fromErr?.error || toErr.error}
+                            helperText={fromErr.massage || toErr.massage}
                             onChange={
                                 (event) => {
                                     if (isValidRationalNumber(event.target.value)) {
@@ -103,6 +114,7 @@ export default function Section({data}) {
                 />
                 <JobSeekerSubsection
                     label={to.name}
+                    isRequired={data.metadata.required}
                     Component={
                         <TextField
                             sx={{width: '226px'}}
@@ -128,7 +140,7 @@ export default function Section({data}) {
                                          <Select
                                              placeHolder={currency.metadata.placeholder}
                                              textFieldWidth={'99px'}
-                                             err={toErr}
+                                             err={(toErr.massage ==="Enter the amount of the salary" || toErr.massage ==="Select currency") && toErr }
                                              menuItems={currency.metadata.values}
                                              value={currency.metadata.submitted_value}
                                              onChange={(event) => {

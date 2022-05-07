@@ -7,6 +7,7 @@ export default function CandidateLevel({data}) {
     const dispatch = useDispatch()
     return <JobSeekerSubsection
         label={data.name}
+        isRequired={data.metadata.required}
         Component={
             <Select
                 value={data.metadata.submitted_value}

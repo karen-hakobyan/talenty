@@ -42,14 +42,18 @@ export default function Description({data}) {
         label={<Box sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
+            width:"100%"
         }}><Box>{data.metadata.required ?
-            <Box>{data.name}<RequiredSVG style={{marginBottom: '10px'}}/></Box> : data.name}</Box>
+            <Box>{data.name}<RequiredSVG style={{marginBottom: '10px',marginRight:"5px"}}/></Box> : data.name}</Box>
             {/*if have only one field do not give chance to delete it*/}
             {data.metadata.deletable && dialogData.fields.length !== 1 ? (
                 <Box
                     sx={{
-                        cursor: "pointer"
+                        cursor: "pointer",
+                        display:"flex",
+                        justifyContent:"end"
+                        
                     }}
                     onClick={() => {
                         onDelete({dialogData, id, dispatch})
