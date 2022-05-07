@@ -10,7 +10,7 @@ import {dialogTypes} from "./type";
 import {ATTENTION_TYPES} from "./constants";
 import {Box} from "@mui/system";
 import Loading from "../../assets/loading/loading.gif"
-import { selectDataIsLoading } from "../../store/globalData/selector";
+import {selectDataIsLoading} from "../../store/globalData/selector";
 
 
 export default function Dialogs() {
@@ -43,7 +43,6 @@ export default function Dialogs() {
     if (!dialogType && !isLoading) {
         return null;
     }
-
 
     return (
         <Dialog

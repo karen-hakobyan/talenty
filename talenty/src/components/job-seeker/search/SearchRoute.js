@@ -18,6 +18,7 @@ export default function SearchRoute() {
     const [title, setTitle] = useState('')
     const [searchButtonClick, setSearchButtonClick] = useState(false)
     const data = useGetSearchData({searchButtonClick, setSearchButtonClick, isInitiallyGetData: true})
+    
     return <JobSeekerContainer>
         <Search
             SearchComponent={
