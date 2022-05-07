@@ -143,10 +143,10 @@ public class ValidationChecker {
                 break;
             }
 
-//            case "country": {
+            case "country": {
 //                assertCountryIsValid(submittedValue);
-//                break;
-//            }
+                break;
+            }
 
             case "url":
             case "social_link":
@@ -301,13 +301,13 @@ public class ValidationChecker {
         return true;
     }
 
-//    private static boolean assertCountryIsValid(final String country) {
-//        if (!COUNTRIES.contains(country)) {
-//            System.out.printf("Invalid country '%s'", country);
-//            throw new InvalidCountryException();
-//        }
-//        return true;
-//    }
+    private static boolean assertCountryIsValid(final String country) {
+        if (!COUNTRIES.contains(country)) {
+            System.out.printf("Invalid country '%s'", country);
+            throw new InvalidCountryException();
+        }
+        return true;
+    }
 
     private static String makeFullName(final String firstName, final String lastname) {
         return firstName.replace(" ", "")
