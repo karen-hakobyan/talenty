@@ -10,6 +10,7 @@ export default function ProfessionalSkill({data}) {
 
     return <JobSeekerSubsection
         label={data.name}
+        isRequired={data.metadata.required}
         Component={
             <MultipleSelect
                 menuItems={data.metadata.values || ['1', '2', '3']}

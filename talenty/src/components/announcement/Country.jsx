@@ -8,6 +8,7 @@ export default function Country({data}) {
     const dispatch = useDispatch()
     return <JobSeekerSubsection
         label={data.name}
+        isRequired={data.metadata.required}
         Component={
             <Select
                 placeHolder={data.metadata.placeholder}

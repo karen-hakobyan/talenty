@@ -75,13 +75,20 @@ export const validationNumber = ({ from, to, maxLength, sectionValidetion, curre
             massage: "Max length",
         }
     }
-    if (sectionValidetion === "to" && !to && currency) {
+    if ((to || from) && currency) {
+        return {
+            error: false,
+            massage: ""
+        }
+    }
+
+    if ((!to || !from) && currency) {
         return {
             error: true,
             massage: "Enter the amount of the salary",
         }
     }
-    if (sectionValidetion === "to" && !currency && to) {
+    if (!currency && (to || from)) {
         return {
             error: true,
             massage: "Select currency",
@@ -95,7 +102,6 @@ export const validationNumber = ({ from, to, maxLength, sectionValidetion, curre
     }
 
     return {
-        positon: "",
         error: false,
         massage: ""
     }

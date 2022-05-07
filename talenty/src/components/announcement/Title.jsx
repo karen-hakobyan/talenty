@@ -25,8 +25,9 @@ export default function Title({data}) {
     },[value,data])
     return <Box sx={{display: 'flex', gap: '35px'}}>
         <JobSeekerSubsection
-            label={<Box>Title <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
+            label={"Title"}
             sx={{flex: 1}}
+            isRequired={data.metadata.required}
             Component={
                 <TextField
                     placeholder={data.metadata.placeholder}
@@ -48,7 +49,8 @@ export default function Title({data}) {
             }
         />
         <JobSeekerSubsection
-            label={<Box>{deadline.name} <RequiredSVG style={{marginBottom: '10px'}}/></Box>}
+            label={deadline.name}
+            isRequired={data.metadata.required}
             Component={
                 <BasicDatePicker
                     placeholder={deadline.metadata.placeholder}

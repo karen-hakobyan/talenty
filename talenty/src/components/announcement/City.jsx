@@ -17,6 +17,7 @@ export default function City({data}) {
     	},[value,data])
     return <JobSeekerSubsection
         label={data.name}
+        isRequired={data.metadata.required}
         Component={
             <TextField
                 sx={{width: '100%'}}
