@@ -6,6 +6,7 @@ import {TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import Button from "../../../shared/components/Button";
 import {ReactComponent as LocationSVG} from "../../../assets/icons/location.svg";
 import {ReactComponent as WorkSVG} from "../../../assets/icons/work.svg";
+import {ANNOUNCEMENT} from "../../../constants/routes";
 
 export default function Search({SearchComponent, searchButtonClick, setSearchButtonClick, isInitiallyGetData}) {
     const data = useGetSearchData({searchButtonClick, setSearchButtonClick, isInitiallyGetData});
@@ -13,7 +14,6 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))
     }, [data])
-    console.log(tableData)
     return (
         <Box>
             <Box sx={{pb: "5px", borderBottom: "2px solid #D2D2D2"}}>
@@ -76,7 +76,14 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
                                     <Box>{jobType}</Box>
                                 </Box>
                                 <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
-                                    <Button sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}>View more</Button>
+                                    <Button
+                                        sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}
+                                        onClick={() => {
+                                            window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
+                                        }}
+                                    >
+                                        View more
+                                    </Button>
                                 </Box>
                             </Box>
                             <Box
@@ -87,7 +94,7 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
                                     borderRadius: '8px',
                                 }}
                             >
-                                
+
                             </Box>
                         </Box>
                     })}

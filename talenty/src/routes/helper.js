@@ -3,9 +3,11 @@ import {genId} from "../components/dashboard/helper";
 import HomeJobSeeker from "../components/job-seeker/homeJobSeeker";
 
 import {
+    ANNOUNCEMENT,
     DASHBOARD_ROUTE,
     HOME_PAGE_ROUTE,
 } from "../constants/routes";
+import DetailAnnouncement from "../components/job-seeker/search/DetailAnnouncement";
 
 export let HR_ROUTES = [
     {
@@ -21,4 +23,9 @@ export let JOBSEEKER_ROUTES = [
         element: <HomeJobSeeker/>,
         key: genId(),
     },
+    {
+        path: `${ANNOUNCEMENT}/:announcementId`,
+        key: genId(),
+        element: <DetailAnnouncement/>,
+    }
 ];
