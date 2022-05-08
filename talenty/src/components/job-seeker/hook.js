@@ -1,5 +1,10 @@
 import {useEffect, useState} from "react";
-import {GET_CONFIRMED_JOB_ANNOUNCEMENTS, GET_JOB_ANNOUNCEMENTS_FILTER, instance} from "../../constants/requests";
+import {
+    ANNOUNCEMENT_FILTER_LIST,
+    GET_CONFIRMED_JOB_ANNOUNCEMENTS,
+    GET_JOB_ANNOUNCEMENTS_FILTER,
+    instance
+} from "../../constants/requests";
 import {useDispatch} from "react-redux";
 import {setLoading} from "../../store/auth/authSlice";
 import {getJwt} from "../dashboard/helper";
@@ -9,7 +14,7 @@ const useGetSearchData = ({
                               searchButtonClick,
                               setSearchButtonClick = () => {
                               },
-                              isInitiallyGetData
+                              isInitiallyGetData,
                           } = {}) => {
     const [data, setData] = useState([])
     const dispatch = useDispatch()
@@ -43,25 +48,36 @@ const useGetSearchData = ({
         })
     }, [dispatch])
 
-    // useEffect(() => {
-    //     if (searchButtonClick) {
-    //         dispatch(setLoading(true))
-    //         instance.post(GET_JOB_ANNOUNCEMENTS_FILTER, {
-    //             employmentTerms: null,
-    //             jobType: null,
-    //             jobCategory: null,
-    //             candidateLevel: null,
-    //             location: null,
-    //         }).then((response => {
-    //
-    //         })).finally(() => {
-    //             setSearchButtonClick(false)
-    //             dispatch(setLoading(false))
-    //         })
-    //     }
-    // }, [searchButtonClick, setSearchButtonClick])
+    useEffect(() => {
+        if (searchButtonClick) {
+            dispatch(setLoading(true))
+            instance.post(GET_JOB_ANNOUNCEMENTS_FILTER, {
+                employmentTerms: null,
+                jobType: null,
+                jobCategory: null,
+                candidateLevel: null,
+                location: null,
+            }).then((response => {
+                setLoading(false)
+                setData(response.data)
+            })).catch(() => {
+                setLoading(false)
+            })
+        }
+    }, [searchButtonClick, setSearchButtonClick])
 
     return data
+}
+
+export function useGetAnnouncementFilterList() {
+    const [filters, setFilters] = useState([])
+    instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
+    instance.get(ANNOUNCEMENT_FILTER_LIST).then((response) => {
+        setFilters(response.data)
+        // console.log(response.data)
+    })
+
+    return filters
 }
 
 export default useGetSearchData

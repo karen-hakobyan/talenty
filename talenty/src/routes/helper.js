@@ -17,14 +17,14 @@ export let HR_ROUTES = [
     },
 ];
 
-export let JOBSEEKER_ROUTES = [
+export let JOB_SEEKER_ROUTES = [
     {
         path: `${HOME_PAGE_ROUTE}/*`,
         element: <HomeJobSeeker/>,
         key: genId(),
     },
     {
-        path: `${ANNOUNCEMENT}/:announcementId`,
+        path: `${ANNOUNCEMENT}/:announcementId/:companyName`,
         key: genId(),
         element: <DetailAnnouncement/>,
     }

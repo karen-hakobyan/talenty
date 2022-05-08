@@ -8,9 +8,8 @@ import CreateCvJobSeeker from "../createCvJobSeeker";
 import {setAuthInitialState} from "../../../store/auth/authSlice";
 import {getJwt} from "../../dashboard/helper";
 import JobSeekerProfile from "../profile/JobSeekerProfile";
-import {ANNOUNCEMENT, CREATE_CV, PROFILE} from "../../../constants/routes";
+import {CREATE_CV, PROFILE} from "../../../constants/routes";
 import Jobs from "../jobs/Jobs";
-import Search from "../search/Search";
 import SearchRoute from "../search/SearchRoute";
 
 export default function HomeJobSeeker() {

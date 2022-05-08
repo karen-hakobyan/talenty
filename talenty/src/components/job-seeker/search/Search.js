@@ -79,7 +79,7 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
                                     <Button
                                         sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}
                                         onClick={() => {
-                                            window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
+                                            window.open(`${ANNOUNCEMENT}/${id}/${companyName}`, '_blank')
                                         }}
                                     >
                                         View more

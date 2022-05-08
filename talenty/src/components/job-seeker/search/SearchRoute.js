@@ -7,7 +7,7 @@ import Button from "../../../shared/components/Button";
 import {HOME_PRIMARY_BUTTON} from "../../../shared/styles";
 import Select from "../../../shared/components/Select";
 import {ReactComponent as SearchLoopSVG} from "../../../assets/icons/searchLoop.svg";
-import useGetSearchData from "../hook";
+import {useGetAnnouncementFilterList} from "../hook";
 
 export default function SearchRoute() {
     const [jobType, setJobType] = useState('')
@@ -17,8 +17,8 @@ export default function SearchRoute() {
     const [location, setLocation] = useState('')
     const [title, setTitle] = useState('')
     const [searchButtonClick, setSearchButtonClick] = useState(false)
-    const data = useGetSearchData({searchButtonClick, setSearchButtonClick, isInitiallyGetData: true})
-    
+    const filterList = useGetAnnouncementFilterList()
+
     return <JobSeekerContainer>
         <Search
             SearchComponent={
@@ -44,21 +44,37 @@ export default function SearchRoute() {
                             fieldStyle={{flex: 1}}
                             placeHolder="Employment terms"
                             value={employmentTerms || undefined}
+                            menuItems={filterList.find(el => el.type === "employment_terms")?.values}
+                            onChange={(event) => {
+                                setEmploymentTerms(event.target.value)
+                            }}
                         />
                         <Select
                             fieldStyle={{flex: 1}}
                             placeHolder="Job type"
                             value={jobType || undefined}
+                            menuItems={filterList.find(el => el.type === "job_type")?.values}
+                            onChange={(event) => {
+                                setJobType(event.target.value)
+                            }}
                         />
                         <Select
                             fieldStyle={{flex: 1}}
                             placeHolder="Job category"
                             value={jobCategory || undefined}
+                            menuItems={filterList.find(el => el.type === "job_category")?.values}
+                            onChange={(event) => {
+                                setJobCategory(event.target.value)
+                            }}
                         />
                         <Select
                             fieldStyle={{flex: 1}}
                             placeHolder="Candidate level"
                             value={candidateLevel || undefined}
+                            menuItems={filterList.find(el => el.type === "candidate_level")?.values}
+                            onChange={(event) => {
+                                setCandidateLevel(event.target.value)
+                            }}
                         />
                         <TextField
                             sx={{flex: 1}}

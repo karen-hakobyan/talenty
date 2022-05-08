@@ -1,7 +1,10 @@
 import {useParams} from "react-router-dom";
+import JobSeekerContainer from "../../shared/JobSeekerContainer";
 
 export default function DetailAnnouncement() {
-    const {announcementId} = useParams()
-    console.log(announcementId)
-    return <div>announcement</div>
+    const params = useParams()
+    console.log(params)
+    return <JobSeekerContainer>
+        <div>announcement</div>
+    </JobSeekerContainer>
 }

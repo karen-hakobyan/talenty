@@ -10,7 +10,7 @@ import {
 import ForgotPassword from "../components/sign/ForgotPassword.jsx";
 import SignIn from "../components/sign/SignIn.jsx";
 import LandingPage from "../components/landingPage";
-import {HR_ROUTES, JOBSEEKER_ROUTES} from "./helper.js";
+import {HR_ROUTES, JOB_SEEKER_ROUTES} from "./helper.js";
 import NotFoundRoute from "../components/notMatchRoute/index.jsx";
 import {selectAuthIsCompany, selectAuthUserInfo} from "../store/auth/selector";
 
@@ -24,7 +24,7 @@ const RoutesMain = () => {
                 ? HR_ROUTES.map((el) => <Route {...el} />)
                 : null}
             {isCompany === false && userInfo
-                ? JOBSEEKER_ROUTES.map((el) => <Route {...el} />)
+                ? JOB_SEEKER_ROUTES.map((el) => <Route {...el} />)
                 : null}
             {!userInfo && <Route
                 path={`${SIGN_UP_ROUTE}`}
