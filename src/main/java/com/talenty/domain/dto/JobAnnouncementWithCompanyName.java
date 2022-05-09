@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JobAnnouncementWithCompanyName {
+public class JobAnnouncementWithCompanyName extends JobAnnouncement{
 
-    private JobAnnouncement jobAnnouncement;
     private String companyName;
 
 }

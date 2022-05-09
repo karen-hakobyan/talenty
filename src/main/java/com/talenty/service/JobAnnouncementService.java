@@ -448,7 +448,13 @@ public class JobAnnouncementService {
 
 
         final JobAnnouncementWithCompanyName jobAnnouncementWithCompanyName = new JobAnnouncementWithCompanyName();
-        jobAnnouncementWithCompanyName.setJobAnnouncement(jobAnnouncement);
+        jobAnnouncementWithCompanyName.setId(jobAnnouncement.getId());
+        jobAnnouncementWithCompanyName.setOwnerId(jobAnnouncement.getOwnerId());
+        jobAnnouncementWithCompanyName.setName(jobAnnouncement.getName());
+        jobAnnouncementWithCompanyName.setMetadata(jobAnnouncement.getMetadata());
+        jobAnnouncementWithCompanyName.setStatus(jobAnnouncement.getStatus());
+        jobAnnouncementWithCompanyName.setAttachedCvTemplateId(jobAnnouncement.getAttachedCvTemplateId());
+        jobAnnouncementWithCompanyName.setFields(jobAnnouncement.getFields());
         jobAnnouncementWithCompanyName.setCompanyName(companyDocument.getName());
 
         return jobAnnouncementWithCompanyName;
