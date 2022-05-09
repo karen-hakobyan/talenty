@@ -14,8 +14,8 @@ instance.interceptors.request.use(function (config) {
             ...temp,
             headers: {Authorization: `Bearer ${getJwt()}`}
         }
-        return temp
     }
+    return temp
 })
 
 export const GET_TEMPLATES = `/cv_template/system`;
