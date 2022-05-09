@@ -8,8 +8,13 @@ import {ReactComponent as LocationSVG} from "../../../assets/icons/location.svg"
 import {ReactComponent as WorkSVG} from "../../../assets/icons/work.svg";
 import {ANNOUNCEMENT} from "../../../constants/routes";
 
-export default function Search({SearchComponent, searchButtonClick, setSearchButtonClick, isInitiallyGetData}) {
-    const data = useGetSearchData({searchButtonClick, setSearchButtonClick, isInitiallyGetData});
+export default function Search({
+                                   SearchComponent,
+                                   searchButtonClick,
+                                   setSearchButtonClick,
+                                   ...rest
+                               }) {
+    const data = useGetSearchData({searchButtonClick, setSearchButtonClick, ...rest});
     const [tableData, setTableData] = useState([])
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))

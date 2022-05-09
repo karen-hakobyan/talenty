@@ -53,7 +53,7 @@ export default function AnnouncementPreview({viewData}) {
                     console.log(field)
                     switch (field.name) {
                         case 'General Information': {
-                            return <GeneralInfoAnnouncement data={field} key={field.id}/>
+                            return <GeneralInfoAnnouncement data={field} key={field.id} isApplying={!!viewData}/>
                         }
                         case 'Vacancy details': {
                             return <VacancyDetails data={field} key={field.id}/>
