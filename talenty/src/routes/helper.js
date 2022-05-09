@@ -24,7 +24,7 @@ export let JOB_SEEKER_ROUTES = [
         key: genId(),
     },
     {
-        path: `${ANNOUNCEMENT}/:announcementId/:companyName`,
+        path: `${ANNOUNCEMENT}/:announcementId`,
         key: genId(),
         element: <DetailAnnouncement/>,
     }

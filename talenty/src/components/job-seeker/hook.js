@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {
-    ANNOUNCEMENT_FILTER_LIST,
+    ANNOUNCEMENT_FILTER_LIST, ANNOUNCEMENT_VIEW_MORE,
     GET_CONFIRMED_JOB_ANNOUNCEMENTS,
     GET_JOB_ANNOUNCEMENTS_FILTER,
     instance
@@ -71,13 +71,31 @@ const useGetSearchData = ({
 
 export function useGetAnnouncementFilterList() {
     const [filters, setFilters] = useState([])
-    instance.defaults.headers = {Authorization: `Bearer ${getJwt()}`}
     instance.get(ANNOUNCEMENT_FILTER_LIST).then((response) => {
         setFilters(response.data)
-        // console.log(response.data)
     })
 
     return filters
+}
+
+export function useGetAnnouncementData(id) {
+    const [announcementInfo, setAnnouncementInfo] = useState({})
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (id) {
+            dispatch(setLoading(true))
+            instance.get(ANNOUNCEMENT_VIEW_MORE, {
+                params: {id}
+            }).then(response => {
+                setAnnouncementInfo(response.data)
+                dispatch(setLoading(false))
+            }).catch(() => {
+                dispatch(setLoading(false))
+            })
+        }
+    }, [id, dispatch])
+
+    return announcementInfo
 }
 
 export default useGetSearchData
