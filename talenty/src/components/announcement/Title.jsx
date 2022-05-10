@@ -6,7 +6,6 @@ import JobSeekerSubsection from "../job-seeker/createCvJobSeeker/JobSeekerSubsec
 import {changeDialogDataById} from "../../store/dialogs/slice";
 import {selectDialogData} from "../../store/dialogs/selector";
 import BasicDatePicker from "../shared/DatePicker";
-import {ReactComponent as RequiredSVG} from "../../assets/icons/required.svg";
 import { validate } from "../../helpers/validation/validation";
 
 export default function Title({data}) {

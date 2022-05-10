@@ -2,7 +2,6 @@ import {useState} from "react";
 import {SelectIconSVG} from "../../assets/icons/createTemplate";
 import {MenuItem} from "@mui/material";
 import TextField from "./Textfield";
-import {Box} from "@mui/system";
 
 function sharedSelectStyle(value) {
     return {

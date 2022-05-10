@@ -8,7 +8,6 @@ import TextField from "../../shared/components/Textfield";
 import Select from "../../shared/components/Select";
 import {isValidRationalNumber} from "../../helpers/actions";
 import { validationNumber } from "../../helpers/validation/validation";
-import { isThisQuarter } from "date-fns";
 
 export default function Section({data}) {
     const dispatch = useDispatch()

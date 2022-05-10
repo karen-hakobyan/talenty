@@ -26,13 +26,13 @@ export default function Description({data}) {
             setRequiredTextFieldErr(validate({
                 name: data.name,
                 value,
-                maxLength: data.metadata?.maxLength ? data.metadata?.maxLength : 1000
+                maxLength: data.metadata?.maxLength 
             }))
         } else if (!data.metadata.required) {
             setRequiredTextFieldErr(validate({
                 name: data.name,
                 value: editorState,
-                maxLength: data.metadata?.maxLength ? data.metadata?.maxLength : 1000
+                maxLength: data.metadata?.maxLength
             }))
         }
 
