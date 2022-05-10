@@ -7,9 +7,11 @@ import Button from "../../../shared/components/Button";
 import {ReactComponent as LocationSVG} from "../../../assets/icons/location.svg";
 import {ReactComponent as WorkSVG} from "../../../assets/icons/work.svg";
 import {ANNOUNCEMENT} from "../../../constants/routes";
+import MUIRichTextEditor from "mui-rte";
 
 export default function Search({SearchComponent, searchButtonClick, setSearchButtonClick, isInitiallyGetData}) {
     const data = useGetSearchData({searchButtonClick, setSearchButtonClick, isInitiallyGetData});
+    console.log(data);
     const [tableData, setTableData] = useState([])
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))
@@ -30,12 +32,12 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
             {
                 tableData && <Box
                     sx={{display: "flex", flexDirection: "column", gap: "40px", fontFamily: 'Poppins'}}>
-                    {tableData.map(({id, name, companyName, jobType, country, jobDescription, city, open}) => {
+                    {tableData.map(({id, name, companyName, jobType, country, jobDescription, city, open, jobResponsibilities}) => {
                         return <Box>
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    background: '#FDFDFD',
+                                    background: '#FFF',
                                     boxShadow: '0px 4px 4px rgba(182, 182, 182, 0.16)',
                                     borderRadius: '8px',
                                     cursor: 'pointer',
@@ -45,6 +47,8 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
                                     fontWeight: 400,
                                     fontSize: '18px',
                                     lineHeight: '24px',
+                                    zIndex:1000,
+                                    mb:"3px",
                                 }}
                                 key={id}
                                 onClick={() => {
@@ -76,7 +80,7 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
                                     <Box>{jobType}</Box>
                                 </Box>
                                 <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
-                                    <Button
+                                <Button
                                         sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}
                                         onClick={() => {
                                             window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
@@ -88,13 +92,78 @@ export default function Search({SearchComponent, searchButtonClick, setSearchBut
                             </Box>
                             <Box
                                 sx={{
-                                    p: '57px 40px 55px', ...(!open ? {display: 'none'} : {}),
+                                    p: '54px 40px 55px', ...(!open ? {display: 'none'} : {}),
                                     background: '#FDFDFD',
                                     boxShadow: '0px 4px 4px rgba(182, 182, 182, 0.16)',
                                     borderRadius: '8px',
-                                }}
-                            >
+                                }}>
+                                    <Box sx={{
+                                        fontSize:"24px",
+                                        lineHeight:"24px",
+                                        "& p":{
+                                            fontFamily: "'Poppins', sans-serif",
+                                            fontSize:"16px",
+                                            lineHeight:"20px",
+                                            mt:2,
+                                            mb:1.875,
+                                            // color:"#383B51"
+                                            color:"rgba(51, 27, 59, 0.66)"
+                                        },
+                                    }}>
+                                        <h4>Job Description</h4>
+                                        <p>{jobDescription}</p>
+                                        </Box>
+                                        
+                                        {jobResponsibilities? <Box sx={{
+                                        fontSize:"24px",
+                                        lineHeight:"24px",
+                                        "& h4":{
+                                            mt:6.75
+                                        },
+                                        "& p":{
+                                            fontFamily: "'Poppins', sans-serif",
+                                            fontSize:"16px",
+                                            lineHeight:"20px",
+                                            mt:2,
+                                            mb:1.875,
+                                            // color:"#383B51"
+                                            color:"rgba(51, 27, 59, 0.66)"
+                                        },
+                                         }}>
+                                             <Box  sx={{
+                                            width:"100%",
+                                            height:"1px",
+                                            backgroundColor:"#D2D2D2"
+                                        }}/>
+                                            <h4>Job Responsibilities</h4>
+                                            <MUIRichTextEditor
+                                                value={jobResponsibilities}
+                                                controls={[]}
+                                                inheritFontSize={"'Poppins', sans-serif"}
+                                                container={{width:"25px"}}
+                                                inlineStyle={{color:"red"}}
+                                             />
+                                        </Box>:null}
+                                        <Box sx={{
+                                            display:"flex",
+                                            justifyContent:"center",
+                                            width:"100%",
+                                            mt:8.175
+                                        }}>
+                                            <Button
+                                        sx={{
+                                            ...TEMPLATE_BUTTON_ADD, 
+                                            width: '179px', 
+                                            height: '40px',
+                                        }}
+                                        onClick={() => {
+                                            window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
+                                        }}
+                                         >
+                                             View more
+                                            </Button>
 
+                                        </Box>
                             </Box>
                         </Box>
                     })}
