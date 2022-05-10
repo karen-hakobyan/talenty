@@ -16,7 +16,6 @@ export default function Search({
                                    ...rest
                                }) {
     const data = useGetSearchData({searchButtonClick, setSearchButtonClick, ...rest});
-    console.log(data)
     const [tableData, setTableData] = useState([])
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))
@@ -38,12 +37,12 @@ export default function Search({
                 tableData && <Box
                     sx={{display: "flex", flexDirection: "column", gap: "40px", fontFamily: 'Poppins'}}>
                     {tableData.map(({id, name, companyName, jobType, country, jobDescription, city, open, jobResponsibilities}) => {
-                        return <Box>
+                        return <Box key={id}>
                             <Box
                                 sx={{
                                     display: 'flex',
                                     background: '#FFF',
-                                    boxShadow: '0px 4px 4px rgba(182, 182, 182, 0.16)',
+                                    boxShadow: !open? '0px 4px 4px rgba(182, 182, 182, 0.16)' :'0px 4px 4px rgba(0, 0, 0, 0.25)' ,
                                     borderRadius: '8px',
                                     cursor: 'pointer',
                                     height: '120px',
@@ -52,10 +51,8 @@ export default function Search({
                                     fontWeight: 400,
                                     fontSize: '18px',
                                     lineHeight: '24px',
-                                    zIndex:1000,
-                                    mb:"3px",
+                                    position:"relative"
                                 }}
-                                key={id}
                                 onClick={() => {
                                     setTableData(tableData.map(el => {
                                         return {...el, open: el.id === id}
@@ -84,10 +81,13 @@ export default function Search({
                                     <WorkSVG/>
                                     <Box>{jobType}</Box>
                                 </Box>
-                                <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}>
+                                <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}} onClick={(e) => {
+                                    e.stopPropagation()
+                                    // mui button event does not support stop propogation for that we dont add in button action
+                                }}>
                                 <Button
                                         sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}
-                                        onClick={() => {
+                                        onClick={(event) => {
                                             window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
                                         }}
                                     >
@@ -111,8 +111,8 @@ export default function Search({
                                             lineHeight:"20px",
                                             mt:2,
                                             mb:1.875,
-                                            // color:"#383B51"
-                                            color:"rgba(51, 27, 59, 0.66)"
+                                            color:"rgba(51, 27, 59, 0.66)",
+                                            pl:"8.5px"
                                         },
                                     }}>
                                         <h4>Job Description</h4>
@@ -125,15 +125,6 @@ export default function Search({
                                         "& h4":{
                                             mt:6.75
                                         },
-                                        "& p":{
-                                            fontFamily: "'Poppins', sans-serif",
-                                            fontSize:"16px",
-                                            lineHeight:"20px",
-                                            mt:2,
-                                            mb:1.875,
-                                            // color:"#383B51"
-                                            color:"rgba(51, 27, 59, 0.66)"
-                                        },
                                          }}>
                                              <Box  sx={{
                                             width:"100%",
@@ -141,13 +132,21 @@ export default function Search({
                                             backgroundColor:"#D2D2D2"
                                         }}/>
                                             <h4>Job Responsibilities</h4>
+                                            <Box sx={{
+                                                fontFamily: 'Poppins',
+                                                "& .MUIRichTextEditor-container-2":{
+                                                    fontFamily:"Poppins",
+                                                    color:"rgba(51, 27, 59, 0.66)",
+                                                    pl:2.25
+
+                                                }
+                                                }}>
                                             <MUIRichTextEditor
-                                                value={jobResponsibilities}
+                                                defaultValue={jobResponsibilities}
                                                 controls={[]}
-                                                inheritFontSize={"'Poppins', sans-serif"}
-                                                container={{width:"25px"}}
-                                                inlineStyle={{color:"red"}}
+                                                readOnly
                                              />
+                                                </Box>
                                         </Box>:null}
                                         <Box sx={{
                                             display:"flex",
@@ -167,7 +166,6 @@ export default function Search({
                                          >
                                              View more
                                             </Button>
-
                                         </Box>
                             </Box>
                         </Box>
