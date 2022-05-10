@@ -44,7 +44,7 @@ export default function EvaluateBar({data, depend, fields, id}) {
     return <JobSeekerSubsection
         label={
             <Box
-                sx={{display: 'flex', justifyContent: 'space-between'}}>
+                sx={{display: 'flex', justifyContent: 'space-between',width:"100%"}}>
                 <Box>Percentage</Box>
                 {fields.filter(el => el.metadata.status !== "DELETED").length !== 1 ? (
                     <Box sx={{
