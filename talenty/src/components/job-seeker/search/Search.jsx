@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
-import useGetSearchData from "../hook";
+import MUIRichTextEditor from "mui-rte";
+import {useNavigate} from "react-router-dom";
 import {Box} from "@mui/material";
+import useGetSearchData from "../hook";
 import {JOBS_TITLE} from "../../../style/texts";
 import {TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import Button from "../../../shared/components/Button";
 import {ReactComponent as LocationSVG} from "../../../assets/icons/location.svg";
 import {ReactComponent as WorkSVG} from "../../../assets/icons/work.svg";
-import {ANNOUNCEMENT} from "../../../constants/routes";
-import MUIRichTextEditor from "mui-rte";
 import { BUTTON_CENTR_STYLES, job_container, JOB_DESCRIPTION, JOB_NAME_AND_COMPANY_NAME, JOB_RESPONSIBIITIS_CONTAINER, LINE, MORE_INFORMATION, MUI_RICH_TEXT_EDITOR_STYLES } from "./style";
 
 export default function Search({
@@ -18,6 +18,7 @@ export default function Search({
                                }) {
     const data = useGetSearchData({searchButtonClick, setSearchButtonClick, ...rest});
     const [tableData, setTableData] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))
     }, [data])
@@ -37,13 +38,23 @@ export default function Search({
             {
                 tableData && <Box
                     sx={{display: "flex", flexDirection: "column", gap: "40px", fontFamily: 'Poppins'}}>
-                    {tableData.map(({id, name, companyName, jobType, country, jobDescription, city, open, jobResponsibilities}) => {
+                    {tableData.map(({
+                                        id,
+                                        name,
+                                        companyName,
+                                        jobType,
+                                        country,
+                                        jobDescription,
+                                        city,
+                                        open,
+                                        jobResponsibilities
+                                    }) => {
                         return <Box key={id}>
                             <Box
                                 sx={job_container(open)}
                                 onClick={() => {
                                     setTableData(tableData.map(el => {
-                                        return {...el, open: el.id === id}
+                                        return {...el, open: el.id === id ? !el.open : false}
                                     }))
                                 }}
                             >
@@ -59,14 +70,15 @@ export default function Search({
                                     <WorkSVG/>
                                     <Box>{jobType}</Box>
                                 </Box>
-                                <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}} onClick={(e) => {
-                                    e.stopPropagation()
-                                    // mui button event does not support stop propogation for that we dont add in button action
-                                }}>
-                                <Button
+                                <Box sx={{flex: 1, display: 'flex', justifyContent: 'flex-end'}}
+                                     onClick={(e) => {
+                                         e.stopPropagation()
+                                         // mui button event does not support stop propogation for that we dont add in button action
+                                     }}>
+                                    <Button
                                         sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}
-                                        onClick={(event) => {
-                                            window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
+                                        onClick={() => {
+                                            navigate(`announcement/${id}`)
                                         }}
                                     >
                                         View more
@@ -94,17 +106,17 @@ export default function Search({
                                         <Box sx={BUTTON_CENTR_STYLES}>
                                             <Button
                                         sx={{
-                                            ...TEMPLATE_BUTTON_ADD, 
-                                            width: '179px', 
+                                            ...TEMPLATE_BUTTON_ADD,
+                                            width: '179px',
                                             height: '40px',
                                         }}
                                         onClick={() => {
-                                            window.open(`${ANNOUNCEMENT}/${id}`, '_blank')
+                                            navigate(`announcement/${id}`)
                                         }}
-                                         >
-                                             View more
-                                            </Button>
-                                        </Box>
+                                    >
+                                        View more
+                                    </Button>
+                                </Box>
                             </Box>
                         </Box>
                     })}

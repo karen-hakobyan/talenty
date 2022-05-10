@@ -8,9 +8,10 @@ import CreateCvJobSeeker from "../createCvJobSeeker";
 import {setAuthInitialState} from "../../../store/auth/authSlice";
 import {getJwt} from "../../dashboard/helper";
 import JobSeekerProfile from "../profile/JobSeekerProfile";
-import {CREATE_CV, PROFILE} from "../../../constants/routes";
+import {ANNOUNCEMENT, CREATE_CV, PROFILE} from "../../../constants/routes";
 import Jobs from "../jobs/Jobs";
 import SearchRoute from "../search/SearchRoute";
+import DetailAnnouncement from "../search/DetailAnnouncement";
 
 export default function HomeJobSeeker() {
     const dispatch = useDispatch()
@@ -29,6 +30,7 @@ export default function HomeJobSeeker() {
                     <Route path="search" element={<SearchRoute/>}/>
                     <Route path={CREATE_CV} element={<CreateCvJobSeeker/>}/>
                     <Route path={PROFILE} element={<JobSeekerProfile/>}/>
+                    <Route path={`${ANNOUNCEMENT}/:announcementId`} element={<DetailAnnouncement/>}/>
                 </Routes>
             </Box>
 

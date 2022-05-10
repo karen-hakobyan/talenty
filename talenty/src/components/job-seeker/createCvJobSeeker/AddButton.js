@@ -5,6 +5,7 @@ import {addSectionContainerAction, setSectionContainerController} from "../../..
 import Button from "../../../shared/components/Button";
 import {useMemo} from "react";
 
+const ADDABLE_SECTION_NAMES = ['Professional skills', 'Personal skills', 'Languages']
 export default function AddButton() {
     const templateData = useSelector(selectTemplateData)
     const exactPage = useSelector((state) => state.globalData.exactPage)
@@ -24,15 +25,15 @@ export default function AddButton() {
     if (currentData.fields[0].metadata.type !== 'section_container' || currentData.name === 'Publications') {
         return null
     }
-    // 2 3 4 is prof skill personal skill and languages
-    // nested some is for whether there will be not submitted value to not add another one
-    if ([5, 6, 7].includes(exactPage) && currentData.fields.some((el) => {
+
+    if (ADDABLE_SECTION_NAMES.includes(currentData.name) && currentData.fields.some((el) => {
         return el.fields.some(el1 => !el1.metadata.submitted_value)
     })) {
         return null
     }
-    if ([5, 6, 7].includes(exactPage) && currentData.fields.filter(el => el.metadata.status !== 'DELETED').length === currentData.fields[0].fields[0].metadata.values.length) {
+    if (ADDABLE_SECTION_NAMES.includes(currentData.name) && currentData.fields.filter(el => el.metadata.status !== 'DELETED').length === currentData.fields[0].fields[0].metadata.values.length) {
         return null
     }
+    
     return button
 }
