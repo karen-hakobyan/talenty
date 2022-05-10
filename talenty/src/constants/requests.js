@@ -1,10 +1,22 @@
 import axios from 'axios'
+import {getJwt} from "../components/dashboard/helper";
 // const baseUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:7800/";
 export const baseUrl = "https://api.talenty.duckdns.org";
 // export const baseUrl = "http://localhost:7800/";
 
 export const instance = axios.create({
     baseURL: baseUrl
+})
+instance.interceptors.request.use(function (config) {
+    let temp = {...config}
+    if (getJwt()) {
+        temp = {
+            ...temp,
+            headers: {Authorization: `Bearer ${getJwt()}`},
+            timeout: 5000,
+        }
+    }
+    return temp
 })
 
 export const GET_TEMPLATES = `/cv_template/system`;
@@ -29,3 +41,4 @@ export const GET_CONFIRMED_JOB_ANNOUNCEMENTS = '/job_announcements/temp_all_conf
 export const GET_JOB_ANNOUNCEMENTS_FILTER = '/job_announcements/find_by_filters'
 // export const GET_JOB_ANNOUNCEMENTS_FILTER = 'find_by_filters'
 export const ANNOUNCEMENT_FILTER_LIST = '/job_announcements/get_filters_list'
+export const ANNOUNCEMENT_VIEW_MORE = '/job_announcements/view_more'

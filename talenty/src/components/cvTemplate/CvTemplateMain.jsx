@@ -69,9 +69,9 @@ function CvTemplateMain() {
     }, [navigate, userInfo])
 
     useEffect(() => {
-        if(data?.name === "System template"){
+        if (data?.name === "System template") {
             setTitle("")
-        }else{
+        } else {
             setTitle(data?.name);
         }
     }, [data]);
@@ -109,7 +109,7 @@ function CvTemplateMain() {
                         color: "#000",
                         lineHeight: "26px",
                     }}>
-                        {title.length ? (<Box>
+                        {title?.length ? (<Box>
                                 {`Your CV template can not get “${title === "System Template" ? "System Template" : title}”
                             name.`}
                                 <Box sx={{

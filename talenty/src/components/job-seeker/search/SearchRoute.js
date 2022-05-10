@@ -89,6 +89,16 @@ export default function SearchRoute() {
                     <Box sx={{height: '1px', background: '#E4E4E4', mt: '10px'}}/>
                 </Box>
             }
+            {...{
+                setSearchButtonClick,
+                searchButtonClick,
+                jobType,
+                employmentTerms,
+                jobCategory,
+                location,
+                title,
+                candidateLevel
+            }}
         />
     </JobSeekerContainer>
 }

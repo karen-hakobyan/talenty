@@ -9,9 +9,13 @@ import {ReactComponent as WorkSVG} from "../../../assets/icons/work.svg";
 import {ANNOUNCEMENT} from "../../../constants/routes";
 import MUIRichTextEditor from "mui-rte";
 
-export default function Search({SearchComponent, searchButtonClick, setSearchButtonClick, isInitiallyGetData}) {
-    const data = useGetSearchData({searchButtonClick, setSearchButtonClick, isInitiallyGetData});
-    console.log(data);
+export default function Search({
+                                   SearchComponent,
+                                   searchButtonClick,
+                                   setSearchButtonClick,
+                                   ...rest
+                               }) {
+    const data = useGetSearchData({searchButtonClick, setSearchButtonClick, ...rest});
     const [tableData, setTableData] = useState([])
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))

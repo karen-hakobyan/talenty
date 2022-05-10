@@ -25,7 +25,7 @@ const activeButtonStyle = {
     background: "#8C0DF0",
 }
 
-export default function AnnouncementPreview() {
+export default function AnnouncementPreview({viewData}) {
     const isPublished = useSelector(state => state.globalData.isPublished)
     const data = useSelector(selectTemplateData)
     const dispatch = useDispatch()
@@ -38,21 +38,22 @@ export default function AnnouncementPreview() {
     }, [dispatch, isPublished])
 
     useEffect(() => {
-        if (!data) {
+        if (!data && !viewData) {
             dispatch(setDialogInitialState())
         }
-    }, [data,dispatch])
+    }, [data, dispatch])
 
-    if (!data) {
+    if (!data && !viewData) {
         return null
     }
     return <Box sx={{width: '1142px', padding: '36px 24px', display: 'flex', flexDirection: 'column', gap: '68px'}}>
         <Box>
             {
-                data.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
+                (data ? data : viewData)?.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
+                    console.log(field)
                     switch (field.name) {
                         case 'General Information': {
-                            return <GeneralInfoAnnouncement data={field} key={field.id}/>
+                            return <GeneralInfoAnnouncement data={field} key={field.id} isApplying={!!viewData}/>
                         }
                         case 'Vacancy details': {
                             return <VacancyDetails data={field} key={field.id}/>
@@ -91,34 +92,37 @@ export default function AnnouncementPreview() {
                 </Button>
             </Box>
         </Dialog>
-        <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: '24px'}}>
-            <Button style={{textTransform: 'none'}} sx={{
-                width: '179px',
-                color: '#8C0DF0',
-                border: '1px solid #8C0DF0',
-                height: '34px',
-            }}
-                    onClick={() => {
-                        dispatch(setDialogInitialState())
-                    }}
-            >
-                Cancel
-            </Button>
-            <Button
-                sx={activeButtonStyle}
-                style={{textTransform: "none"}}
-                disabled={!isRequiredFieldsFilled(data)}
-                onClick={() => {
-                    let payload = cleanTemplateNewIds(data)
-                    dispatch(publishJobAnnouncement({
-                        ...payload,
-                        name: payload.fields[0].fields[0].metadata.submitted_value,
-                        attachedCvTemplateId: data.attachedCvTemplateId
-                    }))
+        {
+            data && <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: '24px'}}>
+                <Button style={{textTransform: 'none'}} sx={{
+                    width: '179px',
+                    color: '#8C0DF0',
+                    border: '1px solid #8C0DF0',
+                    height: '34px',
                 }}
-            >
-                Publish
-            </Button>
-        </Box>
+                        onClick={() => {
+                            dispatch(setDialogInitialState())
+                        }}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    sx={activeButtonStyle}
+                    style={{textTransform: "none"}}
+                    disabled={!isRequiredFieldsFilled(data)}
+                    onClick={() => {
+                        let payload = cleanTemplateNewIds(data)
+                        dispatch(publishJobAnnouncement({
+                            ...payload,
+                            name: payload.fields[0].fields[0].metadata.submitted_value,
+                            attachedCvTemplateId: data.attachedCvTemplateId
+                        }))
+                    }}
+                >
+                    Publish
+                </Button>
+            </Box>
+        }
+
     </Box>
 }
