@@ -20,8 +20,12 @@ export default function Title({generalInfoData, data, isApplying}) {
         }}>{data.metadata.submitted_value}</Box>
         <Box sx={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
             {
-                isApplying && <Button sx={TEMPLATE_BUTTON_CREATE} onClick={() => {
-                }}>APPLY NOW</Button>
+                isApplying && <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Button
+                        sx={{...TEMPLATE_BUTTON_CREATE, width: '179px'}}
+                    >
+                        APPLY NOW</Button>
+                </Box>
             }
             {
                 deadline.metadata.submitted_value &&
