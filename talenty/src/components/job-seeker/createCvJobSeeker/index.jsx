@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useMemo} from "react";
 import {Box} from "@mui/material";
 import {ArrowBack, ArrowRight} from "../../../assets/icons/jobseeker";
 import Button from "../../../shared/components/Button";
@@ -19,7 +19,13 @@ import {setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
 export default function CreateCvJobSeeker() {
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
-    const templateData = useSelector((state) => state.globalData.templateData)
+    const tempTemplateData = useSelector((state) => state.globalData.templateData)
+    const templateData = useMemo(() => {
+        if (!tempTemplateData) {
+            return null
+        }
+        return {...tempTemplateData, fields: tempTemplateData.fields.filter(el => el)}
+    }, [tempTemplateData])
     const newJwt = useSelector(state => state.globalData.newJwt)
     const userInfo = useSelector(state => state.auth.userInfo)
 
@@ -48,7 +54,7 @@ export default function CreateCvJobSeeker() {
     }
     return (
         <Box sx={{pt: "44px", pl: "52px", pr: "52px", minHeight: '100vh'}}>
-            <Pagination pagesCount={templateData?.fields.filter(el => el).length || 0} {...{exactPage}} />
+            <Pagination pagesCount={templateData?.fields.length || 0} {...{exactPage}} />
             {/* body */}
             <Box sx={{
                 display: 'flex',
