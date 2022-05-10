@@ -3,8 +3,7 @@ export let jobAnnouncementAjab = {
     id: ObjectId(),
     system: true,
     name: "System Job Announcement",
-    fields: [
-        {
+    fields: [{
             id: ObjectId(),
             name: "General Information",
             metadata: {
@@ -13,8 +12,7 @@ export let jobAnnouncementAjab = {
                 editable: true,
                 display: "fold",
             },
-            fields: [
-                {
+            fields: [{
                     id: ObjectId(),
                     name: "Title",
                     metadata: {
@@ -32,8 +30,7 @@ export let jobAnnouncementAjab = {
                         editable: false,
                         deletable: true,
                     },
-                    fields: [
-                        {
+                    fields: [{
                             id: ObjectId(),
                             name: "Employment terms",
                             metadata: {
@@ -97,8 +94,7 @@ export let jobAnnouncementAjab = {
                         deletable: false,
                         required: false,
                     },
-                    fields: [
-                        {
+                    fields: [{
                             id: ObjectId(),
                             name: "Type",
                             metadata: {
@@ -158,8 +154,7 @@ export let jobAnnouncementAjab = {
                 editable: true,
                 display: "fold",
             },
-            fields: [
-                {
+            fields: [{
                     id: ObjectId(),
                     name: "Description",
                     metadata: {
@@ -200,8 +195,7 @@ export let jobAnnouncementAjab = {
                 editable: true,
                 display: "fold",
             },
-            fields: [
-                {
+            fields: [{
                     id: ObjectId(),
                     name: "Professional skills",
                     metadata: {
@@ -223,3 +217,237 @@ export let jobAnnouncementAjab = {
         },
     ],
 };
+
+
+const systemCompanyAjab = {
+    id: ObjectId(),
+    name: "System Company",
+    fields: [{
+            id: ObjectId(),
+            name: "Details",
+            fields: [{
+                    id: ObjectId(),
+                    name: "Legal Form",
+                    metadata: {
+                        type: "legal_form",
+                        placeholder: "-Select-"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Industry",
+                    metadata: {
+                        type: "industry",
+                        placeholder: "-Select-"
+                    }
+                },
+                {
+                    i: ObjectId(),
+                    nam: "Founded",
+                    metadat: {
+                        typ: "date"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Number of employees",
+                    metadata: {
+                        type: "number_of_employees"
+                    }
+                }
+            ],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Contacts",
+            fields: [{
+                    id: ObjectId(),
+                    name: "Address",
+                    metadata: {
+                        type: "address",
+                        placeholder: "Address"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Phone",
+                    metadata: {
+                        type: "phone_number",
+                        placeholder: "+374 77 123 456"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Email",
+                    metadata: {
+                        type: "email",
+                        placeholder: "Email"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Website",
+                    metadata: {
+                        type: "website",
+                        placeholder: "Website"
+                    }
+                }
+            ],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "About Company",
+            fields: [{
+                id: "62798db13ac8ce5e18b8fd06",
+                name: null,
+                metadata: {
+                    type: "description",
+                    placeholder: "Write a text"
+                }
+            }],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Products",
+            fields: [{
+                    id: ObjectId(),
+                    name: "Product name",
+                    metadata: {
+                        type: "product_name",
+                        placeholder: "Product name"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Product link",
+                    metadata: {
+                        type: "product_link",
+                        placeholder: "Product link"
+                    }
+                }
+            ],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Branches",
+            fields: [{
+                    id: "62798db13ac8ce5e18b8fd0b",
+                    name: null,
+                    metadata: {
+                        type: "country",
+                        placeholder: "-Country-"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: null,
+                    metadata: {
+                        type: "city",
+                        placeholder: "City"
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: null,
+                    metadata: {
+                        type: "number_of_employees_100",
+                        placeholder: "Number of employees 100"
+                    }
+                }
+            ],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Additional information",
+            fields: [{
+                id: "62798db13ac8ce5e18b8fd0f",
+                name: null,
+                metadata: {
+                    type: "description",
+                    placeholder: "Write a text"
+                }
+            }],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Benefits",
+            fields: [{
+                id: ObjectId(),
+                name: null,
+                metadata: {
+                    type: "",
+                    placeholder: ""
+                }
+            }],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        }
+    ],
+    metadata: {
+        editable: true
+    }
+}
+
+const dataList = (data) => {
+    let newData = []
+    let section = {
+        id: ObjectId(),
+        metadata: {
+            type: "gridSection",
+        },
+        fields: [],
+    }
+    data.fields.forEach(el => {
+        console.log(el);
+        if (el.name === "Details" || el.name === "Contacts") {
+            if (newData.length === 0) {
+                section.fields.push(el)
+                newData.push(section)
+            } else {
+                console.log(newData[0]);
+                newData[0].fields.push(el)
+            }
+        }
+        if (el.name === "Products" || el.name === "Branches") {
+            console.log(el.name);
+            newData.push({
+                ...el,
+                metadata: {
+                    ...el.metadata,
+                    type: "sectionContainer"
+                }
+            })
+        } else {
+            console.log(el);
+            newData.push(el)
+        }
+    })
+    console.log(newData, "data")
+    return (data)
+}

@@ -46,7 +46,8 @@ const INPUT_LABEL = {
     marginBottom: "10px",
     fontFamily: "'Poppins', sans-serif",
     display: "flex",
-    gap: "5px"
+    width: "100%",
+    gap: "5px",
 };
 
 const TEMPLATE_INPUT = { width: "421px" };
