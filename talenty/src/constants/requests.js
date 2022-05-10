@@ -12,7 +12,8 @@ instance.interceptors.request.use(function (config) {
     if (getJwt()) {
         temp = {
             ...temp,
-            headers: {Authorization: `Bearer ${getJwt()}`}
+            headers: {Authorization: `Bearer ${getJwt()}`},
+            timeout: 5000,
         }
     }
     return temp

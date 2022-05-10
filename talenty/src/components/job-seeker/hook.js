@@ -70,7 +70,8 @@ export function useGetAnnouncementFilterList() {
         instance.get(ANNOUNCEMENT_FILTER_LIST)
             .then((response) => {
                 setFilters(response.data)
-            }).catch(() => {
+            }).catch((err) => {
+            console.log(err)
             console.log('error filter during get filters list')
         })
     }, [])
