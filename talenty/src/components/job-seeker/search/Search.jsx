@@ -66,7 +66,7 @@ export default function Search({
                                 }}
                                 onClick={() => {
                                     setTableData(tableData.map(el => {
-                                        return {...el, open: el.id === id}
+                                        return {...el, open: el.id === id ? !el.open : false}
                                     }))
                                 }}
                             >
