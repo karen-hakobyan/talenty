@@ -41,16 +41,21 @@ export default function AnnouncementPreview({viewData}) {
         if (!data && !viewData) {
             dispatch(setDialogInitialState())
         }
-    }, [data, dispatch])
+    }, [data, dispatch, viewData])
 
     if (!data && !viewData) {
         return null
     }
-    return <Box sx={{width: '1142px', padding: '36px 24px', display: 'flex', flexDirection: 'column', gap: '68px'}}>
+    return <Box sx={{
+        width: '1142px',
+        padding: !viewData ? '36px 24px' : 0,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '68px'
+    }}>
         <Box>
             {
                 (data ? data : viewData)?.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
-                    console.log(field)
                     switch (field.name) {
                         case 'General Information': {
                             return <GeneralInfoAnnouncement data={field} key={field.id} isApplying={!!viewData}/>
@@ -93,7 +98,7 @@ export default function AnnouncementPreview({viewData}) {
             </Box>
         </Dialog>
         {
-            data && <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: '24px'}}>
+            data && !viewData && <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: '24px'}}>
                 <Button style={{textTransform: 'none'}} sx={{
                     width: '179px',
                     color: '#8C0DF0',

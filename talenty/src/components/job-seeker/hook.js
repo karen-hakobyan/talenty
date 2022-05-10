@@ -42,7 +42,7 @@ const useGetSearchData = ({
                 console.log('filters error')
             })
         }
-    }, [searchButtonClick, setSearchButtonClick, title, jobCategory, jobType, employmentTerms, location])
+    }, [searchButtonClick, setSearchButtonClick, title, jobCategory, jobType, employmentTerms, location, candidateLevel, dispatch])
     useEffect(() => {
         dispatch(setLoading(true))
         instance.post(GET_JOB_ANNOUNCEMENTS_FILTER, {

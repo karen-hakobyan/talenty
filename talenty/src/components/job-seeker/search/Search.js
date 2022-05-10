@@ -15,6 +15,7 @@ export default function Search({
                                    ...rest
                                }) {
     const data = useGetSearchData({searchButtonClick, setSearchButtonClick, ...rest});
+    console.log(data)
     const [tableData, setTableData] = useState([])
     useEffect(() => {
         setTableData(data.map(el => ({...el, open: false})))

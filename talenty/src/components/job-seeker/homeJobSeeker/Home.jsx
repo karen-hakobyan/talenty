@@ -13,23 +13,24 @@ import JobSeekerContainer from "../../shared/JobSeekerContainer";
 import Search from "../search/Search";
 import TextField from "../../../shared/components/Textfield";
 import {ReactComponent as SearchLoopSVG} from "../../../assets/icons/searchLoop.svg";
-import {ReactComponent as LocationSVG} from '../../../assets/icons/location.svg'
-import {ReactComponent as WorkSVG} from '../../../assets/icons/work.svg'
 import Select from "../../../shared/components/Select";
+import {useGetAnnouncementFilterList} from "../hook";
 
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const filtersList = useGetAnnouncementFilterList()
     const {email, firstName, lastName} = useSelector(selectAuthUserInfo);
     const userInfo = useSelector((state) => state.auth.userInfo);
-    const [locationValue, setLocationValue] = useState('')
+    const [location, setLocation] = useState('')
     const [searchTitleValue, setSearchTitleValue] = useState('')
-    const [searchJobTypeValue, setSearchJobTypeValue] = useState('')
+    const [jobType, setJobType] = useState('')
     const [searchButtonClick, setSearchButtonClick] = useState(false)
     useEffect(() => {
         dispatch(setAllTemplateData(null));
         dispatch(setExactPage(1));
     }, [dispatch]);
+    
     return (
         <JobSeekerContainer>
             <Box sx={{display: "flex", flexDirection: "column", gap: "24px"}}>
@@ -122,27 +123,30 @@ export default function Home() {
                                     }}
                                 />
                                 <TextField
-                                    InputProps={{startAdornment: <LocationSVG/>}}
                                     sx={{width: '253px'}}
                                     placeholder="Location"
-                                    value={locationValue}
+                                    value={location}
                                     onChange={
                                         (event) => {
-                                            setLocationValue(event.target.value)
+                                            setLocation(event.target.value)
                                         }
                                     }
                                 />
                                 <Select
                                     fieldStyle={{flex: 1}}
                                     placeHolder="Job-type"
-                                    value={searchJobTypeValue || undefined}
+                                    value={jobType || undefined}
+                                    menuItems={filtersList[1]?.values}
+                                    onChange={(event) => {
+                                        setJobType(event.target.value)
+                                    }}
                                 />
                                 <Button sx={{...HOME_PRIMARY_BUTTON, height: '40px'}} onClick={() => {
                                     setSearchButtonClick(true)
                                 }}>View jobs</Button>
                             </Box>
                         }
-                        {...{searchButtonClick, setSearchButtonClick}}
+                        {...{searchButtonClick, setSearchButtonClick, location, jobType}}
                     />
                 </MainBox>
             </Box>
