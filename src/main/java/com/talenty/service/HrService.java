@@ -77,14 +77,7 @@ public class HrService {
     }
 
     public HrDocument getCurrentHr() {
-        final Optional<AuthenticatedUser> currentUserOptional = AuthenticatedUserService.getCurrentUser();
-
-        if (currentUserOptional.isEmpty()) {
-            System.out.printf("Something wrong with authentication creds: %s\n", SecurityContextHolder.getContext().getAuthentication().getCredentials());
-            throw new InvalidAuthenticationWithJwt();
-        }
-
-        final AuthenticatedUser authenticatedUser = currentUserOptional.get();
+        final AuthenticatedUser authenticatedUser = AuthenticatedUserService.getCurrentUser();
 
         final String currentHrId = authenticatedUser.getId();
         final Optional<HrDocument> currentHr = hrRepository.findById(currentHrId);

@@ -36,12 +36,12 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return false;
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
     }
 
     @PostConstruct

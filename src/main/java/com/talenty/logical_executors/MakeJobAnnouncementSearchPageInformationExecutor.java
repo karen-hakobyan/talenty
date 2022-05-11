@@ -67,8 +67,8 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
     }
 
     @Override
-    public boolean needParentField() { return true; }
+    public boolean needMatchableField() { return true; }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) { this.currentParentField = field; }
+    public void setCurrentBaseSourceField(final FieldDocument field) { this.currentParentField = field; }
 }

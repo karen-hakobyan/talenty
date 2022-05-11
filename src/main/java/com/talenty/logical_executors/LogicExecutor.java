@@ -6,8 +6,8 @@ public interface LogicExecutor {
 
     FieldDocument execute(FieldDocument field);
 
-    boolean needParentField();
+    boolean needMatchableField();
 
-    void setCurrentParentField(FieldDocument field);
+    void setCurrentBaseSourceField(FieldDocument field);
 
 }

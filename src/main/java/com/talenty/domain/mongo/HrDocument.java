@@ -28,7 +28,7 @@ public class HrDocument extends UserDocument {
     }
 
     public void deleteCvTemplate(final String id) {
-        cvTemplates.remove(id);
+        // TODO delete from db with cascade
     }
 
     @Field("job_announcements")

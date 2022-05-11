@@ -11,6 +11,9 @@ public interface CVTemplateRepository extends MongoRepository<CVTemplateDocument
     @Query(value = "{'system' : true}", fields = "{_id : 1, name: 1}")
     CVTemplateDocument findSystemTemplateInfo();
 
+    @Query(value = "{'system' : true}")
+    CVTemplateDocument findSystemTemplate();
+
     List<CVTemplateDocument> findAllByCompanyId(String id);
 
     void deleteById(String id);

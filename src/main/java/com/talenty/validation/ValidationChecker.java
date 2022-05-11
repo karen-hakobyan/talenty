@@ -1,15 +1,11 @@
 package com.talenty.validation;
 
-import com.mongodb.BasicDBList;
+import com.sun.jdi.InvalidTypeException;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.exceptions.*;
-import com.talenty.logical_executors.CleanUpMetadataExecutor;
-import com.talenty.logical_executors.SectionContainerFieldsTypesValidationExecutor;
-import com.talenty.logical_executors.SubmittedFieldValueValidationExecutor;
-import com.talenty.logical_executors.executor.Executor;
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.lookups.v1.PhoneNumber;
@@ -40,6 +36,11 @@ public class ValidationChecker {
         final String submittedValue = String.valueOf(submittedField.getMetadata().get("submitted_value"));
         final String type = (String) parentField.getMetadata().get("type");
         final Map<String, Object> parentMetadata = parentField.getMetadata();
+
+        if (type == null) {
+            System.out.println("Type can't be null");
+            throw new InvalidSubmissionException();
+        }
 
         if (parentMetadata.containsKey("values")) {
             final ArrayList<String> values = (ArrayList<String>) parentMetadata.get("values");
@@ -352,22 +353,31 @@ public class ValidationChecker {
 
     // Considering both, field and section validation
     public static void assertNewFieldIsValid(final FieldDocument newField) {
-        if (!newField.getMetadata().containsKey("type")) {
+        final Map<String, Object> metadata = newField.getMetadata();
+
+        if (metadata.containsKey("status") && !Objects.equals(metadata.get("status"), "NEW")) {
+            return;
+        }
+
+        if (!metadata.containsKey("type")) {
             System.out.println("Field must contain 'type' key");
             throw new InvalidFieldException();
         }
 
-        if (Objects.equals(newField.getMetadata().get("type"), "section") && (newField.getFields() == null || newField.getFields().size() == 0)) {
-            System.out.println("Section can't be empty (at least one field is required)");
-            throw new InvalidSectionException();
-        } else if (newField.getFields() != null) {
-            return;
-        }
+        final boolean hasFields = !(newField.getFields() == null || newField.getFields().isEmpty());
 
-        if (!Objects.equals(newField.getMetadata().get("type"), "simple_input")) {
-            System.out.println("New field`s type can only be 'simple_input'");
+        if (Objects.equals(metadata.get("type"), "section")) {
+            if (!hasFields) {
+                System.out.println("Section can't be empty (at least one field is required)");
+                throw new InvalidSectionException();
+            }
+        } else if (!Objects.equals(metadata.get("type"), "simple_input")) {
+            System.out.printf("New field`s type can only be 'simple_input', but not %s\n", metadata.get("type"));
             throw new InvalidFieldException();
         }
+
+        newField.setId(String.valueOf(new ObjectId()));
+
     }
 
     public static void assertSectionContainerIsValid(final FieldDocument tempChildField, final FieldDocument parent) {
