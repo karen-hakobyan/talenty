@@ -22,12 +22,12 @@ public class DeletedFieldValidationExecutor implements LogicExecutor {
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return NEED_PARENT_FIELD;
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
         this.currentParentField = field;
     }
 

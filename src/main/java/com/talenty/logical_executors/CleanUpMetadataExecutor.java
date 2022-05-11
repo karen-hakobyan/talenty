@@ -5,6 +5,7 @@ import com.talenty.domain.mongo.FieldDocument;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CleanUpMetadataExecutor implements LogicExecutor {
 
@@ -19,6 +20,11 @@ public class CleanUpMetadataExecutor implements LogicExecutor {
     @Override
     public FieldDocument execute(final FieldDocument field) {
         final Map<String, Object> metadata = field.getMetadata();
+
+        if (metadata.containsKey("status") && (Objects.equals(metadata.get("status"), "NEW") || Objects.equals(metadata.get("status"), "DELETED"))) {
+            return field;
+        }
+
         if (!deleteExcept) {
             for (final String s : fields) metadata.remove(s);
             return field;
@@ -35,12 +41,12 @@ public class CleanUpMetadataExecutor implements LogicExecutor {
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return false;
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
     }
 
 }

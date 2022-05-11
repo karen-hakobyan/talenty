@@ -34,13 +34,6 @@ public class JobAnnouncementController {
         return ResponseEntity.ok("published");
     }
 
-//    @GetMapping("/all_confirmeds")
-//    // This is gor to get all current j_a's for job_seeker
-//    public ResponseEntity<?> getAllApproved() {
-//        final List<JobAnnouncementBasicInfo> all = jobAnnouncementService.getAllApproved(JobAnnouncementStatus.PENDING);
-//        return ResponseEntity.ok(all);
-//    }
-
     @GetMapping("/all_confirmed_count")
     public ResponseEntity<?> getApprovedCount() {
         final Long count = jobAnnouncementService.getCountByStatus();
@@ -107,13 +100,16 @@ public class JobAnnouncementController {
 
     @GetMapping()
     public ResponseEntity<?> getJobAnnouncementById(@RequestParam final String id) {
-        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementService.findById(id).get();
+        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementService.getJobAnnouncementById(id);
         return ResponseEntity.ok(jobAnnouncement);
     }
 
     @PostMapping("/apply_in_progress")
-    public ResponseEntity<?> applyInProgress(@RequestBody final String jobAnnouncementId, final String jobSeekerId) {
-        final String submittedCvTemplateId = jobAnnouncementService.applyInProgress(jobAnnouncementId, jobSeekerId);
+    public ResponseEntity<?> applyInProgress(@RequestBody final ApplyInProgressCreds applyInProgressCreds) {
+        final String submittedCvTemplateId = jobAnnouncementService.applyInProgress(
+                applyInProgressCreds.getJobAnnouncementId(),
+                applyInProgressCreds.getJobSeekerId()
+        );
         return ResponseEntity.ok("");
     }
 
@@ -122,7 +118,6 @@ public class JobAnnouncementController {
         final List<TypeValues> filtersList = jobAnnouncementService.getTypeValues();
         return ResponseEntity.ok(filtersList);
     }
-
 
     @GetMapping("/view_more")
     public ResponseEntity<?> getJobAnnouncement(@RequestParam final String id) {

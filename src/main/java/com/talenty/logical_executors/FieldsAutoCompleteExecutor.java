@@ -14,13 +14,7 @@ public class FieldsAutoCompleteExecutor implements LogicExecutor {
     public FieldDocument execute(final FieldDocument field) {
         if (field == null || field.getFields() != null) return field;
 
-        final Optional<AuthenticatedUser> currentUserOptional = AuthenticatedUserService.getCurrentUser();
-        if (currentUserOptional.isEmpty()) {
-            System.out.println("Invalid auth with jwt while autocompleting fields");
-            throw new InvalidAuthenticationWithJwt();
-        }
-
-        final AuthenticatedUser user = currentUserOptional.get();
+        final AuthenticatedUser user = AuthenticatedUserService.getCurrentUser();
 
         if ("ROLE_JOB_SEEKER".equals(user.getRole())) {
             final Map<String, Object> metadata = field.getMetadata();
@@ -48,12 +42,12 @@ public class FieldsAutoCompleteExecutor implements LogicExecutor {
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return false;
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
     }
 
 }

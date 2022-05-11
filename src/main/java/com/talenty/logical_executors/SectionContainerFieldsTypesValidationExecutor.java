@@ -23,12 +23,12 @@ public class SectionContainerFieldsTypesValidationExecutor implements LogicExecu
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
         this.parentField = field;
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return NEED_PARENT;
     }
 

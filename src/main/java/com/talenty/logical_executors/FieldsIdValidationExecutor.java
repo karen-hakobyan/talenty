@@ -11,7 +11,12 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
-        if (!this.currentParentField.getId().equals(field.getId())) {
+        if (!this
+                .currentParentField
+                .getId()
+                .equals(
+                        field
+                                .getId())) {
             System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", field, currentParentField);
             throw new NoSuchTemplateException();
         }
@@ -19,12 +24,12 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return true;
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
         this.currentParentField = field;
     }
 
