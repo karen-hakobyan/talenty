@@ -34,7 +34,7 @@ public class Executor {
     public Executor executeLogic(final LogicExecutor... logicExecutors) {
         // Child fields can not be null
         if (iterableFields == null) {
-            System.out.println("Child template is required!!!");
+            System.out.println("Iterable template is required!!!");
             throw new WrongIterationFieldsSelectionException();
         }
 
@@ -79,125 +79,6 @@ public class Executor {
         }
 
     }
-
-//    private void executeLogicOnFieldsAnotherSolution(final List<FieldDocument> childFields,
-//                                                     final List<FieldDocument> parentFields,
-//                                                     final String role,
-//                                                     final LogicExecutor... logicExecutors) {
-//        int parentFieldIndex = 0;
-//        for (int i = 0; i < childFields.size(); ++i) {
-//            final FieldDocument tempChildField = childFields.get(i);
-//            if (tempChildField == null) {
-//                parentFieldIndex++;
-//                continue;
-//            }
-//
-//            if (handelNewField(parentFields, tempChildField, role, logicExecutors)) continue;
-//
-//            final FieldDocument tempParentField = parentFields.get(parentFieldIndex++);
-//
-//            for (final LogicExecutor logicExecutor : logicExecutors) {
-//                if (logicExecutor == null) continue;
-//                if (logicExecutor.needParentField()) logicExecutor.setCurrentParentField(tempParentField);
-//                final FieldDocument executedField = logicExecutor.execute(tempChildField);
-//                childFields.set(i, executedField);
-//            }
-//
-//            final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-//            final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
-//            if (tempChildFieldFields != null && tempParentFieldFields != null)
-//                executeLogicOnFieldsAnotherSolution(tempChildFieldFields, tempParentFieldFields, role, logicExecutors);
-//
-//        }
-//    }
-
-//    private void executeLogicOnFields(final List<FieldDocument> childFields,
-//                                      final List<FieldDocument> parentFields,
-//                                      final String role,
-//                                      final LogicExecutor... logicExecutors) {
-//        int parentFieldIndex = 0;
-//        for (int i = 0; i < childFields.size(); ++i) {
-//            final FieldDocument tempChildField = childFields.get(i);
-//            if (tempChildField == null) {
-//                parentFieldIndex++;
-//                continue;
-//            }
-//
-//            final FieldDocument tempParentField = parentFields.get(parentFieldIndex++);
-//
-//            for (final LogicExecutor logicExecutor : logicExecutors) {
-//                if (logicExecutor == null) continue;
-//                if (tempParentField != null && logicExecutor.needParentField()) {
-//                    logicExecutor.setCurrentParentField(tempParentField);
-//                    final FieldDocument executedField = logicExecutor.execute(tempChildField);
-//                    childFields.set(i, executedField);
-//                } else if (!logicExecutor.needParentField()) {
-//                    final FieldDocument executedField = logicExecutor.execute(tempChildField);
-//                    childFields.set(i, executedField);
-//                }
-//            }
-//
-//            final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-//            final List<FieldDocument> tempParentFieldFields = tempParentField.getFields();
-//            if (tempChildFieldFields != null && tempParentFieldFields != null)
-//                executeLogicOnFields(tempChildFieldFields, tempParentFieldFields, role, logicExecutors);
-//
-//        }
-//    }
-
-//    private boolean handelNewField(final List<FieldDocument> parentFields,
-//                                   final FieldDocument tempChildField,
-//                                   final String role,
-//                                   final LogicExecutor[] logicExecutors) {
-//        final Map<String, Object> childMetadata = tempChildField.getMetadata();
-//
-//        final boolean isNew = Objects.equals(childMetadata.get("status"), "NEW");
-//        boolean isSectionContainer = false;
-//        if (parentFields != null && parentFields.get(0) != null) {
-//            isSectionContainer = Objects.equals(parentFields.get(0).getMetadata().get("type"), "section_container");
-//        }
-//        boolean isSectionContainerField = false;
-//        if (childMetadata.containsKey("inside_container")) {
-//            isSectionContainerField = Boolean.parseBoolean(String.valueOf(childMetadata.get("inside_container")));
-//        }
-//
-//        if (Objects.equals(role, "ROLE_HR_ADMIN")) {
-//            if (isSectionContainer || isSectionContainerField) {
-//                return true;
-//            } else {
-//                if (isNew) {
-//                    ValidationChecker.assertNewFieldIsValid(tempChildField);
-//                    tempChildField.setId(String.valueOf(new ObjectId()));
-//                    childMetadata.remove("status");
-//                    final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-//                    if (tempChildFieldFields != null)
-//                        executeLogicOnFields(tempChildFieldFields, null, role, logicExecutors);
-//                    return true;
-//                }
-//            }
-//        } else if (Objects.equals(role, "ROLE_JOB_SEEKER")) {
-//            if ((isSectionContainer && isNew) || (isSectionContainerField && isNew)) {
-//                tempChildField.setId(String.valueOf(new ObjectId()));
-//                childMetadata.remove("status");
-//                final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-//                if (tempChildFieldFields != null)
-//                    executeLogicOnFields(tempChildFieldFields, parentFields.get(0).getFields(), role, logicExecutors);
-//                return true;
-//            }
-//
-//            if (isSectionContainer) {
-//                final MergeFieldsExecutor mergeFieldsExecutor = new MergeFieldsExecutor();
-//                mergeFieldsExecutor.setCurrentParentField(parentFields.get(0));
-//                mergeFieldsExecutor.execute(tempChildField);
-//                final List<FieldDocument> tempChildFieldFields = tempChildField.getFields();
-//                if (tempChildFieldFields != null)
-//                    executeLogicOnFields(tempChildFieldFields, parentFields.get(0).getFields(), role, new MergeFieldsExecutor());
-//                return true;
-//            }
-//
-//        }
-//        return false;
-//    }
 
     private void executeLogicOnFields(final List<FieldDocument> fields,
                                       final LogicExecutor... logicExecutors) {

@@ -314,7 +314,7 @@ public class JobAnnouncementService {
         } else if (attachedCvTemplateId == null) {
             return jobSeekerCvTemplateId;
         } else if (jobSeekerCvTemplateId == null) {
-            return null;
+            return attachedCvTemplateId;
         }
 
         final CVTemplateDocument matchedCv = matchCvTemplates(attachedCvTemplateId, jobSeekerCvTemplateId);
@@ -363,7 +363,6 @@ public class JobAnnouncementService {
             result.add(temp);
         }
         return result;
-
     }
 
     public List<TypeValues> getTypeValues() {
@@ -392,8 +391,9 @@ public class JobAnnouncementService {
         dto.setName(jobAnnouncementDocument.getName());
         dto.setCompanyName(companyDocumentOptional.get().getName());
         Executor.getInstance()
-                .setIterableFields(jobAnnouncementDocument.getFields())
-                .setMatchableFields(jobAnnouncement.getFields())
+                .setIterableFields(jobAnnouncement.getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields())
+                .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
                         new MakeJobAnnouncementSearchPageInformationExecutor(dto)
                 );

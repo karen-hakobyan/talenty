@@ -85,7 +85,7 @@ public class CVTemplateService {
                 .after()
                 .setIterableFields(newTemplate.getFields())
                 .executeLogic(
-                        new CleanUpMetadataExecutor(true),
+                        new CleanUpMetadataExecutor(true, "required"),
                         new NewFieldValidationExecutor()
                 );
 
