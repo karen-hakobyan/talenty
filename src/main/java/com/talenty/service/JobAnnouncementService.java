@@ -87,7 +87,7 @@ public class JobAnnouncementService {
                 .after()
                 .setIterableFields(newAnnouncement.getFields())
                 .executeLogic(
-                        new CleanUpMetadataExecutor(true),
+                        new CleanUpMetadataExecutor(true, "submitted_value"),
                         new NewFieldValidationExecutor()
                 );
 
