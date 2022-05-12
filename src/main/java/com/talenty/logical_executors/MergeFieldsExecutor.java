@@ -11,19 +11,20 @@ public class MergeFieldsExecutor implements LogicExecutor {
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
+
+        //TODO fix this
+
         if (currentParentField == null || field == null) {
             return field;
         }
+
+        field.setName(this.currentParentField.getName());
+
         final Map<String, Object> fullMetadata = currentParentField.getMetadata();
         final Map<String, Object> resultMap = new HashMap<>(fullMetadata);
+        resultMap.putAll(field.getMetadata());
+        field.setMetadata(resultMap);
 
-        field.setName(currentParentField.getName());
-        if (resultMap.containsKey("autocomplete") && ((Boolean) resultMap.get("autocomplete"))) {
-            field.setMetadata(resultMap);
-            return field;
-        }
-
-        field.getMetadata().putAll(resultMap);
         return field;
     }
 
