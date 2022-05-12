@@ -15,6 +15,7 @@ import TextField from "../../../shared/components/Textfield";
 import {ReactComponent as SearchLoopSVG} from "../../../assets/icons/searchLoop.svg";
 import Select from "../../../shared/components/Select";
 import {useGetAnnouncementFilterList} from "../hook";
+import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -30,11 +31,11 @@ export default function Home() {
         dispatch(setAllTemplateData(null));
         dispatch(setExactPage(1));
     }, [dispatch]);
-    
+
     return (
         <JobSeekerContainer>
             <Box sx={{display: "flex", flexDirection: "column", gap: "24px"}}>
-                <Box sx={{display: "flex", gap: "20px"}}>
+                <Box sx={{display: "flex", gap: "20px", flexWrap: 'wrap'}}>
                     <MainBox>
                         <Box>
                             <Box sx={{display: "flex", justifyContent: "flex-end"}}>
@@ -77,11 +78,35 @@ export default function Home() {
                                     </Box>
                                 </Box>
                             </Box>
-                            <Box sx={{mt: "50px"}}>input</Box>
-                            <Box sx={{mt: "40px"}}>profile complitness</Box>
+                            <Box sx={{mt: "50px"}}>
+                                <JobSeekerSubsection
+                                    label="Headline"
+                                    Component={<TextField placeholder="Add headline"/>}
+                                />
+                            </Box>
+                            <Box sx={{mt: "40px"}}>
+                                <JobSeekerSubsection
+                                    label={
+                                        <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                                            <Box>Profile completeness</Box>
+                                            <Box>0%</Box>
+                                        </Box>
+                                    }
+                                    Component={
+                                        <Box
+                                            sx={{
+                                                height: '18px',
+                                                width: '100%',
+                                                border: '1px solid #D9D9D9',
+                                                borderRadius: '4px'
+                                            }}
+                                        />
+                                    }
+                                />
+                            </Box>
                             <Box
                                 sx={{
-                                    mt: "67px",
+                                    mt: '40px',
                                     display: "flex",
                                     justifyContent: "space-between",
                                 }}
@@ -112,7 +137,7 @@ export default function Home() {
                 <MainBox sx={{minHeight: "821px"}}>
                     <Search
                         SearchComponent={
-                            <Box sx={{display: 'flex', gap: '10px'}}>
+                            <Box sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                 <TextField
                                     InputProps={{startAdornment: <SearchLoopSVG/>}}
                                     sx={{width: '543px'}}
