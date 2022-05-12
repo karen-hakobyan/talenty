@@ -106,11 +106,10 @@ public class JobAnnouncementController {
 
     @PostMapping("/apply_in_progress")
     public ResponseEntity<?> applyInProgress(@RequestBody final ApplyInProgressCreds applyInProgressCreds) {
-        final String submittedCvTemplateId = jobAnnouncementService.applyInProgress(
-                applyInProgressCreds.getJobAnnouncementId(),
-                applyInProgressCreds.getJobSeekerId()
+        ApplyInProgressResponse applyInProgressResponse = jobAnnouncementService.applyInProgress(
+                applyInProgressCreds.getJobAnnouncementId()
         );
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(applyInProgressResponse);
     }
 
     @GetMapping("/get_filters_list")

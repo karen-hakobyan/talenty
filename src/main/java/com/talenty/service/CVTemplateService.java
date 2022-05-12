@@ -119,6 +119,10 @@ public class CVTemplateService {
         return allCvTemplates;
     }
 
+    public CVTemplateDocument findSystemCvTemplate() {
+        return cvTemplateRepository.findSystemTemplate();
+    }
+
     public BasicDBObject deleteCreatedCvTemplateById(final String id) {
         final CVTemplateDocument cvTemplateById = getCvTemplateById(id, true);
         final HrDocument currentHr = hrService.getCurrentHr();
@@ -220,10 +224,6 @@ public class CVTemplateService {
         editedCvTemplateDocument.setCompanyId(parentTemplate.getCompanyId());
         editedCvTemplateDocument.setMetadata(Map.of("editable", true, "count", 0));
         return CVTemplateMapper.instance.documentToDto(save(editedCvTemplateDocument));
-    }
-
-    private CVTemplateDocument findSystemCvTemplate() {
-        return cvTemplateRepository.findSystemTemplate();
     }
 
 }

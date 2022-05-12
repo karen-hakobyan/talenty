@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class ApplyInProgressCreds {
     private String jobAnnouncementId;
-    private String jobSeekerId;
 }

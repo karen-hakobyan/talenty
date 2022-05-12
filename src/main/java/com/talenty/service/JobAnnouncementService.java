@@ -5,16 +5,19 @@ import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.*;
 import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
+import com.talenty.enums.Type;
 import com.talenty.exceptions.*;
 import com.talenty.executor.BaseSource;
 import com.talenty.logical_executors.*;
 import com.talenty.executor.Executor;
 import com.talenty.mapper.AppliedAnnouncementMapper;
+import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.mapper.JobAnnouncementMapper;
 import com.talenty.pagination.PaginationSettings;
 import com.talenty.repository.AppliedAnnouncementRepository;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.JobAnnouncementRepository;
+import com.talenty.repository.SubmittedCvTemplateRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +38,8 @@ public class JobAnnouncementService {
     private final TypeValuesService typeValuesService;
     private final CVTemplateService cvTemplateService;
 
+    private final SubmittedCvTemplateRepository submittedCvTemplateRepository;
+
     public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository,
                                   final ApplicationContext applicationContext,
                                   final HrService hrService,
@@ -43,7 +48,8 @@ public class JobAnnouncementService {
                                   final SubmittedCvTemplateService submittedCvTemplateService,
                                   final CompanyRepository companyRepository,
                                   final TypeValuesService typeValuesService,
-                                  final CVTemplateService cvTemplateService) {
+                                  final CVTemplateService cvTemplateService,
+                                  final SubmittedCvTemplateRepository submittedCvTemplateRepository) {
         this.jobAnnouncementRepository = jobAnnouncementRepository;
         this.applicationContext = applicationContext;
         this.hrService = hrService;
@@ -53,6 +59,7 @@ public class JobAnnouncementService {
         this.companyRepository = companyRepository;
         this.typeValuesService = typeValuesService;
         this.cvTemplateService = cvTemplateService;
+        this.submittedCvTemplateRepository = submittedCvTemplateRepository;
     }
 
     public JobAnnouncement getSystemJobAnnouncement() {
@@ -274,8 +281,8 @@ public class JobAnnouncementService {
         }
 
         Executor.getInstance()
+                .setIterableFields(parentJobAnnouncement.getFields())
                 .setMatchableFields(jobAnnouncement.getFields())
-                .setIterableFields(jobAnnouncement.getFields())
                 .executeLogic(
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor()
@@ -295,33 +302,25 @@ public class JobAnnouncementService {
         if (!Objects.equals(parent.getName(), child.getName())) return;
         parent.getMetadata().put("status", "DELETED");
         jobAnnouncementRepository.save(parent);
-
     }
 
-    public String applyInProgress(final String jobAnnouncementId, final String jobSeekerId) {
-        final JobAnnouncementDocument jobAnnouncementDocument = getJobAnnouncementById(jobAnnouncementId);
-
+    public ApplyInProgressResponse applyInProgress(final String jobAnnouncementId) {
+        final JobAnnouncementDocument jobAnnouncementDocumentById = getJobAnnouncementById(jobAnnouncementId);
         final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
-        if (!Objects.equals(jobSeekerId, currentJobSeeker.getId())) {
-            System.out.printf("Owner with id %s tried to apply with submitted cv of owner with id %s\n", currentJobSeeker.getId(), jobSeekerId);
-            throw new WrongOwnerException();
-        }
 
         final String jobSeekerCvTemplateId = currentJobSeeker.getCvTemplateId();
-        final String attachedCvTemplateId = jobAnnouncementDocument.getAttachedCvTemplateId();
+        final String attachedCvTemplateId = jobAnnouncementDocumentById.getAttachedCvTemplateId();
 
         if (attachedCvTemplateId == null && jobSeekerCvTemplateId == null) {
             System.out.printf("User with id %s should have CV template\n", currentJobSeeker.getId());
             throw new JobSeekerShouldHaveCVException();
         } else if (attachedCvTemplateId == null) {
-            return jobSeekerCvTemplateId;
+            return new ApplyInProgressResponse(Type.CV_TEMPLATE, jobSeekerCvTemplateId);
         } else if (jobSeekerCvTemplateId == null) {
-            return attachedCvTemplateId;
+            return new ApplyInProgressResponse(Type.CV_TEMPLATE, attachedCvTemplateId);
         }
-
-        final CVTemplateDocument matchedCv = matchCvTemplates(attachedCvTemplateId, jobSeekerCvTemplateId);
-
-        return matchedCv.getId();
+        final SubmittedCVTemplateDocument matchedCv = matchCvTemplates(attachedCvTemplateId, jobSeekerCvTemplateId, currentJobSeeker.getId());
+        return new ApplyInProgressResponse(Type.SUBMITTED_CV_TEMPLATE, matchedCv.getId());
     }
 
     public List<JobAnnouncementInfoForSearchPage> findAllConfirmed() {
@@ -439,21 +438,44 @@ public class JobAnnouncementService {
         return jobAnnouncementWithCompanyName;
     }
 
-    private CVTemplateDocument matchCvTemplates(final String attachedCvTemplateId, final String jobSeekerCvTemplateId) {
+    private SubmittedCVTemplateDocument matchCvTemplates(final String attachedCvTemplateId, final String jobSeekerCvTemplateId, final String jobSeekerId) {
         final CVTemplateDocument attachedCv = cvTemplateService.getCvTemplateById(attachedCvTemplateId, true);
         final SubmittedCVTemplateDocument jobSeekerCv = submittedCvTemplateService.getCvTemplateById(jobSeekerCvTemplateId, true);
+        final CVTemplateDocument systemCvTemplate = cvTemplateService.findSystemCvTemplate();
+
+        final SubmittedCVTemplateDocument attachedCvAsSubmitted = CVTemplateMapper.instance.cvTemplateDocumentToSubmittedDocument(attachedCv);
+
+        final List<FieldDocument> cachedSectionContainersOfJobSeekerCv = new ArrayList<>();
+        final List<FieldDocument> cachedSectionContainersOfAttachedCv = new ArrayList<>();
 
         Executor.getInstance()
-                .setIterableFields(attachedCv.getFields())
+                .setIterableFields(jobSeekerCv.getFields())
+                .executeLogic(
+                        new SectionOfSectionContainersCache(cachedSectionContainersOfJobSeekerCv)
+                )
+                .after()
+                .setIterableFields(systemCvTemplate.getFields())
                 .setMatchableFields(jobSeekerCv.getFields())
-                .setSourceParent(BaseSource.MATCHABLE)
+                .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
                         new MatchFieldsExecutor()
+                )
+                .after()
+                .setIterableFields(systemCvTemplate.getFields())
+                .setMatchableFields(attachedCv.getFields())
+                .setSourceParent(BaseSource.MATCHABLE)
+                .executeLogic(
+                        new MatchFieldsExecutor(),
+                        new SectionOfSectionContainersCacheMatchable(cachedSectionContainersOfAttachedCv)
                 );
 
-        // TODO save temp in db
+        attachedCvAsSubmitted.setId(null);
+        attachedCvAsSubmitted.setName(null);
+        attachedCvAsSubmitted.setOwnerId(jobSeekerId);
+        attachedCvAsSubmitted.setParentId(attachedCvTemplateId);
+        attachedCvAsSubmitted.setMetadata(Map.of("status", "MATCHING"));
 
-        return attachedCv;
+        return submittedCvTemplateRepository.save(attachedCvAsSubmitted);
     }
 
     private JobAnnouncementDocument findSystemJobAnnouncement() {

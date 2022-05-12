@@ -6,15 +6,14 @@ import java.util.Objects;
 
 public class MatchFieldsExecutor implements LogicExecutor {
 
-    private FieldDocument parentField;
+    private FieldDocument baseField;
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
-        if (Objects.equals(field.getName(), this.parentField.getName())) {
-            if (this.parentField.getMetadata() != null &&
-                    this.parentField.getMetadata().containsKey("submitted_value")) {
-                final String value = String.valueOf(this.parentField.getMetadata().get("submitted_value"));
-                field.getMetadata().put("submitted_value", value);
+        if (Objects.equals(field.getName(), this.baseField.getName())) {
+            if (field.getMetadata() != null && field.getMetadata().containsKey("submitted_value")) {
+                final String value = String.valueOf(field.getMetadata().get("submitted_value"));
+                this.baseField.getMetadata().put("submitted_value", value);
             }
         }
         return null;
@@ -27,7 +26,7 @@ public class MatchFieldsExecutor implements LogicExecutor {
 
     @Override
     public void setCurrentBaseSourceField(final FieldDocument field) {
-        this.parentField = field;
+        this.baseField = field;
     }
 
 }
