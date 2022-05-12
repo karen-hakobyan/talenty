@@ -80,6 +80,7 @@ public class JobAnnouncementService {
                 .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
                         new FieldsIdValidationExecutor(),
+                        new MergeFieldsExecutor(),
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor(),
                         new DeletedFieldValidationExecutor()
@@ -87,7 +88,6 @@ public class JobAnnouncementService {
                 .after()
                 .setIterableFields(newAnnouncement.getFields())
                 .executeLogic(
-                        new CleanUpMetadataExecutor(true, "submitted_value"),
                         new NewFieldValidationExecutor()
                 );
 
@@ -206,9 +206,11 @@ public class JobAnnouncementService {
         dto.setId(jobAnnouncementDocument.getId());
         dto.setName(jobAnnouncementDocument.getName());
         Executor.getInstance()
-                .setIterableFields(jobAnnouncementDocument.getFields().get(0).getFields())
-                .setMatchableFields(jobAnnouncement.getFields().get(0).getFields())
+                .setIterableFields(jobAnnouncement.getFields().get(0).getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields().get(0).getFields())
+                .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
+                        new MergeFieldsExecutor(),
                         new MakeBasicJobAnnouncementInformationExecutor(dto)
                 );
         return dto;
@@ -415,8 +417,8 @@ public class JobAnnouncementService {
         }
         final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
         Executor.getInstance()
-                .setIterableFields(jobAnnouncementDocument.getFields())
-                .setMatchableFields(parentAnnouncementDocument.getFields())
+                .setIterableFields(parentAnnouncementDocument.getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields())
                 .executeLogic(
                         applicationContext.getBean(AdminValuesMergeExecutor.class),
                         new MergeFieldsExecutor()
