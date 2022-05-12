@@ -35,7 +35,7 @@ export default function Home() {
     return (
         <JobSeekerContainer>
             <Box sx={{display: "flex", flexDirection: "column", gap: "24px"}}>
-                <Box sx={{display: "flex", gap: "20px"}}>
+                <Box sx={{display: "flex", gap: "20px", flexWrap: 'wrap'}}>
                     <MainBox>
                         <Box>
                             <Box sx={{display: "flex", justifyContent: "flex-end"}}>
@@ -137,7 +137,7 @@ export default function Home() {
                 <MainBox sx={{minHeight: "821px"}}>
                     <Search
                         SearchComponent={
-                            <Box sx={{display: 'flex', gap: '10px'}}>
+                            <Box sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                 <TextField
                                     InputProps={{startAdornment: <SearchLoopSVG/>}}
                                     sx={{width: '543px'}}
