@@ -315,7 +315,7 @@ public class JobAnnouncementService {
             System.out.printf("User with id %s should have CV template\n", currentJobSeeker.getId());
             throw new JobSeekerShouldHaveCVException();
         } else if (attachedCvTemplateId == null) {
-            return new ApplyInProgressResponse(Type.CV_TEMPLATE, jobSeekerCvTemplateId);
+            return new ApplyInProgressResponse(Type.SUBMITTED_CV_TEMPLATE, jobSeekerCvTemplateId);
         } else if (jobSeekerCvTemplateId == null) {
             return new ApplyInProgressResponse(Type.CV_TEMPLATE, attachedCvTemplateId);
         }
