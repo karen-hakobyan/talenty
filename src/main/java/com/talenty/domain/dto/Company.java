@@ -1,24 +1,19 @@
-package com.talenty.domain.mongo;
+package com.talenty.domain.dto;
 
 import com.talenty.domain.Branches;
 import com.talenty.domain.Products;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Getter
 @Setter
-@Document("companies")
-public class CompanyDocument {
+@NoArgsConstructor
+public class Company {
 
-    @Id
     private String id;
-    @Indexed(unique = true)
     private String name;
     private String profilePicture;
     private String logo;
