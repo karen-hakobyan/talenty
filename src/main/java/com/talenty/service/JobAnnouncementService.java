@@ -233,10 +233,13 @@ public class JobAnnouncementService {
         }
 
         final JobAnnouncementDocument jobAnnouncement = getJobAnnouncementById(appliedAnnouncemetDocument.getJobAnnouncementId());
-        if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
-            System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
-            throw new WrongSubmissionForAnnouncement();
+        if (jobAnnouncement.getAttachedCvTemplateId() != null) {
+            if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
+                System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
+                throw new WrongSubmissionForAnnouncement();
+            }
         }
+
         final Map<String, Object> announcementMetadata = jobAnnouncement.getMetadata();
         final Map<String, Object> newMetadata = new HashMap<>();
         if (announcementMetadata != null) {
