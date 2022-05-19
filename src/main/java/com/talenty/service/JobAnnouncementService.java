@@ -233,10 +233,13 @@ public class JobAnnouncementService {
         }
 
         final JobAnnouncementDocument jobAnnouncement = getJobAnnouncementById(appliedAnnouncemetDocument.getJobAnnouncementId());
-        if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
-            System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
-            throw new WrongSubmissionForAnnouncement();
+        if (jobAnnouncement.getAttachedCvTemplateId() != null) {
+            if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
+                System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
+                throw new WrongSubmissionForAnnouncement();
+            }
         }
+
         final Map<String, Object> announcementMetadata = jobAnnouncement.getMetadata();
         final Map<String, Object> newMetadata = new HashMap<>();
         if (announcementMetadata != null) {
@@ -315,7 +318,7 @@ public class JobAnnouncementService {
             System.out.printf("User with id %s should have CV template\n", currentJobSeeker.getId());
             throw new JobSeekerShouldHaveCVException();
         } else if (attachedCvTemplateId == null) {
-            return new ApplyInProgressResponse(Type.CV_TEMPLATE, jobSeekerCvTemplateId);
+            return new ApplyInProgressResponse(Type.SUBMITTED_CV_TEMPLATE, jobSeekerCvTemplateId);
         } else if (jobSeekerCvTemplateId == null) {
             return new ApplyInProgressResponse(Type.CV_TEMPLATE, attachedCvTemplateId);
         }
@@ -432,7 +435,13 @@ public class JobAnnouncementService {
 
 
         final JobAnnouncementWithCompanyName jobAnnouncementWithCompanyName = new JobAnnouncementWithCompanyName();
-        jobAnnouncementWithCompanyName.setJobAnnouncement(jobAnnouncement);
+        jobAnnouncementWithCompanyName.setId(jobAnnouncement.getId());
+        jobAnnouncementWithCompanyName.setOwnerId(jobAnnouncement.getOwnerId());
+        jobAnnouncementWithCompanyName.setName(jobAnnouncement.getName());
+        jobAnnouncementWithCompanyName.setMetadata(jobAnnouncement.getMetadata());
+        jobAnnouncementWithCompanyName.setStatus(jobAnnouncement.getStatus());
+        jobAnnouncementWithCompanyName.setAttachedCvTemplateId(jobAnnouncement.getAttachedCvTemplateId());
+        jobAnnouncementWithCompanyName.setFields(jobAnnouncement.getFields());
         jobAnnouncementWithCompanyName.setCompanyName(companyDocument.getName());
 
         return jobAnnouncementWithCompanyName;
