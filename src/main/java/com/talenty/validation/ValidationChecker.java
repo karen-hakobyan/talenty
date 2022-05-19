@@ -1,6 +1,7 @@
 package com.talenty.validation;
 
 import com.sun.jdi.InvalidTypeException;
+import com.talenty.domain.dto.Company;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
@@ -387,6 +388,10 @@ public class ValidationChecker {
             System.out.println("Section container must contain same fields as parent section container");
             throw new InvalidSectionContainerFieldsSize();
         }
+    }
+
+    public static void assertCompanyIsValid(final Company company) {
+
     }
 
 }

@@ -103,7 +103,11 @@ public class SubmittedCvTemplateService {
 //                        new SectionContainerValidation(sections)
                 );
 
-        submittedTemplate.setOwnerId(cvTemplate.getId());
+        final SubmittedCVTemplateDocument notEditedTemplate = getCvTemplateById(cvTemplate.getId(), true);
+
+        submittedTemplate.setOwnerId(notEditedTemplate.getOwnerId());
+        submittedTemplate.setName(notEditedTemplate.getName());
+        submittedTemplate.setMetadata(notEditedTemplate.getMetadata());
 
         return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));
     }
