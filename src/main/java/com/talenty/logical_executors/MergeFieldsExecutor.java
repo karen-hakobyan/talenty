@@ -11,34 +11,30 @@ public class MergeFieldsExecutor implements LogicExecutor {
 
     @Override
     public FieldDocument execute(final FieldDocument field) {
+
+        //TODO fix this
+
         if (currentParentField == null || field == null) {
             return field;
         }
+
+        field.setName(this.currentParentField.getName());
+
         final Map<String, Object> fullMetadata = currentParentField.getMetadata();
         final Map<String, Object> resultMap = new HashMap<>(fullMetadata);
-
-        field.setName(currentParentField.getName());
-        if (resultMap.containsKey("autocomplete")) {
-            if ((Boolean) resultMap.get("autocomplete")) {
-                field.setMetadata(resultMap);
-                return field;
-            }
-        } else {
-            if (field.getMetadata().containsKey("submitted_value")) {
-                resultMap.put("submitted_value", field.getMetadata().get("submitted_value"));
-            }
-        }
+        resultMap.putAll(field.getMetadata());
         field.setMetadata(resultMap);
+
         return field;
     }
 
     @Override
-    public boolean needParentField() {
+    public boolean needMatchableField() {
         return NEED_PARENT_FIELD;
     }
 
     @Override
-    public void setCurrentParentField(final FieldDocument field) {
+    public void setCurrentBaseSourceField(final FieldDocument field) {
         this.currentParentField = field;
     }
 

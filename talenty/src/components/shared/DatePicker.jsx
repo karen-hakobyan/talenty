@@ -18,6 +18,7 @@ export default function BasicDatePicker({
                                             closeAction,
                                             err,
                                             name,
+                                            popperStyle = {},
                                         }) {
     const [innerValue, setInnerValue] = useState(value)
     let sendValue = null
@@ -36,6 +37,7 @@ export default function BasicDatePicker({
                     sendValue = val
                 }}
                 renderInput={(params) => {
+                    console.log(params)
                     return <TextField
                         {...params}
                         sx={{
@@ -50,7 +52,8 @@ export default function BasicDatePicker({
                         error={name === "End" && err.massage === "Enter when you started" ? false : err?.error}
                         helperText={name === "End" && err.massage === "Enter when you started" ? "" : err?.massage}
                         inputProps={{
-                            ...params.inputProps, placeholder, sx: {
+                            ...params.inputProps,
+                            placeholder, sx: {
                                 fontFamily: "'Poppins', sans-serif",
                                 fontSize: "16px",
                                 lineHeight: "24px",
@@ -63,6 +66,14 @@ export default function BasicDatePicker({
                     closeAction(sendValue)
                 } : () => {
                 }}
+                // PopperProps={{
+                //     sx: {
+                //         '& .MuiPaper-root': {
+                //             ...popperStyle,
+                //             ml: '200px',
+                //         }
+                //     }
+                // }}
             />
         </LocalizationProvider>
     );

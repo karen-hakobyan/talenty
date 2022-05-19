@@ -1,15 +1,15 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { selectIsChangePassword } from "../store/auth/selector";
-import { LANDING_PAGE_ROUTE, SIGN_IN_ROUTE } from "../constants/routes";
-import { setGlobalInitialData } from "../store/globalData/slice";
-import { setAuthIsChangePass, setAuthSignOut, setIsValidToken, setIsLoading, } from "../store/auth/authSlice";
-import { setDialogInitialState } from "../store/dialogs/slice";
+import {useEffect} from 'react'
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {selectIsChangePassword} from "../store/auth/selector";
+import {LANDING_PAGE_ROUTE, SIGN_IN_ROUTE} from "../constants/routes";
+import {setGlobalInitialData} from "../store/globalData/slice";
+import {setAuthIsChangePass, setAuthSignOut, setIsValidToken, setIsLoading,} from "../store/auth/authSlice";
+import {setDialogInitialState} from "../store/dialogs/slice";
 
 export const useAuthInitialEffects = () => {
     const dispatch = useDispatch()
-        // const loading = useSelector(selectAuthLoading)
+    // const loading = useSelector(selectAuthLoading)
     const navigate = useNavigate()
     const isSignOut = useSelector(state => state.auth.signOut)
     const isChangePassword = useSelector(selectIsChangePassword)
@@ -24,10 +24,8 @@ export const useAuthInitialEffects = () => {
     // below effect is close any dialogs if app was closed before dialog close action
     // նեռքևի էֆեկտի իմաստը դիալոգ միամիտ բաց չմնա
     useEffect(() => {
-        return () => {
-            dispatch(setDialogInitialState())
-            dispatch(setIsLoading(false))
-        }
+        dispatch(setDialogInitialState())
+        dispatch(setIsLoading(false))
     }, [dispatch])
     useEffect(() => {
         if (isChangePassword) {

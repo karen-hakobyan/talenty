@@ -5,18 +5,19 @@ import com.mongodb.BasicDBObject;
 import com.talenty.domain.dto.*;
 import com.talenty.domain.mongo.*;
 import com.talenty.enums.JobAnnouncementStatus;
-import com.talenty.exceptions.NoSuchAnnouncementException;
-import com.talenty.exceptions.NoSuchCompanyException;
-import com.talenty.exceptions.WrongOwnerException;
-import com.talenty.exceptions.WrongSubmissionForAnnouncement;
+import com.talenty.enums.Type;
+import com.talenty.exceptions.*;
+import com.talenty.executor.BaseSource;
 import com.talenty.logical_executors.*;
-import com.talenty.logical_executors.executor.Executor;
+import com.talenty.executor.Executor;
 import com.talenty.mapper.AppliedAnnouncementMapper;
+import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.mapper.JobAnnouncementMapper;
 import com.talenty.pagination.PaginationSettings;
 import com.talenty.repository.AppliedAnnouncementRepository;
 import com.talenty.repository.CompanyRepository;
 import com.talenty.repository.JobAnnouncementRepository;
+import com.talenty.repository.SubmittedCvTemplateRepository;
 import com.talenty.validation.ValidationChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,9 @@ public class JobAnnouncementService {
     private final SubmittedCvTemplateService submittedCvTemplateService;
     private final CompanyRepository companyRepository;
     private final TypeValuesService typeValuesService;
+    private final CVTemplateService cvTemplateService;
+
+    private final SubmittedCvTemplateRepository submittedCvTemplateRepository;
 
     public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository,
                                   final ApplicationContext applicationContext,
@@ -43,7 +47,9 @@ public class JobAnnouncementService {
                                   final JobSeekerService jobSeekerService,
                                   final SubmittedCvTemplateService submittedCvTemplateService,
                                   final CompanyRepository companyRepository,
-                                  final TypeValuesService typeValuesService) {
+                                  final TypeValuesService typeValuesService,
+                                  final CVTemplateService cvTemplateService,
+                                  final SubmittedCvTemplateRepository submittedCvTemplateRepository) {
         this.jobAnnouncementRepository = jobAnnouncementRepository;
         this.applicationContext = applicationContext;
         this.hrService = hrService;
@@ -52,12 +58,14 @@ public class JobAnnouncementService {
         this.submittedCvTemplateService = submittedCvTemplateService;
         this.companyRepository = companyRepository;
         this.typeValuesService = typeValuesService;
+        this.cvTemplateService = cvTemplateService;
+        this.submittedCvTemplateRepository = submittedCvTemplateRepository;
     }
 
     public JobAnnouncement getSystemJobAnnouncement() {
-        final JobAnnouncementDocument systemJobAnnouncement = jobAnnouncementRepository.findSystemJobAnnouncement();
+        final JobAnnouncementDocument systemJobAnnouncement = findSystemJobAnnouncement();
         Executor.getInstance()
-                .setChildFields(systemJobAnnouncement.getFields())
+                .setIterableFields(systemJobAnnouncement.getFields())
                 .executeLogic(
                         applicationContext.getBean(AdminValuesMergeExecutor.class)
                 );
@@ -66,31 +74,37 @@ public class JobAnnouncementService {
 
     public JobAnnouncement publish(final JobAnnouncement jobAnnouncement) {
         final JobAnnouncementDocument newAnnouncement = JobAnnouncementMapper.instance.dtoToDocument(jobAnnouncement);
-        final Optional<JobAnnouncementDocument> parentTemplateOptional = findById(newAnnouncement.getId());
-
-        if (parentTemplateOptional.isEmpty()) {
-            System.out.printf("No such job announcement with id '%s'\n", newAnnouncement.getId());
-            throw new NoSuchAnnouncementException();
-        }
-
-        final JobAnnouncementDocument parentTemplate = parentTemplateOptional.get();
+        final JobAnnouncementDocument systemAnnouncement = findSystemJobAnnouncement();
 
         Executor.getInstance()
-                .setParentFields(parentTemplate.getFields())
-                .setChildFields(newAnnouncement.getFields())
+                .setIterableFields(systemAnnouncement.getFields())
                 .executeLogic(
+                        applicationContext.getBean(AdminValuesMergeExecutor.class)
+                )
+                .after()
+                .setIterableFields(systemAnnouncement.getFields())
+                .setMatchableFields(newAnnouncement.getFields())
+                .setSourceParent(BaseSource.ITERABLE)
+                .executeLogic(
+                        new FieldsIdValidationExecutor(),
+                        new MergeFieldsExecutor(),
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor(),
-                        new MergeFieldsExecutor()
+                        new DeletedFieldValidationExecutor()
+                )
+                .after()
+                .setIterableFields(newAnnouncement.getFields())
+                .executeLogic(
+                        new NewFieldValidationExecutor()
                 );
 
         final HrDocument currentHr = hrService.getCurrentHr();
         newAnnouncement.setId(null);
-        newAnnouncement.setParentId(parentTemplate.getId());
+        newAnnouncement.setParentId(systemAnnouncement.getId());
         newAnnouncement.setStatus(JobAnnouncementStatus.PENDING);
         newAnnouncement.setOwnerId(currentHr.getId());
         newAnnouncement.setCompanyId(currentHr.getCompanyId());
-        final Map<String, Object> parentMetadata = parentTemplate.getMetadata();
+        final Map<String, Object> parentMetadata = systemAnnouncement.getMetadata();
         final HashMap<String, Object> newMetadata = new HashMap<>();
         if (parentMetadata != null && !parentMetadata.isEmpty()) newMetadata.putAll(parentMetadata);
         newMetadata.put("editable", false);
@@ -109,13 +123,6 @@ public class JobAnnouncementService {
         return JobAnnouncementMapper.instance.documentToDto(savedNewAnnouncement);
     }
 
-//    public List<JobAnnouncementBasicInfo> findAllPendings() {
-//        final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
-//        final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.PENDING);
-//        allByStatus.forEach(e -> result.add(makeBasicInfo(e)));
-//        return result;
-//    }
-
     public List<JobAnnouncementBasicInfo> findAllPendings() {
         final List<JobAnnouncementBasicInfo> result = new ArrayList<>();
         final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.PENDING);
@@ -128,25 +135,26 @@ public class JobAnnouncementService {
         return result;
     }
 
-    public Optional<JobAnnouncementDocument> findById(final String id) {
+    public JobAnnouncementDocument getJobAnnouncementById(final String id) {
         final Optional<JobAnnouncementDocument> announcement = jobAnnouncementRepository.findById(id);
         if (announcement.isEmpty()) {
-            return Optional.empty();
+            System.out.printf("Announcement with id '%s' is not found\n", id);
+            throw new NoSuchAnnouncementException();
         }
         final JobAnnouncementDocument jobAnnouncementDocument = announcement.get();
-//        final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
-//        if (parentAnnouncement.isEmpty()) {
-//            return Optional.empty();
-//        }
-//        final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
+
+        final JobAnnouncementDocument systemAnnouncement = findSystemJobAnnouncement();
+
         Executor.getInstance()
-                .setChildFields(jobAnnouncementDocument.getFields())
-//                .setParentFields(parentAnnouncementDocument.getFields())
+                .setIterableFields(systemAnnouncement.getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields())
+                .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
-                        applicationContext.getBean(AdminValuesMergeExecutor.class)
-//                        new MergeFieldsExecutor()
+                        applicationContext.getBean(AdminValuesMergeExecutor.class),
+                        new MergeFieldsExecutor()
                 );
-        return Optional.of(jobAnnouncementDocument);
+
+        return jobAnnouncementDocument;
     }
 
     public JobAnnouncement approveAnnouncement(final String id) {
@@ -205,9 +213,11 @@ public class JobAnnouncementService {
         dto.setId(jobAnnouncementDocument.getId());
         dto.setName(jobAnnouncementDocument.getName());
         Executor.getInstance()
-                .setChildFields(jobAnnouncementDocument.getFields().get(0).getFields())
-                .setParentFields(jobAnnouncement.getFields().get(0).getFields())
+                .setIterableFields(jobAnnouncement.getFields().get(0).getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields().get(0).getFields())
+                .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
+                        new MergeFieldsExecutor(),
                         new MakeBasicJobAnnouncementInformationExecutor(dto)
                 );
         return dto;
@@ -215,24 +225,21 @@ public class JobAnnouncementService {
 
     public AppliedAnnouncement apply(final AppliedAnnouncement appliedAnnouncement) {
         final AppliedAnnouncemetDocument appliedAnnouncemetDocument = AppliedAnnouncementMapper.instance.dtoToDocument(appliedAnnouncement);
-        final SubmittedCVTemplate submittedCvTemplate = submittedCvTemplateService.getCvTemplateById(appliedAnnouncemetDocument.getSubmittedCvTemplateId(), false);
+        SubmittedCVTemplateDocument submittedCvTemplate = submittedCvTemplateService.getCvTemplateById(appliedAnnouncemetDocument.getSubmittedCvTemplateId(), false);
         final JobSeekerDocument owner = jobSeekerService.getCurrentJobSeeker();
         if (!Objects.equals(submittedCvTemplate.getOwnerId(), owner.getId())) {
             System.out.printf("Owner with id %s tried to save submitted cv of owner with id %s\n", owner.getId(), submittedCvTemplate.getOwnerId());
             throw new WrongOwnerException();
         }
 
-        final Optional<JobAnnouncementDocument> jobAnnouncementOptional = findById(appliedAnnouncemetDocument.getJobAnnouncementId());
-        if (jobAnnouncementOptional.isEmpty()) {
-            System.out.printf("No such announcement with id '%s'\n", appliedAnnouncemetDocument.getJobAnnouncementId());
-            throw new NoSuchAnnouncementException();
+        final JobAnnouncementDocument jobAnnouncement = getJobAnnouncementById(appliedAnnouncemetDocument.getJobAnnouncementId());
+        if (jobAnnouncement.getAttachedCvTemplateId() != null) {
+            if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
+                System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
+                throw new WrongSubmissionForAnnouncement();
+            }
         }
 
-        final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
-        if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
-            System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
-            throw new WrongSubmissionForAnnouncement();
-        }
         final Map<String, Object> announcementMetadata = jobAnnouncement.getMetadata();
         final Map<String, Object> newMetadata = new HashMap<>();
         if (announcementMetadata != null) {
@@ -256,13 +263,7 @@ public class JobAnnouncementService {
     }
 
     public JobAnnouncement edit(final JobAnnouncement editedJobAnnouncement) {
-        final Optional<JobAnnouncementDocument> parentAnnouncementOptional = findById(editedJobAnnouncement.getId());
-        if (parentAnnouncementOptional.isEmpty()) {
-            System.out.printf("Couldn't find parent announcement with id '%s'\n", editedJobAnnouncement.getId());
-            throw new NoSuchAnnouncementException();
-        }
-        final JobAnnouncementDocument parentJobAnnouncement = parentAnnouncementOptional.get();
-
+        final JobAnnouncementDocument parentJobAnnouncement = getJobAnnouncementById(editedJobAnnouncement.getId());
         final Map<String, Object> parentMetadata = parentJobAnnouncement.getMetadata();
 
         if (!parentMetadata.containsKey("editable") || !((Boolean) parentMetadata.get("editable"))) {
@@ -283,8 +284,8 @@ public class JobAnnouncementService {
         }
 
         Executor.getInstance()
-                .setParentFields(parentJobAnnouncement.getFields())
-                .setChildFields(jobAnnouncement.getFields())
+                .setIterableFields(parentJobAnnouncement.getFields())
+                .setMatchableFields(jobAnnouncement.getFields())
                 .executeLogic(
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor()
@@ -304,39 +305,25 @@ public class JobAnnouncementService {
         if (!Objects.equals(parent.getName(), child.getName())) return;
         parent.getMetadata().put("status", "DELETED");
         jobAnnouncementRepository.save(parent);
-
     }
 
-    public String applyInProgress(final String jobAnnouncementId, final String jobSeekerId) {
+    public ApplyInProgressResponse applyInProgress(final String jobAnnouncementId) {
+        final JobAnnouncementDocument jobAnnouncementDocumentById = getJobAnnouncementById(jobAnnouncementId);
         final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
 
-        if (!Objects.equals(jobSeekerId, currentJobSeeker.getId())) {
-            System.out.printf("Owner with id %s tried to apply with submitted cv of owner with id %s\n", currentJobSeeker.getId(), jobSeekerId);
-            throw new WrongOwnerException();
-        }
-
-        final Optional<JobAnnouncementDocument> jobAnnouncementDocumentOptional = findById(jobAnnouncementId);
-        if (jobAnnouncementDocumentOptional.isEmpty()) {
-            System.out.printf("No such job announcement with id '%s'\n", jobAnnouncementId);
-            throw new NoSuchAnnouncementException();
-        }
-
-        final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementDocumentOptional.get();
-        final String attachedCvTemplateId = jobAnnouncementDocument.getAttachedCvTemplateId();
         final String jobSeekerCvTemplateId = currentJobSeeker.getCvTemplateId();
+        final String attachedCvTemplateId = jobAnnouncementDocumentById.getAttachedCvTemplateId();
 
         if (attachedCvTemplateId == null && jobSeekerCvTemplateId == null) {
             System.out.printf("User with id %s should have CV template\n", currentJobSeeker.getId());
-            throw new WrongSubmissionForAnnouncement();
+            throw new JobSeekerShouldHaveCVException();
         } else if (attachedCvTemplateId == null) {
-            return jobSeekerCvTemplateId;
+            return new ApplyInProgressResponse(Type.SUBMITTED_CV_TEMPLATE, jobSeekerCvTemplateId);
         } else if (jobSeekerCvTemplateId == null) {
-            return null;
+            return new ApplyInProgressResponse(Type.CV_TEMPLATE, attachedCvTemplateId);
         }
-
-//        mergeCvTemplates(jobAnnouncementId, jobSeekerId),
-
-        return null;
+        final SubmittedCVTemplateDocument matchedCv = matchCvTemplates(attachedCvTemplateId, jobSeekerCvTemplateId, currentJobSeeker.getId());
+        return new ApplyInProgressResponse(Type.SUBMITTED_CV_TEMPLATE, matchedCv.getId());
     }
 
     public List<JobAnnouncementInfoForSearchPage> findAllConfirmed() {
@@ -380,7 +367,6 @@ public class JobAnnouncementService {
             result.add(temp);
         }
         return result;
-
     }
 
     public List<TypeValues> getTypeValues() {
@@ -409,8 +395,9 @@ public class JobAnnouncementService {
         dto.setName(jobAnnouncementDocument.getName());
         dto.setCompanyName(companyDocumentOptional.get().getName());
         Executor.getInstance()
-                .setChildFields(jobAnnouncementDocument.getFields())
-                .setParentFields(jobAnnouncement.getFields())
+                .setIterableFields(jobAnnouncement.getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields())
+                .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
                         new MakeJobAnnouncementSearchPageInformationExecutor(dto)
                 );
@@ -432,8 +419,8 @@ public class JobAnnouncementService {
         }
         final JobAnnouncementDocument parentAnnouncementDocument = parentAnnouncement.get();
         Executor.getInstance()
-                .setChildFields(jobAnnouncementDocument.getFields())
-                .setParentFields(parentAnnouncementDocument.getFields())
+                .setIterableFields(parentAnnouncementDocument.getFields())
+                .setMatchableFields(jobAnnouncementDocument.getFields())
                 .executeLogic(
                         applicationContext.getBean(AdminValuesMergeExecutor.class),
                         new MergeFieldsExecutor()
@@ -448,9 +435,60 @@ public class JobAnnouncementService {
 
 
         final JobAnnouncementWithCompanyName jobAnnouncementWithCompanyName = new JobAnnouncementWithCompanyName();
-        jobAnnouncementWithCompanyName.setJobAnnouncement(jobAnnouncement);
+        jobAnnouncementWithCompanyName.setId(jobAnnouncement.getId());
+        jobAnnouncementWithCompanyName.setOwnerId(jobAnnouncement.getOwnerId());
+        jobAnnouncementWithCompanyName.setName(jobAnnouncement.getName());
+        jobAnnouncementWithCompanyName.setMetadata(jobAnnouncement.getMetadata());
+        jobAnnouncementWithCompanyName.setStatus(jobAnnouncement.getStatus());
+        jobAnnouncementWithCompanyName.setAttachedCvTemplateId(jobAnnouncement.getAttachedCvTemplateId());
+        jobAnnouncementWithCompanyName.setFields(jobAnnouncement.getFields());
         jobAnnouncementWithCompanyName.setCompanyName(companyDocument.getName());
 
         return jobAnnouncementWithCompanyName;
     }
+
+    private SubmittedCVTemplateDocument matchCvTemplates(final String attachedCvTemplateId, final String jobSeekerCvTemplateId, final String jobSeekerId) {
+        final CVTemplateDocument attachedCv = cvTemplateService.getCvTemplateById(attachedCvTemplateId, true);
+        final SubmittedCVTemplateDocument jobSeekerCv = submittedCvTemplateService.getCvTemplateById(jobSeekerCvTemplateId, true);
+        final CVTemplateDocument systemCvTemplate = cvTemplateService.findSystemCvTemplate();
+
+        final SubmittedCVTemplateDocument attachedCvAsSubmitted = CVTemplateMapper.instance.cvTemplateDocumentToSubmittedDocument(attachedCv);
+
+        final List<FieldDocument> cachedSectionContainersOfJobSeekerCv = new ArrayList<>();
+        final List<FieldDocument> cachedSectionContainersOfAttachedCv = new ArrayList<>();
+
+        Executor.getInstance()
+                .setIterableFields(jobSeekerCv.getFields())
+                .executeLogic(
+                        new SectionOfSectionContainersCache(cachedSectionContainersOfJobSeekerCv)
+                )
+                .after()
+                .setIterableFields(systemCvTemplate.getFields())
+                .setMatchableFields(jobSeekerCv.getFields())
+                .setSourceParent(BaseSource.ITERABLE)
+                .executeLogic(
+                        new MatchFieldsExecutor()
+                )
+                .after()
+                .setIterableFields(systemCvTemplate.getFields())
+                .setMatchableFields(attachedCv.getFields())
+                .setSourceParent(BaseSource.MATCHABLE)
+                .executeLogic(
+                        new MatchFieldsExecutor(),
+                        new SectionOfSectionContainersCacheMatchable(cachedSectionContainersOfAttachedCv)
+                );
+
+        attachedCvAsSubmitted.setId(null);
+        attachedCvAsSubmitted.setName(null);
+        attachedCvAsSubmitted.setOwnerId(jobSeekerId);
+        attachedCvAsSubmitted.setParentId(attachedCvTemplateId);
+        attachedCvAsSubmitted.setMetadata(Map.of("status", "MATCHING"));
+
+        return submittedCvTemplateRepository.save(attachedCvAsSubmitted);
+    }
+
+    private JobAnnouncementDocument findSystemJobAnnouncement() {
+        return jobAnnouncementRepository.findSystemJobAnnouncement();
+    }
+
 }

@@ -5,7 +5,9 @@ import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.dto.SubmittedCVTemplate;
 import com.talenty.domain.mongo.CVTemplateDocument;
 import com.talenty.domain.mongo.JobSeekerDocument;
+import com.talenty.domain.mongo.SubmittedCVTemplateDocument;
 import com.talenty.jwt.JWTService;
+import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.service.CVTemplateService;
 import com.talenty.service.JobSeekerService;
 import com.talenty.service.SubmittedCvTemplateService;
@@ -47,12 +49,12 @@ public class CVTemplateController {
         return ResponseEntity.ok(cvTemplateById);
     }
 
-    @GetMapping("/submitted")
-//    @PreAuthorize("isAuthenticated()")
-    @PreAuthorize("permitAll()")
-    public ResponseEntity<?> getSubmittedCvTemplateById(@RequestParam final String id) {
-        final SubmittedCVTemplate cvTemplateById = submittedCvTemplateService.getCvTemplateById(id, true);
-        return ResponseEntity.ok(cvTemplateById);
+    @PostMapping("/create_new")
+//        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> createNewCvTemplate(@RequestBody final CVTemplate cvTemplate) {
+        final CVTemplate newCvTemplate = cvTemplateService.createNewCvTemplate(cvTemplate);
+        return ResponseEntity.ok(cvTemplateService.getAllCvTemplates());
     }
 
     @GetMapping("/all")
@@ -63,20 +65,29 @@ public class CVTemplateController {
         return ResponseEntity.ok(allCvTemplatesIds);
     }
 
-    @PostMapping("/create_new")
-//        @PreAuthorize("hasAnyRole('ROLE_HR_ADMIN', 'ROLE_HR')")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> createNewCvTemplate(@RequestBody final CVTemplate cvTemplate) {
-        final CVTemplate newCvTemplate = cvTemplateService.createNewCvTemplate(cvTemplate);
-        return ResponseEntity.ok(cvTemplateService.getAllCvTemplates());
+    @PostMapping("/edit_cv")
+    // ROLE_HR_ADMIN
+    public ResponseEntity<?> editCvTemplate(@RequestBody final CVTemplate editedCvTemplate) {
+        cvTemplateService.edit(editedCvTemplate);
+        return ResponseEntity.ok("edited_cv_template");
     }
 
     @PostMapping("/save_submitted")
     public ResponseEntity<?> saveSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate submittedCVTemplate) {
         final SubmittedCVTemplate savedTemplate = submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
-        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
-        final JobSeekerDocument jobSeekerDocument = jobSeekerService.addCvTemplate(currentJobSeeker, savedTemplate.getId());
+        final JobSeekerDocument jobSeekerDocument = jobSeekerService.addCvTemplate(
+                jobSeekerService.getCurrentJobSeeker(),
+                savedTemplate.getId()
+        );
         return ResponseEntity.ok(jwtService.generate(jobSeekerDocument));
+    }
+
+    @GetMapping("/submitted")
+//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<?> getSubmittedCvTemplateById(@RequestParam final String id) {
+        SubmittedCVTemplateDocument cvTemplateById = submittedCvTemplateService.getCvTemplateById(id, true);
+        return ResponseEntity.ok(CVTemplateMapper.instance.documentToDto(cvTemplateById));
     }
 
     @PostMapping("/edit")
@@ -84,13 +95,6 @@ public class CVTemplateController {
     public ResponseEntity<?> editSubmittedCvTemplate(@RequestBody final SubmittedCVTemplate editedCvTemplate) {
         submittedCvTemplateService.edit(editedCvTemplate);
         return ResponseEntity.ok("edited_submitted_cv_template");
-    }
-
-    @PostMapping("/edit_cv")
-    // ROLE_HR_ADMIN
-    public ResponseEntity<?> editCvTemplate(@RequestBody final CVTemplate editedCvTemplate) {
-        submittedCvTemplateService.edit(editedCvTemplate);
-        return ResponseEntity.ok("edited_cv_template");
     }
 
     @GetMapping("/delete")
