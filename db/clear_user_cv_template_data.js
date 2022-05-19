@@ -9,4 +9,14 @@ users.forEach(user => {
             }
         )
     }
+
+    if (user.role === "ROLE_JOB_SEEKER") {
+        db.users.update(
+            user,
+            {
+                $unset: {"cvTemplateId": ""}
+            }
+        )
+    }
+
 })
