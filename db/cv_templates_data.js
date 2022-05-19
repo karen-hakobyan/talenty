@@ -193,7 +193,7 @@ let systemCVTemplate = {
                             deletable: true,
                             required: false,
                             values: ["Yes", "No"],
-                            values_visibility: "ROLE_JOB_SEEKER",
+                            values_role_visibility: "ROLE_JOB_SEEKER",
                         },
                     },
                     {
@@ -206,7 +206,7 @@ let systemCVTemplate = {
                             deletable: true,
                             required: false,
                             values: ["Yes", "No"],
-                            values_visibility: "ROLE_JOB_SEEKER",
+                            values_role_visibility: "ROLE_JOB_SEEKER",
                         }
                     },
                 ]
@@ -443,7 +443,7 @@ let systemCVTemplate = {
                                     inside_container: true,
                                     editable: false,
                                     deletable: false,
-                                    visibility: "ROLE_JOB_SEEKER",
+                                    role_visibility: "ROLE_JOB_SEEKER",
                                 },
                             },
                         ],
@@ -539,7 +539,7 @@ let systemCVTemplate = {
                                     editable: false,
                                     inside_container: true,
                                     deletable: false,
-                                    visibility: "ROLE_JOB_SEEKER",
+                                    role_visibility: "ROLE_JOB_SEEKER",
                                 },
                             },
                         ],
@@ -677,7 +677,7 @@ let systemCVTemplate = {
                                     inside_container: true,
                                     editable: false,
                                     deletable: false,
-                                    visibility: "ROLE_JOB_SEEKER",
+                                    role_visibility: "ROLE_JOB_SEEKER",
                                 },
                             },
                         ],
@@ -938,7 +938,7 @@ let systemCVTemplate = {
                                 required_editable: true,
                                 deletable: false,
                                 required: false,
-                                visibility: "ROLE_JOB_SEEKER",
+                                role_visibility: "ROLE_JOB_SEEKER",
                             },
                         }
                     ],
@@ -986,7 +986,7 @@ let systemCVTemplate = {
                                     required_editable: true,
                                     deletable: false,
                                     required: false,
-                                    visibility: "ROLE_JOB_SEEKER",
+                                    role_visibility: "ROLE_JOB_SEEKER",
                                 },
                             },
                         ],
@@ -1016,6 +1016,58 @@ let systemCVTemplate = {
                 },
             },],
         },
+        {
+            _id: ObjectId(),
+            name: "Preferences",
+            metadata: {
+                type: "section",
+                deletable: true,
+                display: "fold",
+                page_visibility: "PROFILE"
+            },
+            fields: [
+                {
+                    _id: ObjectId(),
+                    name: "Employment terms",
+                    metadata: {
+                        placeholder: "Employment terms",
+                        type: "employment_terms",
+                        deletable: false,
+                        required: true,
+                    },
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Job type",
+                    metadata: {
+                        placeholder: "Job type",
+                        type: "job_type",
+                        deletable: false,
+                        required: false,
+                    },
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Job Category",
+                    metadata: {
+                        placeholder: "Job Category",
+                        type: "job_category",
+                        deletable: false,
+                        required: false,
+                    },
+                },
+                {
+                    _id: ObjectId(),
+                    name: "Candidate level",
+                    metadata: {
+                        placeholder: "Candidate level",
+                        type: "candidate_level",
+                        deletable: false,
+                        required: false,
+                    },
+                },
+            ]
+        }
     ],
 };
 
