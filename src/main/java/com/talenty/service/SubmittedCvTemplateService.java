@@ -102,6 +102,8 @@ public class SubmittedCvTemplateService {
                         new SectionContainerValidation(sections)
                 );
 
+        submittedTemplate.setOwnerId(cvTemplate.getId());
+
         return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));
     }
 
