@@ -1,4 +1,4 @@
-let ObjectId = () => Math.random().toString().substring(2)
+let ObjectId = () => Math.random().toString()
 export let jobAnnouncementAjab = {
     id: ObjectId(),
     system: true,
@@ -219,10 +219,67 @@ export let jobAnnouncementAjab = {
 };
 
 
-const systemCompanyAjab = {
+export const systemCompanyAjab = {
     id: ObjectId(),
     name: "System Company",
     fields: [{
+            id: ObjectId(),
+            name: "Social media links",
+            fields: [{
+                    id: ObjectId(),
+                    name: "Facebook",
+                    metadata: {
+                        type: "social_link",
+                        placeholder: "Link URL",
+                        maxLength: 100,
+                        editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Twitter",
+                    metadata: {
+                        type: "social_link",
+                        placeholder: "Link URL",
+                        maxLength: 100.0,
+                        editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Linkedin",
+                    metadata: {
+                        type: "social_link",
+                        placeholder: "Link URL",
+                        maxLength: 100.0,
+                        editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                },
+                {
+                    id: ObjectId(),
+                    name: "Instagram",
+                    metadata: {
+                        type: "social_link",
+                        placeholder: "Link URL",
+                        maxLength: 100.0,
+                        editable: true,
+                        deletable: true,
+                        required: false
+                    }
+                }
+            ],
+            metadata: {
+                type: "section",
+                editable: false
+            }
+        },
+        {
             id: ObjectId(),
             name: "Details",
             fields: [{
@@ -230,7 +287,10 @@ const systemCompanyAjab = {
                     name: "Legal Form",
                     metadata: {
                         type: "legal_form",
-                        placeholder: "-Select-"
+                        placeholder: "-Select-",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 },
                 {
@@ -238,21 +298,30 @@ const systemCompanyAjab = {
                     name: "Industry",
                     metadata: {
                         type: "industry",
-                        placeholder: "-Select-"
+                        placeholder: "-Select-",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 },
                 {
-                    i: ObjectId(),
-                    nam: "Founded",
-                    metadat: {
-                        typ: "date"
+                    id: ObjectId(),
+                    name: "Founded",
+                    metadata: {
+                        type: "date",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 },
                 {
                     id: ObjectId(),
                     name: "Number of employees",
                     metadata: {
-                        type: "number_of_employees"
+                        type: "number_of_employees",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 }
             ],
@@ -269,7 +338,10 @@ const systemCompanyAjab = {
                     name: "Address",
                     metadata: {
                         type: "address",
-                        placeholder: "Address"
+                        placeholder: "Address",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 },
                 {
@@ -277,7 +349,10 @@ const systemCompanyAjab = {
                     name: "Phone",
                     metadata: {
                         type: "phone_number",
-                        placeholder: "+374 77 123 456"
+                        placeholder: "+374 77 123 456",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 },
                 {
@@ -285,7 +360,10 @@ const systemCompanyAjab = {
                     name: "Email",
                     metadata: {
                         type: "email",
-                        placeholder: "Email"
+                        placeholder: "Email",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 },
                 {
@@ -293,7 +371,10 @@ const systemCompanyAjab = {
                     name: "Website",
                     metadata: {
                         type: "website",
-                        placeholder: "Website"
+                        placeholder: "Website",
+                        editable: true,
+                        deletable: false,
+                        required: false
                     }
                 }
             ],
@@ -306,11 +387,14 @@ const systemCompanyAjab = {
             id: ObjectId(),
             name: "About Company",
             fields: [{
-                id: "62798db13ac8ce5e18b8fd06",
+                id: ObjectId(),
                 name: null,
                 metadata: {
                     type: "description",
-                    placeholder: "Write a text"
+                    placeholder: "Write a text",
+                    editable: true,
+                    deletable: false,
+                    required: false
                 }
             }],
             metadata: {
@@ -322,22 +406,38 @@ const systemCompanyAjab = {
             id: ObjectId(),
             name: "Products",
             fields: [{
-                    id: ObjectId(),
-                    name: "Product name",
-                    metadata: {
-                        type: "product_name",
-                        placeholder: "Product name"
+                id: ObjectId(),
+                name: "Products section container",
+                fields: [{
+                        id: ObjectId(),
+                        name: "Product name",
+                        metadata: {
+                            type: "product_name",
+                            placeholder: "Product name",
+                            editable: true,
+                            deletable: false,
+                            required: false
+                        }
+                    },
+                    {
+                        id: ObjectId(),
+                        name: "Product link",
+                        metadata: {
+                            type: "product_link",
+                            placeholder: "Product link",
+                            editable: true,
+                            deletable: false,
+                            required: false
+                        }
                     }
-                },
-                {
-                    id: ObjectId(),
-                    name: "Product link",
-                    metadata: {
-                        type: "product_link",
-                        placeholder: "Product link"
-                    }
+                ],
+                metadata: {
+                    type: "section_container",
+                    editable: true,
+                    deletable: true,
+                    required: false
                 }
-            ],
+            }],
             metadata: {
                 type: "section",
                 display: "fold"
@@ -347,44 +447,47 @@ const systemCompanyAjab = {
             id: ObjectId(),
             name: "Branches",
             fields: [{
-                    id: "62798db13ac8ce5e18b8fd0b",
-                    name: null,
-                    metadata: {
-                        type: "country",
-                        placeholder: "-Country-"
+                id: ObjectId(),
+                name: "Branches container",
+                fields: [{
+                        id: ObjectId(),
+                        name: null,
+                        metadata: {
+                            type: "country",
+                            placeholder: "-Country-",
+                            editable: true,
+                            deletable: false,
+                            required: false
+                        }
+                    },
+                    {
+                        id: ObjectId(),
+                        name: null,
+                        metadata: {
+                            type: "city",
+                            placeholder: "City",
+                            editable: true,
+                            deletable: false,
+                            required: false
+                        }
+                    },
+                    {
+                        id: ObjectId(),
+                        name: null,
+                        metadata: {
+                            type: "number_of_employees_100",
+                            placeholder: "Number of employees 100",
+                            editable: true,
+                            deletable: false,
+                            required: false
+                        }
                     }
-                },
-                {
-                    id: ObjectId(),
-                    name: null,
-                    metadata: {
-                        type: "city",
-                        placeholder: "City"
-                    }
-                },
-                {
-                    id: ObjectId(),
-                    name: null,
-                    metadata: {
-                        type: "number_of_employees_100",
-                        placeholder: "Number of employees 100"
-                    }
-                }
-            ],
-            metadata: {
-                type: "section",
-                display: "fold"
-            }
-        },
-        {
-            id: ObjectId(),
-            name: "Additional information",
-            fields: [{
-                id: "62798db13ac8ce5e18b8fd0f",
-                name: null,
+                ],
                 metadata: {
-                    type: "description",
-                    placeholder: "Write a text"
+                    type: "section_container",
+                    editable: true,
+                    deletable: true,
+                    required: false
                 }
             }],
             metadata: {
@@ -399,8 +502,49 @@ const systemCompanyAjab = {
                 id: ObjectId(),
                 name: null,
                 metadata: {
-                    type: "",
-                    placeholder: ""
+                    type: "benefits",
+                    placeholder: "-Select-",
+                    editable: true,
+                    deletable: false,
+                    required: false
+                }
+            }],
+            metadata: {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Video upload",
+            fields: [{
+                id: ObjectId(),
+                name: null,
+                metadata: {
+                    type: "video",
+                    placeholder: "Upload Your Video",
+                    editable: true,
+                    deletable: false,
+                    required: false
+                }
+            }],
+            "metadata": {
+                type: "section",
+                display: "fold"
+            }
+        },
+        {
+            id: ObjectId(),
+            name: "Additional information",
+            fields: [{
+                id: ObjectId(),
+                name: null,
+                metadata: {
+                    type: "description",
+                    placeholder: "Write a text",
+                    editable: true,
+                    deletable: false,
+                    required: false
                 }
             }],
             metadata: {
