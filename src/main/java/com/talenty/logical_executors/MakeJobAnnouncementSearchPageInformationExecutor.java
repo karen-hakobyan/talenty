@@ -8,7 +8,7 @@ import org.springframework.jmx.export.metadata.InvalidMetadataException;
 import java.util.Map;
 import java.util.Objects;
 
-public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicExecutor{
+public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicExecutor {
 
     private FieldDocument currentParentField;
     private final JobAnnouncementInfoForSearchPage jobAnnouncementInfoForSearchPage;
@@ -18,7 +18,7 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
     }
 
     @Override
-    public FieldDocument execute(FieldDocument field) {
+    public void execute(FieldDocument field) {
         final Map<String, Object> metadata = field.getMetadata();
 
         if (metadata == null) {
@@ -62,13 +62,15 @@ public class MakeJobAnnouncementSearchPageInformationExecutor implements LogicEx
                 this.jobAnnouncementInfoForSearchPage.setJobResponsibilities(submittedValue);
             }
         }
-
-        return field;
     }
 
     @Override
-    public boolean needMatchableField() { return true; }
+    public boolean needMatchableField() {
+        return true;
+    }
 
     @Override
-    public void setCurrentBaseSourceField(final FieldDocument field) { this.currentParentField = field; }
+    public void setCurrentBaseSourceField(final FieldDocument field) {
+        this.currentParentField = field;
+    }
 }

@@ -18,16 +18,16 @@ public class CleanUpMetadataExecutor implements LogicExecutor {
     }
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
         final Map<String, Object> metadata = field.getMetadata();
 
         if (metadata.containsKey("status") && (Objects.equals(metadata.get("status"), "NEW") || Objects.equals(metadata.get("status"), "DELETED"))) {
-            return field;
+            return;
         }
 
         if (!deleteExcept) {
             for (final String s : fields) metadata.remove(s);
-            return field;
+            return;
         }
 
         final List<String> anotherFields = new ArrayList<>();
@@ -36,8 +36,6 @@ public class CleanUpMetadataExecutor implements LogicExecutor {
             if (!fields.contains(key)) anotherFields.add(key);
         }
         for (final String s : anotherFields) metadata.remove(s);
-
-        return field;
     }
 
     @Override

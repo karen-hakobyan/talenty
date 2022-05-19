@@ -12,14 +12,13 @@ public class SectionContainerFieldsTypesValidationExecutor implements LogicExecu
 
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
         final Map<String, Object> childMetadata = field.getMetadata();
         final Map<String, Object> parentMetadata = parentField.getMetadata();
         if (!(childMetadata.containsKey("type") && Objects.equals(childMetadata.get("type"), parentMetadata.get("type")))) {
             System.out.println("Section containers fields types must be same");
             throw new SectionContainerFieldsTypesMissMatch();
         }
-        return field;
     }
 
     @Override

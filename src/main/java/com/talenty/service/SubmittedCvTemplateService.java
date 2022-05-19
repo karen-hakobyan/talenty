@@ -34,7 +34,8 @@ public class SubmittedCvTemplateService {
         final CVTemplateDocument parentTemplate = cvTemplateService.getCvTemplateById(submittedCVTemplate.getId(), true);
         final SubmittedCVTemplateDocument submittedTemplate = CVTemplateMapper.instance.dtoToDocument(submittedCVTemplate);
 
-        final List<FieldDocument> sectionsIds = new ArrayList<>();
+        final List<FieldDocument> submittedCvSections = new ArrayList<>();
+        final List<FieldDocument> parentCvSections = new ArrayList<>();
         Executor.getInstance()
                 .setIterableFields(parentTemplate.getFields())
                 .setMatchableFields(submittedTemplate.getFields())
@@ -43,7 +44,8 @@ public class SubmittedCvTemplateService {
                         new FieldsIdValidationExecutor(),
                         new RequiredFieldValidationExecutor(),
                         new SubmittedFieldValueValidationExecutor(),
-                        new SectionContainerCache(sectionsIds)
+                        new SectionContainerCache(submittedCvSections, BaseSource.MATCHABLE),
+                        new SectionContainerCache(parentCvSections, BaseSource.ITERABLE)
                 )
                 .after()
                 .setIterableFields(submittedTemplate.getFields())
@@ -93,13 +95,12 @@ public class SubmittedCvTemplateService {
                 .executeLogic(
                         new FieldsIdValidationExecutor(),
                         new RequiredFieldValidationExecutor(),
-                        new SubmittedFieldValueValidationExecutor(),
-                        new SectionContainerCache(sections)
+                        new SubmittedFieldValueValidationExecutor()
                 )
                 .after()
                 .setIterableFields(submittedTemplate.getFields())
                 .executeLogic(
-                        new SectionContainerValidation(sections)
+//                        new SectionContainerValidation(sections)
                 );
 
         return CVTemplateMapper.instance.documentToDto(submittedCvTemplateRepository.save(submittedTemplate));

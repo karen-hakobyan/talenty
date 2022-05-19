@@ -18,7 +18,7 @@ public class MakeBasicJobAnnouncementInformationExecutor implements LogicExecuto
     }
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
         final Map<String, Object> metadata = field.getMetadata();
 
         if (metadata == null) {
@@ -41,8 +41,6 @@ public class MakeBasicJobAnnouncementInformationExecutor implements LogicExecuto
             final String submittedValue = metadata.get("submitted_value").toString();
             this.jobAnnouncementBasicInfo.setCountry(submittedValue);
         }
-
-        return field;
     }
 
 

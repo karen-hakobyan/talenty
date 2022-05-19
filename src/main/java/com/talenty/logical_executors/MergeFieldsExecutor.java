@@ -10,12 +10,12 @@ public class MergeFieldsExecutor implements LogicExecutor {
     private FieldDocument currentParentField;
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
 
         //TODO fix this
 
         if (currentParentField == null || field == null) {
-            return field;
+            return;
         }
 
         field.setName(this.currentParentField.getName());
@@ -25,7 +25,6 @@ public class MergeFieldsExecutor implements LogicExecutor {
         resultMap.putAll(field.getMetadata());
         field.setMetadata(resultMap);
 
-        return field;
     }
 
     @Override
