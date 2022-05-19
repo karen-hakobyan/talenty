@@ -4,7 +4,7 @@ import com.talenty.domain.mongo.FieldDocument;
 
 public interface LogicExecutor {
 
-    FieldDocument execute(FieldDocument field);
+    void execute(FieldDocument field);
 
     boolean needMatchableField();
 

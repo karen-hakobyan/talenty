@@ -22,8 +22,8 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
     }
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
-        if (field == null || field.getFields() != null) return field;
+    public void execute(final FieldDocument field) {
+        if (field == null || field.getFields() != null) return;
         if (adminDefinedTypeValues == null) getTypeValues();
 
         final Map<String, Object> metadata = field.getMetadata();
@@ -32,7 +32,6 @@ public class AdminValuesMergeExecutor implements LogicExecutor {
                 metadata.put("values", typeValue.getValues());
             }
         }
-        return field;
     }
 
     @Override

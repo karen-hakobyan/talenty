@@ -16,8 +16,7 @@ public class SectionContainerValidation implements LogicExecutor {
     }
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
-        return null;
+    public void execute(final FieldDocument field) {
     }
 
     @Override

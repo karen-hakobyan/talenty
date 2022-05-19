@@ -10,7 +10,7 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
     private FieldDocument currentParentField;
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
         if (!this
                 .currentParentField
                 .getId()
@@ -20,7 +20,6 @@ public class FieldsIdValidationExecutor implements LogicExecutor {
             System.out.printf("Fields Id`s miss match. Field: %s, Parent's Field: %s\n", field, currentParentField);
             throw new NoSuchTemplateException();
         }
-        return field;
     }
 
     @Override

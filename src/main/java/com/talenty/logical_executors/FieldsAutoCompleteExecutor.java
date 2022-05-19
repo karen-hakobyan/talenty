@@ -11,8 +11,8 @@ import java.util.Optional;
 public class FieldsAutoCompleteExecutor implements LogicExecutor {
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
-        if (field == null || field.getFields() != null) return field;
+    public void execute(final FieldDocument field) {
+        if (field == null || field.getFields() != null) return;
 
         final AuthenticatedUser user = AuthenticatedUserService.getCurrentUser();
 
@@ -37,8 +37,6 @@ public class FieldsAutoCompleteExecutor implements LogicExecutor {
                 metadata.put("autocomplete", true);
             }
         }
-
-        return field;
     }
 
     @Override

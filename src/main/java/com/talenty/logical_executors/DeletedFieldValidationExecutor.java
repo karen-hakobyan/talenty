@@ -11,14 +11,12 @@ public class DeletedFieldValidationExecutor implements LogicExecutor {
     private FieldDocument currentParentField;
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
         final Map<String, Object> metadata = field.getMetadata();
         if (metadata.containsKey("status") && Objects.equals(metadata.get("status"), "DELETED")) {
             ValidationChecker.assertDeletedFieldIsValid(this.currentParentField);
             // returning null because it is deleted
-            return null;
         }
-        return field;
     }
 
     @Override
