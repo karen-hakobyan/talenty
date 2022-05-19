@@ -32,4 +32,10 @@ public class CompanyController {
         return ResponseEntity.ok("saved");
     }
 
+    @GetMapping("/get_company")
+    public ResponseEntity<?> getCompany() {
+        final Company company = companyService.getCompany();
+        return ResponseEntity.ok(company);
+    }
+
 }
