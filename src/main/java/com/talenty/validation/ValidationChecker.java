@@ -2,6 +2,7 @@ package com.talenty.validation;
 
 import com.sun.jdi.InvalidTypeException;
 import com.talenty.domain.dto.Company;
+import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
@@ -390,7 +391,38 @@ public class ValidationChecker {
         }
     }
 
-    public static void assertCompanyIsValid(final Company company) {
+    public static void assertCompanyProfileDropdownIsValid (final List<String> submittedValues, final List<String> values) {
+        for (String submittedValue : submittedValues) {
+            if(!values.contains(submittedValue)) {
+                throw new InvalidSubmissionException();
+            }
+        }
+
+    }
+
+    public static void assertCompanyIsValid(final Company company, final List<TypeValues> dropdownList) {
+        List<String> legalForms = new ArrayList<>();
+        List<String> industries = new ArrayList<>();
+        List<String> benefits = new ArrayList<>();
+        for (TypeValues typeValue : dropdownList) {
+            if(Objects.equals(typeValue.getType(), "industry")) {
+                legalForms = typeValue.getValues();
+            } else if(Objects.equals(typeValue.getType(), "legal_form")) {
+                industries = typeValue.getValues();
+            } else if(Objects.equals(typeValue.getType(), "benefits")) {
+                benefits = typeValue.getValues();
+            }
+        }
+
+        assertEmailIsValid(company.getEmail());
+        assertCompanyNameIsValid(company.getName());
+        assertPhoneNumberIsValid(company.getPhoneNumber());
+        assertUrlIsValid(company.getWebsite());
+        assertDateIsValid(company.getFounded());
+        assertCompanyProfileDropdownIsValid(List.of(company.getLegalForm()), legalForms);
+        assertCompanyProfileDropdownIsValid(List.of(company.getIndustry()), industries);
+        assertCompanyProfileDropdownIsValid(company.getBenefits(), benefits);
+
 
     }
 
