@@ -1,19 +1,19 @@
 package com.talenty.service;
 
+import com.talenty.domain.dto.ProfileDetails;
 import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterResponseDetails;
 import com.talenty.domain.mongo.JobSeekerDocument;
 import com.talenty.domain.mongo.UserDocument;
 import com.talenty.email.EmailSender;
+import com.talenty.enums.ProfileStatus;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
-import com.talenty.exceptions.InvalidAuthenticationWithJwt;
 import com.talenty.exceptions.UserNotFoundException;
 import com.talenty.mapper.JobSeekerMapper;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.UserRepository;
 import com.talenty.validation.ValidationChecker;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +51,8 @@ public class JobSeekerService {
 
         final JobSeekerDocument jobSeekerDocument = JobSeekerMapper.instance.requestToDocument(request);
         jobSeekerDocument.setRole("ROLE_JOB_SEEKER");
+        jobSeekerDocument.setProfileStatus(ProfileStatus.PUBLIC);
+        jobSeekerDocument.setHeadline("");
         jobSeekerDocument.setPassword(passwordEncoder.encode(jobSeekerDocument.getPassword()));
 
         final JobSeekerDocument savedJobSeeker = jobSeekerRepository.save(jobSeekerDocument);
@@ -86,6 +88,41 @@ public class JobSeekerService {
         jobSeekerDocument.setCvTemplateId(id);
 
         return jobSeekerRepository.save(jobSeekerDocument);
+    }
+
+    public ProfileDetails getProfileDetails() {
+        final JobSeekerDocument currentJobSeeker = getCurrentJobSeeker();
+        final ProfileDetails profileDetails = new ProfileDetails();
+        profileDetails.setFullName(currentJobSeeker.getFirstName() + " " + currentJobSeeker.getLastName());
+        profileDetails.setEmail(currentJobSeeker.getEmail());
+        profileDetails.setProfileStatus(currentJobSeeker.getProfileStatus());
+        profileDetails.setHeadline(currentJobSeeker.getHeadline());
+        profileDetails.setProfileCompleteness(calculateProfileCompleteness());
+        return profileDetails;
+    }
+
+    private double calculateProfileCompleteness() {
+        return 0;
+    }
+
+    public String updateHeadline(final String headline) {
+        final JobSeekerDocument currentJobSeeker = getCurrentJobSeeker();
+        currentJobSeeker.setHeadline(headline);
+        if (currentJobSeeker.getProfileStatus() == null) {
+            currentJobSeeker.setProfileStatus(ProfileStatus.PUBLIC);
+        }
+        final JobSeekerDocument save = jobSeekerRepository.save(currentJobSeeker);
+        return save.getHeadline();
+    }
+
+    public ProfileStatus updateProfileStatus(final ProfileStatus profileStatus) {
+        final JobSeekerDocument currentJobSeeker = getCurrentJobSeeker();
+        currentJobSeeker.setProfileStatus(profileStatus);
+        if (currentJobSeeker.getHeadline() == null) {
+            currentJobSeeker.setHeadline("");
+        }
+        final JobSeekerDocument save = jobSeekerRepository.save(currentJobSeeker);
+        return save.getProfileStatus();
     }
 
 }
