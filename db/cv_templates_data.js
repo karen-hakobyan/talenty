@@ -1033,7 +1033,7 @@ let systemCVTemplate = {
                         placeholder: "Employment terms",
                         type: "employment_terms",
                         deletable: false,
-                        required: true,
+                        required: false,
                     },
                 },
                 {
