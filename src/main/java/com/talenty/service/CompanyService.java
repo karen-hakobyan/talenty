@@ -6,6 +6,7 @@ import com.talenty.domain.mongo.CompanyDocument;
 import com.talenty.exceptions.NoSuchCompanyException;
 import com.talenty.mapper.CompanyMapper;
 import com.talenty.repository.CompanyRepository;
+import com.talenty.validation.ValidationChecker;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,11 @@ public class CompanyService {
     }
 
     public Company save(final Company company) {
+
+        ValidationChecker.assertCompanyIsValid(company);
+
         final CompanyDocument companyDocument = CompanyMapper.instance.dtoToDocument(company);
+
         return CompanyMapper.instance.documentToDto(companyRepository.save(companyDocument));
     }
 
