@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {Box, IconButton, TextField} from "@mui/material";
-import {MAIN_PURPLE} from "../../style/colors";
+import React, { useState } from "react";
+import { Box, IconButton, TextField } from "@mui/material";
+import { MAIN_PURPLE } from "../../style/colors";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
@@ -27,9 +27,9 @@ const SignInField = React.forwardRef(
                     display: "flex",
                     flexDirection: "column",
                     gap: "10px",
-                    ...(errors[objKey] ? {mb: "15px"} : {}),
+                    ...(errors[objKey] ? { mb: "15px" } : {}),
                 }}
-                {...{ref}}
+                {...{ ref }}
             >
                 <Box
                     sx={{
@@ -51,21 +51,21 @@ const SignInField = React.forwardRef(
                             boxSizing: "border-box",
                         }, endAdornment: isPassword ?
                             <IconButton onClick={() => setShowPass(!showPass)}>
-                                {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small"/> :
-                                    <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small"/>}
+                                {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small" /> :
+                                    <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small" />}
                             </IconButton> : null
                     }}
-                    {...(isPassword && !showPass ? {type: "password"} : {})}
+                    {...(isPassword && !showPass ? { type: "password" } : {})}
                     sx={{
                         boxSizing: "border-box",
                         width: "466px",
-                        ".css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":{
+                        ".css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input": {
                             boxSizing: "border-box",
                         },
                         ".MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                            {
-                                borderColor: MAIN_PURPLE,
-                            },
+                        {
+                            borderColor: MAIN_PURPLE,
+                        },
                         "&::placeholder": {
                             fontFamily: "'Poppins', sans-serif",
                             fontStyle: "normal",
@@ -73,10 +73,7 @@ const SignInField = React.forwardRef(
                             fontSize: "15px",
                             lineHeight: "24px",
                         },
-                        // "& input:-internal-autofill-selected":{
-                        //     color:"red !important",
-                        //     backgroundColor:"red !important"
-                        // }
+
                     }}
                     // autoComplete="off"
                     {...register(objKey, error || {})}
@@ -84,7 +81,7 @@ const SignInField = React.forwardRef(
                     error={!!errors?.[objKey]}
                     helperText={errors[objKey] ? errors[objKey].message : ""}
                     FormHelperTextProps={{
-                        sx: {fontFamily: "'Poppins', sans-serif"}
+                        sx: { fontFamily: "'Poppins', sans-serif" }
                     }}
                     {...restProps}
                 />
