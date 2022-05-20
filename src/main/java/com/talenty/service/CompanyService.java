@@ -35,7 +35,7 @@ public class CompanyService {
         );
     }
 
-    public Company save(final Company company) {
+    public Company update(final Company company) {
         final List<TypeValues> dropdownList = getTypeValues();
 
         ValidationChecker.assertCompanyIsValid(company, dropdownList);

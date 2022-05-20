@@ -11,6 +11,6 @@ public class Branches {
 
     private String country;
     private String city;
-    private int numberOfEmployees;
+    private String numberOfEmployees;
 
 }

@@ -1,6 +1,7 @@
 package com.talenty.validation;
 
-import com.sun.jdi.InvalidTypeException;
+import com.talenty.domain.Branches;
+import com.talenty.domain.Products;
 import com.talenty.domain.dto.Company;
 import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
@@ -28,6 +29,7 @@ public class ValidationChecker {
     private static final Pattern SALARY_REGEX = Pattern.compile("\\d*\\.?\\d+$");
     private static final Pattern PHONE_NUMBER_REGEX = Pattern.compile("[+]\\d{1,17}$");
     private static final Pattern URL_REGEX = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    private static final Pattern NUMBER_REGEX = Pattern.compile("^\\d+$");
 
     static {
         Twilio.init("AC237081575f7fa8e68cab48cbe22cb671", "9ed7c87ae1a51f514d496d631930f4ed");
@@ -88,7 +90,7 @@ public class ValidationChecker {
 
             case "salary": {
                 assertLengthIsValid(submittedField, parentField);
-                assertSalaryisValid(submittedValue);
+                assertSalaryIsValid(submittedValue);
                 break;
             }
 
@@ -147,7 +149,7 @@ public class ValidationChecker {
             }
 
             case "country": {
-//                assertCountryIsValid(submittedValue);
+                assertCountryIsValid(submittedValue);
                 break;
             }
 
@@ -246,7 +248,7 @@ public class ValidationChecker {
         throw new InvalidSingleChoiceFieldException();
     }
 
-    private static void assertSalaryisValid(final String salary) {
+    private static void assertSalaryIsValid(final String salary) {
         if (!SALARY_REGEX.matcher(salary).matches()) {
             System.out.printf("Salary does not contain only numbers for value '%s'\n", salary);
             throw new InvalidSalaryException();
@@ -400,17 +402,45 @@ public class ValidationChecker {
 
     }
 
+    private static void assertNumberIsValid(final String number) {
+        if (!NUMBER_REGEX.matcher(number).matches()) {
+            System.out.printf("Number does not contain only numbers for value '%s'\n", number);
+            throw new InvalidNumberException();
+        }
+    }
+
     public static void assertCompanyIsValid(final Company company, final List<TypeValues> dropdownList) {
-        List<String> legalForms = new ArrayList<>();
-        List<String> industries = new ArrayList<>();
-        List<String> benefits = new ArrayList<>();
+        List<String> legalFormsValues = new ArrayList<>();
+        List<String> industriesValues = new ArrayList<>();
+        List<String> benefitsValues = new ArrayList<>();
         for (TypeValues typeValue : dropdownList) {
-            if(Objects.equals(typeValue.getType(), "industry")) {
-                legalForms = typeValue.getValues();
-            } else if(Objects.equals(typeValue.getType(), "legal_form")) {
-                industries = typeValue.getValues();
+            if(Objects.equals(typeValue.getType(), "legal_form")) {
+                legalFormsValues = typeValue.getValues();
+            } else if(Objects.equals(typeValue.getType(), "industry")) {
+                industriesValues = typeValue.getValues();
             } else if(Objects.equals(typeValue.getType(), "benefits")) {
-                benefits = typeValue.getValues();
+                benefitsValues = typeValue.getValues();
+            }
+        }
+        final List<String> legalForm = List.of(company.getLegalForm());
+        final List<String> industry = List.of(company.getIndustry());
+        final List<String> benefits = company.getBenefits();
+
+        for (String submittedValue : legalForm) {
+            if(!legalFormsValues.contains(submittedValue)) {
+                throw new InvalidLegalFormException();
+            }
+        }
+
+        for (String submittedValue : industry) {
+            if(!industriesValues.contains(submittedValue)) {
+                throw new InvalidIndustryException();
+            }
+        }
+
+        for (String submittedValue : benefits) {
+            if(!benefitsValues.contains(submittedValue)) {
+                throw new InvalidBenefitsException();
             }
         }
 
@@ -419,11 +449,24 @@ public class ValidationChecker {
         assertPhoneNumberIsValid(company.getPhoneNumber());
         assertUrlIsValid(company.getWebsite());
         assertDateIsValid(company.getFounded());
-        assertCompanyProfileDropdownIsValid(List.of(company.getLegalForm()), legalForms);
-        assertCompanyProfileDropdownIsValid(List.of(company.getIndustry()), industries);
-        assertCompanyProfileDropdownIsValid(company.getBenefits(), benefits);
+        assertNumberIsValid(company.getNumberOfEmployees());
 
+        final List<String> links = company.getLinks();
+        for (String link : links) {
+            assertUrlIsValid(link);
+        }
 
+        final List<Products> products = company.getProducts();
+        for (Products product : products) {
+            assertNameIsValid(product.getProductName());
+            assertUrlIsValid(product.getProductLink());
+        }
+
+        final List<Branches> branches = company.getBranches();
+        for (Branches branch : branches) {
+            assertCountryIsValid(branch.getCountry());
+            assertNumberIsValid(branch.getNumberOfEmployees());
+        }
     }
 
 }
