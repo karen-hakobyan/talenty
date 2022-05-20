@@ -21,7 +21,7 @@ public class Company {
     private String legalForm;
     private String industry;
     private String founded;
-    private int numberOfEmployees;
+    private String numberOfEmployees;
     private String address;
     private String phoneNumber;
     private String email;

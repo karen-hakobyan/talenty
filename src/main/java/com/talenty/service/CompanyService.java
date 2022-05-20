@@ -35,9 +35,10 @@ public class CompanyService {
         );
     }
 
-    public Company save(final Company company) {
+    public Company update(final Company company) {
+        final List<TypeValues> dropdownList = getTypeValues();
 
-        ValidationChecker.assertCompanyIsValid(company);
+        ValidationChecker.assertCompanyIsValid(company, dropdownList);
 
         final CompanyDocument companyDocument = CompanyMapper.instance.dtoToDocument(company);
 

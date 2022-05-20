@@ -26,13 +26,13 @@ public class CompanyController {
         return ResponseEntity.ok(dropdownList);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/update")
     public ResponseEntity<?> saveCompany(@RequestBody final Company company) {
-        companyService.save(company);
+        companyService.update(company);
         return ResponseEntity.ok("saved");
     }
 
-    @GetMapping("/get_company")
+    @GetMapping("/get")
     public ResponseEntity<?> getCompany() {
         final Company company = companyService.getCompany();
         return ResponseEntity.ok(company);

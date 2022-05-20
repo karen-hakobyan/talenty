@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,19 +23,19 @@ public class CompanyDocument {
     private String name;
     private String profilePicture;
     private String logo;
-    private List<String> links;
+    private List<String> links = new ArrayList<>();
     private String legalForm;
     private String industry;
     private String founded;
-    private int numberOfEmployees;
+    private String numberOfEmployees;
     private String address;
     private String phoneNumber;
     private String email;
     private String website;
     private String aboutCompany;
-    private List<Products> products;
-    private List<Branches> branches;
-    private List<String> benefits;
+    private List<Products> products = new ArrayList<>();
+    private List<Branches> branches = new ArrayList<>();
+    private List<String> benefits =  new ArrayList<>();
     private String video;
     private String additionalInformation;
 
