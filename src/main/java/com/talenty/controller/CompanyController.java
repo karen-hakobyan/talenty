@@ -32,7 +32,7 @@ public class CompanyController {
         return ResponseEntity.ok("saved");
     }
 
-    @GetMapping("/get_company")
+    @GetMapping("/get")
     public ResponseEntity<?> getCompany() {
         final Company company = companyService.getCompany();
         return ResponseEntity.ok(company);
