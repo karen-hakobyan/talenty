@@ -20,7 +20,7 @@ let hrExData = {
                     metadata: {
                         type: "special_name",
                         maxLength: 20,
-                        editable: false,
+                        editable: false ? true: false,
                         required_editable: false,
                         deletable: false,
                         required: true,

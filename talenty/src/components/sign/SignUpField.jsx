@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import {Box, IconButton, TextField} from "@mui/material";
-import {MAIN_PURPLE} from "../../style/colors";
+import React, { useState } from "react";
+import { Box, IconButton, TextField } from "@mui/material";
+import { MAIN_PURPLE } from "../../style/colors";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 const SignUpField = React.forwardRef(
-    ({register, value, isPassword, objKey, errors, error, placeholder, ...restProps}, ref) => {
+    ({ register, value, isPassword, objKey, errors, error, placeholder, ...restProps }, ref) => {
         const [showPass, setShowPass] = useState(false)
         return (
             <Box
-                sx={{display: "flex", gap: "10px", flexDirection: "column"}}
-                {...{ref}}
+                sx={{ display: "flex", gap: "10px", flexDirection: "column" }}
+                {...{ ref }}
             >
                 <Box sx={{
                     fontFamily: "'Poppins', sans-serif",
@@ -20,19 +20,16 @@ const SignUpField = React.forwardRef(
                     letterSpacing: "0em",
                 }}>{value}</Box>
                 <TextField
-                    {...(isPassword && !showPass ? {type: "password"} : {})}
+                    {...(isPassword && !showPass ? { type: "password" } : {})}
                     InputProps={{
                         sx: {
                             height: '40px',
                             fontFamily: "'Poppins', sans-serif",
                             fontSize: 15,
-                            "input:-webkit-autofill":{
-                                "-webkit-text-fill-color": "yellow !important"
-                            }
                         }, endAdornment: isPassword ?
                             <IconButton onClick={() => setShowPass(!showPass)}>
-                                {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small"/> :
-                                    <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small"/>}
+                                {showPass ? <VisibilityOutlinedIcon color="#4C494F" fontSize="small" /> :
+                                    <VisibilityOffOutlinedIcon color="#4C494F" fontSize="small" />}
                             </IconButton> : null
                     }}
                     autoComplete="off"
@@ -53,7 +50,7 @@ const SignUpField = React.forwardRef(
                     error={!!errors?.[objKey]}
                     helperText={errors[objKey] ? errors[objKey].message : ""}
                     FormHelperTextProps={{
-                        sx: {fontFamily: "'Poppins', sans-serif"}
+                        sx: { fontFamily: "'Poppins', sans-serif" }
                     }}
                     {...restProps}
                 />
