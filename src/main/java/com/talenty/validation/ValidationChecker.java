@@ -422,50 +422,79 @@ public class ValidationChecker {
                 benefitsValues = typeValue.getValues();
             }
         }
-        final List<String> legalForm = List.of(company.getLegalForm());
-        final List<String> industry = List.of(company.getIndustry());
-        final List<String> benefits = company.getBenefits();
 
-        for (String submittedValue : legalForm) {
-            if(!legalFormsValues.contains(submittedValue)) {
-                throw new InvalidLegalFormException();
+        if(company.getLegalForm() != null) {
+            final List<String> legalForm = List.of(company.getLegalForm());
+            for (String submittedValue : legalForm) {
+                if(!legalFormsValues.contains(submittedValue)) {
+                    throw new InvalidLegalFormException();
+                }
             }
         }
 
-        for (String submittedValue : industry) {
-            if(!industriesValues.contains(submittedValue)) {
-                throw new InvalidIndustryException();
+        if(company.getIndustry() != null) {
+            final List<String> industry = List.of(company.getIndustry());
+            for (String submittedValue : industry) {
+                if(!industriesValues.contains(submittedValue)) {
+                    throw new InvalidIndustryException();
+                }
             }
         }
 
-        for (String submittedValue : benefits) {
-            if(!benefitsValues.contains(submittedValue)) {
-                throw new InvalidBenefitsException();
+        if(company.getBenefits() != null) {
+            final List<String> benefits = company.getBenefits();
+            for (String submittedValue : benefits) {
+                if(!benefitsValues.contains(submittedValue)) {
+                    throw new InvalidBenefitsException();
+                }
             }
         }
 
-        assertEmailIsValid(company.getEmail());
-        assertCompanyNameIsValid(company.getName());
-        assertPhoneNumberIsValid(company.getPhoneNumber());
-        assertUrlIsValid(company.getWebsite());
-        assertDateIsValid(company.getFounded());
-        assertNumberIsValid(company.getNumberOfEmployees());
-
-        final List<String> links = company.getLinks();
-        for (String link : links) {
-            assertUrlIsValid(link);
+        if(company.getEmail() != null) {
+            assertEmailIsValid(company.getEmail());
         }
 
-        final List<Products> products = company.getProducts();
-        for (Products product : products) {
-            assertNameIsValid(product.getProductName());
-            assertUrlIsValid(product.getProductLink());
+        if(company.getName() != null) {
+            assertCompanyNameIsValid(company.getName());
         }
 
-        final List<Branches> branches = company.getBranches();
-        for (Branches branch : branches) {
-            assertCountryIsValid(branch.getCountry());
-            assertNumberIsValid(branch.getNumberOfEmployees());
+        if(company.getPhoneNumber() != null) {
+            assertPhoneNumberIsValid(company.getPhoneNumber());
+        }
+
+        if(company.getWebsite() != null) {
+            assertUrlIsValid(company.getWebsite());
+        }
+
+        if(company.getFounded() != null) {
+            assertDateIsValid(company.getFounded());
+        }
+
+        if(company.getNumberOfEmployees() != null) {
+            assertNumberIsValid(company.getNumberOfEmployees());
+        }
+
+        if(company.getLinks() != null){
+            final List<String> links = company.getLinks();
+            for (String link : links) {
+                assertUrlIsValid(link);
+            }
+        }
+
+        if(company.getProducts() != null) {
+            final List<Products> products = company.getProducts();
+            for (Products product : products) {
+                assertNameIsValid(product.getProductName());
+                assertUrlIsValid(product.getProductLink());
+            }
+        }
+
+        if(company.getBranches() != null) {
+            final List<Branches> branches = company.getBranches();
+            for (Branches branch : branches) {
+                assertCountryIsValid(branch.getCountry());
+                assertNumberIsValid(branch.getNumberOfEmployees());
+            }
         }
     }
 
