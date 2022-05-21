@@ -8,7 +8,16 @@ import {TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import Button from "../../../shared/components/Button";
 import {ReactComponent as LocationSVG} from "../../../assets/icons/location.svg";
 import {ReactComponent as WorkSVG} from "../../../assets/icons/work.svg";
-import { BUTTON_CENTR_STYLES, job_container, JOB_DESCRIPTION, JOB_NAME_AND_COMPANY_NAME, JOB_RESPONSIBIITIS_CONTAINER, LINE, MORE_INFORMATION, MUI_RICH_TEXT_EDITOR_STYLES } from "./style";
+import {
+    BUTTON_CENTR_STYLES,
+    job_container,
+    JOB_DESCRIPTION,
+    JOB_NAME_AND_COMPANY_NAME,
+    JOB_RESPONSIBIITIS_CONTAINER,
+    LINE,
+    MORE_INFORMATION,
+    MUI_RICH_TEXT_EDITOR_STYLES
+} from "./style";
 
 export default function Search({
                                    SearchComponent,
@@ -78,7 +87,7 @@ export default function Search({
                                     <Button
                                         sx={{...TEMPLATE_BUTTON_ADD, width: '179px', height: '40px'}}
                                         onClick={() => {
-                                            navigate(`announcement/${id}`)
+                                            navigate(`/home-page/announcement/${id}`)
                                         }}
                                     >
                                         View more
@@ -87,31 +96,31 @@ export default function Search({
                             </Box>
                             <Box
                                 sx={MORE_INFORMATION(open)}>
-                                    <Box sx={JOB_DESCRIPTION}>
-                                        <h4>Job Description</h4>
-                                        <p>{jobDescription}</p>
-                                        </Box>
-                                        
-                                        {jobResponsibilities? <Box sx={JOB_RESPONSIBIITIS_CONTAINER}>
-                                             <Box  sx={LINE}/>
-                                            <h4>Job Responsibilities</h4>
-                                            <Box sx={MUI_RICH_TEXT_EDITOR_STYLES}>
-                                            <MUIRichTextEditor
-                                                defaultValue={jobResponsibilities}
-                                                controls={[]}
-                                                readOnly
-                                             />
-                                                </Box>
-                                        </Box>:null}
-                                        <Box sx={BUTTON_CENTR_STYLES}>
-                                            <Button
+                                <Box sx={JOB_DESCRIPTION}>
+                                    <h4>Job Description</h4>
+                                    <p>{jobDescription}</p>
+                                </Box>
+
+                                {jobResponsibilities ? <Box sx={JOB_RESPONSIBIITIS_CONTAINER}>
+                                    <Box sx={LINE}/>
+                                    <h4>Job Responsibilities</h4>
+                                    <Box sx={MUI_RICH_TEXT_EDITOR_STYLES}>
+                                        <MUIRichTextEditor
+                                            defaultValue={jobResponsibilities}
+                                            controls={[]}
+                                            readOnly
+                                        />
+                                    </Box>
+                                </Box> : null}
+                                <Box sx={BUTTON_CENTR_STYLES}>
+                                    <Button
                                         sx={{
                                             ...TEMPLATE_BUTTON_ADD,
                                             width: '179px',
                                             height: '40px',
                                         }}
                                         onClick={() => {
-                                            navigate(`announcement/${id}`)
+                                            navigate(`/home-page/announcement/${id}`)
                                         }}
                                     >
                                         View more

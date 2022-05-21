@@ -8,7 +8,6 @@ import {useMemo} from "react";
 export default function ProfSkill({data}) {
     const templateData = useSelector(selectTemplateData)
     const exactPage = useSelector(state => state.globalData.exactPage)
-
     //extract submitted values
     const submittedValues = useMemo(() => {
         return templateData.fields[exactPage - 1].fields.filter(el => el.metadata.status !== 'DELETED').reduce((prev, next) => {

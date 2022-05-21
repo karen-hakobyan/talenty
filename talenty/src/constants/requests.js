@@ -42,3 +42,5 @@ export const GET_JOB_ANNOUNCEMENTS_FILTER = '/job_announcements/find_by_filters'
 export const ANNOUNCEMENT_FILTER_LIST = '/job_announcements/get_filters_list'
 export const ANNOUNCEMENT_VIEW_MORE = '/job_announcements/view_more'
 export const JOB_SEEKER_APPLY_ANNOUNCEMENT = '/job_announcements/apply'
+// body:{ownerId,jobAnnouncementId, submittedCvTemplateId}
+export const JOB_SEEKER_APPLY_IN_PROGRESS = '/job_announcements/apply_in_progress'

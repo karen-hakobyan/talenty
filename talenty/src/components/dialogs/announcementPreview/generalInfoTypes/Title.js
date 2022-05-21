@@ -1,10 +1,14 @@
 import {Box} from "@mui/material";
-import {MONTH_VIA_KEY} from "../../../../constants/date";
 import Button from "../../../../shared/components/Button";
+import {DetailAnnouncementContext} from "../../../job-seeker/search/DetailAnnouncement";
+import {MONTH_VIA_KEY} from "../../../../constants/date";
 import {TEMPLATE_BUTTON_CREATE} from "../../../../shared/styles";
+import {applyInProgress} from "../../../job-seeker/request";
+import {useDestructureContext} from "../../../../hooks/mainHooks";
 
-export default function Title({generalInfoData, data, isApplying}) {
+export default function Title({generalInfoData, data}) {
     let deadline = generalInfoData.fields.find(el => el.name === 'Deadline')
+    const {viewData: isApplying, setOpen, announcementId} = useDestructureContext(DetailAnnouncementContext)
     let deadlineValue = deadline ? deadline.metadata?.submitted_value?.split('/') : null
     if (!data.metadata.submitted_value) {
         return "here should be your announcement title and deadline"
@@ -23,6 +27,9 @@ export default function Title({generalInfoData, data, isApplying}) {
                 isApplying && <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
                     <Button
                         sx={{...TEMPLATE_BUTTON_CREATE, width: '179px'}}
+                        onClick={() => {
+                            applyInProgress(setOpen, announcementId)
+                        }}
                     >
                         APPLY NOW</Button>
                 </Box>
