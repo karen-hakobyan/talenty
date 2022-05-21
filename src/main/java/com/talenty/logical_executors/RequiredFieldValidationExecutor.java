@@ -10,9 +10,9 @@ public class RequiredFieldValidationExecutor implements LogicExecutor {
     private FieldDocument currentParentField;
 
     @Override
-    public FieldDocument execute(final FieldDocument field) {
+    public void execute(final FieldDocument field) {
         final Map<String, Object> tempSubmittedFieldMetadata = field.getMetadata();
-        if (this.currentParentField.getFields() != null && field.getFields() != null) return field;
+        if (this.currentParentField.getFields() != null && field.getFields() != null) return;
 
         final Map<String, Object> tempParentFieldMetadata = this.currentParentField.getMetadata();
 
@@ -25,7 +25,6 @@ public class RequiredFieldValidationExecutor implements LogicExecutor {
                 throw new NoSuchTemplateException();
             }
         }
-        return field;
     }
 
     @Override

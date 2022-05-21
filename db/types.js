@@ -86,7 +86,7 @@ let type_values = [
         ]
     },
     {
-        _id: ObjectId("623ca7e59897064eb94b36a3"),
+        _id: ObjectId,
         type: "language",
         values: [
             "Armenian",
@@ -95,6 +95,36 @@ let type_values = [
             "German",
             "Dutch",
             "Japanese"
+        ]
+    },
+    {
+        _id: ObjectId(),
+        type: "legal_form",
+        values: [
+            "LLC",
+            "PC",
+            "INC",
+            "CO"
+        ]
+    },
+    {
+        _id: ObjectId(),
+        type: "industry",
+        values: [
+            "IT",
+            "Economy",
+            "Finance",
+            "Sport"
+        ]
+    },
+    {
+        _id: ObjectId(),
+        type: "benefits",
+        values: [
+            "Insurance",
+            "Gym",
+            "Lunch",
+            "Work Area"
         ]
     }
 ]

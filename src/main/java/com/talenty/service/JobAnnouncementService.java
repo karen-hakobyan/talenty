@@ -233,10 +233,13 @@ public class JobAnnouncementService {
         }
 
         final JobAnnouncementDocument jobAnnouncement = getJobAnnouncementById(appliedAnnouncemetDocument.getJobAnnouncementId());
-        if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
-            System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
-            throw new WrongSubmissionForAnnouncement();
+        if (jobAnnouncement.getAttachedCvTemplateId() != null) {
+            if (!Objects.equals(jobAnnouncement.getAttachedCvTemplateId(), submittedCvTemplate.getParentId())) {
+                System.out.printf("Wrong submission with id '%s' for announcement with id '%s'\n", submittedCvTemplate.getParentId(), jobAnnouncement.getId());
+                throw new WrongSubmissionForAnnouncement();
+            }
         }
+
         final Map<String, Object> announcementMetadata = jobAnnouncement.getMetadata();
         final Map<String, Object> newMetadata = new HashMap<>();
         if (announcementMetadata != null) {
@@ -432,7 +435,13 @@ public class JobAnnouncementService {
 
 
         final JobAnnouncementWithCompanyName jobAnnouncementWithCompanyName = new JobAnnouncementWithCompanyName();
-        jobAnnouncementWithCompanyName.setJobAnnouncement(jobAnnouncement);
+        jobAnnouncementWithCompanyName.setId(jobAnnouncement.getId());
+        jobAnnouncementWithCompanyName.setOwnerId(jobAnnouncement.getOwnerId());
+        jobAnnouncementWithCompanyName.setName(jobAnnouncement.getName());
+        jobAnnouncementWithCompanyName.setMetadata(jobAnnouncement.getMetadata());
+        jobAnnouncementWithCompanyName.setStatus(jobAnnouncement.getStatus());
+        jobAnnouncementWithCompanyName.setAttachedCvTemplateId(jobAnnouncement.getAttachedCvTemplateId());
+        jobAnnouncementWithCompanyName.setFields(jobAnnouncement.getFields());
         jobAnnouncementWithCompanyName.setCompanyName(companyDocument.getName());
 
         return jobAnnouncementWithCompanyName;
@@ -451,7 +460,7 @@ public class JobAnnouncementService {
         Executor.getInstance()
                 .setIterableFields(jobSeekerCv.getFields())
                 .executeLogic(
-                        new SectionOfSectionContainersCache(cachedSectionContainersOfJobSeekerCv)
+                        new SingleSectionOfSectionContainersCache(cachedSectionContainersOfJobSeekerCv)
                 )
                 .after()
                 .setIterableFields(systemCvTemplate.getFields())
@@ -462,12 +471,31 @@ public class JobAnnouncementService {
                 )
                 .after()
                 .setIterableFields(systemCvTemplate.getFields())
-                .setMatchableFields(attachedCv.getFields())
+                .setMatchableFields(attachedCvAsSubmitted.getFields())
                 .setSourceParent(BaseSource.MATCHABLE)
                 .executeLogic(
                         new MatchFieldsExecutor(),
-                        new SectionOfSectionContainersCacheMatchable(cachedSectionContainersOfAttachedCv)
+                        new SectionOfSectionContainersCache(cachedSectionContainersOfAttachedCv)
                 );
+
+
+        for (int i = 0; i < cachedSectionContainersOfAttachedCv.size(); i++) {
+            final FieldDocument tempAttachedSection = cachedSectionContainersOfAttachedCv.get(i);
+            final FieldDocument tempSubmittedSection = cachedSectionContainersOfJobSeekerCv.get(i);
+
+            for (int j = 0; j < tempSubmittedSection.getFields().size() - 1; j++) {
+                tempAttachedSection.getFields().add(tempAttachedSection.getFields().get(0));
+            }
+
+            Executor.getInstance()
+                    .setIterableFields(tempSubmittedSection.getFields())
+                    .setMatchableFields(tempAttachedSection.getFields())
+                    .setSourceParent(BaseSource.MATCHABLE)
+                    .executeLogic(
+                            new MergeSectionContainers()
+                    );
+
+        }
 
         attachedCvAsSubmitted.setId(null);
         attachedCvAsSubmitted.setName(null);

@@ -1,29 +1,34 @@
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {selectAuthUserInfo} from "../../../store/auth/selector";
-import {useNavigate} from "react-router-dom";
-import {Box, Button, Switch} from "@mui/material";
-import {DefaultUserIcon} from "../../../assets/icons/jobseeker";
-import {HOME_PRIMARY_BUTTON} from "../../../shared/styles";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuthUserInfo } from "../../../store/auth/selector";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Switch } from "@mui/material";
+import { DefaultUserIcon } from "../../../assets/icons/jobseeker";
+import { HOME_PRIMARY_BUTTON } from "../../../shared/styles";
 import MainBox from "./MainBox";
-import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
-import {MAIN_PURPLE} from "../../../style/colors";
-import {setAllTemplateData, setExactPage,} from "../../../store/globalData/slice";
+import { SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME } from "./style";
+import { MAIN_PURPLE } from "../../../style/colors";
+import { setAllTemplateData, setExactPage, } from "../../../store/globalData/slice";
 import JobSeekerContainer from "../../shared/JobSeekerContainer";
 import Search from "../search/Search";
 import TextField from "../../../shared/components/Textfield";
-import {ReactComponent as SearchLoopSVG} from "../../../assets/icons/searchLoop.svg";
+import { ReactComponent as SearchLoopSVG } from "../../../assets/icons/searchLoop.svg";
 import Select from "../../../shared/components/Select";
-import {useGetAnnouncementFilterList} from "../hook";
+import { useGetAnnouncementFilterList } from "../hook";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
+import { useUsersInfo } from "./hooks";
+import { CheckIconSVG } from "../../../assets/icons/createTemplate";
+import { Chek } from "../../../assets/icons/hrProfile";
+import { ENTER_KEY } from "../../../constants/keyCodes";
 
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const filtersList = useGetAnnouncementFilterList()
-    const {email, firstName, lastName} = useSelector(selectAuthUserInfo);
+    const { email, firstName, lastName } = useSelector(selectAuthUserInfo);
     const userInfo = useSelector((state) => state.auth.userInfo);
     const [location, setLocation] = useState('')
+    const [headline, setHeadline] = useState("")
     const [searchTitleValue, setSearchTitleValue] = useState('')
     const [jobType, setJobType] = useState('')
     const [searchButtonClick, setSearchButtonClick] = useState(false)
@@ -31,17 +36,19 @@ export default function Home() {
         dispatch(setAllTemplateData(null));
         dispatch(setExactPage(1));
     }, [dispatch]);
+    const info = useUsersInfo()
+    console.log(headline);
 
     return (
         <JobSeekerContainer>
-            <Box sx={{display: "flex", flexDirection: "column", gap: "24px"}}>
-                <Box sx={{display: "flex", gap: "20px", flexWrap: 'wrap'}}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                <Box sx={{ display: "flex", gap: "20px", flexWrap: 'wrap' }}>
                     <MainBox>
                         <Box>
-                            <Box sx={{display: "flex", justifyContent: "flex-end"}}>
-                                <Box sx={{display: "flex", gap: "8px", alignItems: "center"}}>
+                            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                                <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
                                     <Box sx={SWITCH_TITLE}>Private</Box>
-                                    <Switch sx={SWITCH}/>
+                                    <Switch sx={SWITCH} />
                                     <Box sx={SWITCH_TITLE}>Public</Box>
                                 </Box>
                             </Box>
@@ -64,30 +71,44 @@ export default function Home() {
                                         alignItems: "center",
                                     }}
                                 >
-                                    <DefaultUserIcon/>
+                                    <DefaultUserIcon />
                                 </Box>
                                 <Box
-                                    sx={{display: "flex", flexDirection: "column", gap: "12px"}}
+                                    sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
                                 >
-                                    <Box sx={{...USER_NAME}}>
-                                        {firstName} {lastName}
+                                    <Box sx={{ ...USER_NAME }}>
+                                        {info.fullName}
                                     </Box>
-                                    <Box sx={{...USER_EMAIL}}>
-                                        {email}
-                                        <Box className="title">{email}</Box>
+                                    <Box sx={{ ...USER_EMAIL }}>
+                                        {info.email}
+                                        <Box className="title">{info.email}</Box>
                                     </Box>
                                 </Box>
                             </Box>
-                            <Box sx={{mt: "50px"}}>
+                            <Box sx={{ mt: "50px" }}>
                                 <JobSeekerSubsection
                                     label="Headline"
-                                    Component={<TextField placeholder="Add headline"/>}
+                                    Component={<TextField
+                                        value={headline}
+                                        onChange={(e) => {
+                                            setHeadline(e.target.value)
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === ENTER_KEY) {
+                                                console.log(e);
+                                            }
+                                        }}
+                                        placeholder="Add headline"
+                                        InputProps={{
+                                            endAdornment: <Box sx={{ cursor: "pointer" }}><Chek /></Box>
+                                        }}
+                                    />}
                                 />
                             </Box>
-                            <Box sx={{mt: "40px"}}>
+                            <Box sx={{ mt: "40px" }}>
                                 <JobSeekerSubsection
                                     label={
-                                        <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                             <Box>Profile completeness</Box>
                                             <Box>0%</Box>
                                         </Box>
@@ -113,14 +134,14 @@ export default function Home() {
                             >
                                 <Button
                                     sx={HOME_PRIMARY_BUTTON}
-                                    style={{textTransform: "none"}}
+                                    style={{ textTransform: "none" }}
                                     onClick={() => navigate("profile")}
                                 >
                                     Complete my profile
                                 </Button>
                                 <Button
                                     sx={HOME_PRIMARY_BUTTON}
-                                    style={{textTransform: "none"}}
+                                    style={{ textTransform: "none" }}
                                     onClick={() => {
                                         navigate("create-cv");
                                     }}
@@ -131,16 +152,16 @@ export default function Home() {
                         </Box>
                     </MainBox>
 
-                    <MainBox isRegardingJobs/>
-                    <MainBox isRegardingJobs/>
+                    <MainBox isRegardingJobs />
+                    <MainBox isRegardingJobs />
                 </Box>
-                <MainBox sx={{minHeight: "821px"}}>
+                <MainBox sx={{ minHeight: "821px" }}>
                     <Search
                         SearchComponent={
-                            <Box sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                            <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                                 <TextField
-                                    InputProps={{startAdornment: <SearchLoopSVG/>}}
-                                    sx={{width: '543px'}}
+                                    InputProps={{ startAdornment: <SearchLoopSVG /> }}
+                                    sx={{ width: '543px' }}
                                     value={searchTitleValue}
                                     placeholder="Search"
                                     onChange={(event) => {
@@ -148,7 +169,7 @@ export default function Home() {
                                     }}
                                 />
                                 <TextField
-                                    sx={{width: '253px'}}
+                                    sx={{ width: '253px' }}
                                     placeholder="Location"
                                     value={location}
                                     onChange={
@@ -158,7 +179,7 @@ export default function Home() {
                                     }
                                 />
                                 <Select
-                                    fieldStyle={{flex: 1}}
+                                    fieldStyle={{ flex: 1 }}
                                     placeHolder="Job-type"
                                     value={jobType || undefined}
                                     menuItems={filtersList[1]?.values}
@@ -166,12 +187,12 @@ export default function Home() {
                                         setJobType(event.target.value)
                                     }}
                                 />
-                                <Button sx={{...HOME_PRIMARY_BUTTON, height: '40px'}} onClick={() => {
+                                <Button sx={{ ...HOME_PRIMARY_BUTTON, height: '40px' }} onClick={() => {
                                     setSearchButtonClick(true)
                                 }}>View jobs</Button>
                             </Box>
                         }
-                        {...{searchButtonClick, setSearchButtonClick, location, jobType}}
+                        {...{ searchButtonClick, setSearchButtonClick, location, jobType }}
                     />
                 </MainBox>
             </Box>

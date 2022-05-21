@@ -1,6 +1,9 @@
 package com.talenty.validation;
 
-import com.sun.jdi.InvalidTypeException;
+import com.talenty.domain.Branches;
+import com.talenty.domain.Products;
+import com.talenty.domain.dto.Company;
+import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.mongo.FieldDocument;
@@ -26,6 +29,7 @@ public class ValidationChecker {
     private static final Pattern SALARY_REGEX = Pattern.compile("\\d*\\.?\\d+$");
     private static final Pattern PHONE_NUMBER_REGEX = Pattern.compile("[+]\\d{1,17}$");
     private static final Pattern URL_REGEX = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    private static final Pattern NUMBER_REGEX = Pattern.compile("^\\d+$");
 
     static {
         Twilio.init("AC237081575f7fa8e68cab48cbe22cb671", "9ed7c87ae1a51f514d496d631930f4ed");
@@ -86,7 +90,7 @@ public class ValidationChecker {
 
             case "salary": {
                 assertLengthIsValid(submittedField, parentField);
-                assertSalaryisValid(submittedValue);
+                assertSalaryIsValid(submittedValue);
                 break;
             }
 
@@ -145,7 +149,7 @@ public class ValidationChecker {
             }
 
             case "country": {
-//                assertCountryIsValid(submittedValue);
+                assertCountryIsValid(submittedValue);
                 break;
             }
 
@@ -244,7 +248,7 @@ public class ValidationChecker {
         throw new InvalidSingleChoiceFieldException();
     }
 
-    private static void assertSalaryisValid(final String salary) {
+    private static void assertSalaryIsValid(final String salary) {
         if (!SALARY_REGEX.matcher(salary).matches()) {
             System.out.printf("Salary does not contain only numbers for value '%s'\n", salary);
             throw new InvalidSalaryException();
@@ -386,6 +390,111 @@ public class ValidationChecker {
         if (childFields.size() != parentFields.size()) {
             System.out.println("Section container must contain same fields as parent section container");
             throw new InvalidSectionContainerFieldsSize();
+        }
+    }
+
+    public static void assertCompanyProfileDropdownIsValid (final List<String> submittedValues, final List<String> values) {
+        for (String submittedValue : submittedValues) {
+            if(!values.contains(submittedValue)) {
+                throw new InvalidSubmissionException();
+            }
+        }
+
+    }
+
+    private static void assertNumberIsValid(final String number) {
+        if (!NUMBER_REGEX.matcher(number).matches()) {
+            System.out.printf("Number does not contain only numbers for value '%s'\n", number);
+            throw new InvalidNumberException();
+        }
+    }
+
+    public static void assertCompanyIsValid(final Company company, final List<TypeValues> dropdownList) {
+        List<String> legalFormsValues = new ArrayList<>();
+        List<String> industriesValues = new ArrayList<>();
+        List<String> benefitsValues = new ArrayList<>();
+        for (TypeValues typeValue : dropdownList) {
+            if(Objects.equals(typeValue.getType(), "legal_form")) {
+                legalFormsValues = typeValue.getValues();
+            } else if(Objects.equals(typeValue.getType(), "industry")) {
+                industriesValues = typeValue.getValues();
+            } else if(Objects.equals(typeValue.getType(), "benefits")) {
+                benefitsValues = typeValue.getValues();
+            }
+        }
+
+        if(company.getLegalForm() != null) {
+            final List<String> legalForm = List.of(company.getLegalForm());
+            for (String submittedValue : legalForm) {
+                if(!legalFormsValues.contains(submittedValue)) {
+                    throw new InvalidLegalFormException();
+                }
+            }
+        }
+
+        if(company.getIndustry() != null) {
+            final List<String> industry = List.of(company.getIndustry());
+            for (String submittedValue : industry) {
+                if(!industriesValues.contains(submittedValue)) {
+                    throw new InvalidIndustryException();
+                }
+            }
+        }
+
+        if(company.getBenefits() != null) {
+            final List<String> benefits = company.getBenefits();
+            for (String submittedValue : benefits) {
+                if(!benefitsValues.contains(submittedValue)) {
+                    throw new InvalidBenefitsException();
+                }
+            }
+        }
+
+        if(company.getEmail() != null) {
+            assertEmailIsValid(company.getEmail());
+        }
+
+        if(company.getName() != null) {
+            assertCompanyNameIsValid(company.getName());
+        }
+
+        if(company.getPhoneNumber() != null) {
+            assertPhoneNumberIsValid(company.getPhoneNumber());
+        }
+
+        if(company.getWebsite() != null) {
+            assertUrlIsValid(company.getWebsite());
+        }
+
+        if(company.getFounded() != null) {
+            assertDateIsValid(company.getFounded());
+        }
+
+        if(company.getNumberOfEmployees() != null) {
+            assertNumberIsValid(company.getNumberOfEmployees());
+        }
+
+        if(company.getLinks() != null){
+            final List<String> links = company.getLinks();
+            for (String link : links) {
+                assertUrlIsValid(link);
+            }
+        }
+
+        if(company.getProducts() != null) {
+            final List<Products> products = company.getProducts();
+            for (Products product : products) {
+                assertNameIsValid(product.getProductName());
+                assertUrlIsValid(product.getProductLink());
+            }
+        }
+
+        if(company.getBranches() != null) {
+            final List<Branches> branches = company.getBranches();
+            for (Branches branch : branches) {
+                assertCountryIsValid(branch.getCountry());
+                assertNumberIsValid(branch.getNumberOfEmployees());
+            }
         }
     }
 

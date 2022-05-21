@@ -6,12 +6,13 @@ import CvTemplateMain from "../cvTemplate/CvTemplateMain";
 import Header from "./Header";
 import Navigation from "./Navigation";
 import {selectAuthJwt, selectAuthUserInfo} from "../../store/auth/selector";
-import {LANDING_PAGE_ROUTE} from "../../constants/routes";
+import {JOBSEEKER_PROFILE_ROUTE, LANDING_PAGE_ROUTE} from "../../constants/routes";
 import JobAnnouncement from "./JobAnnouncement";
 import {getJwt} from "./helper";
 import {setAuthInitialState} from "../../store/auth/authSlice";
 import Pending from "./Pending";
 import CurrentJobs from "./CurrentJobs";
+import HrProfile from "./HrProfile";
 
 export default function Dashboard() {
     const jwt = useSelector(selectAuthJwt)
@@ -35,10 +36,13 @@ export default function Dashboard() {
         <Box>
             <Header/>
             {/* body */}
+            <Routes>
+                <Route path={JOBSEEKER_PROFILE_ROUTE} element={<h1>Talenty!!!</h1>} />
+            </Routes>
             <Box sx={{display: "flex"}}>
                 <Navigation maxWidth={282} minWidth={82}/>
                 <Routes>
-                    <Route path="/" element={<h1>Talenty!!!</h1>}/>
+                    <Route />
                     <Route path="template" element={<CvTemplateMain/>}/>
                     <Route path='announcement' element={<JobAnnouncement/>}/>
                     <Route path='current-jobs' element={<CurrentJobs/>}/>
