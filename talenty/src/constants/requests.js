@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getJwt} from "../components/dashboard/helper";
+import { getJwt } from "../components/dashboard/helper";
 // const baseUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:7800/";
 export const baseUrl = "https://api.talenty.duckdns.org";
 // export const baseUrl = "http://localhost:7800/";
@@ -7,12 +7,12 @@ export const baseUrl = "https://api.talenty.duckdns.org";
 export const instance = axios.create({
     baseURL: baseUrl,
 });
-instance.interceptors.request.use(function (config) {
-    let temp = {...config};
+instance.interceptors.request.use(function(config) {
+    let temp = {...config };
     if (getJwt()) {
         temp = {
             ...temp,
-            headers: {Authorization: `Bearer ${getJwt()}`},
+            headers: { Authorization: `Bearer ${getJwt()}` },
         };
     }
     return temp;
@@ -47,5 +47,6 @@ export const JOB_SEEKER_APPLY_ANNOUNCEMENT = "/job_announcements/apply";
 export const GET_SELECT_LIST = "/company/get_dropdown_list";
 export const GET_USER_INFO = "/job_seeker/profile_details";
 export const POST_UPDATE_HEADLINE = "/job_seeker/update_headline";
-// body:{ownerId,jobAnnouncementId, submittedCvTemplateId}
+export const POST_PROFILR_STATUS = "/job_seeker/update_profile_status"
+    // body:{ownerId,jobAnnouncementId, submittedCvTemplateId}
 export const JOB_SEEKER_APPLY_IN_PROGRESS = '/job_announcements/apply_in_progress'

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthUserInfo } from "../../../store/auth/selector";
 import { useNavigate } from "react-router-dom";
@@ -16,29 +16,48 @@ import { ReactComponent as SearchLoopSVG } from "../../../assets/icons/searchLoo
 import Select from "../../../shared/components/Select";
 import { useGetAnnouncementFilterList } from "../hook";
 import JobSeekerSubsection from "../createCvJobSeeker/JobSeekerSubsection";
-import { useUsersInfo } from "./hooks";
-import { CheckIconSVG } from "../../../assets/icons/createTemplate";
+import { STATUS_PRIVATE, STATUS_PUBLIC, useUsersInfo } from "./hooks";
 import { Chek } from "../../../assets/icons/hrProfile";
 import { ENTER_KEY } from "../../../constants/keyCodes";
+import { instance, POST_PROFILR_STATUS, POST_UPDATE_HEADLINE } from "../../../constants/requests";
+import { setIsLoading, setLoading } from "../../../store/auth/authSlice";
+import { TemplateNamePenSVG } from "../../../assets/icons/createTemplate";
+import { height } from "@mui/system";
 
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const filtersList = useGetAnnouncementFilterList()
     const { email, firstName, lastName } = useSelector(selectAuthUserInfo);
-    const userInfo = useSelector((state) => state.auth.userInfo);
+    // const userInfo = useSelector((state) => state.auth.userInfo);
     const [location, setLocation] = useState('')
-    const [headline, setHeadline] = useState("")
     const [searchTitleValue, setSearchTitleValue] = useState('')
     const [jobType, setJobType] = useState('')
     const [searchButtonClick, setSearchButtonClick] = useState(false)
+
+    
     useEffect(() => {
         dispatch(setAllTemplateData(null));
         dispatch(setExactPage(1));
     }, [dispatch]);
     const info = useUsersInfo()
-    console.log(headline);
-
+    const [headlineValue, setHeadlineValue]=info.headline
+    const userInfo = info.userInfo
+    const [profileStatus, setSrofileStatus] = info.profileStatus
+    const [isEditText, setIsEditText] = info.isEditText
+    
+    const updateHeadline = useCallback(() => {
+        dispatch(setIsLoading(true))
+        setIsEditText(false)
+        instance.post(POST_UPDATE_HEADLINE,{
+            headline:headlineValue
+        }).then(response=>{
+            dispatch(setIsLoading(false))
+        }).catch(err=>{
+            console.log(err);
+            dispatch(setLoading(false))
+        })
+    }, [dispatch, headlineValue])
     return (
         <JobSeekerContainer>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
@@ -48,7 +67,22 @@ export default function Home() {
                             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                                 <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
                                     <Box sx={SWITCH_TITLE}>Private</Box>
-                                    <Switch sx={SWITCH} />
+                                    <Switch 
+                                    sx={SWITCH} 
+                                    checked={profileStatus === STATUS_PUBLIC}
+                                    onChange={()=>{
+                                        setSrofileStatus(profileStatus === STATUS_PUBLIC ? STATUS_PRIVATE : STATUS_PUBLIC)
+                                        dispatch(setLoading(true))
+                                        instance.post(POST_PROFILR_STATUS,{
+                                            profile_status : profileStatus === STATUS_PRIVATE ? STATUS_PUBLIC :STATUS_PRIVATE
+                                        }).then(response=>{
+                                            dispatch(setLoading(false))
+                                        }).catch(err=>{
+                                            console.log(err)})
+                                            dispatch(setLoading(false))
+                                        }}
+
+                                     />
                                     <Box sx={SWITCH_TITLE}>Public</Box>
                                 </Box>
                             </Box>
@@ -77,33 +111,65 @@ export default function Home() {
                                     sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
                                 >
                                     <Box sx={{ ...USER_NAME }}>
-                                        {info.fullName}
+                                        {userInfo.fullName}
                                     </Box>
                                     <Box sx={{ ...USER_EMAIL }}>
-                                        {info.email}
+                                        {userInfo.email}
                                         <Box className="title">{info.email}</Box>
                                     </Box>
                                 </Box>
                             </Box>
                             <Box sx={{ mt: "50px" }}>
-                                <JobSeekerSubsection
+                                {headlineValue === '' || isEditText ?(<JobSeekerSubsection
                                     label="Headline"
                                     Component={<TextField
-                                        value={headline}
+                                        value={headlineValue}
                                         onChange={(e) => {
-                                            setHeadline(e.target.value)
+                                            setHeadlineValue(e.target.value)
                                         }}
                                         onKeyDown={(e) => {
                                             if (e.key === ENTER_KEY) {
-                                                console.log(e);
+                                                updateHeadline()
                                             }
                                         }}
                                         placeholder="Add headline"
                                         InputProps={{
-                                            endAdornment: <Box sx={{ cursor: "pointer" }}><Chek /></Box>
+                                            endAdornment: <Box sx={{ cursor: "pointer" }}
+                                            onClick={updateHeadline}
+                                            ><Chek /></Box>
                                         }}
                                     />}
-                                />
+                                />): <Box sx={{
+                                    display:"flex",
+                                    justifyContent:"space-between",
+                                    alignItems:"center",
+                                }}>
+                                    <Box  sx={{
+                                        display:"flex",
+                                        fontFamily:"Poppins",
+                                        fontSize:"18px",
+                                        lineHeight:"27px",
+                                        "& span":{
+                                            ml:"6px"
+                                        }
+                                        }}>
+                                        <p>Headline:</p>
+                                        <span>{headlineValue}</span>
+                                    </Box>
+                                    <Box sx={{
+                                        width:"17px",
+                                        height:"17px",
+                                        display:"flex",
+                                        alignItems:"center",
+                                        cursor:"pointer"
+                                    }}
+                                    onClick={() => setIsEditText(true)}
+                                    >
+                                        <TemplateNamePenSVG/>
+                                    </Box>
+                                    </Box>
+                                    }
+                                
                             </Box>
                             <Box sx={{ mt: "40px" }}>
                                 <JobSeekerSubsection
