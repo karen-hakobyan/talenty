@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 import {
     createCvHR,
     deleteHrCv,
@@ -16,7 +16,7 @@ import changeTemplateData, {
     deleteAddSectionContainer,
     deletePublications
 } from "../../components/job-seeker/createCvJobSeeker/actions";
-import { jobAnnouncementAjab } from "../../ajab";
+import {jobAnnouncementAjab} from "../../ajab";
 
 const initialState = {
     exactPage: 1,
@@ -38,8 +38,8 @@ export const globalDataSlice = createSlice({
     name: "globalData",
     initialState,
     reducers: {
-        setGlobalDataViaKey: (state, { payload }) => {
-            const { key, value } = payload;
+        setGlobalDataViaKey: (state, {payload}) => {
+            const {key, value} = payload;
             state[key] = value;
         },
         setNextPage: (state) => {
@@ -48,16 +48,16 @@ export const globalDataSlice = createSlice({
         setPrevPage: (state) => {
             state.exactPage = state.exactPage - 1
         },
-        setExactPage: (state, { payload }) => {
+        setExactPage: (state, {payload}) => {
             state.exactPage = payload
         },
-        setTemplateData: (state, { payload: { id, value } }) => {
+        setTemplateData: (state, {payload: {id, value}}) => {
             state.templateData = changeTemplateData(state.templateData, id, value)
         },
-        addSectionContainerAction: (state, { payload: id }) => {
+        addSectionContainerAction: (state, {payload: id}) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
-        addPublicationsSection: (state, { payload: { id } }) => {
+        addPublicationsSection: (state, {payload: {id}}) => {
             state.templateData = addSectionContainer(state.templateData, id)
         },
         setGlobalInitialData: (state) => {
@@ -70,30 +70,30 @@ export const globalDataSlice = createSlice({
         removeNewJwt: (state) => {
             state.newJwt = null
         },
-        setLinksController: (state, { payload }) => {
+        setLinksController: (state, {payload}) => {
             state.linksController = payload
         },
-        setEvaluateWidths: (state, { payload }) => {
+        setEvaluateWidths: (state, {payload}) => {
             state.evaluateWidths = payload
         },
-        setSectionContainerController: (state, { payload }) => {
+        setSectionContainerController: (state, {payload}) => {
             state.sectionContainerController = payload
         },
-        setDeleteAddSection: (state, { payload }) => {
+        setDeleteAddSection: (state, {payload}) => {
             state.templateData = deleteAddSectionContainer(payload)
         },
-        setAllTemplateData: (state, { payload }) => {
+        setAllTemplateData: (state, {payload}) => {
             state.templateData = payload
         },
-        setIsPublished: (state, { payload }) => {
+        setIsPublished: (state, {payload}) => {
             state.isPublished = payload
         },
-        deletePublicationAction: (state, { payload }) => {
-            state.templateData = deletePublications({ templateData: state.templateData, id: payload })
+        deletePublicationAction: (state, {payload}) => {
+            state.templateData = deletePublications({templateData: state.templateData, id: payload})
         },
     },
     extraReducers: {
-        [getTemplateActions.fulfilled]: (state, { payload }) => {
+        [getTemplateActions.fulfilled]: (state, {payload}) => {
             state.templateData = payload
             state.templateInitialData = payload
             state.isLoading = false
@@ -104,7 +104,7 @@ export const globalDataSlice = createSlice({
         [getTemplateActions.rejected]: (state) => {
             state.isLoading = false
         },
-        [getJobAnnouncement.fulfilled]: (state, { payload }) => {
+        [getJobAnnouncement.fulfilled]: (state, {payload}) => {
             state.templateData = payload
             state.isLoading = false
         },
@@ -115,7 +115,7 @@ export const globalDataSlice = createSlice({
             state.templateData = jobAnnouncementAjab
             state.isLoading = false
         },
-        [getEditedUserCv.fulfilled]: (state, { payload }) => {
+        [getEditedUserCv.fulfilled]: (state, {payload}) => {
             state.templateData = payload
             state.isLoading = false
         },
@@ -126,7 +126,7 @@ export const globalDataSlice = createSlice({
             state.isLoading = false
         },
 
-        [createCvHR.fulfilled]: (state, { payload }) => {
+        [createCvHR.fulfilled]: (state, {payload}) => {
             state.templateData = null;
             state.templateList = payload
             state.isLoading = false
@@ -137,7 +137,7 @@ export const globalDataSlice = createSlice({
         [createCvHR.rejected]: (state) => {
             state.isLoading = false
         },
-        [getTemplateLists.fulfilled]: (state, { payload }) => {
+        [getTemplateLists.fulfilled]: (state, {payload}) => {
             state.isLoading = false
             state.templateList = payload
         },
@@ -148,7 +148,7 @@ export const globalDataSlice = createSlice({
             state.isLoading = false
             state.templateList = []
         },
-        [getTemplateById.fulfilled]: (state, { payload }) => {
+        [getTemplateById.fulfilled]: (state, {payload}) => {
             state.isLoading = false
             state.templateData = payload
             state.templateInitialData = payload
@@ -159,18 +159,18 @@ export const globalDataSlice = createSlice({
         [getTemplateById.rejected]: state => {
             state.isLoading = false
         },
-        [publishJobAnnouncement.fulfilled]: (state, { payload }) => {
+        [publishJobAnnouncement.fulfilled]: (state, {payload}) => {
             state.isLoading = false
-            state.isPublished = { open: true, status: 'ok' }
+            state.isPublished = {open: true, status: 'ok'}
         },
         [publishJobAnnouncement.pending]: state => {
             state.isLoading = true
         },
-        [publishJobAnnouncement.rejected]: (state, { payload }) => {
+        [publishJobAnnouncement.rejected]: (state, {payload}) => {
             state.isLoading = false
-            state.isPublished = { open: true, status: 'rejected' }
+            state.isPublished = {open: true, status: 'rejected'}
         },
-        [saveJobSeekerCV.fulfilled]: (state, { payload }) => {
+        [saveJobSeekerCV.fulfilled]: (state, {payload}) => {
             state.isLoading = false
             state.newJwt = payload
             state.exactPage = 1
@@ -181,18 +181,15 @@ export const globalDataSlice = createSlice({
             }
         },
         [saveJobSeekerCV.pending]: state => {
-            state.isLoading = true
+            // state.isLoading = true
         },
         [saveJobSeekerCV.rejected]: (state) => {
             state.isLoading = false
         },
-        [editJobSeekerCv.rejected]: (state, { payload }) => {
+        [editJobSeekerCv.rejected]: (state, {payload}) => {
             state.isLoading = false
             state.exactPage = 1;
             state.templateData = null
-        },
-        [editJobSeekerCv.pending]: state => {
-            state.isLoading = true
         },
         [editJobSeekerCv.fulfilled]: (state) => {
             state.isLoading = false
@@ -201,12 +198,12 @@ export const globalDataSlice = createSlice({
         },
         [deleteHrCv.rejected]: (state) => {
             state.isLoading = false
-                // state.templateList = payload
+            // state.templateList = payload
         },
         [deleteHrCv.pending]: state => {
             state.isLoading = true
         },
-        [deleteHrCv.fulfilled]: (state, { payload }) => {
+        [deleteHrCv.fulfilled]: (state, {payload}) => {
             console.log(payload)
             state.templateList = payload
             state.isLoading = false

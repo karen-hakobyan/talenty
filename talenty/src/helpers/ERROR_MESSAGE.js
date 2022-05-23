@@ -1,4 +1,4 @@
-export const errorMessage = {
+export const ERROR_MESSAGE = {
     EMAIL_ALREADY_REGISTERED: "Email alredy registred",
     INVALID_USER_NAME: "Incorrect user name",
     ACCOUNT_IS_NOT_VERIFIED: "Account is not verified",
@@ -15,7 +15,7 @@ export const errorMessage = {
     INVALID_SALARY: "Inavlid salary",
     INVALID_SECTION: "Inavlid Section",
     INVALID_URL: "Incorrect URL",
-    JOB_SEEKER_ALREADY_REGISTERED: "This user registred",
+    JOB_SEEKER_ALREADY_REGISTERED: "This user registered",
     NO_SUCH_TEMPLATE: "No such template",
     PASSWORDS_DO_NOT_MATCH: "Password do not match",
     TOKEN_NOT_FOUND: "",
@@ -30,4 +30,5 @@ export const errorMessage = {
     DUPLICATE_SECTION_NAME: "Տhis section already exists",
     INVALID_FIELD: "Invalid field",
     ERR_NETWORK_CHANGED: "bla bal",
+    JOB_SEEKER_SHOULD_HAVE_CV: 'JOB_SEEKER_SHOULD_HAVE_CV',
 }

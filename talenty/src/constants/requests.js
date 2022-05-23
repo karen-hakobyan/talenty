@@ -48,3 +48,5 @@ export const GET_SELECT_LIST = "/company/get_dropdown_list";
 export const GET_USER_INFO = "/job_seeker/profile_details";
 export const POST_UPDATE_HEADLINE = "/job_seeker/update_headline";
 export const POST_PROFILR_STATUS = "/job_seeker/update_profile_status"
+    // body:{ownerId,jobAnnouncementId, submittedCvTemplateId}
+export const JOB_SEEKER_APPLY_IN_PROGRESS = '/job_announcements/apply_in_progress'

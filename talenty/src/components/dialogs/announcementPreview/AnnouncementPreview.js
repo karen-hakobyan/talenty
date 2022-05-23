@@ -11,6 +11,8 @@ import {isRequiredFieldsFilled} from "../../../helpers/dialog";
 import {getJobAnnouncement, publishJobAnnouncement} from "../../../store/globalData/getTemplateActions";
 import {setIsPublished} from "../../../store/globalData/slice";
 import {cleanTemplateNewIds} from "../../../helpers/actions";
+import {DetailAnnouncementContext} from "../../job-seeker/search/DetailAnnouncement";
+import {useDestructureContext} from "../../../hooks/mainHooks";
 
 const activeButtonStyle = {
     ...TEMPLATE_ITEM_BUTTON,
@@ -25,8 +27,9 @@ const activeButtonStyle = {
     background: "#8C0DF0",
 }
 
-export default function AnnouncementPreview({viewData}) {
+export default function AnnouncementPreview() {
     const isPublished = useSelector(state => state.globalData.isPublished)
+    const {viewData} = useDestructureContext(DetailAnnouncementContext)
     const data = useSelector(selectTemplateData)
     const dispatch = useDispatch()
     const closePublishDialog = useCallback(() => {
@@ -43,7 +46,7 @@ export default function AnnouncementPreview({viewData}) {
         }
     }, [data, dispatch, viewData])
 
-    if (!data && !viewData) {
+    if (!data && (!viewData || !viewData.fields)) {
         return null
     }
     return <Box sx={{
@@ -58,7 +61,9 @@ export default function AnnouncementPreview({viewData}) {
                 (data ? data : viewData)?.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
                     switch (field.name) {
                         case 'General Information': {
-                            return <GeneralInfoAnnouncement data={field} key={field.id} isApplying={!!viewData}/>
+                            return <GeneralInfoAnnouncement
+                                data={field} key={field.id}
+                            />
                         }
                         case 'Vacancy details': {
                             return <VacancyDetails data={field} key={field.id}/>
