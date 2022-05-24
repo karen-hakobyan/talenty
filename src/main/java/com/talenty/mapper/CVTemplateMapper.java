@@ -21,5 +21,6 @@ public interface CVTemplateMapper {
     SubmittedCVTemplate documentToDto(SubmittedCVTemplateDocument document);
 
     SubmittedCVTemplateDocument cvTemplateDocumentToSubmittedDocument(CVTemplateDocument document);
+    CVTemplateDocument submittedDocumentToCvTemplateDocument(SubmittedCVTemplateDocument document);
 
 }

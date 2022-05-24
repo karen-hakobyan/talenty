@@ -11,6 +11,7 @@ import com.talenty.logical_executors.*;
 import com.talenty.executor.Executor;
 import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.repository.SubmittedCvTemplateRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,7 +25,7 @@ public class SubmittedCvTemplateService {
 
     public SubmittedCvTemplateService(final SubmittedCvTemplateRepository submittedCvTemplateRepository,
                                       final CVTemplateService cvTemplateService,
-                                      final JobSeekerService jobSeekerService) {
+                                      @Lazy final JobSeekerService jobSeekerService) {
         this.submittedCvTemplateRepository = submittedCvTemplateRepository;
         this.cvTemplateService = cvTemplateService;
         this.jobSeekerService = jobSeekerService;

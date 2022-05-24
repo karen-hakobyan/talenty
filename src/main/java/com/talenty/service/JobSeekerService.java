@@ -1,15 +1,18 @@
 package com.talenty.service;
 
+import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.dto.ProfileDetails;
 import com.talenty.domain.dto.user.AuthenticatedUser;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterRequestDetails;
 import com.talenty.domain.dto.user.jobseeker.JobSeekerRegisterResponseDetails;
-import com.talenty.domain.mongo.JobSeekerDocument;
-import com.talenty.domain.mongo.UserDocument;
+import com.talenty.domain.mongo.*;
 import com.talenty.email.EmailSender;
 import com.talenty.enums.ProfileStatus;
 import com.talenty.exceptions.EmailAlreadyRegisteredException;
 import com.talenty.exceptions.UserNotFoundException;
+import com.talenty.executor.Executor;
+import com.talenty.executor.RemoveFieldFromTemplateByNameExecutor;
+import com.talenty.mapper.CVTemplateMapper;
 import com.talenty.mapper.JobSeekerMapper;
 import com.talenty.repository.JobSeekerRepository;
 import com.talenty.repository.UserRepository;
@@ -17,6 +20,9 @@ import com.talenty.validation.ValidationChecker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,17 +33,23 @@ public class JobSeekerService {
     private final TokenService tokenService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SubmittedCvTemplateService submittedCvTemplateService;
+    private final CVTemplateService cvTemplateService;
 
     public JobSeekerService(final JobSeekerRepository jobSeekerRepository,
                             final EmailSender emailSender,
                             final TokenService tokenService,
                             final UserRepository userRepository,
-                            final PasswordEncoder passwordEncoder) {
+                            final PasswordEncoder passwordEncoder,
+                            final SubmittedCvTemplateService submittedCvTemplateService,
+                            final CVTemplateService cvTemplateService) {
         this.jobSeekerRepository = jobSeekerRepository;
         this.emailSender = emailSender;
         this.tokenService = tokenService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.submittedCvTemplateService = submittedCvTemplateService;
+        this.cvTemplateService = cvTemplateService;
     }
 
     public JobSeekerRegisterResponseDetails register(final JobSeekerRegisterRequestDetails request) {
@@ -123,6 +135,105 @@ public class JobSeekerService {
         }
         final JobSeekerDocument save = jobSeekerRepository.save(currentJobSeeker);
         return save.getProfileStatus();
+    }
+
+    public CVTemplate getProfileData() {
+        final JobSeekerDocument currentJobSeeker = getCurrentJobSeeker();
+        final String cvTemplateId = currentJobSeeker.getCvTemplateId();
+
+        final CVTemplateDocument result;
+
+        if (cvTemplateId != null) {
+            final SubmittedCVTemplateDocument submittedCv = submittedCvTemplateService.getCvTemplateById(cvTemplateId, true);
+            result = CVTemplateMapper.instance.submittedDocumentToCvTemplateDocument(submittedCv);
+        } else result = cvTemplateService.findSystemCvTemplate();
+
+        Executor.getInstance()
+                .setIterableFields(result.getFields())
+                .executeLogic(
+                        new RemoveFieldFromTemplateByNameExecutor("First name", "Last name")
+                );
+        addHeaderSection(result, currentJobSeeker);
+
+        return CVTemplateMapper.instance.documentToDto(result);
+    }
+
+    private void addHeaderSection(final CVTemplateDocument templateDocument, final JobSeekerDocument currentJobSeeker) {
+        final FieldDocument newSection = new FieldDocument();
+        newSection.setMetadata(Map.of(
+                "type", "section",
+                "deletable", false,
+                "display", "fold"
+        ));
+        newSection.setName("Profile header section");
+        newSection.setFields(new ArrayList<>());
+        final List<FieldDocument> fields = newSection.getFields();
+
+        final FieldDocument profileStatusField = new FieldDocument();
+        profileStatusField.setName("Profile status");
+        profileStatusField.setMetadata(
+                Map.of(
+                        "type", "check_box",
+                        "placeholder", List.of(ProfileStatus.PUBLIC, ProfileStatus.PRIVATE),
+                        "required", Boolean.FALSE,
+                        "submitted_value", currentJobSeeker.getProfileStatus()
+                )
+        );
+
+        final FieldDocument headlineField = new FieldDocument();
+        headlineField.setName("Headline");
+        headlineField.setMetadata(
+                Map.of(
+                        "type", "text",
+                        "maxLength", 50,
+                        "placeholder", "Add headline",
+                        "required", Boolean.FALSE,
+                        "submitted_value", currentJobSeeker.getHeadline()
+                )
+        );
+
+        final FieldDocument imageField = new FieldDocument();
+        imageField.setName("Profile image");
+        imageField.setMetadata(
+                Map.of(
+                        "type", "profile_image",
+                        "placeholder", "Change image",
+                        "required", Boolean.FALSE,
+                        "submitted_value", "default"
+                )
+        );
+
+        final FieldDocument firstNameField = new FieldDocument();
+        firstNameField.setName("First name");
+        firstNameField.setMetadata(
+                Map.of(
+                        "type", "special_name",
+                        "placeholder", "First name",
+                        "maxLength", 20,
+                        "required", Boolean.FALSE,
+                        "submitted_value", currentJobSeeker.getFirstName()
+                )
+        );
+
+        final FieldDocument lastNameField = new FieldDocument();
+        lastNameField.setName("Last name");
+        lastNameField.setMetadata(
+                Map.of(
+                        "type", "special_name",
+                        "placeholder", "Last name",
+                        "maxLength", 20,
+                        "required", Boolean.FALSE,
+                        "submitted_value", currentJobSeeker.getLastName()
+                )
+        );
+
+        fields.add(profileStatusField);
+        fields.add(headlineField);
+        fields.add(imageField);
+        fields.add(firstNameField);
+        fields.add(lastNameField);
+
+        templateDocument.getFields().add(0, newSection);
     }
 
 }
