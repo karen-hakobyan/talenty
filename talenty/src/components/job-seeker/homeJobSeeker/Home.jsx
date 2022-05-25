@@ -22,13 +22,11 @@ import { ENTER_KEY } from "../../../constants/keyCodes";
 import { instance, POST_PROFILR_STATUS, POST_UPDATE_HEADLINE } from "../../../constants/requests";
 import { setIsLoading, setLoading } from "../../../store/auth/authSlice";
 import { TemplateNamePenSVG } from "../../../assets/icons/createTemplate";
-import { height } from "@mui/system";
 
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const filtersList = useGetAnnouncementFilterList()
-    const { email, firstName, lastName } = useSelector(selectAuthUserInfo);
     // const userInfo = useSelector((state) => state.auth.userInfo);
     const [location, setLocation] = useState('')
     const [searchTitleValue, setSearchTitleValue] = useState('')

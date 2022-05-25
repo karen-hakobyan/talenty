@@ -3,7 +3,7 @@ import { Box, TextField } from "@mui/material"
 import { Chek, Delete } from "../../assets/icons/hrProfile"
 import { MAIN_PURPLE } from "../../style/colors"
 
-export const SocialLinks = React.forwardRef(({ placeholder }, ref) => {
+export const SocialLinks = React.forwardRef(({ placeholder, onClose }, ref) => {
     const [value, setValue] = useState("")
     return <Box sx={{
         position: "absolute",
@@ -14,7 +14,7 @@ export const SocialLinks = React.forwardRef(({ placeholder }, ref) => {
             placeholder={placeholder}
             value={value}
             onChange={(e) => {
-                setValue(e.target.valu)
+                setValue(e.target.value)
             }}
             InputProps={{
                 sx: {
@@ -28,15 +28,19 @@ export const SocialLinks = React.forwardRef(({ placeholder }, ref) => {
                     display: 'flex',
                 }}>
                     <Box sx={{
-                        mr: "23.75px"
-                    }}><Chek /></Box>
+                        mr: "23.75px",
+                        cursor: "pointer"
+                    }}
+                    // onClick={onClose}
+                    onClick={() => onClose()}
+                    ><Chek /></Box>
                     <Box sx={{
                         cursor: "pointer"
                     }}
                         onClick={() => {
                             setValue("")
                         }}
-                    ><Delete /></Box>
+                    ><Delete  /></Box>
                 </Box>
             }}
             sx={{

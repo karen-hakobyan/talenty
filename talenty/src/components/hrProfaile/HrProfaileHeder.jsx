@@ -1,6 +1,6 @@
+import React,{ useState }  from "react"
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
-import { useState } from "react";
 import { UploadPhoto } from "../../assets/icons/hrProfile";
 import { MAIN_PURPLE } from "../../style/colors";
 import { socialMediaData } from "./helper";
@@ -19,6 +19,14 @@ const CostumInput = styled("input")((theme) => ({
 export default function HrProfaileHeder() {
     const [value, setValue] = useState("System Company",)
     const [mediaData, setMediaData] = useState(socialMediaData)
+    const onClose=()=>{
+        setMediaData(mediaData.map(el=>{
+            return {
+                ...el,
+                open:false
+            }
+        }))
+    }
     return <Box>
 
 
@@ -129,8 +137,9 @@ export default function HrProfaileHeder() {
                     position: "relative",
                     display: "flex",
                 }}>
-                    {mediaData.map(({ id, open, Icon, placeholder },) => (
-                        <Box key={id} sx={{
+                    {mediaData.map(({ id, open, Icon, placeholder }) => (
+                        <React.Fragment key={id}>
+                        <Box sx={{
                             mr: "34px",
                             // mb: open && "-20px",
                             width: "29ox",
@@ -158,8 +167,9 @@ export default function HrProfaileHeder() {
                             }}
                         >
                             <Icon />
-                            {open && <SocialLinks placeholder={placeholder} />}
                         </Box>
+                        {open && <SocialLinks placeholder={placeholder} onClose={onClose} />}
+                        </React.Fragment>
                     ))}
                 </Box>
             </Box>

@@ -53,7 +53,8 @@ export default function BasicDatePicker({
                         helperText={name === "End" && err.massage === "Enter when you started" ? "" : err?.massage}
                         inputProps={{
                             ...params.inputProps,
-                            placeholder, sx: {
+                            placeholder,
+                             sx: {
                                 fontFamily: "'Poppins', sans-serif",
                                 fontSize: "16px",
                                 lineHeight: "24px",
