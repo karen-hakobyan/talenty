@@ -76,6 +76,7 @@ public class ValidationChecker {
                 break;
             }
 
+            case "profile_image":
             case "add_photo": {
                 System.out.println("add_photo");
                 break;

@@ -37,7 +37,6 @@ public class JobAnnouncementService {
     private final CompanyRepository companyRepository;
     private final TypeValuesService typeValuesService;
     private final CVTemplateService cvTemplateService;
-
     private final SubmittedCvTemplateRepository submittedCvTemplateRepository;
 
     public JobAnnouncementService(final JobAnnouncementRepository jobAnnouncementRepository,
@@ -210,8 +209,10 @@ public class JobAnnouncementService {
         }
         final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
         final JobAnnouncementBasicInfo dto = new JobAnnouncementBasicInfo();
+        final Object applicantsCount = jobAnnouncementDocument.getMetadata().get("count");
         dto.setId(jobAnnouncementDocument.getId());
         dto.setName(jobAnnouncementDocument.getName());
+        dto.setApplicantsCount(Double.parseDouble(applicantsCount.toString()));
         Executor.getInstance()
                 .setIterableFields(jobAnnouncement.getFields().get(0).getFields())
                 .setMatchableFields(jobAnnouncementDocument.getFields().get(0).getFields())
@@ -479,9 +480,23 @@ public class JobAnnouncementService {
                 );
 
 
-        for (int i = 0; i < cachedSectionContainersOfAttachedCv.size(); i++) {
-            final FieldDocument tempAttachedSection = cachedSectionContainersOfAttachedCv.get(i);
-            final FieldDocument tempSubmittedSection = cachedSectionContainersOfJobSeekerCv.get(i);
+        addAndMergeSectionContainers(cachedSectionContainersOfJobSeekerCv, cachedSectionContainersOfAttachedCv);
+
+        attachedCvAsSubmitted.setId(null);
+        attachedCvAsSubmitted.setName(null);
+        attachedCvAsSubmitted.setOwnerId(jobSeekerId);
+        attachedCvAsSubmitted.setParentId(attachedCvTemplateId);
+        attachedCvAsSubmitted.setMetadata(Map.of("status", "MATCHING"));
+
+        return submittedCvTemplateRepository.save(attachedCvAsSubmitted);
+    }
+
+
+    public void addAndMergeSectionContainers(final List<FieldDocument> from,
+                                             final List<FieldDocument> to) {
+        for (int i = 0; i < to.size(); i++) {
+            final FieldDocument tempSubmittedSection = from.get(i);
+            final FieldDocument tempAttachedSection = to.get(i);
 
             for (int j = 0; j < tempSubmittedSection.getFields().size() - 1; j++) {
                 tempAttachedSection.getFields().add(tempAttachedSection.getFields().get(0));
@@ -496,14 +511,6 @@ public class JobAnnouncementService {
                     );
 
         }
-
-        attachedCvAsSubmitted.setId(null);
-        attachedCvAsSubmitted.setName(null);
-        attachedCvAsSubmitted.setOwnerId(jobSeekerId);
-        attachedCvAsSubmitted.setParentId(attachedCvTemplateId);
-        attachedCvAsSubmitted.setMetadata(Map.of("status", "MATCHING"));
-
-        return submittedCvTemplateRepository.save(attachedCvAsSubmitted);
     }
 
     private JobAnnouncementDocument findSystemJobAnnouncement() {

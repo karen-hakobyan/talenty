@@ -1,6 +1,7 @@
 package com.talenty.controller;
 
 
+import com.talenty.domain.dto.CVTemplate;
 import com.talenty.domain.dto.HeadlineWrapper;
 import com.talenty.domain.dto.ProfileDetails;
 import com.talenty.domain.dto.ProfileStatusWrapper;
@@ -23,6 +24,12 @@ public class JobSeekerController {
     public ResponseEntity<?> getProfileDetails() {
         final ProfileDetails profileDetails = jobSeekerService.getProfileDetails();
         return ResponseEntity.ok(profileDetails);
+    }
+
+    @GetMapping("/profile_template")
+    public ResponseEntity<?> getProfileTemplate() {
+        final CVTemplate template = jobSeekerService.getProfileData();
+        return ResponseEntity.ok(template);
     }
 
     @PostMapping("/update_headline")

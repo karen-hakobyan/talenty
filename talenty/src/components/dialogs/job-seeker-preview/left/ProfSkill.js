@@ -22,7 +22,7 @@ export default function ProfSkills({data}) {
                                 sx={{
                                     width: '10px',
                                     height: '10px',
-                                    background: level && values.findIndex((temp) => temp === level) - 1 >= index ? '#4C494F' : '#d9d9d9'
+                                    background: level && values?.findIndex((temp) => temp === level) - 1 >= index ? '#4C494F' : '#d9d9d9'
                                 }}
                                 key={num}
                             />
