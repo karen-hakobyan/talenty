@@ -8,15 +8,16 @@ import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import {removeNewJwt, setExactPage, setNextPage, setPrevPage,} from "../../../store/globalData/slice";
 import {
     getEditedUserCv,
-    getTemplateActions,
+    getTemplateActions, getTemplateById,
 } from "../../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 import AddButton from "./AddButton";
 import {setJwt} from "../../../store/auth/authSlice";
 import {setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
+import {filterUserCv} from "./actions";
 
-export default function CreateCvJobSeeker() {
+export default function CreateCvJobSeeker({isApplyingId}) {
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
     const tempTemplateData = useSelector((state) => state.globalData.templateData)
@@ -24,7 +25,7 @@ export default function CreateCvJobSeeker() {
         if (!tempTemplateData) {
             return null
         }
-        return {...tempTemplateData, fields: tempTemplateData.fields.filter(el => el)}
+        return {...tempTemplateData, fields: tempTemplateData.fields.filter(el => el).filter(filterUserCv)}
     }, [tempTemplateData])
     const newJwt = useSelector(state => state.globalData.newJwt)
     const userInfo = useSelector(state => state.auth.userInfo)
@@ -41,12 +42,19 @@ export default function CreateCvJobSeeker() {
             dispatch(removeNewJwt())
         }
     }, [newJwt, dispatch])
-
+    useEffect(() => {
+        if (isApplyingId) {
+            dispatch(getTemplateById(isApplyingId))
+        }
+    }, [isApplyingId])
     // update local storage whenever data changed and also redux
     useEffect(() => {
-        if (templateData === null) {
-            dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
+        if (!isApplyingId) {
+            if (templateData === null) {
+                dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
+            }
         }
+
     }, [dispatch, templateData, userInfo])
 
     if (!templateData) {
