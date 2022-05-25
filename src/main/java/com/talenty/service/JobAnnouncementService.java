@@ -209,8 +209,10 @@ public class JobAnnouncementService {
         }
         final JobAnnouncementDocument jobAnnouncement = jobAnnouncementOptional.get();
         final JobAnnouncementBasicInfo dto = new JobAnnouncementBasicInfo();
+        final Object applicantsCount = jobAnnouncementDocument.getMetadata().get("count");
         dto.setId(jobAnnouncementDocument.getId());
         dto.setName(jobAnnouncementDocument.getName());
+        dto.setApplicantsCount(Double.parseDouble(applicantsCount.toString()));
         Executor.getInstance()
                 .setIterableFields(jobAnnouncement.getFields().get(0).getFields())
                 .setMatchableFields(jobAnnouncementDocument.getFields().get(0).getFields())
