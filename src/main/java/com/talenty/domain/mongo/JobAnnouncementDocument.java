@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +20,7 @@ public class JobAnnouncementDocument extends BaseTemplateDocument {
     private String parentId;
     private JobAnnouncementStatus status;
     private String companyId;
+    @Field("viewed_user_ids")
+    private List<String> viewedUsersIds = new ArrayList<>();
 
 }

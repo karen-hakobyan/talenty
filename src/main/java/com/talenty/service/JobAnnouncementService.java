@@ -213,6 +213,7 @@ public class JobAnnouncementService {
         dto.setId(jobAnnouncementDocument.getId());
         dto.setName(jobAnnouncementDocument.getName());
         dto.setApplicantsCount(Double.parseDouble(applicantsCount.toString()));
+        dto.setViewedCount(jobAnnouncementDocument.getViewedUsersIds().size());
         Executor.getInstance()
                 .setIterableFields(jobAnnouncement.getFields().get(0).getFields())
                 .setMatchableFields(jobAnnouncementDocument.getFields().get(0).getFields())
@@ -406,11 +407,15 @@ public class JobAnnouncementService {
     }
 
     public JobAnnouncementWithCompanyName getJobAnnouncementWithCompanyName(final String id) {
+        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
+//        jobAnnouncementRepository.addViewIfNeeded(id, currentJobSeeker.getId());
+
         final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(id);
         if (jobAnnouncementOptional.isEmpty()) {
             System.out.printf("No such job announcement with id '%s'\n", id);
             throw new NoSuchAnnouncementException();
         }
+
         final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementOptional.get();
 
         final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
@@ -433,7 +438,6 @@ public class JobAnnouncementService {
             throw new NoSuchCompanyException();
         }
         final CompanyDocument companyDocument = companyDocumentOptional.get();
-
 
         final JobAnnouncementWithCompanyName jobAnnouncementWithCompanyName = new JobAnnouncementWithCompanyName();
         jobAnnouncementWithCompanyName.setId(jobAnnouncement.getId());
