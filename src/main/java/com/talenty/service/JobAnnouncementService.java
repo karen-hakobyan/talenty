@@ -407,8 +407,6 @@ public class JobAnnouncementService {
     }
 
     public JobAnnouncementWithCompanyName getJobAnnouncementWithCompanyName(final String id) {
-        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
-//        jobAnnouncementRepository.addViewIfNeeded(id, currentJobSeeker.getId());
 
         final Optional<JobAnnouncementDocument> jobAnnouncementOptional = jobAnnouncementRepository.findById(id);
         if (jobAnnouncementOptional.isEmpty()) {
@@ -417,6 +415,11 @@ public class JobAnnouncementService {
         }
 
         final JobAnnouncementDocument jobAnnouncementDocument = jobAnnouncementOptional.get();
+
+        final JobSeekerDocument currentJobSeeker = jobSeekerService.getCurrentJobSeeker();
+        final Set<String> viewedUsersIds = jobAnnouncementDocument.getViewedUsersIds();
+        viewedUsersIds.add(currentJobSeeker.getId());
+        jobAnnouncementRepository.save(jobAnnouncementDocument);
 
         final Optional<JobAnnouncementDocument> parentAnnouncement = jobAnnouncementRepository.findById(jobAnnouncementDocument.getParentId());
         if (parentAnnouncement.isEmpty()) {

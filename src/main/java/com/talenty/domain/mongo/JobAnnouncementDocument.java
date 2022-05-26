@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,6 +23,6 @@ public class JobAnnouncementDocument extends BaseTemplateDocument {
     private JobAnnouncementStatus status;
     private String companyId;
     @Field("viewed_user_ids")
-    private List<String> viewedUsersIds = new ArrayList<>();
+    private Set<String> viewedUsersIds = new HashSet<>();
 
 }

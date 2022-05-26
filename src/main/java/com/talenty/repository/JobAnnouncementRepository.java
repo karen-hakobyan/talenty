@@ -119,6 +119,4 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
             PageRequest pageRequest
     );
 
-
-    void addViewIfNeeded(String announcement, String jobSeeker);
 }
