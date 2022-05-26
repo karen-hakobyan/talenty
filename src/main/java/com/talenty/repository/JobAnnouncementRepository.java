@@ -118,4 +118,5 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
             List<String> location,
             PageRequest pageRequest
     );
+
 }
