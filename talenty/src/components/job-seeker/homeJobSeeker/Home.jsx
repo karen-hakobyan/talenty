@@ -28,14 +28,14 @@ export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const filtersList = useGetAnnouncementFilterList()
-    const { email, firstName, lastName } = useSelector(selectAuthUserInfo);
-    // const userInfo = useSelector((state) => state.auth.userInfo);
+    // const { email, firstName, lastName } = useSelector(selectAuthUserInfo);
+    const authUserInfo = useSelector(selectAuthUserInfo);
     const [location, setLocation] = useState('')
     const [searchTitleValue, setSearchTitleValue] = useState('')
     const [jobType, setJobType] = useState('')
     const [searchButtonClick, setSearchButtonClick] = useState(false)
 
-    
+
     useEffect(() => {
         dispatch(setAllTemplateData(null));
         dispatch(setExactPage(1));
@@ -45,7 +45,7 @@ export default function Home() {
     const userInfo = info.userInfo
     const [profileStatus, setSrofileStatus] = info.profileStatus
     const [isEditText, setIsEditText] = info.isEditText
-    
+
     const updateHeadline = useCallback(() => {
         // eslint-disable-next-line
         dispatch(setIsLoading(true))
@@ -141,10 +141,10 @@ export default function Home() {
                                             ><Chek/></Box>
                                         }}
                                     />}
-                                />): <Box sx={{
-                                    display:"flex",
-                                    justifyContent:"space-between",
-                                    alignItems:"center",
+                                />) : <Box sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
                                 }}>
                                     <Box sx={{
                                         display: "flex",
@@ -214,12 +214,11 @@ export default function Home() {
                                         navigate("create-cv");
                                     }}
                                 >
-                                    {userInfo.cvTemplateId ? "Edit CV" : "Create CV"}
+                                    {authUserInfo.cvTemplateId ? "Edit CV" : "Create CV"}
                                 </Button>
                             </Box>
                         </Box>
                     </MainBox>
-
                     <MainBox isRegardingJobs/>
                     <MainBox isRegardingJobs/>
                 </Box>
