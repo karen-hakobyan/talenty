@@ -58,7 +58,8 @@ public class CVTemplateService {
                 .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
                         applicationContext.getBean(AdminValuesMergeExecutor.class),
-                        new MergeFieldsExecutor()
+                        new MergeFieldsExecutor(),
+                        new FieldsAutoCompleteExecutor()
                 );
 
         return cvTemplateById;
