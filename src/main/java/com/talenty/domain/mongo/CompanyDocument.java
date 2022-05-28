@@ -2,6 +2,7 @@ package com.talenty.domain.mongo;
 
 import com.talenty.domain.Branches;
 import com.talenty.domain.Products;
+import com.talenty.domain.SocialLinks;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -23,7 +24,7 @@ public class CompanyDocument {
     private String name;
     private String profilePicture;
     private String logo;
-    private List<String> links = new ArrayList<>();
+    private SocialLinks links;
     private String legalForm;
     private String industry;
     private String founded;

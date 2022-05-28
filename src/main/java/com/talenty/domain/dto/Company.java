@@ -2,6 +2,7 @@ package com.talenty.domain.dto;
 
 import com.talenty.domain.Branches;
 import com.talenty.domain.Products;
+import com.talenty.domain.SocialLinks;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class Company {
     private String name;
     private String profilePicture;
     private String logo;
-    private List<String> links;
+    private SocialLinks links;
     private String legalForm;
     private String industry;
     private String founded;
