@@ -2,6 +2,7 @@ package com.talenty.validation;
 
 import com.talenty.domain.Branches;
 import com.talenty.domain.Products;
+import com.talenty.domain.SocialLinks;
 import com.talenty.domain.dto.Company;
 import com.talenty.domain.dto.TypeValues;
 import com.talenty.domain.dto.user.hr.HrRegisterRequestDetails;
@@ -476,10 +477,11 @@ public class ValidationChecker {
         }
 
         if(company.getLinks() != null){
-            final List<String> links = company.getLinks();
-            for (String link : links) {
-                assertUrlIsValid(link);
-            }
+            final SocialLinks links = company.getLinks();
+            assertUrlIsValid(links.getFacebook());
+            assertUrlIsValid(links.getTwitter());
+            assertUrlIsValid(links.getInstagram());
+            assertUrlIsValid(links.getLinkedin());
         }
 
         if(company.getProducts() != null) {
