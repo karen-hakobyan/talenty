@@ -6,17 +6,15 @@ import Button from "../../../shared/components/Button";
 import SharedTemplateHeader from "../../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import {removeNewJwt, setExactPage, setNextPage, setPrevPage,} from "../../../store/globalData/slice";
-import {
-    getEditedUserCv,
-    getTemplateActions,
-} from "../../../store/globalData/getTemplateActions";
+import {getEditedUserCv, getTemplateActions, getTemplateById,} from "../../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 import AddButton from "./AddButton";
 import {setJwt} from "../../../store/auth/authSlice";
 import {setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
+import {filterUserCv} from "./actions";
 
-export default function CreateCvJobSeeker() {
+export default function CreateCvJobSeeker({isApplyingId}) {
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
     const tempTemplateData = useSelector((state) => state.globalData.templateData)
@@ -24,7 +22,7 @@ export default function CreateCvJobSeeker() {
         if (!tempTemplateData) {
             return null
         }
-        return {...tempTemplateData, fields: tempTemplateData.fields.filter(el => el)}
+        return {...tempTemplateData, fields: tempTemplateData.fields.filter(el => el).filter(filterUserCv)}
     }, [tempTemplateData])
     const newJwt = useSelector(state => state.globalData.newJwt)
     const userInfo = useSelector(state => state.auth.userInfo)
@@ -41,12 +39,19 @@ export default function CreateCvJobSeeker() {
             dispatch(removeNewJwt())
         }
     }, [newJwt, dispatch])
-
+    useEffect(() => {
+        if (isApplyingId) {
+            dispatch(getTemplateById(isApplyingId))
+        }
+    }, [isApplyingId])
     // update local storage whenever data changed and also redux
     useEffect(() => {
-        if (templateData === null) {
-            dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
+        if (!isApplyingId) {
+            if (templateData === null) {
+                dispatch(userInfo.cvTemplateId ? getEditedUserCv(userInfo.cvTemplateId) : getTemplateActions())
+            }
         }
+
     }, [dispatch, templateData, userInfo])
 
     if (!templateData) {
@@ -104,15 +109,25 @@ export default function CreateCvJobSeeker() {
                                 <ArrowRight/>
                             </Button>
                         ) : (
-                            <Button
-                                sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
-                                onClick={() => {
-                                    dispatch(setDialogType('jobSeekerPreview'));
-                                    dispatch(setDialogIsOpen(true));
-                                }}
-                            >
-                                Preview
-                            </Button>
+                            // add case for applying announcement
+                            isApplyingId ? (
+                                <Button
+                                    sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
+                                >
+                                    Send
+                                </Button>
+                            ) : (
+                                <Button
+                                    sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
+                                    onClick={() => {
+                                        dispatch(setDialogType('jobSeekerPreview'));
+                                        dispatch(setDialogIsOpen(true));
+                                    }}
+                                >
+                                    Preview
+                                </Button>
+                            )
+
                         )}
                     </Box>
                 </Box>

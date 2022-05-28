@@ -85,3 +85,11 @@ export const deletePublications = ({templateData, id}) => {
     })
     return result
 }
+
+export function filterUserCv(elem) {
+    if (elem.metadata.page_visibility === "PROFILE") {
+        return false
+    }
+    console.log(elem)
+    return true
+}
