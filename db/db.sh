@@ -27,3 +27,12 @@ while [ $? -ne 0 ]; do
   sleep 1
   docker exec talenty-db mongo localhost/talenty cv_templates_data.js
 done
+
+docker cp navigation_bar_data.js talenty-db:navigation_bar_data.js
+
+docker exec talenty-db mongo localhost/talenty navigation_bar_data.js
+
+while [ $? -ne 0 ]; do
+  sleep 1
+  docker exec talenty-db mongo localhost/talenty navigation_bar_data.js
+done
