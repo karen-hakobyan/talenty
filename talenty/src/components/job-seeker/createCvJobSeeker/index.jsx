@@ -6,10 +6,7 @@ import Button from "../../../shared/components/Button";
 import SharedTemplateHeader from "../../../shared/components/TemplateHeader";
 import {HOME_PRIMARY_BUTTON, TEMPLATE_BUTTON_ADD} from "../../../shared/styles";
 import {removeNewJwt, setExactPage, setNextPage, setPrevPage,} from "../../../store/globalData/slice";
-import {
-    getEditedUserCv,
-    getTemplateActions, getTemplateById,
-} from "../../../store/globalData/getTemplateActions";
+import {getEditedUserCv, getTemplateActions, getTemplateById,} from "../../../store/globalData/getTemplateActions";
 import Pagination from "./Pagination";
 import UserCVBody from "./UserCVBody";
 import AddButton from "./AddButton";
@@ -112,15 +109,25 @@ export default function CreateCvJobSeeker({isApplyingId}) {
                                 <ArrowRight/>
                             </Button>
                         ) : (
-                            <Button
-                                sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
-                                onClick={() => {
-                                    dispatch(setDialogType('jobSeekerPreview'));
-                                    dispatch(setDialogIsOpen(true));
-                                }}
-                            >
-                                Preview
-                            </Button>
+                            // add case for applying announcement
+                            isApplyingId ? (
+                                <Button
+                                    sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
+                                >
+                                    Send
+                                </Button>
+                            ) : (
+                                <Button
+                                    sx={{...TEMPLATE_BUTTON_ADD, color: '#8C0DF0', width: '179px'}}
+                                    onClick={() => {
+                                        dispatch(setDialogType('jobSeekerPreview'));
+                                        dispatch(setDialogIsOpen(true));
+                                    }}
+                                >
+                                    Preview
+                                </Button>
+                            )
+
                         )}
                     </Box>
                 </Box>
