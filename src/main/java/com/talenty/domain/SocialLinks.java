@@ -7,9 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Products {
+public class SocialLinks {
 
-    private String productName;
-    private String productLink;
+    private String facebook;
+    private String twitter;
+    private String linkedin;
+    private String instagram;
 
 }

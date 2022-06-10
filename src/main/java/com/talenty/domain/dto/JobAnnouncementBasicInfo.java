@@ -15,5 +15,6 @@ public class JobAnnouncementBasicInfo {
     private String deadline;
     private String country;
     private Double applicantsCount;
+    private int viewedCount;
 
 }

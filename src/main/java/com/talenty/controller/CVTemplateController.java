@@ -103,4 +103,10 @@ public class CVTemplateController {
         return ResponseEntity.ok(allCvTemplatesIds);
     }
 
+    @PostMapping("/save_attached_cv")
+    public ResponseEntity<?> saveAttachedCvTemplate(@RequestBody final SubmittedCVTemplate submittedCVTemplate) {
+        final SubmittedCVTemplate savedTemplate = submittedCvTemplateService.saveSubmittedCvTemplate(submittedCVTemplate);
+        return ResponseEntity.ok(savedTemplate.getId());
+    }
+
 }

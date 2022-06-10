@@ -28,6 +28,7 @@ const activeButtonStyle = {
 }
 
 export default function AnnouncementPreview() {
+    // after publishing announcement should open dialog of confirmation
     const isPublished = useSelector(state => state.globalData.isPublished)
     const {viewData} = useDestructureContext(DetailAnnouncementContext)
     const data = useSelector(selectTemplateData)
@@ -58,7 +59,8 @@ export default function AnnouncementPreview() {
     }}>
         <Box>
             {
-                (data ? data : viewData)?.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
+                // job seeker Cv completion dialog purpose check view data existence first
+                (viewData ? viewData : data)?.fields.filter(el => el.metadata.status !== 'DELETED').map(field => {
                     switch (field.name) {
                         case 'General Information': {
                             return <GeneralInfoAnnouncement
