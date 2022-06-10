@@ -51,3 +51,4 @@ export const POST_PROFILR_STATUS = "/job_seeker/update_profile_status"
     // body:{ownerId,jobAnnouncementId, submittedCvTemplateId}
 export const JOB_SEEKER_APPLY_IN_PROGRESS = '/job_announcements/apply_in_progress'
 export const GET_COMPANY_INFO = "/company/get"
+export const POST_UPDATE_COPMANY_PROFILE_INFO = "/company/update"

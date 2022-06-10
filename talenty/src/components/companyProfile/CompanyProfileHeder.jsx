@@ -1,24 +1,37 @@
-import React,{ useState }  from "react"
+import React,{ useContext, useEffect, useRef, useState }  from "react"
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
-import { UploadPhoto } from "../../assets/icons/hrProfile";
+import { Edit, UploadPhoto } from "../../assets/icons/hrProfile";
 import { MAIN_PURPLE } from "../../style/colors";
 import { socialMediaData } from "./helper";
 import { SocialLinks } from "./SocialLinks";
+import { CompanyProfile } from "./CompanyProfile";
 
 const CostumInput = styled("input")((theme) => ({
-    minWidth: "50px",
+    maxWidth:"250px",
+    backgroundColor:"transparent",
     outline: "none",
     border: "none",
     fontFamily: "'Poppins', sans-serif",
     fontStyle: "normal",
     fontWeight: 600,
-    fontSize: "18px"
+    fontSize: "18px",
 }))
 
-export default function HrProfaileHeder() {
-    const [value, setValue] = useState("System Company",)
+
+export default function CompanyProfileHeder() {
     const [mediaData, setMediaData] = useState(socialMediaData)
+    const [width, setWidth] = useState(0)
+    const {data,setData} = useContext(CompanyProfile)
+    const customInput = useRef(null)
+    const [content, setContent]=useState("")
+    useEffect(()=>{
+        setWidth(content.length)
+    },[content])
+    useEffect(()=>{
+       data.name && setContent(data.name)
+    },[data.name])
+
     const onClose=()=>{
         setMediaData(mediaData.map(el=>{
             return {
@@ -27,6 +40,8 @@ export default function HrProfaileHeder() {
             }
         }))
     }
+
+
     return <Box>
 
 
@@ -108,23 +123,34 @@ export default function HrProfaileHeder() {
                     </Box>
                     <Box sx={{
                         display: "flex",
-                        alignItems: "center",
-                        marginLeft: 2
+                        alignItems: 'center',
+                        marginLeft: 2,
                     }}>
                         <CostumInput
-                            value={value}
-                            onChange={e => {
-                                setValue(e.target.value)
-                                console.log(value);
+                            value={content}
+                            ref={customInput}
+                            style={{ width: width +'ch'}}
+                            onChange={(e)=>{
+                                console.log(e);
+                                setWidth(e.target.value.length)
+                                setContent(e.target.value)
                             }}
-                        // onBlur={() => {
-                        //     setData({
-                        //         ...data,
-                        //         name: value
-                        //     })
-
-                        // }}
+                            onBlur={()=>{
+                                setData({
+                                    ...data,
+                                    name:content
+                                })
+                            }}
                         />
+                        <Box sx={{display: 'flex', justifyContent: 'flex-start', flex: 1,cursor:"pointer",ml:"5px"
+                        }}
+                        onClick = {()=>{
+                            customInput.current.focus()
+                        }}
+                        >
+
+                            <Edit/>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
@@ -137,7 +163,7 @@ export default function HrProfaileHeder() {
                     position: "relative",
                     display: "flex",
                 }}>
-                    {mediaData.map(({ id, open, Icon, placeholder }) => (
+                    {mediaData.map(({ id, open, Icon, placeholder,name }) => (
                         <React.Fragment key={id}>
                         <Box sx={{
                             mr: "34px",
@@ -168,7 +194,7 @@ export default function HrProfaileHeder() {
                         >
                             <Icon />
                         </Box>
-                        {open && <SocialLinks placeholder={placeholder} onClose={onClose} />}
+                        {open && <SocialLinks placeholder={placeholder} onClose={onClose} name={name} />}
                         </React.Fragment>
                     ))}
                 </Box>

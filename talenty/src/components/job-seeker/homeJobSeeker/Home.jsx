@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthUserInfo } from "../../../store/auth/selector";
+import { useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Switch } from "@mui/material";
 import { DefaultUserIcon } from "../../../assets/icons/jobseeker";
@@ -55,7 +54,7 @@ export default function Home() {
             console.log(err);
             dispatch(setLoading(false))
         })
-    }, [dispatch, headlineValue])
+    }, [dispatch, headlineValue,setIsEditText])
     return (
         <JobSeekerContainer>
             <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>

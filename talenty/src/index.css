@@ -44,3 +44,8 @@ input:-webkit-autofill:focus {
     font-weight: 700;
     font-style: normal;
 } */
+
+input {
+    width: 98%;
+    padding: 1%;
+}
