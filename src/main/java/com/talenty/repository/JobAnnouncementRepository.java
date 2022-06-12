@@ -109,10 +109,10 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
             "        }," +
             "        {" +
             "           $text: { $search: ?6 }" +
-            "         }," +
-            "           {" +
+            "        }," +
+            "        {" +
             "           'status': ?0" +
-            "          }" +
+            "        }" +
             "    ]" +
             "}")
     List<JobAnnouncementDocument> findAllByStatusAndFilters(
