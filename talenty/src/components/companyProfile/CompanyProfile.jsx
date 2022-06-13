@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../../store/auth/authSlice";
 import { instance, POST_UPDATE_COPMANY_PROFILE_INFO } from "../../constants/requests";
 import { genId } from "../dashboard/helper";
-import { branchSection, productsSection, takeTheBranchisValues, takeTheProductsValues } from "./helper";
+import { branchSection, productsSection, takeTheBranchesValues, takeTheProductsValues } from "./helper";
 import CompanyProfileHeder from "./CompanyProfileHeder";
 import CompanyProfileBody from "./CompanyProfileBody";
 
@@ -108,7 +108,7 @@ export default function ProfileOfCompany() {
                             instance.post(POST_UPDATE_COPMANY_PROFILE_INFO,{
                                 ...data,
                                 products: takeTheProductsValues(productsSectionInfo),
-                                branches: takeTheBranchisValues(branchSectionInfo)
+                                branches: takeTheBranchesValues(branchSectionInfo)
                             }).then(response=>{
                                 setUpdatePage(!updatePage)
                             }).catch(err=>{

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Switch } from "@mui/material";
 import { DefaultUserIcon } from "../../../assets/icons/jobseeker";
@@ -21,7 +21,7 @@ import {ENTER_KEY} from "../../../constants/keyCodes";
 import {instance, POST_PROFILR_STATUS, POST_UPDATE_HEADLINE} from "../../../constants/requests";
 import {setIsLoading, setLoading} from "../../../store/auth/authSlice";
 import {TemplateNamePenSVG} from "../../../assets/icons/createTemplate";
-import {height} from "@mui/system";
+import { selectAuthUserInfo } from "../../../store/auth/selector";
 
 export default function Home() {
     const dispatch = useDispatch();

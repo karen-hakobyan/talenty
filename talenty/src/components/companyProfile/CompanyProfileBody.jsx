@@ -7,7 +7,7 @@ import { GREY_BG, TEXT } from "../../style/colors";
 import { useSelectlist } from "../dashboard/hook";
 import { CompanyProfile } from "./CompanyProfile";
 import { POPPINS } from "../dialogs/constants";
-import { body,  deleteSection, newAddSection,  newAddSectioninBranchis,  ProfaileTypsComponent } from "./helper";
+import { body,  deleteSection, newAddSection,ProfaileTypsComponent,newAddSectionInBranches } from "./helper";
 import ProfaileTextField from "./ProfaileTextField";
 import { ADD_FILED, SECTION_STYLE, TITLE } from "./style";
 
@@ -121,7 +121,7 @@ export default function CompanyProfileBody({
                 }} ><span>+</span>Add product</Box>
             </Box>
             <Box>
-                {productsSectionInfo.map(({id,fields,isEditing},index)=>{
+                {productsSectionInfo.map(({id,fields,isEditing})=>{
                     return<Box key={id} sx={{
                         display:"flex",
                         alignItems:"center",
@@ -173,7 +173,7 @@ export default function CompanyProfileBody({
             <Box sx={{display:"flex",alignContent:"center", gap:"23px",...TITLE}}>
                 <Box>Branches</Box>
                 <Box sx={ADD_FILED} onClick={()=>{
-                    setBranchSectionInfo(newAddSectioninBranchis(branchSectionInfo))
+                    setBranchSectionInfo(newAddSectionInBranches(branchSectionInfo))
                 }} ><span>+</span>Add branch</Box>
             </Box>
             <Box>
@@ -188,7 +188,7 @@ export default function CompanyProfileBody({
                     }}>
                         {fields.map(el=>{
                             if(isEditing && el.value){
-                                return <Box sx={SECTION_STYLE}>{el.value}</Box>
+                                return <Box key={el.id} sx={SECTION_STYLE}>{el.value}</Box>
                             }
                             return <ProfaileTextField 
                             key={el.id} 

@@ -147,7 +147,7 @@ export const branchSection = [{
         }
     ]
 }]
-export const newAddSectioninBranchis = (section) => {
+export const newAddSectionInBranches = (section) => {
     return [...section, {
         id: genId(),
         isEditing:false,
@@ -206,33 +206,64 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
     const [edit, setEdit] = useState(null)
     useEffect(() => {
         if (type === "industry" && data.industry) {
-            setEdit(true)
             setValue(data.industry)
         }else if (type === "date" && data.founded) {
             setValue(data.founded)
-            setEdit(true)
         }else if (type === "legal_form" && data.legalForm) {
             setValue(data.legalForm)
-            setEdit(true)
         }else if (type === "input number" && data.numberOfEmployees) {
             setValue(data.numberOfEmployees)
-            setEdit(true)
         }else if (type === "input" && data.address) {
             setValue(data.address)
-            setEdit(true)
         }else if (type === "URL" && data.website) {
             setValue(data.website)
-            setEdit(true)
         }else if (type === "email" && data.email) {
             setValue(data.email)
-            setEdit(true)
         }else if (type === "phone" && data.phoneNumber) {
             setValue(data.phoneNumber)
-            setEdit(true)
-        }else{
-            setEdit(false)
         }
     }, [data, type])
+    useEffect(()=>{
+        if(type === "industry" && data.industry){
+            setEdit(true)
+        }
+    },[data.industry,type])
+    useEffect(()=>{
+       if (type === "date" && data.founded) {
+            setEdit(true)
+        }
+    },[data.founded,type])
+    useEffect(()=>{
+        if (type === "legal_form" && data.legalForm){
+             setEdit(true)
+         }
+     },[data.legalForm,type])
+     useEffect(()=>{
+        if (type === "input number" && data.numberOfEmployees) {
+             setEdit(true)
+         }
+     },[data.numberOfEmployees,type])
+     useEffect(()=>{
+        if (type === "input" && data.address) {
+             setEdit(true)
+         }
+     },[data.address,type])
+     useEffect(()=>{
+        if (type === "URL" && data.website) {
+             setEdit(true)
+         }
+     },[data.website,type])
+     useEffect(()=>{
+        if (type === "email" && data.email){
+             setEdit(true)
+         }
+     },[data.email,type])
+     useEffect(()=>{
+        if (type === "phone" && data.phoneNumber){
+             setEdit(true)
+         }
+     },[data.phoneNumber,type])
+
     if(edit === null){
         return null
     }
@@ -440,7 +471,7 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
         })
         return valueOfProducts.filter(el=>el.productName && el.productLink)
     }
-    export const takeTheBranchisValues = (data) => {
+    export const takeTheBranchesValues = (data) => {
         const valueOfBranchis = data.map(el => {
             return {
                 country: el.fields[0].value,

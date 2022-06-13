@@ -131,7 +131,6 @@ export default function CompanyProfileHeder() {
                             ref={customInput}
                             style={{ width: width +'ch'}}
                             onChange={(e)=>{
-                                console.log(e);
                                 setWidth(e.target.value.length)
                                 setContent(e.target.value)
                             }}
@@ -163,10 +162,10 @@ export default function CompanyProfileHeder() {
                     position: "relative",
                     display: "flex",
                 }}>
-                    {mediaData.map(({ id, open, Icon, placeholder,name }) => (
+                    {mediaData.map(({ id, open, Icon, placeholder,name },index) => (
                         <React.Fragment key={id}>
                         <Box sx={{
-                            mr: "34px",
+                            mr: open && index ===mediaData.length-1?0:"34px",
                             // mb: open && "-20px",
                             width: "29ox",
                             height: "29px",
