@@ -43,7 +43,7 @@ export default function CreateCvJobSeeker({isApplyingId}) {
         if (isApplyingId) {
             dispatch(getTemplateById(isApplyingId))
         }
-    }, [isApplyingId])
+    }, [isApplyingId,dispatch])
     // update local storage whenever data changed and also redux
     useEffect(() => {
         if (!isApplyingId) {
@@ -52,7 +52,7 @@ export default function CreateCvJobSeeker({isApplyingId}) {
             }
         }
 
-    }, [dispatch, templateData, userInfo])
+    }, [dispatch, templateData, userInfo,isApplyingId])
 
     if (!templateData) {
         return null;

@@ -22,7 +22,6 @@ export default function BasicDatePicker({
                                         }) {
     const [innerValue, setInnerValue] = useState(value)
     let sendValue = null
-
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <DatePicker
@@ -37,7 +36,6 @@ export default function BasicDatePicker({
                     sendValue = val
                 }}
                 renderInput={(params) => {
-                    console.log(params)
                     return <TextField
                         {...params}
                         sx={{

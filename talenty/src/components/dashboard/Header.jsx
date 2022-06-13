@@ -7,7 +7,6 @@ import {LOGO} from "../landingPage/style";
 import {CONTAINER_HEADER} from "./style";
 import {ArrowDown, UserExPhoto } from "../../assets/icons/jobseeker";
 import {setAuthInitialState} from "../../store/auth/authSlice";
-import { JOB_SEEKER_ROUTES } from "../../routes/helper";
 import { useNavigate } from "react-router-dom";
 import { HOME_PAGE_ROUTE, JOBSEEKER_PROFILE_ROUTE } from "../../constants/routes";
 

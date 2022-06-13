@@ -56,8 +56,9 @@ export default function Tables({data}){
                                         <Box sx={{
                                             ...SPAN_STYLE,
                                             marginRight:"23px"
-                                        }}><span><NumberOfViewers/></span>123</Box>
-                                        <Box sx={SPAN_STYLE}><span><NumberOfCvSenders/></span>123</Box>
+                                        }}><span><NumberOfViewers/></span>{el.viewedCount}
+                                        </Box>
+                                        <Box sx={SPAN_STYLE}><span><NumberOfCvSenders/></span>{el.applicantsCount}</Box>
                                     </Box>
                                 </TableCell>
                                 <TableCell>

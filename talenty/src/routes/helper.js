@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import Dashboard from "../components/dashboard";
 import Header from "../components/dashboard/Header";
 import { genId } from "../components/dashboard/helper";
-import HrProfile from "../components/dashboard/HrProfile";
+import HrProfile from "../components/companyProfile/CompanyProfile";
 import HomeJobSeeker from "../components/job-seeker/homeJobSeeker";
 
 import {
@@ -13,23 +13,26 @@ import {
 
 export let HR_ROUTES = [{
         path: `${DASHBOARD_ROUTE}/*`,
-        element: < Dashboard /> ,
+        element: < Dashboard / > ,
         key: genId(),
 
     },
     {
         path: `${JOBSEEKER_PROFILE_ROUTE}`,
-        element: <Box>
-            <Header/>
-            <HrProfile/>
-        </Box> ,
+        element: < Box >
+            <
+            Header / >
+            <
+            HrProfile / >
+            <
+            /Box> ,
         key: genId(),
     }
 ];
 
 export let JOB_SEEKER_ROUTES = [{
         path: `${HOME_PAGE_ROUTE}/*`,
-        element: < HomeJobSeeker /> ,
+        element: < HomeJobSeeker / > ,
         key: genId(),
     },
     // {

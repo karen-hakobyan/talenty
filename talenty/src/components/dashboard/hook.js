@@ -48,7 +48,6 @@ export const useSelectlist = () => {
         instance
             .get(GET_SELECT_LIST)
             .then((response) => {
-                console.log(response.data);
                 setData(response.data)
                 dispatch(setLoading(false));
             })
@@ -61,6 +60,7 @@ export const useSelectlist = () => {
 };
 export const useHrProfaileUsersinfo = () => {
     const [data, setData] = useState({});
+    const [updatePage, setUpdatePage] = useState(true)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(setLoading(true))
@@ -73,6 +73,6 @@ export const useHrProfaileUsersinfo = () => {
                 dispatch(setLoading(false))
                 console.log(err);
             })
-    }, [])
-    return data
+    }, [dispatch, updatePage])
+    return [data, setData, setUpdatePage, updatePage]
 }
