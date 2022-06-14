@@ -17,7 +17,7 @@ export const SocialLinks = ({ placeholder, onClose,name }) => {
         if(name === "twitter" && data.links?.twitter){
             setValue(data.links.twitter)
         }
-        if(name === "linkedine" && data.links?.linkedine){
+        if(name === "linkedin" && data.links?.linkedine){
             setValue(data.links.linkedine)
         }
         if(name ==="instagram" && data.links?.instagram){
@@ -37,7 +37,7 @@ export const SocialLinks = ({ placeholder, onClose,name }) => {
                 twitter:value,
             }
         }
-        if(name === "linkedine"){
+        if(name === "linkedin"){
             return {
                 ...data,
                 linkedin:value,

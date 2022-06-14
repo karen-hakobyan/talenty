@@ -8,6 +8,7 @@ import {HOME_PRIMARY_BUTTON} from "../../../shared/styles";
 import Select from "../../../shared/components/Select";
 import {ReactComponent as SearchLoopSVG} from "../../../assets/icons/searchLoop.svg";
 import {useGetAnnouncementFilterList} from "../hook";
+import { COUNTRY_NAMES } from "../../../helpers/country";
 
 export default function SearchRoute() {
     const [jobType, setJobType] = useState('')
@@ -76,15 +77,17 @@ export default function SearchRoute() {
                                 setCandidateLevel(event.target.value)
                             }}
                         />
-                        <TextField
-                            sx={{flex: 1}}
-                            placeholder="Location" value={location}
+                        <Select 
+                            fieldStyle={{flex:1}}
+                            placeHolder="Location"
+                            value={location ||undefined }
                             onChange={
                                 (event) => {
                                     setLocation(event.target.value)
                                 }
                             }
-                        />
+                            menuItems={COUNTRY_NAMES}
+                         />
                     </Box>
                     <Box sx={{height: '1px', background: '#E4E4E4', mt: '10px'}}/>
                 </Box>
