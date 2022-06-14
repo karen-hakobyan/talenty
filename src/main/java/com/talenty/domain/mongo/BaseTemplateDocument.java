@@ -16,7 +16,6 @@ public class BaseTemplateDocument {
 
     @Id
     private String id;
-    @TextIndexed
     private String name;
     private List<FieldDocument> fields;
     private String ownerId;

@@ -343,14 +343,12 @@ public class JobAnnouncementService {
 
     public List<JobAnnouncementInfoForSearchPage> findAllByFilters(final JobAnnouncementFilters filters, final PaginationSettings pagination) {
         final List<TypeValues> typesWithValues = getTypeValues();
-        final String allNames = getAllNames();
 
         final List<String> employmentTermsFilters = filters.getEmploymentTerms();
         final List<String> jobTypeFilters = filters.getJobType();
         final List<String> jobCategoryFilters = filters.getJobCategory();
         final List<String> candidateLevelFilters = filters.getCandidateLevel();
         final List<String> location = filters.getLocation();
-        final String search = filters.getSearch();
 
         final List<JobAnnouncementDocument> allByStatusAndFilters = jobAnnouncementRepository.findAllByStatusAndFilters(
                 JobAnnouncementStatus.CONFIRMED,
@@ -359,7 +357,6 @@ public class JobAnnouncementService {
                 jobCategoryFilters != null && !jobCategoryFilters.isEmpty() ? jobCategoryFilters : typesWithValues.get(2).getValues(),
                 candidateLevelFilters != null && !candidateLevelFilters.isEmpty() ? candidateLevelFilters : typesWithValues.get(3).getValues(),
                 location != null && !location.isEmpty() ? location : ValidationChecker.COUNTRIES,
-                search != null && !search.isEmpty() ? search : allNames,
                 PageRequest.of(pagination.getPage(), pagination.getSize())
         );
 
@@ -381,16 +378,6 @@ public class JobAnnouncementService {
                 "job_category",
                 "candidate_level"
         );
-    }
-
-    public String getAllNames() {
-        final List<JobAnnouncementDocument> allByStatus = jobAnnouncementRepository.findAllByStatus(JobAnnouncementStatus.CONFIRMED);
-        final List<String> allNames = new ArrayList<>();
-        for (JobAnnouncementDocument byStatus : allByStatus) {
-            allNames.add(byStatus.getName());
-        }
-
-        return allNames.toString();
     }
 
     private JobAnnouncementInfoForSearchPage makeSearchPageInfo(final JobAnnouncementDocument jobAnnouncementDocument) {

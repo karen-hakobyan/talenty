@@ -16,6 +16,5 @@ public class JobAnnouncementFilters {
     private List<String> jobCategory;
     private List<String> candidateLevel;
     private List<String> location;
-    private String search;
 
 }
