@@ -215,7 +215,7 @@ export default function CompanyProfileBody({
                                     return el
                                 }))
                             }}><Edit/></Box>}
-                            {productsSectionInfo.length !== 1 && <Box sx={{cursor:"pointer"}} 
+                            {branchSectionInfo.length !== 1 && <Box sx={{cursor:"pointer"}} 
                             onClick={()=>{
                                 setBranchSectionInfo(deleteSection(id,branchSectionInfo))
                             }}
@@ -236,7 +236,8 @@ export default function CompanyProfileBody({
             <Box sx={TITLE}>Benefits</Box>
             <MultipleSelect
              menuItems={benefits?.values}
-             value = {data.benefits}
+             value = {data.benefits || undefined}
+             placeHolder="Benefits"
              onChange={(event) => {
                 if (event.target.value.length === new Set(event.target.value).size) {
                     setData({

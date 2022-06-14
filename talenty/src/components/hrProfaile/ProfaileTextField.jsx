@@ -23,7 +23,7 @@ export default function ProfaileTextField ({data,placeholder,parentId,childId,se
     if(type==="select"){
         return <Select
         placeHolder={placeholder}
-        value={value}
+        value={value || undefined}
         onChange={(event)=>{
             setValue(event.target.value)
         }}
