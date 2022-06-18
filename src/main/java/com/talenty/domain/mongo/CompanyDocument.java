@@ -20,7 +20,7 @@ public class CompanyDocument {
 
     @Id
     private String id;
-    @Indexed(unique = true)
+//    @Indexed(unique = true)
     private String name;
     private String profilePicture;
     private String logo;

@@ -13,7 +13,7 @@ public class TokenDocument {
 
     @Id
     private String id;
-    @Indexed(unique = true)
+//    @Indexed(unique = true)
     private String value;
     private String userId;
     private Boolean expired;
