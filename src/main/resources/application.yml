@@ -8,6 +8,7 @@ spring:
       database: talenty
       host: localhost
       port: 27777
+      auto-index-creation: true
   mail:
     host: smtp.gmail.com
     port: 587

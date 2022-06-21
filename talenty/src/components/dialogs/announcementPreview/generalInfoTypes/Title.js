@@ -8,7 +8,13 @@ import {useDestructureContext} from "../../../../hooks/mainHooks";
 
 export default function Title({generalInfoData, data}) {
     let deadline = generalInfoData.fields.find(el => el.name === 'Deadline')
-    const {viewData: isApplying, setOpen, announcementId, setHrCvId} = useDestructureContext(DetailAnnouncementContext)
+    const {
+        viewData: isApplying,
+        setOpen,
+        announcementId,
+        setHrCvId,
+        setIsMatched
+    } = useDestructureContext(DetailAnnouncementContext)
     let deadlineValue = deadline ? deadline.metadata?.submitted_value?.split('/') : null
     if (!data.metadata.submitted_value) {
         return "here should be your announcement title and deadline"
@@ -28,7 +34,7 @@ export default function Title({generalInfoData, data}) {
                     <Button
                         sx={{...TEMPLATE_BUTTON_CREATE, width: '179px'}}
                         onClick={() => {
-                            applyInProgress(setOpen, announcementId, setHrCvId)
+                            applyInProgress(setOpen, announcementId, setHrCvId, setIsMatched)
                         }}
                     >
                         APPLY NOW</Button>

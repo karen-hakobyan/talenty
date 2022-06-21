@@ -17,7 +17,7 @@ public class TypeValuesDocument {
 
     @Id
     private String id;
-    @Indexed(unique = true)
+//    @Indexed(unique = true)
     private String type;
     private List<String> values;
 

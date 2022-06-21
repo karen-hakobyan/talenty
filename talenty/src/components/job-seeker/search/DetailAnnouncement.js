@@ -16,6 +16,8 @@ export default function DetailAnnouncement() {
     const {announcementId} = useParams()
     const announcementInfo = useGetAnnouncementData(announcementId)
     const [hrCvId, setHrCvId] = useState(null)
+    // below reason for get matched cv template data
+    const [isMatched, setIsMatched] = useState(false)
     const [isOpenAnnouncementApplyingDialog, setIsOpenAnnouncementApplyDialog] = useState(false)
     return <JobSeekerContainer>
         <Box sx={{display: 'flex', alignItems: 'flex-end', flexDirection: 'column'}}>
@@ -25,6 +27,8 @@ export default function DetailAnnouncement() {
                     viewData: announcementInfo,
                     announcementId,
                     setHrCvId,
+                    setIsMatched,
+                    isMatched,
                 }}>
                 <AnnouncementPreview/>
                 {/* send announcement info which include current announcement name and also company name for future cv creation*/}
@@ -37,12 +41,12 @@ export default function DetailAnnouncement() {
                 </Dialog>
                 <Dialog open={!!hrCvId} maxWidth={false} onClose={() => setHrCvId(null)}>
                     <Box sx={{width: '1200px'}}>
-                        <CreateCvJobSeeker isApplyingId={hrCvId}/>
+                        <CreateCvJobSeeker isApplyingId={hrCvId} {...{isMatched}}/>
                     </Box>
                 </Dialog>
             </DetailAnnouncementContext.Provider>
             <Button sx={{...TEMPLATE_BUTTON_CREATE, width: '179px'}} onClick={() => {
-                applyInProgress(setIsOpenAnnouncementApplyDialog, announcementId)
+                applyInProgress(setIsOpenAnnouncementApplyDialog, announcementId, setHrCvId, setIsMatched)
             }}>APPLY NOW</Button>
         </Box>
     </JobSeekerContainer>
