@@ -11,3 +11,4 @@ export const ERROR_COLOR = "#FF4141";
 export const COMET = "#616162";
 export const LANGUAGE_LEVEL_BTN_COLOR = "#6F0BBE";
 export const DIALOG_TITLE_COLOR = "#5D00A6";
+export const GREY_BG = "#C4C4C4";

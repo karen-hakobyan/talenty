@@ -106,6 +106,12 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
             "                }" +
             "            }," +
             "            'status': ?0" +
+            "        }," +
+            "        {" +
+            "           $text: { $search: ?6 }" +
+            "        }," +
+            "        {" +
+            "           'status': ?0" +
             "        }" +
             "    ]" +
             "}")
@@ -116,6 +122,7 @@ public interface JobAnnouncementRepository extends MongoRepository<JobAnnounceme
             List<String> jobCategory,
             List<String> candidateLevel,
             List<String> location,
+            String search,
             PageRequest pageRequest
     );
 

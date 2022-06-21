@@ -29,6 +29,7 @@ const useGetSearchData = ({
             dispatch(setLoading(true))
             setSearchButtonClick(false)
             instance.post(GET_JOB_ANNOUNCEMENTS_FILTER, {
+                search:title?title:null,
                 employmentTerms: employmentTerms ? [employmentTerms] : null,
                 jobType: jobType ? [jobType] : null,
                 jobCategory: jobCategory ? [jobCategory] : null,

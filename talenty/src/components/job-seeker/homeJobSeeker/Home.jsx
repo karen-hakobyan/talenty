@@ -1,10 +1,9 @@
-import {useEffect, useState, useCallback} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {selectAuthUserInfo} from "../../../store/auth/selector";
-import {useNavigate} from "react-router-dom";
-import {Box, Button, Switch} from "@mui/material";
-import {DefaultUserIcon} from "../../../assets/icons/jobseeker";
-import {HOME_PRIMARY_BUTTON} from "../../../shared/styles";
+import { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector} from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Switch } from "@mui/material";
+import { DefaultUserIcon } from "../../../assets/icons/jobseeker";
+import { HOME_PRIMARY_BUTTON } from "../../../shared/styles";
 import MainBox from "./MainBox";
 import {SWITCH, SWITCH_TITLE, USER_EMAIL, USER_NAME} from "./style";
 import {MAIN_PURPLE} from "../../../style/colors";
@@ -22,7 +21,7 @@ import {ENTER_KEY} from "../../../constants/keyCodes";
 import {instance, POST_PROFILR_STATUS, POST_UPDATE_HEADLINE} from "../../../constants/requests";
 import {setIsLoading, setLoading} from "../../../store/auth/authSlice";
 import {TemplateNamePenSVG} from "../../../assets/icons/createTemplate";
-import {height} from "@mui/system";
+import { selectAuthUserInfo } from "../../../store/auth/selector";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -58,7 +57,7 @@ export default function Home() {
             console.log(err);
             dispatch(setLoading(false))
         })
-    }, [dispatch, headlineValue])
+    }, [dispatch, headlineValue,setIsEditText])
     return (
         <JobSeekerContainer>
             <Box sx={{display: "flex", flexDirection: "column", gap: "24px"}}>

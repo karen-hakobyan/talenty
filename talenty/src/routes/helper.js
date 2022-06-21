@@ -2,7 +2,8 @@ import { Box } from "@mui/material";
 import Dashboard from "../components/dashboard";
 import Header from "../components/dashboard/Header";
 import { genId } from "../components/dashboard/helper";
-import HrProfile from "../components/dashboard/HrProfile";
+import ProfileOfCompany from "../components/hrProfaile/CompanyProfile";
+
 import HomeJobSeeker from "../components/job-seeker/homeJobSeeker";
 
 import {
@@ -21,7 +22,7 @@ export let HR_ROUTES = [{
         path: `${JOBSEEKER_PROFILE_ROUTE}`,
         element: <Box>
             <Header/>
-            <HrProfile/>
+            <ProfileOfCompany />
         </Box> ,
         key: genId(),
     }

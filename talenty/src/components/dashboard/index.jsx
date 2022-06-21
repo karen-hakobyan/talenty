@@ -12,7 +12,6 @@ import {getJwt} from "./helper";
 import {setAuthInitialState} from "../../store/auth/authSlice";
 import Pending from "./Pending";
 import CurrentJobs from "./CurrentJobs";
-import HrProfile from "./HrProfile";
 
 export default function Dashboard() {
     const jwt = useSelector(selectAuthJwt)

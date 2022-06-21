@@ -77,7 +77,8 @@ public class SubmittedCvTemplateService {
                 .setMatchableFields(submittedCVTemplateDocument.getFields())
                 .setSourceParent(BaseSource.ITERABLE)
                 .executeLogic(
-                        new MergeFieldsExecutor()
+                        new MergeFieldsExecutor(),
+                        new FieldsAutoCompleteExecutor()
                 );
 
         return submittedCVTemplateDocument;
