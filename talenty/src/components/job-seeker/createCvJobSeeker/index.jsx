@@ -14,7 +14,7 @@ import {setJwt} from "../../../store/auth/authSlice";
 import {setDialogIsOpen, setDialogType} from "../../../store/dialogs/slice";
 import {filterUserCv} from "./actions";
 
-export default function CreateCvJobSeeker({isApplyingId}) {
+export default function CreateCvJobSeeker({isApplyingId, isMatched}) {
     const dispatch = useDispatch();
     const exactPage = useSelector((state) => state.globalData.exactPage)
     const tempTemplateData = useSelector((state) => state.globalData.templateData)
@@ -41,9 +41,13 @@ export default function CreateCvJobSeeker({isApplyingId}) {
     }, [newJwt, dispatch])
     useEffect(() => {
         if (isApplyingId) {
-            dispatch(getTemplateById(isApplyingId))
+            if (isMatched) {
+                dispatch(getEditedUserCv(isApplyingId))
+            } else {
+                dispatch(getTemplateById(isApplyingId))
+            }
         }
-    }, [isApplyingId])
+    }, [isApplyingId, isMatched])
     // update local storage whenever data changed and also redux
     useEffect(() => {
         if (!isApplyingId) {
