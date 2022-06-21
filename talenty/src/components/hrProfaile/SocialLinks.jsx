@@ -3,6 +3,7 @@ import { Box, TextField } from "@mui/material"
 import { Chek, Delete } from "../../assets/icons/hrProfile"
 import { MAIN_PURPLE } from "../../style/colors"
 import { CompanyProfile } from "./CompanyProfile"
+import { validate } from "../../helpers/validation/validation"
 
 
 
@@ -10,6 +11,10 @@ import { CompanyProfile } from "./CompanyProfile"
 export const SocialLinks = ({ placeholder, onClose,name }) => {
     const {data,setData} = useContext(CompanyProfile)
     const [value, setValue] = useState("")
+    const [err, setErr]=useState({
+        error: false,
+        massage: ""
+    })
     useEffect(()=>{
         if(name === "facebook" && data.links?.facebook ){
            setValue(data.links.facebook)
@@ -24,6 +29,16 @@ export const SocialLinks = ({ placeholder, onClose,name }) => {
             setValue(data.links.instagram)
         }
     },[name,data.links])
+    useEffect(()=>{
+        if(value){
+            setErr(validate({isURL:true,value:value}))
+        }else{
+            setErr({
+                error: false,
+                massage: ""
+            })
+        }
+    },[value])
     const onSaveValue = (data,value)=>{
         if(name === "facebook"){
             return {
@@ -56,11 +71,13 @@ export const SocialLinks = ({ placeholder, onClose,name }) => {
         <TextField
             placeholder={placeholder}
             value={value}
+            error={err?.error}
+            helperText={err?.massage}        
             onChange={(e) => {
                 setValue(e.target.value)
             }}
             onBlur={() => {
-                if(value){
+                if(value && !err.error){
                     setData({
                         ...data,
                         links : onSaveValue(data.links, value)
@@ -84,7 +101,7 @@ export const SocialLinks = ({ placeholder, onClose,name }) => {
                     }}
                     // onClick={onClose}
                     onClick={() => {
-                        if(value){
+                        if(value && !err.error){
                             setData({
                                 ...data,
                                 links : onSaveValue(data.links, value)

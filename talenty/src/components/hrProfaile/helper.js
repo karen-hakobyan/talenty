@@ -12,6 +12,7 @@ import TextField from "../../shared/components/Textfield";
 import { CompanyProfile } from "./CompanyProfile";
 import BasicDatePicker from "../shared/DatePicker"
 import { MODIFIED_VALUE_STYLE } from "./style";
+import { validate } from "../../helpers/validation/validation";
 
 let genId = () => Math.random().toString();
 export const socialMediaData = [{
@@ -180,12 +181,15 @@ export const newAddSection = (section) => {
         fields: [{
                 placeholder: "Product name",
                 id: genId(),
-                value: ""
+                value: "",
+                type: "input",
+
             },
             {
                 placeholder: "Product link",
                 id: genId(),
-                value: ""
+                value: "",
+                type: "link",
             }
         ]
     }]
@@ -204,6 +208,10 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
     const { data, setData } = useContext(CompanyProfile)
     const [value, setValue] = useState("")
     const [edit, setEdit] = useState(null)
+    const [err, setErr]=useState({
+            error: false,
+            massage: ""
+    })
     useEffect(() => {
         if (type === "industry" && data.industry) {
             setValue(data.industry)
@@ -263,7 +271,24 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
             setEdit(true)
         }
     }, [data.phoneNumber, type])
-
+    useEffect(()=>{
+        if(type === "URL" && value){
+            setErr(validate({isURL:true,value:value}))
+        }else if(type ==="phone" && value){
+            setErr(validate({value:value,maxLength:20,isPhoneNumber:true}))
+        }else if(type==="email" && value){
+            setErr(validate({value:value,isEmail:true}))
+        }else if(type === "input" && value){
+            setErr(validate({name:"Address",value,maxLength: 20 ,uppercase:true}))
+        }else if(type === "input number" && value){
+            setErr(validate({value,maxLength:15}))
+        }else {
+            setErr({
+                error: false,
+                massage: ""
+            })
+        }
+    },[type,value])
     // if(edit === null){
     //     return null
     // }
@@ -273,7 +298,7 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
             () => {
                 setEdit(false)
             }
-        } > { value } < /Box>
+        } > { value } </Box>
     }
     if (type === "industry") {
         return <Select menuItems = { menuItems }
@@ -281,11 +306,12 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
         value = { value || undefined }
         onBlur = {
             () => {
-                setData({
-                    ...data,
-                    industry: value
-                })
-                setEdit(true)
+                if(!err.error){
+                    setData({
+                        ...data,
+                        industry: value
+                    })
+                }
             }
         }
         onChange = {
@@ -307,7 +333,6 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
                             ...data,
                             founded: value
                         })
-                        setEdit(true)
                     }
                 }
             }
@@ -327,7 +352,6 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
                         ...data,
                         legalForm: value
                     })
-                    setEdit(true)
                 }
             }
             onChange = {
@@ -335,23 +359,27 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
                     setValue(e.target.value)
                 }
             }
-            fieldStyle = {
-                { width: "287px" }
-            }
+            // fieldStyle = {
+            //     { width: "287px" }
+            // }
+            textFieldWidth = "287px"
             />
         }
         if (type === "input number") {
             return <TextField sx = {
                 { width: "287px" }
             }
+            error={err?.error}
+            helperText={err.massage}
             value = { value }
             onBlur = {
                 () => {
-                    setData({
-                        ...data,
-                        numberOfEmployees: value
-                    })
-                    setEdit(true)
+                    if(!err.error){
+                        setData({
+                            ...data,
+                            numberOfEmployees: value
+                        })
+                    }
                 }
             }
             onChange = {
@@ -368,14 +396,17 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
             return <TextField sx = {
                 { width: "287px" }
             }
+            error={err?.error}
+            helperText={err.massage}
             value = { value }
             onBlur = {
                 () => {
-                    setData({
-                        ...data,
-                        address: value
-                    })
-                    setEdit(true)
+                    if(!err.error){
+                        setData({
+                            ...data,
+                            address: value
+                        })
+                    }
                 }
             }
             onChange = {
@@ -390,14 +421,17 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
             return <TextField sx = {
                 { width: "287px" }
             }
+            error={err?.error}
+            helperText={err.massage}
             value = { value }
             onBlur = {
                 () => {
-                    setData({
-                        ...data,
-                        website: value
-                    })
-                    setEdit(true)
+                    if(!err.error){
+                        setData({
+                            ...data,
+                            website: value
+                        })
+                    }
                 }
             }
             onChange = {
@@ -412,14 +446,17 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
             return <TextField sx = {
                 { width: "287px" }
             }
+            error={err?.error}
+            helperText={err.massage}
             value = { value }
             onBlur = {
                 () => {
-                    setData({
-                        ...data,
-                        email: value
-                    })
-                    setEdit(true)
+                    if(!err.error){
+                        setData({
+                            ...data,
+                            email: value
+                        })
+                    }
                 }
             }
             onChange = {
@@ -435,6 +472,8 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
                 { width: "287px" }
 
             }
+            error={err?.error}
+            helperText={err?.massage}
             value = { value }
             onBlur = {
                 () => {
@@ -443,12 +482,12 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
                             ...data,
                             phoneNumber: null
                         })
+                    }else if(!err.error){
+                        setData({
+                            ...data,
+                            phoneNumber: value
+                        })
                     }
-                    setData({
-                        ...data,
-                        phoneNumber: value
-                    })
-                    setEdit(true)
                 }
             }
             onChange = {
@@ -487,3 +526,15 @@ export function ProfaileTypsComponent({ placeholder, disabled, type, sx, menuIte
     export const completedItems = (data) => {
 
     }
+
+export const canAddSection = (section)=>{
+    let isAddSection = false;
+    section[section.length-1].fields.forEach(element => {
+        if(element.value){
+             isAddSection = true
+        }else{
+            isAddSection = false
+        }
+    });
+    return isAddSection
+}
