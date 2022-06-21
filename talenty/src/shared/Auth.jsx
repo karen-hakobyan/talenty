@@ -61,7 +61,6 @@ const Auth = ({label}) => {
             return setErr(false);
         }
     }, [err, label]);
-    console.log(label.errorText, "valid");
     return (
         <Container>
             <StyledSpan>{label.name}</StyledSpan>

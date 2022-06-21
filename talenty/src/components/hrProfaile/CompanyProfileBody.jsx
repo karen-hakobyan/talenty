@@ -7,7 +7,7 @@ import { GREY_BG, TEXT } from "../../style/colors";
 import { useSelectlist } from "../dashboard/hook";
 import { CompanyProfile } from "./CompanyProfile";
 import { POPPINS } from "../dialogs/constants";
-import { body,  deleteSection, newAddSection,ProfaileTypsComponent,newAddSectionInBranches } from "./helper";
+import { body,  deleteSection, newAddSection,ProfaileTypsComponent,newAddSectionInBranches, canAddSection } from "./helper";
 import ProfaileTextField from "./ProfaileTextField";
 import { ADD_FILED, SECTION_STYLE, TITLE } from "./style";
 
@@ -60,9 +60,9 @@ export default function CompanyProfileBody({
                             alignItems:"center",
                             width:"100%",
                             mb:"30px",
-                            "& span":{
-                                mr:"5px",
-                                width:"180px"
+                            "& > span":{
+                                width:"180px",
+                                mr: '5px',
                             },
 
                         }}>
@@ -117,14 +117,15 @@ export default function CompanyProfileBody({
         <Box sx={{display:"flex",alignContent:"center", gap:"23px",...TITLE}}>
                 <Box>Products</Box>
                 <Box sx={ADD_FILED} onClick={()=>{
-                    setProductsSectionInfo(newAddSection(productsSectionInfo))
+                    if(canAddSection(productsSectionInfo)){
+                        setProductsSectionInfo(newAddSection(productsSectionInfo))
+                    }
                 }} ><span>+</span>Add product</Box>
             </Box>
             <Box>
                 {productsSectionInfo.map(({id,fields,isEditing})=>{
                     return<Box key={id} sx={{
                         display:"flex",
-                        alignItems:"center",
                         justifyContent:"space-between",
                         mb:"24px",
                         width:"680px",
@@ -134,7 +135,7 @@ export default function CompanyProfileBody({
                             if(isEditing && el.value){
                                 return <Box key={el.id} sx={SECTION_STYLE}>{el.value}</Box>
                             }
-                            return <ProfaileTextField key={el.id} childId={el.id} parentId={id} placeholder={el.placeholder} data={productsSectionInfo} setData={setProductsSectionInfo} values={el.value} />
+                            return <ProfaileTextField key={el.id} childId={el.id} parentId={id} placeholder={el.placeholder} data={productsSectionInfo} setData={setProductsSectionInfo} values={el.value} type={el.type} />
                         })}
                         <Box sx={{
                             display:"flex",
@@ -173,21 +174,22 @@ export default function CompanyProfileBody({
             <Box sx={{display:"flex",alignContent:"center", gap:"23px",...TITLE}}>
                 <Box>Branches</Box>
                 <Box sx={ADD_FILED} onClick={()=>{
-                    setBranchSectionInfo(newAddSectionInBranches(branchSectionInfo))
+                    if(canAddSection(branchSectionInfo)){
+                        setBranchSectionInfo(newAddSectionInBranches(branchSectionInfo))
+                    }
                 }} ><span>+</span>Add branch</Box>
             </Box>
             <Box>
                 {branchSectionInfo && branchSectionInfo.map(({id,fields,isEditing})=>{
                     return <Box key={id} sx={{
                         display:"flex",
-                        alignItems:"center",
                         width:isEditing?"600px":"100%",
                         justifyContent:"space-between",
                         mb:"24px",
                         "&:last-of-type":{mb:0}
                     }}>
                         {fields.map(el=>{
-                            if(isEditing && el.value){
+                            if(isEditing && el.value !== ""){
                                 return <Box key={el.id} sx={SECTION_STYLE}>{el.value}</Box>
                             }
                             return <ProfaileTextField 

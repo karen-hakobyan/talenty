@@ -32,7 +32,7 @@ export default function Select({
             // '.css-1mwwrxv-MuiInputBase-root-MuiOutlinedInput-root': sharedSelectStyle(value),
             ...(selectProps.startAdornment ? {
                 '.css-bf1e45-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': {
-                    paddingLeft: '10px',
+                    // paddingLeft: '10px',
                 }
             } : {}),
             ...fieldStyle,
@@ -40,6 +40,7 @@ export default function Select({
         value={value}
         error={err?.error}
         helperText={err?.massage}
+        
         onClick={() => setOpen(prev => !prev)}
         select
         SelectProps={{
